@@ -9,7 +9,7 @@
 
   "name": "Irony vs. Satyr",
   "tagline": "Bottle shop",
-  "description": "A small bottle shop in Nove Mesto, Prague. Spirits chosen one at a time, by people who drink them.",
+  "description": "A bottle shop in Nove Mesto, Prague. The whole shelf, listed - spirits chosen one at a time, by people who drink them.",
   "_url_note": "Where the site actually lives. Canonicals, og:url and sitemap.xml all derive from it, so pointing a real domain at Pages means changing this one line and rebuilding.",
   "url": "https://aldy-lab.github.io/irony",
   "locale": "en",
@@ -41,20 +41,13 @@
     "facebook": ""
   },
 
-  "commerce": {
+  "catalogue": {
     "_readme": [
-      "checkout_mode is decided by what you fill in, in this order:",
-      "  1. stripe_buy_button per product in catalogue.json -> card payment",
-      "  2. order_form_endpoint -> the cart is sent as an order request",
-      "  3. neither -> the cart still works, checkout asks you to call in,",
-      "     and no button ever implies a payment that cannot happen.",
-      "delivery_note is shown at checkout and is a legal line, not decoration."
+      "This is a catalogue, not a shop: nothing is bought on the site.",
+      "availability_note appears on every product page and is a statement of",
+      "how the shop actually works, not decoration."
     ],
-    "order_form_endpoint": "",
-    "stripe_publishable_key": "",
-    "free_delivery_over": 2500,
-    "delivery_flat": 149,
-    "delivery_note": "We sell alcohol. Orders are handed over in person and photo ID is checked at the door - we do not leave alcohol with anyone under 18, and an order that cannot be verified is refunded in full.",
+    "availability_note": "Prices are what you pay at the counter. Stock moves, so call ahead if you are making a trip for one bottle - and bring photo ID, we check it every time.",
     "min_age": 18
   },
 

@@ -1,7 +1,12 @@
 # Irony vs. Satyr
 
-Bottle shop, Soukenicka 1756, Nove Mesto, Prague. Static site, no framework,
-no build tooling beyond Python 3.
+Bottle shop, Soukenicka 1756, Nove Mesto, Prague. A **catalogue** of what is on
+the shelf — nothing is sold through the site. Static, no framework, no build
+tooling beyond Python 3.
+
+Light ground: the brand deck carries both halves, gold and pink type on dark and
+dark green type on light, and this site takes the light one. The dark half
+survives in the footer, in the occasional inverted section, and after hours.
 
 **Live:** https://aldy-lab.github.io/irony
 
@@ -14,9 +19,9 @@ python3 build.py          # regenerate every page
 python3 -m http.server 8731   # then open http://127.0.0.1:8731
 ```
 
-`build.py` writes `index.html`, `shop.html`, `cart.html`, `about.html`,
-`visit.html`, `404.html`, one page per product under `shop/`, plus
-`sitemap.xml` and `robots.txt`. **Do not edit those files by hand** — they are
+`build.py` writes `index.html`, `shop.html`, `about.html`, `visit.html`,
+`404.html`, one page per bottle under `shop/`, plus `sitemap.xml` and
+`robots.txt`. **Do not edit those files by hand** — they are
 overwritten on every build. Edit `templates/` and `data/` instead.
 
 The sitemap is generated from the same page list the pages are, which is the
@@ -27,7 +32,7 @@ only way it stays free of 404s.
 ## The one file you edit
 
 `data/site.json` holds every pending go-live value: email, phone, maps link,
-Instagram, the order form endpoint, analytics.
+Instagram, analytics.
 
 **Fill a value in and the element switches on. Leave it `""` and the element is
 removed from the page entirely**, along with any container it would have left
@@ -50,32 +55,34 @@ is a missing link, never a dead one.
   back to the brand mark. Add `"image": "assets/products/x.webp"` to a product
   and its card grows a photo; leave it out and the card stays typographic.
 - **No contact details.** The footer shows a holding line until `email`,
-  `phone` or a social URL is filled in.
-- **No order form endpoint.** The cart works, but checkout cannot submit. Add a
-  Formspree-style endpoint to `commerce.order_form_endpoint` and the checkout
-  form appears. Until then the cart page says how to order instead of showing a
-  button that does nothing.
+  `phone` or a social URL is filled in, and product pages show no enquiry
+  button at all rather than one that goes nowhere.
 
 ---
 
-## How the shop works without a server
+## Filtering
 
-GitHub Pages is static, so there is no backend to take a card payment.
+The grid is rendered **statically at build time**, so it is crawlable and the
+full list is readable with JavaScript off. The filters only narrow what is
+already on the page:
 
-- The cart lives in `localStorage` and works entirely client-side.
-- Checkout posts the order to the configured form endpoint as an **order
-  request**. Payment and ID check happen at handover.
-- A product may carry `"stripe_buy_button": "<Stripe Payment Link>"`, which adds
-  a *Buy now with card* button to that product's page. Stripe hosts the payment
-  page, so it still needs no backend. Without a link, the product is still
-  orderable through the cart.
+- **Category** chips, **search** (name, producer, category and tasting note),
+  **price** band, **strength** band, **bottle size**, and **sort**.
+- Bottle sizes are read from the data, so adding a 1 litre bottle adds its own
+  filter option without the template being touched.
+- Search text is lowercased once at build time into `data-search`, so filtering
+  stays a substring test rather than work repeated on every keystroke.
+- Every filter is written to the URL, so a narrowed view can be sent to someone
+  and survives a reload.
 
-Selling alcohol in Czechia means verifying age at handover, not only on the
-site. The age gate here is a first gate; `commerce.delivery_note` is the policy
-line that appears at checkout and on every product page, and it is a legal
-statement rather than decoration.
+Nothing is buyable anywhere: no cart, no checkout, no prices that imply a
+transaction. A product page's only action is asking about the bottle, and that
+button appears **only** when an email or phone is configured.
 
----
+Selling alcohol means checking ID at the counter. The age gate here is a first
+gate and `catalogue.availability_note` is the line that says so; it appears on
+every product page and on Visit, and it is a statement of how the shop works
+rather than decoration.
 
 ## Brand assets
 
@@ -126,11 +133,11 @@ requires a privacy policy — which this site does not yet have.
 python3 build.py    # fails loudly on an unknown template token
 ```
 
-Before shipping a change, the things worth re-checking are horizontal overflow
-across the width range (not just at 1440), that the cart badge, filter, sort and
-age gate still work, and that prices render identically in the HTML and in the
-cart — `money()` exists in both `build.py` and `js/main.js` and they must agree.
+Before shipping a change, re-check horizontal overflow across the width range
+(not just at 1440), that every filter still narrows correctly and stacks with
+the others, that a filtered URL survives a reload, and that no grid is left with
+a partly-filled last row against a contrasting background.
 
 ## Easter egg
 
-Type `satyr` on any page.
+Type `satyr` on any page — the site flips to the dark half of the brand.

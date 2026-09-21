@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /cart.html
 
 Sitemap: https://aldy-lab.github.io/irony/sitemap.xml

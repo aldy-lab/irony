@@ -1,25 +1,23 @@
 /* =========================================================================
-   Irony vs. Satyr
+   Irony vs. Satyr — catalogue
 
-   Product and configuration data are written into each page by build.py as
-   window.IVS. Nothing here invents a URL: if a value is blank in
-   data/site.json the element that would have used it is removed from the DOM
-   instead of falling back to a dead link.
+   This is a catalogue, not a shop: nothing is bought here. The grid is
+   rendered statically by build.py so it is crawlable and works with
+   JavaScript off; everything below only narrows what is already on the page.
+
+   Product data is written into each page by build.py as window.IVS.
    ========================================================================= */
 
 (function () {
   "use strict";
 
   var IVS = window.IVS || {};
-  var PRODUCTS = IVS.products || {};
-  var SHOP = IVS.commerce || {};
-  var CART_KEY = "ivs.cart.v1";
   var AGE_KEY = "ivs.age.v1";
 
   /* ---------------------------------------------------------------------
-     Storage. Every read and write is guarded: in a private window, with site
-     data blocked, or during a thumbnail capture these throw, and the page
-     still has to render.
+     Storage is guarded everywhere: in a private window, with site data
+     blocked, or during a thumbnail capture these throw, and the page still
+     has to render.
      --------------------------------------------------------------------- */
 
   function read(key, fallback) {
@@ -34,423 +32,214 @@
   function write(key, value) {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
-      return true;
     } catch (e) {
-      return false;
+      /* A remembered answer is a convenience, not a requirement. */
     }
   }
 
   /* ---------------------------------------------------------------------
-     Money
+     Catalogue filtering
      --------------------------------------------------------------------- */
 
-  // Must match money() in build.py: a thin space, the Czech convention, so a
-  // price rendered here reads identically to one rendered into the HTML.
-  function money(amount) {
-    return String(Math.round(amount)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-  }
+  var root = document.querySelector("[data-catalogue]");
+  if (root) {
+    var grid = root.querySelector("[data-grid]");
+    var cards = Array.prototype.slice.call(grid.children);
+    var chips = root.querySelectorAll("[data-filter]");
+    var search = root.querySelector("[data-search]");
+    var searchWrap = root.querySelector("[data-search-wrap]");
+    var clear = root.querySelector("[data-search-clear]");
+    var priceSelect = root.querySelector("[data-price]");
+    var strengthSelect = root.querySelector("[data-strength]");
+    var sizeSelect = root.querySelector("[data-size]");
+    var sortSelect = root.querySelector("[data-sort]");
+    var reset = root.querySelector("[data-reset]");
+    var count = root.querySelector("[data-result-count]");
+    var empty = root.querySelector("[data-no-results]");
 
-  /* ---------------------------------------------------------------------
-     Cart. Shape is { slug: qty }. Unknown slugs are dropped on read so a
-     renamed or removed product cannot wedge somebody's cart forever.
-     --------------------------------------------------------------------- */
-
-  var cart = {
-    all: function () {
-      var stored = read(CART_KEY, {});
-      var clean = {};
-      Object.keys(stored).forEach(function (slug) {
-        var qty = parseInt(stored[slug], 10);
-        if (PRODUCTS[slug] && qty > 0) clean[slug] = Math.min(qty, 99);
-      });
-      return clean;
-    },
-
-    lines: function () {
-      var items = cart.all();
-      return Object.keys(items).map(function (slug) {
-        var p = PRODUCTS[slug];
-        return {
-          slug: slug,
-          qty: items[slug],
-          product: p,
-          total: p.price * items[slug],
-        };
-      });
-    },
-
-    count: function () {
-      var items = cart.all();
-      return Object.keys(items).reduce(function (n, slug) {
-        return n + items[slug];
-      }, 0);
-    },
-
-    subtotal: function () {
-      return cart.lines().reduce(function (sum, line) {
-        return sum + line.total;
-      }, 0);
-    },
-
-    delivery: function () {
-      var sub = cart.subtotal();
-      if (!sub) return 0;
-      var free = SHOP.free_delivery_over;
-      if (free && sub >= free) return 0;
-      return SHOP.delivery_flat || 0;
-    },
-
-    set: function (slug, qty) {
-      var items = cart.all();
-      qty = Math.max(0, Math.min(parseInt(qty, 10) || 0, 99));
-      if (qty === 0) delete items[slug];
-      else items[slug] = qty;
-      write(CART_KEY, items);
-      sync();
-      return qty;
-    },
-
-    add: function (slug, qty) {
-      var items = cart.all();
-      return cart.set(slug, (items[slug] || 0) + (qty || 1));
-    },
-
-    clear: function () {
-      write(CART_KEY, {});
-      sync();
-    },
-  };
-
-  /* ---------------------------------------------------------------------
-     Header badge
-     --------------------------------------------------------------------- */
-
-  function syncBadge() {
-    var n = cart.count();
-    document.querySelectorAll("[data-cart-count]").forEach(function (el) {
-      el.textContent = n;
-      // An empty cart shows nothing rather than a zero.
-      el.hidden = n === 0;
-    });
-  }
-
-  function sync() {
-    syncBadge();
-    renderCart();
-  }
-
-  /* ---------------------------------------------------------------------
-     Toast
-     --------------------------------------------------------------------- */
-
-  var toastTimer = null;
-
-  function toast(message, linkText, linkHref) {
-    var el = document.querySelector("[data-toast]");
-    if (!el) return;
-    el.innerHTML = "";
-    var span = document.createElement("span");
-    span.textContent = message;
-    el.appendChild(span);
-    if (linkText && linkHref) {
-      var a = document.createElement("a");
-      a.href = linkHref;
-      a.textContent = linkText;
-      el.appendChild(a);
-    }
-    el.setAttribute("data-visible", "true");
-    window.clearTimeout(toastTimer);
-    toastTimer = window.setTimeout(function () {
-      el.removeAttribute("data-visible");
-    }, 3600);
-  }
-
-  /* ---------------------------------------------------------------------
-     Add to cart
-     --------------------------------------------------------------------- */
-
-  document.addEventListener("click", function (event) {
-    var button = event.target.closest("[data-add]");
-    if (!button) return;
-    event.preventDefault();
-
-    var slug = button.getAttribute("data-add");
-    var product = PRODUCTS[slug];
-    if (!product) return;
-
-    var qtyInput = document.querySelector("[data-qty-input]");
-    var qty = button.hasAttribute("data-use-qty") && qtyInput
-      ? parseInt(qtyInput.value, 10) || 1
-      : 1;
-
-    cart.add(slug, qty);
-
-    var label = button.getAttribute("data-label") || button.textContent;
-    button.setAttribute("data-state", "added");
-    button.textContent = "Added";
-    window.setTimeout(function () {
-      button.removeAttribute("data-state");
-      button.textContent = label;
-    }, 1400);
-
-    toast(product.name + " added", "View cart", IVS.base + "cart.html");
-  });
-
-  /* ---------------------------------------------------------------------
-     Quantity stepper on the product page
-     --------------------------------------------------------------------- */
-
-  document.addEventListener("click", function (event) {
-    var step = event.target.closest("[data-step]");
-    if (!step) return;
-    var input = document.querySelector("[data-qty-input]");
-    if (!input) return;
-    var next = (parseInt(input.value, 10) || 1) + parseInt(step.getAttribute("data-step"), 10);
-    input.value = Math.max(1, Math.min(next, 99));
-  });
-
-  /* ---------------------------------------------------------------------
-     Cart page
-     --------------------------------------------------------------------- */
-
-  function renderCart() {
-    var root = document.querySelector("[data-cart-page]");
-    if (!root) return;
-
-    var lines = cart.lines();
-    var listWrap = root.querySelector("[data-cart-filled]");
-    var emptyWrap = root.querySelector("[data-cart-empty]");
-
-    if (!lines.length) {
-      if (listWrap) listWrap.hidden = true;
-      if (emptyWrap) emptyWrap.hidden = false;
-      return;
-    }
-
-    if (listWrap) listWrap.hidden = false;
-    if (emptyWrap) emptyWrap.hidden = true;
-
-    var list = root.querySelector("[data-line-items]");
-    list.innerHTML = "";
-
-    lines.forEach(function (line) {
-      var li = document.createElement("li");
-      li.className = "line-item";
-
-      var main = document.createElement("div");
-      var name = document.createElement("div");
-      name.className = "line-item__name";
-      var link = document.createElement("a");
-      link.href = IVS.base + "shop/" + line.slug + ".html";
-      link.textContent = line.product.name;
-      name.appendChild(link);
-      var meta = document.createElement("div");
-      meta.className = "line-item__meta";
-      meta.textContent =
-        line.product.volume + " ml · " + line.product.abv + "% · " + money(line.product.price) + " each";
-      main.appendChild(name);
-      main.appendChild(meta);
-
-      var controls = document.createElement("div");
-      controls.className = "line-item__controls";
-
-      var qty = document.createElement("div");
-      qty.className = "qty";
-      qty.innerHTML =
-        '<button type="button" aria-label="One fewer">-</button>' +
-        '<input type="number" inputmode="numeric" min="1" max="99" aria-label="Quantity">' +
-        '<button type="button" aria-label="One more">+</button>';
-      var input = qty.querySelector("input");
-      input.value = line.qty;
-
-      qty.querySelectorAll("button")[0].addEventListener("click", function () {
-        cart.set(line.slug, line.qty - 1);
-      });
-      qty.querySelectorAll("button")[1].addEventListener("click", function () {
-        cart.set(line.slug, line.qty + 1);
-      });
-      input.addEventListener("change", function () {
-        cart.set(line.slug, input.value);
-      });
-
-      var remove = document.createElement("button");
-      remove.type = "button";
-      remove.className = "link-quiet";
-      remove.textContent = "Remove";
-      remove.addEventListener("click", function () {
-        cart.set(line.slug, 0);
-      });
-
-      controls.appendChild(qty);
-      controls.appendChild(remove);
-
-      var total = document.createElement("div");
-      total.className = "price";
-      total.textContent = money(line.total) + " ";
-      var cur = document.createElement("small");
-      cur.textContent = IVS.currency;
-      total.appendChild(cur);
-
-      li.appendChild(main);
-      li.appendChild(controls);
-      li.appendChild(total);
-      list.appendChild(li);
+    // The order the client put them in, so "our order" can be restored.
+    cards.forEach(function (card, i) {
+      card.dataset.order = i;
     });
 
-    var sub = cart.subtotal();
-    var ship = cart.delivery();
-    setText(root, "[data-subtotal]", money(sub) + " " + IVS.currency);
-    setText(
-      root,
-      "[data-delivery]",
-      ship === 0 ? "Included" : money(ship) + " " + IVS.currency
-    );
-    setText(root, "[data-total]", money(sub + ship) + " " + IVS.currency);
+    var state = {
+      category: "all",
+      q: "",
+      price: "any",
+      strength: "any",
+      size: "any",
+      sort: "default",
+    };
 
-    var away = root.querySelector("[data-free-delivery]");
-    if (away) {
-      var threshold = SHOP.free_delivery_over;
-      if (threshold && sub < threshold) {
-        away.hidden = false;
-        away.textContent =
-          money(threshold - sub) + " " + IVS.currency + " more and delivery is on us.";
-      } else {
-        away.hidden = true;
+    function inBand(value, band) {
+      if (band === "any") return true;
+      var parts = band.split("-");
+      var min = parts[0] === "" ? -Infinity : parseFloat(parts[0]);
+      var max = parts[1] === "" ? Infinity : parseFloat(parts[1]);
+      return value >= min && value <= max;
+    }
+
+    function matches(card) {
+      if (state.category !== "all" && card.dataset.category !== state.category) {
+        return false;
       }
+      if (!inBand(parseFloat(card.dataset.price), state.price)) return false;
+      if (!inBand(parseFloat(card.dataset.abv), state.strength)) return false;
+      if (state.size !== "any" && card.dataset.volume !== state.size) return false;
+      if (state.q) {
+        // data-search holds name, producer, category and tasting note, all
+        // lowercased at build time so this stays a substring test.
+        if (card.dataset.search.indexOf(state.q) === -1) return false;
+      }
+      return true;
     }
-  }
 
-  function setText(root, selector, value) {
-    var el = root.querySelector(selector);
-    if (el) el.textContent = value;
-  }
+    function sortCards() {
+      var mode = state.sort;
+      var ordered = cards.slice().sort(function (a, b) {
+        if (mode === "price-asc") return num(a, "price") - num(b, "price");
+        if (mode === "price-desc") return num(b, "price") - num(a, "price");
+        if (mode === "abv-desc") return num(b, "abv") - num(a, "abv");
+        if (mode === "name") return a.dataset.name.localeCompare(b.dataset.name);
+        return num(a, "order") - num(b, "order");
+      });
+      ordered.forEach(function (card) {
+        grid.appendChild(card);
+      });
+    }
 
-  /* ---------------------------------------------------------------------
-     Checkout. The cart is sent as an order request to the configured form
-     endpoint. With no endpoint configured the form is not rendered at all
-     and the page says how to order instead, so no button ever promises a
-     payment that cannot happen.
-     --------------------------------------------------------------------- */
+    function num(el, key) {
+      return parseFloat(el.dataset[key]) || 0;
+    }
 
-  var checkoutForm = document.querySelector("[data-checkout-form]");
-  if (checkoutForm) {
-    checkoutForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      var lines = cart.lines();
-      if (!lines.length) return;
-
-      var status = checkoutForm.querySelector("[data-checkout-status]");
-      var submit = checkoutForm.querySelector("[type=submit]");
-      var data = new FormData(checkoutForm);
-
-      data.append(
-        "order",
-        lines
-          .map(function (l) {
-            return l.qty + " x " + l.product.name + " (" + l.product.volume + " ml) — " +
-              money(l.total) + " " + IVS.currency;
-          })
-          .join("\n")
-      );
-      data.append("subtotal", money(cart.subtotal()) + " " + IVS.currency);
-      data.append("delivery", money(cart.delivery()) + " " + IVS.currency);
-      data.append("total", money(cart.subtotal() + cart.delivery()) + " " + IVS.currency);
-
-      submit.setAttribute("aria-disabled", "true");
-      if (status) status.textContent = "Sending your order…";
-
-      window
-        .fetch(checkoutForm.action, {
-          method: "POST",
-          body: data,
-          headers: { Accept: "application/json" },
-        })
-        .then(function (response) {
-          if (!response.ok) throw new Error("Request failed: " + response.status);
-          cart.clear();
-          checkoutForm.hidden = true;
-          var done = document.querySelector("[data-checkout-done]");
-          if (done) done.hidden = false;
-        })
-        .catch(function () {
-          submit.removeAttribute("aria-disabled");
-          if (status) {
-            status.textContent =
-              "That did not send. Please try again, or contact us directly and we will take the order by hand.";
-          }
-        });
-    });
-  }
-
-  /* ---------------------------------------------------------------------
-     Shop filtering. The grid is rendered statically by build.py so it is
-     crawlable and works without JavaScript; this only hides and shows.
-     --------------------------------------------------------------------- */
-
-  var shop = document.querySelector("[data-shop]");
-  if (shop) {
-    var chips = shop.querySelectorAll("[data-filter]");
-    var cards = shop.querySelectorAll("[data-category]");
-    var countEl = shop.querySelector("[data-result-count]");
-    var emptyEl = shop.querySelector("[data-no-results]");
-
-    var apply = function (value) {
+    function apply() {
       var shown = 0;
       cards.forEach(function (card) {
-        var match = value === "all" || card.getAttribute("data-category") === value;
-        card.hidden = !match;
-        if (match) shown += 1;
+        var ok = matches(card);
+        card.hidden = !ok;
+        if (ok) shown += 1;
       });
+
+      sortCards();
+
       chips.forEach(function (chip) {
         chip.setAttribute(
           "aria-pressed",
-          chip.getAttribute("data-filter") === value ? "true" : "false"
+          chip.dataset.filter === state.category ? "true" : "false"
         );
       });
-      if (countEl) {
-        countEl.textContent = shown + (shown === 1 ? " bottle" : " bottles");
-      }
-      if (emptyEl) emptyEl.hidden = shown !== 0;
 
+      if (count) {
+        count.textContent = shown + (shown === 1 ? " bottle" : " bottles");
+      }
+      if (empty) empty.hidden = shown !== 0;
+      if (searchWrap) {
+        searchWrap.setAttribute("data-filled", state.q ? "true" : "false");
+      }
+
+      var narrowed =
+        state.category !== "all" ||
+        state.q !== "" ||
+        state.price !== "any" ||
+        state.strength !== "any" ||
+        state.size !== "any";
+      if (reset) reset.hidden = !narrowed;
+
+      writeUrl();
+    }
+
+    // The filtered view is shareable and survives a reload.
+    function writeUrl() {
       var url = new URL(window.location.href);
-      if (value === "all") url.searchParams.delete("c");
-      else url.searchParams.set("c", value);
+      var map = {
+        c: state.category === "all" ? "" : state.category,
+        q: state.q,
+        price: state.price === "any" ? "" : state.price,
+        abv: state.strength === "any" ? "" : state.strength,
+        ml: state.size === "any" ? "" : state.size,
+        sort: state.sort === "default" ? "" : state.sort,
+      };
+      Object.keys(map).forEach(function (key) {
+        if (map[key]) url.searchParams.set(key, map[key]);
+        else url.searchParams.delete(key);
+      });
       window.history.replaceState({}, "", url);
-    };
+    }
+
+    function readUrl() {
+      var p = new URL(window.location.href).searchParams;
+      var category = p.get("c");
+      if (category && root.querySelector('[data-filter="' + CSS.escape(category) + '"]')) {
+        state.category = category;
+      }
+      state.q = (p.get("q") || "").toLowerCase();
+      state.price = p.get("price") || "any";
+      state.strength = p.get("abv") || "any";
+      state.size = p.get("ml") || "any";
+      state.sort = p.get("sort") || "default";
+
+      if (search) search.value = p.get("q") || "";
+      if (priceSelect) priceSelect.value = state.price;
+      if (strengthSelect) strengthSelect.value = state.strength;
+      if (sizeSelect) sizeSelect.value = state.size;
+      if (sortSelect) sortSelect.value = state.sort;
+    }
 
     chips.forEach(function (chip) {
       chip.addEventListener("click", function () {
-        apply(chip.getAttribute("data-filter"));
+        state.category = chip.dataset.filter;
+        apply();
       });
     });
 
-    var sort = shop.querySelector("[data-sort]");
-    if (sort) {
-      sort.addEventListener("change", function () {
-        var grid = shop.querySelector("[data-grid]");
-        var items = Array.prototype.slice.call(grid.children);
-        var mode = sort.value;
-        items.sort(function (a, b) {
-          if (mode === "price-asc") return num(a, "price") - num(b, "price");
-          if (mode === "price-desc") return num(b, "price") - num(a, "price");
-          if (mode === "name") {
-            return a.getAttribute("data-name").localeCompare(b.getAttribute("data-name"));
-          }
-          return num(a, "order") - num(b, "order");
-        });
-        items.forEach(function (item) {
-          grid.appendChild(item);
-        });
+    if (search) {
+      search.addEventListener("input", function () {
+        state.q = search.value.trim().toLowerCase();
+        apply();
       });
     }
 
-    var initial = new URL(window.location.href).searchParams.get("c");
-    apply(initial && document.querySelector('[data-filter="' + CSS.escape(initial) + '"]') ? initial : "all");
-  }
+    if (clear) {
+      clear.addEventListener("click", function () {
+        search.value = "";
+        state.q = "";
+        search.focus();
+        apply();
+      });
+    }
 
-  function num(el, attr) {
-    return parseFloat(el.getAttribute("data-" + attr)) || 0;
+    [
+      [priceSelect, "price"],
+      [strengthSelect, "strength"],
+      [sizeSelect, "size"],
+      [sortSelect, "sort"],
+    ].forEach(function (pair) {
+      var el = pair[0];
+      var key = pair[1];
+      if (!el) return;
+      el.addEventListener("change", function () {
+        state[key] = el.value;
+        apply();
+      });
+    });
+
+    if (reset) {
+      reset.addEventListener("click", function () {
+        state.category = "all";
+        state.q = "";
+        state.price = "any";
+        state.strength = "any";
+        state.size = "any";
+        if (search) search.value = "";
+        if (priceSelect) priceSelect.value = "any";
+        if (strengthSelect) strengthSelect.value = "any";
+        if (sizeSelect) sizeSelect.value = "any";
+        apply();
+      });
+    }
+
+    readUrl();
+    apply();
   }
 
   /* ---------------------------------------------------------------------
@@ -460,8 +249,7 @@
 
   var gate = document.querySelector("[data-age-gate]");
   if (gate) {
-    var confirmed = read(AGE_KEY, false) === true;
-    if (!confirmed) {
+    if (read(AGE_KEY, false) !== true) {
       document.body.setAttribute("data-gated", "true");
       gate.hidden = false;
 
@@ -524,7 +312,7 @@
   }
 
   /* ---------------------------------------------------------------------
-     The other colourway. Type the second half of the name.
+     After hours. Type the second half of the name.
      --------------------------------------------------------------------- */
 
   var typed = "";
@@ -537,13 +325,11 @@
     typed = (typed + event.key.toLowerCase()).slice(-5);
     if (typed !== "satyr") return;
 
-    var on = document.body.getAttribute("data-colourway") === "satyr";
-    if (on) document.body.removeAttribute("data-colourway");
-    else document.body.setAttribute("data-colourway", "satyr");
+    if (document.body.getAttribute("data-colourway") === "satyr") {
+      document.body.removeAttribute("data-colourway");
+    } else {
+      document.body.setAttribute("data-colourway", "satyr");
+    }
     typed = "";
   });
-
-  /* --------------------------------------------------------------------- */
-
-  sync();
 })();

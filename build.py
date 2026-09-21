@@ -98,13 +98,13 @@ def wordmark_inline() -> str:
 
 
 def age_gate(site: dict) -> str:
-    age = site["commerce"]["min_age"]
+    age = site["catalogue"]["min_age"]
     return f"""<div class="age-gate" data-age-gate hidden>
   <div class="age-gate__inner">
     <div class="age-gate__satyr" aria-hidden="true">{mark("satyr")}</div>
     <h1>Are you over {age}?</h1>
-    <p>We sell alcohol, so we have to ask. We check photo ID at the counter
-    and at the door as well &mdash; this is just the first gate.</p>
+    <p>This is a catalogue of spirits, so we have to ask. Photo ID is checked
+    at the counter too &mdash; this is only the first gate.</p>
     <div class="age-gate__actions">
       <button class="button button--solid" type="button" data-age-yes>
         <span>Yes, I am {age} or over</span>
@@ -194,21 +194,33 @@ def product_media(product: dict) -> str:
     return f'<div class="mark" aria-hidden="true">{mark("motif")}</div>'
 
 
+def search_text(product: dict, cats: dict) -> str:
+    """Everything the search box should match, lowercased once at build time."""
+    parts = [
+        product["name"],
+        product.get("producer", ""),
+        cats[product["category"]]["name"],
+        product.get("notes", ""),
+    ]
+    return " ".join(p for p in parts if p).lower()
+
+
 def card(product: dict, cats: dict, base: str, order: int) -> str:
-    draft = (
-        '<span class="badge badge--draft">Draft</span>' if product.get("placeholder") else ""
-    )
+    draft = '<span class="badge">Draft</span>' if product.get("placeholder") else ""
+    stock = product.get("stock", 0)
+    stock_label = "In stock" if stock > 3 else f"Only {stock} left" if stock else "Ask us"
     return f"""<li class="card" data-category="{esc(product['category'])}"
-    data-price="{product['price']}" data-name="{esc(product['name'])}" data-order="{order}">
+    data-price="{product['price']}" data-abv="{product['abv']}"
+    data-volume="{product['volume']}" data-name="{esc(product['name'])}"
+    data-search="{esc(search_text(product, cats))}" data-order="{order}">
   {draft}
   {media(product, base, "card__media")}
   <p class="card__category">{esc(cats[product['category']]['name'])}</p>
   <h3 class="card__name"><a class="card__link" href="{base}shop/{product['slug']}.html">{esc(product['name'])}</a></h3>
   <p class="card__meta">{product['volume']} ml &middot; {product['abv']}%</p>
   <div class="card__foot">
-    <span class="price">{money(product['price'])} <small>{esc('CZK')}</small></span>
-    <button class="card__add" type="button" data-add="{esc(product['slug'])}"
-            data-label="Add" aria-label="Add {esc(product['name'])} to cart">Add</button>
+    <span class="price">{money(product['price'])} <small>CZK</small></span>
+    <span class="card__stock" data-out="{'true' if not stock else 'false'}">{esc(stock_label)}</span>
   </div>
 </li>"""
 
@@ -236,23 +248,9 @@ def render_page(
     og_type: str = "website",
     head_extra: str = "",
 ) -> None:
-    ivs = {
-        "base": base,
-        "currency": site["currency"],
-        "commerce": {
-            k: v for k, v in site["commerce"].items() if not k.startswith("_")
-        },
-        "products": {
-            p["slug"]: {
-                "name": p["name"],
-                "price": p["price"],
-                "volume": p["volume"],
-                "abv": p["abv"],
-                "category": p["category"],
-            }
-            for p in catalogue["products"]
-        },
-    }
+    # The catalogue filters read from data- attributes on the cards, so the
+    # page needs no product list of its own.
+    ivs = {"base": base, "currency": site["currency"]}
 
     analytics = ""
     domain = site["analytics"]["plausible_domain"]
@@ -281,8 +279,9 @@ def render_page(
         "nav_links": nav_links(base, current),
         "main": body,
         "legal": esc(
-            "We sell alcohol only to adults. Photo ID is checked in the shop and "
-            "again on delivery."
+            "A catalogue of what is on the shelf. Nothing is sold through this "
+            "site; we sell alcohol only to adults, and photo ID is checked in "
+            "the shop every time."
         ),
         "year": date.today().year,
         "ivs_data": json.dumps(ivs, separators=(",", ":")),
@@ -374,21 +373,29 @@ def build():
         f'aria-pressed="false">{esc(c["name"])}</button></li>'
         for c in catalogue["categories"]
     )
+    # Bottle sizes come from the data, so adding a 1 litre bottle adds its own
+    # filter option rather than needing the template edited.
+    sizes = sorted({p["volume"] for p in products})
+    size_options = '<option value="any">Any</option>' + "".join(
+        f'<option value="{v}">{v} ml</option>' for v in sizes
+    )
     shop = fill(
         template("shop.html"),
         {
             "heading": "Everything on the shelf.",
-            "intro": "Twenty-odd bottles, chosen one at a time. Filter by category, or "
-                     "read down the list and let something catch you.",
+            "intro": "Twenty-odd bottles, chosen one at a time. Filter by category, "
+                     "price or strength, or search for something you already know.",
             "chips": chips,
+            "size_options": size_options,
+            "motif": mark("motif"),
             "product_grid": grid(products, cats, ""),
             "product_count": len(products),
         },
     )
     render_page(
         site=site, catalogue=catalogue, body=shop, out=ROOT / "shop.html",
-        title=f"Shop — {site['name']}",
-        description="Spirits, vermouth and liqueur, chosen one bottle at a time.",
+        title=f"Catalogue — {site['name']}",
+        description="Spirits, vermouth and liqueur, chosen one bottle at a time. Filter by category, price or strength.",
         slug="shop.html", base="", current="shop.html",
     )
     pages.append(("shop.html", "0.9"))
@@ -411,11 +418,21 @@ def build():
         ]
         related = (same + others)[:4]
 
-        buy = ""
-        if product.get("stripe_buy_button"):
-            buy = (
-                f'<p style="margin:-1rem 0 2rem"><a class="button button--primary" '
-                f'href="{esc(product["stripe_buy_button"])}"><span>Buy now with card</span></a></p>'
+        # Nothing is sold here, so the only action is asking about a bottle —
+        # and only when there is somewhere for that to go.
+        enquire = ""
+        subject = f"About {product['name']}"
+        if site["contact"]["email"]:
+            enquire = (
+                f'<p><a class="button button--primary" '
+                f'href="mailto:{esc(site["contact"]["email"])}?subject={esc(subject)}">'
+                "<span>Ask about this bottle</span></a></p>"
+            )
+        elif site["contact"]["phone"]:
+            tel = re.sub(r"[^\d+]", "", site["contact"]["phone"])
+            enquire = (
+                f'<p><a class="button button--primary" href="tel:{esc(tel)}">'
+                "<span>Call about this bottle</span></a></p>"
             )
 
         producer_row = ""
@@ -445,8 +462,8 @@ def build():
                 "media": product_media(product),
                 "producer_row": producer_row,
                 "stock_label": esc(stock_label),
-                "buy_now": buy,
-                "delivery_note": esc(site["commerce"]["delivery_note"]),
+                "enquire": enquire,
+                "availability_note": esc(site["catalogue"]["availability_note"]),
                 "related_grid": grid(related, cats, "../"),
             },
         )
@@ -461,7 +478,9 @@ def build():
                 "@type": "Offer",
                 "price": product["price"],
                 "priceCurrency": site["currency"],
-                "availability": "https://schema.org/InStock" if stock else "https://schema.org/OutOfStock",
+                "availability": "https://schema.org/InStoreOnly"
+                if stock
+                else "https://schema.org/OutOfStock",
                 "url": f"{site['url'].rstrip('/')}/shop/{product['slug']}.html",
             },
         }
@@ -481,45 +500,6 @@ def build():
                        + json.dumps(jsonld, separators=(",", ":")) + "</script>",
         )
         pages.append((f"shop/{product['slug']}.html", "0.7"))
-
-    # Cart -------------------------------------------------------------------
-    endpoint = site["commerce"]["order_form_endpoint"]
-    if endpoint:
-        checkout = f"""<form data-checkout-form action="{esc(endpoint)}" method="post">
-            <div class="field"><label for="name">Your name</label>
-              <input id="name" name="name" type="text" autocomplete="name" required></div>
-            <div class="field"><label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required></div>
-            <div class="field"><label for="phone">Phone</label>
-              <input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
-            <div class="field"><label for="delivery">Delivery address, or say collection</label>
-              <textarea id="delivery" name="delivery" required></textarea></div>
-            <button class="button button--solid" type="submit"><span>Place order</span></button>
-            <p class="note" data-checkout-status role="status"></p>
-            <p class="note">{esc(site['commerce']['delivery_note'])}</p>
-          </form>
-          <div data-checkout-done hidden>
-            <p class="lede" style="font-size:var(--step-0)">Order received. We will confirm by
-            phone before anything moves, and ID is checked at handover.</p>
-          </div>"""
-    else:
-        checkout = f"""<p class="note">Online ordering is not switched on yet. Add an order
-          form endpoint in <code>data/site.json</code> and this becomes a working checkout.</p>
-          <p class="note">{esc(site['commerce']['delivery_note'])}</p>"""
-        warnings.append(
-            "no order_form_endpoint configured — the cart works but checkout cannot submit"
-        )
-
-    cart = fill(
-        template("cart.html"),
-        {"base": "", "motif": mark("motif"), "checkout": checkout},
-    )
-    render_page(
-        site=site, catalogue=catalogue, body=cart, out=ROOT / "cart.html",
-        title=f"Cart — {site['name']}",
-        description="Your order.", slug="cart.html", base="",
-    )
-    pages.append(("cart.html", "0.4"))
 
     # About ------------------------------------------------------------------
     about = fill(
@@ -563,8 +543,6 @@ def build():
         '<p class="note">Phone and email to be confirmed.</p>'
     )
 
-    free = site["commerce"]["free_delivery_over"]
-    flat = site["commerce"]["delivery_flat"]
     visit = fill(
         template("visit.html"),
         {
@@ -574,11 +552,7 @@ def build():
             "maps_link": maps,
             "hours_list": hours_list(site),
             "contact_block": contact_block,
-            "delivery_note": esc(site["commerce"]["delivery_note"]),
-            "delivery_terms": esc(
-                f"Delivery inside Prague is {money(flat)} {site['currency']}, "
-                f"and free over {money(free)} {site['currency']}."
-            ),
+            "availability_note": esc(site["catalogue"]["availability_note"]),
         },
     )
     render_page(
@@ -612,7 +586,7 @@ def build():
         f"{urls}</urlset>\n"
     )
     (ROOT / "robots.txt").write_text(
-        f"User-agent: *\nAllow: /\nDisallow: /cart.html\n\nSitemap: {base_url}/sitemap.xml\n"
+        f"User-agent: *\nAllow: /\n\nSitemap: {base_url}/sitemap.xml\n"
     )
     (ROOT / ".nojekyll").write_text("")
 
