@@ -112,6 +112,14 @@ video {
   max-width: 100%;
 }
 
+/* Any element given its own `display` outranks the `hidden` attribute's
+   `display: none` from the UA sheet, so a filtered-out .card (display: flex)
+   stayed on screen while reporting itself hidden. This makes the attribute
+   mean what it says, everywhere. */
+[hidden] {
+  display: none !important;
+}
+
 h1,
 h2,
 h3,
