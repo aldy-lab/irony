@@ -1,0 +1,29 @@
+<section class="section">
+  <div class="shell">
+    <p class="eyebrow">Find us</p>
+    <h1 class="display-xl">{{street}}<br>{{district}}</h1>
+
+    <div class="split" style="margin-top:clamp(2.5rem,6vw,4rem)">
+      <div class="info-grid">
+        <div>
+          <h3>Address</h3>
+          {{address_block}}
+          {{maps_link}}
+        </div>
+        <div>
+          <h3>Hours</h3>
+          <ul class="hours">{{hours_list}}</ul>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          {{contact_block}}
+        </div>
+      </div>
+      <div>
+        <h3 class="eyebrow">Delivery</h3>
+        <p class="lede" style="font-size:var(--step-0)">{{delivery_note}}</p>
+        <p class="note">{{delivery_terms}}</p>
+      </div>
+    </div>
+  </div>
+</section>

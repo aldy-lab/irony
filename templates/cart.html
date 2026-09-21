@@ -1,0 +1,31 @@
+<section class="section" data-cart-page>
+  <div class="shell">
+    <p class="eyebrow">Your order</p>
+    <h1 class="display-xl">Cart</h1>
+
+    <div data-cart-empty hidden>
+      <div class="empty-state">
+        <div class="mark" aria-hidden="true">{{motif}}</div>
+        <p class="lede" style="margin-inline:auto">Nothing in here yet.</p>
+        <p style="margin-top:2rem">
+          <a class="button button--primary" href="{{base}}shop.html"><span>Browse the shelf</span></a>
+        </p>
+      </div>
+    </div>
+
+    <div data-cart-filled hidden style="margin-top:clamp(2rem,5vw,3.5rem)">
+      <div class="cart-layout">
+        <ul class="line-items" data-line-items></ul>
+
+        <aside class="summary">
+          <h2 class="eyebrow" style="margin-bottom:1rem">Summary</h2>
+          <div class="summary__row"><span>Subtotal</span><span data-subtotal></span></div>
+          <div class="summary__row"><span>Delivery</span><span data-delivery></span></div>
+          <div class="summary__row summary__row--total"><span>Total</span><span data-total></span></div>
+          <p class="note" data-free-delivery hidden></p>
+          {{checkout}}
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>

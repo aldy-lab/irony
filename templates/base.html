@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<link rel="canonical" href="{{canonical}}">
+
+<meta property="og:type" content="{{og_type}}">
+<meta property="og:site_name" content="{{site_name}}">
+<meta property="og:title" content="{{og_title}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:image" content="{{share_image}}">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#112103">
+<link rel="icon" href="{{base}}assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{base}}assets/brand/apple-touch-icon.png">
+
+<link rel="preconnect" href="">
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="{{base}}assets/fonts/bodoni-moda-normal-latin.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="{{base}}assets/fonts/eb-garamond-normal-latin.woff2">
+<link rel="stylesheet" href="{{base}}css/main.css">
+{{head_extra}}
+</head>
+<body{{body_attrs}}>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+{{age_gate}}
+
+<header class="header">
+  <div class="header__inner">
+    <a class="brand" href="{{base}}index.html" aria-label="{{site_name}} — home">
+      {{wordmark_inline}}
+    </a>
+
+    <button class="nav-toggle" type="button" data-nav-toggle
+            aria-expanded="false" aria-controls="site-nav"
+            aria-label="Menu"><span></span></button>
+
+    <nav class="nav" id="site-nav" data-nav aria-label="Main">
+      {{nav_links}}
+      <a class="cart-button" href="{{base}}cart.html">
+        Cart <span class="cart-button__count" data-cart-count hidden>0</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+{{main}}
+</main>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__top">
+      <div>
+        <div class="footer__mark">{{wordmark_stacked}}</div>
+      </div>
+      <div>
+        <h3>Shop</h3>
+        <ul>{{footer_categories}}</ul>
+      </div>
+      <div>
+        <h3>Visit</h3>
+        <ul>{{footer_address}}</ul>
+      </div>
+      <div>
+        <h3>Elsewhere</h3>
+        <ul>{{footer_contact}}</ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__legal">{{legal}}</p>
+      <p>&copy; {{year}} {{site_name}}</p>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+
+<script>window.IVS = {{ivs_data}};</script>
+<script src="{{base}}js/main.js" defer></script>
+{{analytics}}
+</body>
+</html>

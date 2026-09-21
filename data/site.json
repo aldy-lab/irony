@@ -1,0 +1,65 @@
+{
+  "_readme": [
+    "EVERY PENDING GO-LIVE VALUE LIVES IN THIS FILE.",
+    "Fill a value in and the element switches on. Leave it \"\" and the element is",
+    "removed from the page entirely, along with any container it would have left",
+    "empty. There is no href=\"#\" fallback anywhere, so the worst case is a missing",
+    "link, never a dead one. Run `python3 build.py` after any change."
+  ],
+
+  "name": "Irony vs. Satyr",
+  "tagline": "Bottle shop",
+  "description": "A small bottle shop in Nove Mesto, Prague. Spirits chosen one at a time, by people who drink them.",
+  "_url_note": "Where the site actually lives. Canonicals, og:url and sitemap.xml all derive from it, so pointing a real domain at Pages means changing this one line and rebuilding.",
+  "url": "https://aldy-lab.github.io/irony",
+  "locale": "en",
+  "currency": "CZK",
+
+  "address": {
+    "street": "Soukenicka 1756",
+    "postal": "110 00",
+    "district": "Nove Mesto",
+    "city": "Prague",
+    "country": "Czechia",
+    "country_code": "CZ"
+  },
+
+  "hours": [
+    ["Monday - Thursday", "12:00 - 22:00"],
+    ["Friday - Saturday", "12:00 - 24:00"],
+    ["Sunday", "14:00 - 20:00"]
+  ],
+
+  "contact": {
+    "email": "",
+    "phone": "",
+    "maps_url": ""
+  },
+
+  "social": {
+    "instagram": "",
+    "facebook": ""
+  },
+
+  "commerce": {
+    "_readme": [
+      "checkout_mode is decided by what you fill in, in this order:",
+      "  1. stripe_buy_button per product in catalogue.json -> card payment",
+      "  2. order_form_endpoint -> the cart is sent as an order request",
+      "  3. neither -> the cart still works, checkout asks you to call in,",
+      "     and no button ever implies a payment that cannot happen.",
+      "delivery_note is shown at checkout and is a legal line, not decoration."
+    ],
+    "order_form_endpoint": "",
+    "stripe_publishable_key": "",
+    "free_delivery_over": 2500,
+    "delivery_flat": 149,
+    "delivery_note": "We sell alcohol. Orders are handed over in person and photo ID is checked at the door - we do not leave alcohol with anyone under 18, and an order that cannot be verified is refunded in full.",
+    "min_age": 18
+  },
+
+  "analytics": {
+    "_readme": "Plausible only, cookieless. Leave blank for no analytics and nothing to disclose. Switching it on means the privacy page needs a line about it.",
+    "plausible_domain": ""
+  }
+}

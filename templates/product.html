@@ -1,0 +1,52 @@
+<div class="shell">
+  <nav aria-label="Breadcrumb" style="padding-top:2rem">
+    <p class="eyebrow" style="margin:0">
+      <a href="{{base}}shop.html" style="text-decoration:none">Shop</a>
+      <span aria-hidden="true">/</span>
+      <a href="{{base}}shop.html?c={{category_slug}}" style="text-decoration:none">{{category_name}}</a>
+    </p>
+  </nav>
+
+  <article class="product">
+    <div class="product__media">{{media}}</div>
+
+    <div>
+      <p class="eyebrow">{{category_name}}</p>
+      <h1 class="product__title">{{name}}</h1>
+      <p class="lede">{{notes}}</p>
+
+      <p class="product__price">{{price}} <small style="font-family:var(--body);font-size:0.5em;letter-spacing:.1em;color:var(--muted)">{{currency}}</small></p>
+
+      <div class="product__actions">
+        <div class="qty">
+          <button type="button" data-step="-1" aria-label="One fewer">&minus;</button>
+          <input type="number" value="1" min="1" max="99" inputmode="numeric"
+                 data-qty-input aria-label="Quantity">
+          <button type="button" data-step="1" aria-label="One more">+</button>
+        </div>
+        <button class="button button--solid" type="button"
+                data-add="{{slug}}" data-use-qty data-label="Add to cart">
+          <span>Add to cart</span>
+        </button>
+      </div>
+      {{buy_now}}
+
+      <table class="spec">
+        <tbody>
+          <tr><th scope="row">Volume</th><td>{{volume}} ml</td></tr>
+          <tr><th scope="row">Strength</th><td>{{abv}}% ABV</td></tr>
+          <tr><th scope="row">Category</th><td>{{category_name}}</td></tr>
+          {{producer_row}}
+          <tr><th scope="row">In the shop</th><td>{{stock_label}}</td></tr>
+        </tbody>
+      </table>
+
+      <p class="note">{{delivery_note}}</p>
+    </div>
+  </article>
+
+  <section class="section" style="border-top:1px solid var(--rule-soft)">
+    <p class="eyebrow">More {{category_name}}</p>
+    <ul class="product-grid">{{related_grid}}</ul>
+  </section>
+</div>

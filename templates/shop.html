@@ -1,0 +1,26 @@
+<section class="section" data-shop>
+  <div class="shell">
+    <p class="eyebrow">The shelf</p>
+    <h1 class="display-xl">{{heading}}</h1>
+    <p class="lede" style="margin-top:1.5rem">{{intro}}</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;justify-content:space-between;margin-top:clamp(2.5rem,6vw,4rem)">
+      <ul class="chips" style="margin-bottom:0">{{chips}}</ul>
+      <div class="field" style="margin-bottom:0;min-width:200px">
+        <label for="sort">Sort</label>
+        <select id="sort" data-sort>
+          <option value="default">Our order</option>
+          <option value="price-asc">Price, low to high</option>
+          <option value="price-desc">Price, high to low</option>
+          <option value="name">Name</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="eyebrow" style="margin-top:2rem"><span data-result-count>{{product_count}} bottles</span></p>
+
+    <ul class="product-grid" data-grid>{{product_grid}}</ul>
+
+    <p class="note" data-no-results hidden>Nothing in that category yet.</p>
+  </div>
+</section>

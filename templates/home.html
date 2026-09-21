@@ -1,0 +1,73 @@
+<section class="hero">
+  <div class="hero__inner">
+    <div>
+      <div class="hero__motif">{{motif}}</div>
+      <h1 class="visually-hidden">{{site_name}} — {{tagline}}</h1>
+      <div class="hero__mark" aria-hidden="true">{{wordmark_stacked}}</div>
+      <p class="hero__copy">{{description}}</p>
+      <div class="hero__actions">
+        <a class="button button--primary" href="{{base}}shop.html"><span>Browse the shelf</span></a>
+        <a class="button" href="{{base}}visit.html"><span>Find us</span></a>
+      </div>
+    </div>
+    <div class="hero__figure">
+      <div class="hero__satyr" aria-hidden="true">{{satyr}}</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <p class="eyebrow">What we keep</p>
+    <div class="split" data-reveal>
+      <h2 class="display-xl">Small shelf,<br>long arguments.</h2>
+      <div class="prose">
+        <p class="lede">We are not trying to stock everything. We stock the bottle we would
+        open ourselves, and we can tell you why it is on the shelf.</p>
+        <p>Every category here is short on purpose. If a spirit is listed it is because
+        somebody behind the counter went and found it, tasted it, and decided it was
+        worth the shelf space it takes up from something else.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="motif-rule" aria-hidden="true">{{motif}}</div>
+
+<section class="section">
+  <div class="shell">
+    <p class="eyebrow">By category</p>
+    <ul class="category-list" data-reveal>{{category_cards}}</ul>
+  </div>
+</section>
+
+<section class="section section--deep">
+  <div class="shell">
+    <p class="eyebrow">A few we would point at</p>
+    <ul class="product-grid" data-reveal>{{featured_grid}}</ul>
+    <p style="margin-top:2.5rem">
+      <a class="button" href="{{base}}shop.html"><span>See all {{product_count}} bottles</span></a>
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Come in</p>
+        <h2 class="display-xl">{{street}}<br>{{district}}</h2>
+      </div>
+      <div class="info-grid">
+        <div>
+          <h3>Hours</h3>
+          <ul class="hours">{{hours_list}}</ul>
+        </div>
+        <div>
+          <h3>Address</h3>
+          {{address_block}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
