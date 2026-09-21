@@ -398,10 +398,18 @@ def build():
         shutil.rmtree(SHOP_DIR)
     for product in products:
         cat = cats[product["category"]]
-        related = [
+        # Always exactly four, or the row is left short. Same category first,
+        # then topped up from the rest of the shelf — which is why the heading
+        # says "the shelf" rather than naming the category.
+        same = [
             p for p in products
             if p["category"] == product["category"] and p["slug"] != product["slug"]
-        ][:4] or [p for p in products if p["slug"] != product["slug"]][:4]
+        ]
+        others = [
+            p for p in products
+            if p["category"] != product["category"] and p["slug"] != product["slug"]
+        ]
+        related = (same + others)[:4]
 
         buy = ""
         if product.get("stripe_buy_button"):
