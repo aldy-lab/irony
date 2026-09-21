@@ -19,9 +19,11 @@ python3 build.py          # regenerate every page
 python3 -m http.server 8731   # then open http://127.0.0.1:8731
 ```
 
-`build.py` writes `index.html`, `shop.html`, `about.html`, `visit.html`,
-`404.html`, one page per bottle under `shop/`, plus `sitemap.xml` and
-`robots.txt`. **Do not edit those files by hand** — they are
+`build.py` writes `index.html` (the catalogue itself), `about.html`,
+`visit.html`, `404.html`, one page per bottle under `shop/`, plus
+`sitemap.xml` and `robots.txt`. `shop.html` is written too, as a redirect: the
+catalogue used to live there before it moved to the front page, and a link
+shared in between should not land on a 404. **Do not edit those files by hand** — they are
 overwritten on every build. Edit `templates/` and `data/` instead.
 
 The sitemap is generated from the same page list the pages are, which is the
@@ -59,6 +61,19 @@ is a missing link, never a dead one.
   button at all rather than one that goes nowhere.
 
 ---
+
+## The front page is the catalogue
+
+`index.html` opens on a short masthead — mark, one line, the satyr — and then
+the filters and the full grid. The masthead is capped in height rather than
+sized to the viewport the way a hero would be, and on a phone it drops the
+figure and the flute entirely, because a brand block that fills the screen
+hides the thing it is introducing. The filter bar is above the fold at every
+size that was measured, down to a 664px-tall phone.
+
+The header is the dark half of the brand, gold on green, and carries its own
+colour tokens so it stays that way over a light page, an inverted section, or
+the after-hours colourway.
 
 ## Filtering
 

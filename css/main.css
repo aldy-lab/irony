@@ -282,10 +282,15 @@ main > .shell:first-child {
   height: var(--header-h);
   display: flex;
   align-items: center;
-  background: color-mix(in srgb, var(--paper) 86%, transparent);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border-bottom: 1px solid var(--rule-soft);
+  /* The dark half of the brand, carried at the top of every page. Its own
+     tokens, so the bar stays gold-on-green whatever the page beneath it is. */
+  background: var(--green);
+  --text: var(--gold);
+  --muted: #9aa683;
+  --accent-ink: var(--pink);
+  --rule: color-mix(in srgb, var(--gold) 34%, transparent);
+  --rule-soft: color-mix(in srgb, var(--gold) 16%, transparent);
+  color: var(--text);
 }
 
 .header__inner {
@@ -424,8 +429,9 @@ main > .shell:first-child {
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: var(--paper);
-    border-bottom: 1px solid var(--rule);
+    /* Continues the bar rather than starting a second, paler surface. */
+    background: var(--green);
+    border-bottom: 1px solid var(--rule-soft);
     padding: 0.5rem var(--gutter) 1.5rem;
     transform: translateY(-101%);
     visibility: hidden;
@@ -454,7 +460,118 @@ main > .shell:first-child {
 }
 
 /* --------------------------------------------------------------------------
-   Hero
+   Masthead — the brand block above the catalogue
+
+   Deliberately short. The grid is the point of the page, so this is capped in
+   height instead of filling the viewport the way a hero would.
+   -------------------------------------------------------------------------- */
+
+.masthead {
+  padding-block: clamp(1.75rem, 1rem + 3vw, 3.25rem) clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+
+.masthead__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: center;
+}
+
+/* Three parts across the full measure — mark, line, figure. Two columns left
+   the middle of a 1400px shell empty, with the figure stranded at the edge. */
+@media (min-width: 760px) {
+  .masthead__inner {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1040px) {
+  .masthead__inner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+}
+
+.masthead__inner > * {
+  min-width: 0;
+}
+
+.masthead__motif {
+  width: min(40%, 140px);
+  margin-bottom: clamp(0.7rem, 1.5vw, 1.1rem);
+  color: var(--accent-ink);
+}
+
+.masthead__motif svg {
+  width: 100%;
+  height: auto;
+}
+
+.masthead__mark {
+  width: min(100%, 300px);
+  color: var(--text);
+}
+
+.masthead__mark svg {
+  width: 100%;
+  height: auto;
+}
+
+.masthead__copy {
+  margin: 0;
+  max-width: 34ch;
+  font-size: var(--step-1);
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--text-soft);
+}
+
+@media (min-width: 760px) {
+  .masthead__copy {
+    /* Sits against the wordmark's right edge rather than under it, with a
+       hairline to make the relationship deliberate. */
+    padding-left: clamp(1.5rem, 3vw, 3rem);
+    border-left: 1px solid var(--rule-soft);
+  }
+}
+
+.masthead__figure {
+  color: var(--text);
+  justify-self: end;
+}
+
+.masthead__figure svg {
+  /* Height-capped: the satyr is tall and narrow, and sizing it by width lets
+     it decide how much of the screen the brand block takes. */
+  width: auto;
+  height: clamp(150px, 22vw, 260px);
+}
+
+@media (max-width: 759px) {
+  /* On a phone the brand block has to clear the screen quickly, or the
+     catalogue it introduces is never seen. The wordmark is the brand; the
+     figure and the flute both cost more height than they earn here. */
+  .masthead {
+    padding-block: 1.4rem 1.1rem;
+  }
+
+  .masthead__figure,
+  .masthead__motif {
+    display: none;
+  }
+
+  .masthead__mark {
+    width: min(78%, 240px);
+  }
+
+  .masthead__copy {
+    font-size: var(--step--1);
+    max-width: 38ch;
+    margin-top: 0.9rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Hero (kept for any page that still wants a full one)
    -------------------------------------------------------------------------- */
 
 .hero {
@@ -1446,12 +1563,15 @@ body[data-colourway="satyr"] {
   transition: background 0.8s var(--ease), color 0.8s var(--ease);
 }
 
-body[data-colourway="satyr"] .header,
 body[data-colourway="satyr"] .filters {
   background: color-mix(in srgb, var(--green) 90%, transparent);
 }
 
-body[data-colourway="satyr"] .nav,
+body[data-colourway="satyr"] .header,
+body[data-colourway="satyr"] .nav {
+  background: var(--maroon);
+}
+
 body[data-colourway="satyr"] .age-gate {
   background: var(--green);
 }

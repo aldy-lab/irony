@@ -1,53 +1,84 @@
-<section class="hero">
-  <div class="hero__inner">
-    <div>
-      <div class="hero__motif">{{motif}}</div>
-      <h1 class="visually-hidden">{{site_name}} — {{tagline}}</h1>
-      <div class="hero__mark" aria-hidden="true">{{wordmark_stacked}}</div>
-      <p class="hero__copy">{{description}}</p>
-      <div class="hero__actions">
-        <a class="button button--primary" href="{{base}}shop.html"><span>See the catalogue</span></a>
-        <a class="button" href="{{base}}visit.html"><span>Find us</span></a>
+<section class="section masthead">
+  <div class="shell">
+    <div class="masthead__inner">
+      <div class="masthead__brand">
+        <div class="masthead__motif" aria-hidden="true">{{motif}}</div>
+        <h1 class="visually-hidden">{{site_name}} — {{tagline}}, {{city}}</h1>
+        <div class="masthead__mark" aria-hidden="true">{{wordmark_stacked}}</div>
+      </div>
+      <p class="masthead__copy">{{description}}</p>
+      <div class="masthead__figure" aria-hidden="true">{{satyr}}</div>
+    </div>
+  </div>
+</section>
+
+<section data-catalogue>
+  <div class="filters">
+    <div class="shell">
+      <ul class="chips">{{chips}}</ul>
+
+      <div class="filters__row">
+        <label class="search" data-search-wrap>
+          <span>Search</span>
+          <input type="search" data-search autocomplete="off"
+                 placeholder="Name, note or producer">
+          <button class="search__clear" type="button" data-search-clear
+                  aria-label="Clear search">&times;</button>
+        </label>
+
+        <label class="select">
+          <span>Price</span>
+          <select data-price>
+            <option value="any">Any</option>
+            <option value="-599">Under 600</option>
+            <option value="600-999">600 &ndash; 999</option>
+            <option value="1000-1499">1 000 &ndash; 1 499</option>
+            <option value="1500-">1 500 and up</option>
+          </select>
+        </label>
+
+        <label class="select">
+          <span>Strength</span>
+          <select data-strength>
+            <option value="any">Any</option>
+            <option value="-24.9">Under 25%</option>
+            <option value="25-42.9">25 &ndash; 42%</option>
+            <option value="43-49.9">43 &ndash; 49%</option>
+            <option value="50-">50% and up</option>
+          </select>
+        </label>
+
+        <label class="select">
+          <span>Bottle</span>
+          <select data-size>{{size_options}}</select>
+        </label>
+
+        <label class="select">
+          <span>Sort</span>
+          <select data-sort>
+            <option value="default">Our order</option>
+            <option value="price-asc">Price, low to high</option>
+            <option value="price-desc">Price, high to low</option>
+            <option value="abv-desc">Strongest first</option>
+            <option value="name">Name</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="filters__status">
+        <span data-result-count>{{product_count}} bottles</span>
+        <button class="filters__reset" type="button" data-reset hidden>Clear filters</button>
       </div>
     </div>
-    <div class="hero__figure">
-      <div class="hero__satyr" aria-hidden="true">{{satyr}}</div>
+  </div>
+
+  <div class="shell">
+    <ul class="product-grid" data-grid>{{product_grid}}</ul>
+
+    <div class="no-results" data-no-results hidden>
+      <div class="mark" aria-hidden="true">{{motif}}</div>
+      <p class="lede" style="margin-inline:auto">Nothing on the shelf matches that.</p>
     </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="shell">
-    <p class="eyebrow">What we keep</p>
-    <div class="split" data-reveal>
-      <h2 class="display-xl">Small shelf,<br>long arguments.</h2>
-      <div class="prose">
-        <p class="lede">We are not trying to stock everything. We stock the bottle we would
-        open ourselves, and we can tell you why it is on the shelf.</p>
-        <p>Every category here is short on purpose. If a spirit is listed it is because
-        somebody behind the counter went and found it, tasted it, and decided it was
-        worth the shelf space it takes up from something else.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="motif-rule" aria-hidden="true">{{motif}}</div>
-
-<section class="section">
-  <div class="shell">
-    <p class="eyebrow">By category</p>
-    <ul class="category-list" data-reveal>{{category_cards}}</ul>
-  </div>
-</section>
-
-<section class="section section--alt">
-  <div class="shell">
-    <p class="eyebrow">A few we would point at</p>
-    <ul class="product-grid product-grid--four" data-reveal>{{featured_grid}}</ul>
-    <p style="margin-top:2.5rem">
-      <a class="button" href="{{base}}shop.html"><span>All {{product_count}} bottles</span></a>
-    </p>
   </div>
 </section>
 

@@ -75,7 +75,7 @@ def money(amount) -> str:
 # ---------------------------------------------------------------------------
 
 NAV = [
-    ("Shop", "shop.html"),
+    ("Catalogue", "index.html"),
     ("About", "about.html"),
     ("Visit", "visit.html"),
 ]
@@ -119,7 +119,7 @@ def age_gate(site: dict) -> str:
 
 def footer_blocks(site: dict, catalogue: dict, base: str) -> dict:
     cats = "".join(
-        f'<li><a href="{base}shop.html?c={c["slug"]}">{esc(c["name"])}</a></li>'
+        f'<li><a href="{base}index.html?c={c["slug"]}">{esc(c["name"])}</a></li>'
         for c in catalogue["categories"]
     )
 
@@ -331,27 +331,33 @@ def build():
 
     pages = []
 
-    # Home -------------------------------------------------------------------
-    featured = [p for p in products if p.get("featured")] or products[:4]
-    category_cards = "".join(
-        f'<li><a class="category-card" href="shop.html?c={c["slug"]}">'
-        f'<h3>{esc(c["name"])}</h3><p>{esc(c["blurb"])}</p>'
-        f'<span class="category-card__count">'
-        f'{sum(1 for p in products if p["category"] == c["slug"])} bottles</span></a></li>'
+    # Home — the catalogue ---------------------------------------------------
+    # Bottle sizes come from the data, so adding a 1 litre bottle adds its own
+    # filter option rather than needing the template edited.
+    sizes = sorted({p["volume"] for p in products})
+    size_options = '<option value="any">Any</option>' + "".join(
+        f'<option value="{v}">{v} ml</option>' for v in sizes
+    )
+    chips = '<li><button class="chip" type="button" data-filter="all" aria-pressed="true">All</button></li>'
+    chips += "".join(
+        f'<li><button class="chip" type="button" data-filter="{c["slug"]}" '
+        f'aria-pressed="false">{esc(c["name"])}</button></li>'
         for c in catalogue["categories"]
     )
+
     home = fill(
         template("home.html"),
         {
-            "base": "",
             "site_name": esc(site["name"]),
             "tagline": esc(site["tagline"]),
+            "city": esc(site["address"]["city"]),
             "description": esc(site["description"]),
             "motif": mark("motif"),
             "satyr": mark("satyr"),
             "wordmark_stacked": mark("wordmark-stacked"),
-            "category_cards": category_cards,
-            "featured_grid": grid(featured, cats, ""),
+            "chips": chips,
+            "size_options": size_options,
+            "product_grid": grid(products, cats, ""),
             "product_count": len(products),
             "hours_list": hours_list(site),
             "address_block": address_block(site),
@@ -362,43 +368,21 @@ def build():
     render_page(
         site=site, catalogue=catalogue, body=home, out=ROOT / "index.html",
         title=f"{site['name']} — {site['tagline']}, {site['address']['city']}",
-        description=site["description"], slug="", base="",
+        description=site["description"], slug="", base="", current="index.html",
     )
     pages.append(("", "1.0"))
 
-    # Shop -------------------------------------------------------------------
-    chips = '<li><button class="chip" type="button" data-filter="all" aria-pressed="true">All</button></li>'
-    chips += "".join(
-        f'<li><button class="chip" type="button" data-filter="{c["slug"]}" '
-        f'aria-pressed="false">{esc(c["name"])}</button></li>'
-        for c in catalogue["categories"]
+    # shop.html was the catalogue before it moved to the front page. Kept as a
+    # redirect so a link shared earlier does not land on a 404.
+    (ROOT / "shop.html").write_text(
+        "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
+        '<title>Catalogue — ' + site["name"] + "</title>\n"
+        '<link rel="canonical" href="' + site["url"].rstrip("/") + '/">\n'
+        '<meta http-equiv="refresh" content="0; url=index.html">\n'
+        '<meta name="robots" content="noindex">\n</head>\n<body>\n'
+        '<p>The catalogue is now the front page. <a href="index.html">Continue</a>.</p>\n'
+        "</body>\n</html>\n"
     )
-    # Bottle sizes come from the data, so adding a 1 litre bottle adds its own
-    # filter option rather than needing the template edited.
-    sizes = sorted({p["volume"] for p in products})
-    size_options = '<option value="any">Any</option>' + "".join(
-        f'<option value="{v}">{v} ml</option>' for v in sizes
-    )
-    shop = fill(
-        template("shop.html"),
-        {
-            "heading": "Everything on the shelf.",
-            "intro": "Twenty-odd bottles, chosen one at a time. Filter by category, "
-                     "price or strength, or search for something you already know.",
-            "chips": chips,
-            "size_options": size_options,
-            "motif": mark("motif"),
-            "product_grid": grid(products, cats, ""),
-            "product_count": len(products),
-        },
-    )
-    render_page(
-        site=site, catalogue=catalogue, body=shop, out=ROOT / "shop.html",
-        title=f"Catalogue — {site['name']}",
-        description="Spirits, vermouth and liqueur, chosen one bottle at a time. Filter by category, price or strength.",
-        slug="shop.html", base="", current="shop.html",
-    )
-    pages.append(("shop.html", "0.9"))
 
     # Product pages ----------------------------------------------------------
     if SHOP_DIR.exists():
@@ -494,7 +478,7 @@ def build():
             out=SHOP_DIR / f"{product['slug']}.html",
             title=f"{product['name']} — {site['name']}",
             description=product.get("notes", "") or f"{product['name']}, {product['volume']} ml.",
-            slug=f"shop/{product['slug']}.html", base="../", current="shop.html",
+            slug=f"shop/{product['slug']}.html", base="../", current="index.html",
             og_type="product",
             head_extra='<script type="application/ld+json">'
                        + json.dumps(jsonld, separators=(",", ":")) + "</script>",
