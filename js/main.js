@@ -225,9 +225,13 @@
     }
 
     if (search) {
+      var typing = null;
       search.addEventListener("input", function () {
-        state.q = search.value.trim().toLowerCase();
-        apply();
+        window.clearTimeout(typing);
+        typing = window.setTimeout(function () {
+          state.q = search.value.trim().toLowerCase();
+          apply();
+        }, 130);
       });
     }
 
@@ -276,6 +280,40 @@
       }
     });
 
+    var SCROLL_KEY = "ivs.scroll.v1";
+
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    window.addEventListener("pagehide", function () {
+      try {
+        window.sessionStorage.setItem(
+          SCROLL_KEY,
+          JSON.stringify({ url: window.location.href, y: window.scrollY })
+        );
+      } catch (e) {
+        /* a lost scroll position is a papercut, not a failure */
+      }
+    });
+
+    function restoreScroll() {
+      var saved;
+      try {
+        saved = JSON.parse(window.sessionStorage.getItem(SCROLL_KEY) || "null");
+      } catch (e) {
+        return;
+      }
+      if (!saved || saved.url !== window.location.href || !saved.y) return;
+      // After the grid has been filtered and laid out, or the number is
+      // measured against a page of a different length.
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          window.scrollTo(0, saved.y);
+        });
+      });
+    }
+
     // Let the opening stagger finish, then take it out of the way so filtering
     // is instant rather than waiting on a queue of delays.
     var settle = 600 + 11 * 45;
@@ -285,6 +323,7 @@
 
     readUrl();
     apply();
+    restoreScroll();
   }
 
   /* ---------------------------------------------------------------------
@@ -314,10 +353,32 @@
       document.body.setAttribute("data-gated", "true");
       gate.hidden = false;
 
+      // Focus starts inside the dialog and stays there. There is no Escape:
+      // an age gate you can dismiss without answering is not a gate.
+      var heading = gate.querySelector("h1");
+      if (heading) heading.focus();
+
+      gate.addEventListener("keydown", function (event) {
+        if (event.key !== "Tab") return;
+        var stops = gate.querySelectorAll("button");
+        if (!stops.length) return;
+        var first = stops[0];
+        var last = stops[stops.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+
       gate.querySelector("[data-age-yes]").addEventListener("click", function () {
         write(AGE_KEY, true);
         document.body.removeAttribute("data-gated");
         gate.hidden = true;
+        var skip = document.querySelector(".skip-link");
+        if (skip) skip.focus();
       });
 
       gate.querySelector("[data-age-no]").addEventListener("click", function () {

@@ -245,6 +245,34 @@ def check_a11y(br):
     skips = [f"h{a}->h{b}" for a, b in zip(levels, levels[1:]) if b > a + 1]
     check("no heading level is skipped", not skips, "; ".join(skips))
 
+    # Filtering changes the results; a screen reader has to be told.
+    live = pg.eval_on_selector_all(
+        "[aria-live], [role=status]", "els=>els.length"
+    )
+    check("results are announced when they change", live > 0, f"{live} live regions")
+
+    # The gate behaves as a modal, so it must be one: labelled, and holding
+    # focus rather than letting it wander onto the page it is covering.
+    gate_ctx = br.new_context(viewport={"width": 1440, "height": 900})
+    gp = gate_ctx.new_page()
+    gp.goto(BASE + "/", wait_until="networkidle")
+    gp.wait_for_timeout(600)
+    semantics = gp.eval_on_selector(
+        "[data-age-gate]",
+        """e=>({role:e.getAttribute('role'), modal:e.getAttribute('aria-modal'),
+                label:!!e.getAttribute('aria-labelledby')})""",
+    )
+    check("the age gate is a labelled dialog",
+          semantics["role"] == "dialog" and semantics["modal"] == "true" and semantics["label"],
+          str(semantics))
+    inside = []
+    for _ in range(5):
+        gp.keyboard.press("Tab")
+        inside.append(gp.eval_on_selector(
+            "[data-age-gate]", "e=>e.contains(document.activeElement)"))
+    check("the age gate holds focus", all(inside), str(inside))
+    gate_ctx.close()
+
     unlabelled = pg.eval_on_selector_all(
         "input, select, textarea",
         """els=>els.filter(e=>!e.labels?.length && !e.getAttribute('aria-label')

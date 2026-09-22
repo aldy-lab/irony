@@ -142,9 +142,18 @@ the simplicity.
 ## Generated assets
 
 ```sh
-python3 tools/make_icons.py        # favicon set, touch icon, manifest, site card
-python3 tools/make_share_cards.py  # one 1200x630 card per page
+python3 tools/make_icons.py          # favicon set, touch icon, manifest, site card
+python3 tools/make_share_cards.py    # one 1200x630 card per page
+python3 tools/make_product_images.py # responsive variants of the photographs
 ```
+
+Drop a photograph into `assets/products/` named after the product's slug and
+run the third one: it centre-crops to square — the shape the frame actually is
+— and writes 400, 800 and 1200px WebP beside it. `build.py` picks the variants
+up and emits a `srcset`, so a phone showing a 175px card downloads the 400px
+file, not the 1200px one. Without the variants the original is served as-is, so
+a photograph works the moment it is dropped in and simply gets smaller once the
+tool has run.
 
 Each page carries **its own share card**, built from the same data the page is,
 so a link to one bottle does not show the picture of the shop. A page with no

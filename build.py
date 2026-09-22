@@ -166,10 +166,11 @@ def wordmark_inline() -> str:
 
 def age_gate(site: dict) -> str:
     age = site["catalogue"]["min_age"]
-    return f"""<div class="age-gate" data-age-gate hidden>
+    return f"""<div class="age-gate" data-age-gate hidden role="dialog"
+     aria-modal="true" aria-labelledby="age-gate-title">
   <div class="age-gate__inner">
     <div class="age-gate__satyr">{use("m-satyr")}</div>
-    <h1>Are you over {age}?</h1>
+    <h1 id="age-gate-title" tabindex="-1">Are you over {age}?</h1>
     <p>This is a catalogue of spirits, so we have to ask. Photo ID is checked
     at the counter too &mdash; this is only the first gate.</p>
     <div class="age-gate__actions">
@@ -191,10 +192,12 @@ def footer_blocks(site: dict, catalogue: dict, base: str) -> dict:
     )
 
     a = site["address"]
+    # Marked so a screen reader does not read Czech place names with English
+    # phonetics.
     address = (
-        f"<li>{esc(a['street'])}</li>"
-        f"<li>{esc(a['postal'])} {esc(a['district'])}</li>"
-        f"<li>{esc(a['city'])}, {esc(a['country'])}</li>"
+        f"<li lang=\"cs\">{esc(a['street'])}</li>"
+        f"<li lang=\"cs\">{esc(a['postal'])} {esc(a['district'])}</li>"
+        f"<li><span lang=\"cs\">{esc(a['city'])}</span>, {esc(a['country'])}</li>"
     )
     if site["contact"]["maps_url"]:
         address += f'<li><a href="{esc(site["contact"]["maps_url"])}" target="_blank" rel="noopener">Open in maps</a></li>'
@@ -230,18 +233,40 @@ def footer_blocks(site: dict, catalogue: dict, base: str) -> dict:
 # ---------------------------------------------------------------------------
 
 
-def media(product: dict, base: str, css_class: str) -> str:
-    """A photo when there is one; the brand mark when there is not.
+IMAGE_WIDTHS = (400, 800, 1200)
 
-    The card is designed to work without photography, so a missing image is a
-    deliberate state rather than an empty box.
+
+def responsive(image: str, base: str) -> tuple[str, str]:
+    """src and srcset, using whatever variants exist beside the original.
+
+    tools/make_product_images.py writes <slug>-400/800/1200.webp. Without them
+    the original is served as-is, so a photograph dropped in works immediately
+    and gets smaller once the variants are generated.
     """
+    stem = Path(image).with_suffix("")
+    found = [w for w in IMAGE_WIDTHS if (ROOT / f"{stem}-{w}.webp").exists()]
+    if not found:
+        return f"{base}{esc(image)}", ""
+    src = f"{base}{esc(str(stem))}-{found[-1]}.webp"
+    srcset = ", ".join(f"{base}{esc(str(stem))}-{w}.webp {w}w" for w in found)
+    return src, srcset
+
+
+def media(product: dict, base: str, css_class: str) -> str:
+    """A photograph when there is one; the mark holding the slot when not."""
     image = product.get("image", "")
     if image:
+        src, srcset = responsive(image, base)
+        # The card is roughly a quarter of the shell on a desktop and half a
+        # phone, so a phone never downloads the large file.
+        sizes = (
+            '(max-width: 759px) 45vw, (max-width: 1039px) 30vw, 22vw'
+        )
+        extra = f' srcset="{srcset}" sizes="{sizes}"' if srcset else ""
         return (
             f'<div class="{css_class}">'
-            f'<img src="{base}{esc(image)}" alt="{esc(product["name"])}" '
-            f'loading="lazy" decoding="async" width="600" height="750"></div>'
+            f'<img src="{src}"{extra} alt="{esc(product["name"])}" '
+            f'loading="lazy" decoding="async" width="800" height="800"></div>'
         )
     return f'<div class="{css_class} {css_class}--mark">{use("m-motif")}</div>'
 
@@ -256,9 +281,13 @@ def product_media(product: dict) -> str:
     image = product.get("image", "")
     if not image:
         return ""
+    src, srcset = responsive(image, "../")
+    extra = (
+        f' srcset="{srcset}" sizes="(max-width: 899px) 92vw, 40vw"' if srcset else ""
+    )
     return (
-        f'<div class="product__media"><img src="../{esc(image)}" '
-        f'alt="{esc(product["name"])}" width="900" height="1200" '
+        f'<div class="product__media"><img src="{src}"{extra} '
+        f'alt="{esc(product["name"])}" width="800" height="800" '
         'decoding="async"></div>'
     )
 

@@ -16,36 +16,282 @@
     "\"stripe_buy_button\" takes a Stripe Payment Link; without one the item is still",
     "orderable, it just goes through the order form instead of a card."
   ],
-
   "categories": [
-    { "slug": "gin",        "name": "Gin",                 "blurb": "Juniper first, and then whatever the still-house could not resist." },
-    { "slug": "whisky",     "name": "Whisky",              "blurb": "Malt, grain and the long argument about water." },
-    { "slug": "agave",      "name": "Agave",               "blurb": "Tequila and mezcal - smoke, earth, and a plant that waited eight years." },
-    { "slug": "rum",        "name": "Rum",                 "blurb": "Cane, molasses, and the trade winds that aged it early." },
-    { "slug": "aperitivo",  "name": "Vermouth & Aperitivo","blurb": "Bitter, fortified, and built for the hour before dinner." },
-    { "slug": "liqueur",    "name": "Liqueur",             "blurb": "Sugar with a point to make." }
+    {
+      "slug": "gin",
+      "name": "Gin",
+      "blurb": "Juniper first, and then whatever the still-house could not resist."
+    },
+    {
+      "slug": "whisky",
+      "name": "Whisky",
+      "blurb": "Malt, grain and the long argument about water."
+    },
+    {
+      "slug": "agave",
+      "name": "Agave",
+      "blurb": "Tequila and mezcal - smoke, earth, and a plant that waited eight years."
+    },
+    {
+      "slug": "rum",
+      "name": "Rum",
+      "blurb": "Cane, molasses, and the trade winds that aged it early."
+    },
+    {
+      "slug": "aperitivo",
+      "name": "Vermouth & Aperitivo",
+      "blurb": "Bitter, fortified, and built for the hour before dinner."
+    },
+    {
+      "slug": "liqueur",
+      "name": "Liqueur",
+      "blurb": "Sugar with a point to make."
+    }
   ],
-
   "products": [
-    { "slug": "london-dry-gin-classic", "name": "London Dry Gin", "producer": "", "category": "gin", "abv": 43.0, "volume": 700, "price": 690, "notes": "Juniper-forward and unambiguous. The gin a Martini was written for.", "stock": 12, "featured": true, "placeholder": true },
-    { "slug": "navy-strength-gin", "name": "Navy Strength Gin", "producer": "", "category": "gin", "abv": 57.0, "volume": 700, "price": 990, "notes": "Overproof, so it survives contact with citrus and ice without going quiet.", "stock": 6, "placeholder": true },
-    { "slug": "barrel-rested-gin", "name": "Barrel-Rested Gin", "producer": "", "category": "gin", "abv": 46.0, "volume": 500, "price": 1150, "notes": "Six months in oak. Somewhere between a gin and a young whisky, and honest about it.", "stock": 4, "placeholder": true },
-    { "slug": "single-malt-10", "name": "Single Malt, 10 Years", "producer": "", "category": "whisky", "abv": 43.0, "volume": 700, "price": 1290, "notes": "Orchard fruit, a little malt sweetness, no smoke to argue with.", "stock": 8, "featured": true, "placeholder": true },
-    { "slug": "islay-peated-single-malt", "name": "Peated Single Malt", "producer": "", "category": "whisky", "abv": 46.0, "volume": 700, "price": 1690, "notes": "Coastal and medicinal. Divides a room faster than politics.", "stock": 5, "placeholder": true },
-    { "slug": "straight-rye", "name": "Straight Rye", "producer": "", "category": "whisky", "abv": 50.0, "volume": 700, "price": 1190, "notes": "Dry, peppery, and the reason a Manhattan has a spine.", "stock": 9, "placeholder": true },
-    { "slug": "bourbon-small-batch", "name": "Small Batch Bourbon", "producer": "", "category": "whisky", "abv": 45.0, "volume": 700, "price": 1090, "notes": "Corn-sweet and vanilla-heavy, with enough oak to stop it being a dessert.", "stock": 10, "placeholder": true },
-    { "slug": "blanco-tequila", "name": "Blanco Tequila", "producer": "", "category": "agave", "abv": 40.0, "volume": 700, "price": 1250, "notes": "Unaged, additive-free, and tasting of the plant rather than the barrel.", "stock": 7, "featured": true, "placeholder": true },
-    { "slug": "espadin-mezcal", "name": "Espadin Mezcal", "producer": "", "category": "agave", "abv": 45.0, "volume": 700, "price": 1450, "notes": "Roasted in a stone pit, so the smoke is a method, not a flavouring.", "stock": 5, "placeholder": true },
-    { "slug": "reposado-tequila", "name": "Reposado Tequila", "producer": "", "category": "agave", "abv": 40.0, "volume": 700, "price": 1490, "notes": "Eight months in oak. Softer, and it stops fighting the glass.", "stock": 6, "placeholder": true },
-    { "slug": "aged-rum-8", "name": "Aged Rum, 8 Years", "producer": "", "category": "rum", "abv": 43.0, "volume": 700, "price": 990, "notes": "Tropical ageing does in eight years what Scotland needs twenty for.", "stock": 11, "placeholder": true },
-    { "slug": "overproof-white-rum", "name": "Overproof White Rum", "producer": "", "category": "rum", "abv": 63.0, "volume": 700, "price": 850, "notes": "Funky, high-ester and unreasonable. Built for tiki and for float.", "stock": 8, "placeholder": true },
-    { "slug": "agricole-blanc", "name": "Rhum Agricole Blanc", "producer": "", "category": "rum", "abv": 50.0, "volume": 700, "price": 1150, "notes": "Pressed cane juice, never molasses. Grassy and faintly saline.", "stock": 4, "placeholder": true },
-    { "slug": "sweet-vermouth", "name": "Sweet Vermouth", "producer": "", "category": "aperitivo", "abv": 16.5, "volume": 750, "price": 490, "notes": "Keep it in the fridge. Yes, really - it is wine, and it dies in a cupboard.", "stock": 14, "featured": true, "placeholder": true },
-    { "slug": "dry-vermouth", "name": "Dry Vermouth", "producer": "", "category": "aperitivo", "abv": 18.0, "volume": 750, "price": 520, "notes": "Alpine and bone-dry. The half of a Martini nobody credits.", "stock": 12, "placeholder": true },
-    { "slug": "bitter-aperitivo", "name": "Bitter Aperitivo", "producer": "", "category": "aperitivo", "abv": 25.0, "volume": 700, "price": 610, "notes": "Rhubarb and gentian, coloured somewhere between sunset and a warning.", "stock": 10, "placeholder": true },
-    { "slug": "amaro-alpino", "name": "Alpine Amaro", "producer": "", "category": "liqueur", "abv": 30.0, "volume": 700, "price": 780, "notes": "Root, mint and bitterness. Drink it after everything else has failed.", "stock": 9, "placeholder": true },
-    { "slug": "orange-curacao", "name": "Orange Curacao", "producer": "", "category": "liqueur", "abv": 40.0, "volume": 700, "price": 640, "notes": "Bitter orange in brandy. The unglamorous third of a Sidecar.", "stock": 13, "placeholder": true },
-    { "slug": "maraschino", "name": "Maraschino Liqueur", "producer": "", "category": "liqueur", "abv": 32.0, "volume": 500, "price": 720, "notes": "Marasca cherry with the stones in. Nothing like the syrup of the same name.", "stock": 7, "placeholder": true },
-    { "slug": "creme-de-cassis", "name": "Creme de Cassis", "producer": "", "category": "liqueur", "abv": 20.0, "volume": 500, "price": 560, "notes": "Blackcurrant, thick and dark. One bar spoon changes a whole drink.", "stock": 8, "placeholder": true }
+    {
+      "slug": "london-dry-gin-classic",
+      "name": "London Dry Gin",
+      "producer": "",
+      "category": "gin",
+      "abv": 43.0,
+      "volume": 700,
+      "price": 690,
+      "notes": "Juniper-forward and unambiguous. The gin a Martini was written for.",
+      "stock": 12,
+      "featured": true,
+      "placeholder": true
+    },
+    {
+      "slug": "navy-strength-gin",
+      "name": "Navy Strength Gin",
+      "producer": "",
+      "category": "gin",
+      "abv": 57.0,
+      "volume": 700,
+      "price": 990,
+      "notes": "Overproof, so it survives contact with citrus and ice without going quiet.",
+      "stock": 6,
+      "placeholder": true
+    },
+    {
+      "slug": "barrel-rested-gin",
+      "name": "Barrel-Rested Gin",
+      "producer": "",
+      "category": "gin",
+      "abv": 46.0,
+      "volume": 500,
+      "price": 1150,
+      "notes": "Six months in oak. Somewhere between a gin and a young whisky, and honest about it.",
+      "stock": 4,
+      "placeholder": true
+    },
+    {
+      "slug": "single-malt-10",
+      "name": "Single Malt, 10 Years",
+      "producer": "",
+      "category": "whisky",
+      "abv": 43.0,
+      "volume": 700,
+      "price": 1290,
+      "notes": "Orchard fruit, a little malt sweetness, no smoke to argue with.",
+      "stock": 8,
+      "featured": true,
+      "placeholder": true
+    },
+    {
+      "slug": "islay-peated-single-malt",
+      "name": "Peated Single Malt",
+      "producer": "",
+      "category": "whisky",
+      "abv": 46.0,
+      "volume": 700,
+      "price": 1690,
+      "notes": "Coastal and medicinal. Divides a room faster than politics.",
+      "stock": 5,
+      "placeholder": true
+    },
+    {
+      "slug": "straight-rye",
+      "name": "Straight Rye",
+      "producer": "",
+      "category": "whisky",
+      "abv": 50.0,
+      "volume": 700,
+      "price": 1190,
+      "notes": "Dry, peppery, and the reason a Manhattan has a spine.",
+      "stock": 9,
+      "placeholder": true
+    },
+    {
+      "slug": "bourbon-small-batch",
+      "name": "Small Batch Bourbon",
+      "producer": "",
+      "category": "whisky",
+      "abv": 45.0,
+      "volume": 700,
+      "price": 1090,
+      "notes": "Corn-sweet and vanilla-heavy, with enough oak to stop it being a dessert.",
+      "stock": 10,
+      "placeholder": true
+    },
+    {
+      "slug": "blanco-tequila",
+      "name": "Blanco Tequila",
+      "producer": "",
+      "category": "agave",
+      "abv": 40.0,
+      "volume": 700,
+      "price": 1250,
+      "notes": "Unaged, additive-free, and tasting of the plant rather than the barrel.",
+      "stock": 7,
+      "featured": true,
+      "placeholder": true
+    },
+    {
+      "slug": "espadin-mezcal",
+      "name": "Espadin Mezcal",
+      "producer": "",
+      "category": "agave",
+      "abv": 45.0,
+      "volume": 700,
+      "price": 1450,
+      "notes": "Roasted in a stone pit, so the smoke is a method, not a flavouring.",
+      "stock": 5,
+      "placeholder": true
+    },
+    {
+      "slug": "reposado-tequila",
+      "name": "Reposado Tequila",
+      "producer": "",
+      "category": "agave",
+      "abv": 40.0,
+      "volume": 700,
+      "price": 1490,
+      "notes": "Eight months in oak. Softer, and it stops fighting the glass.",
+      "stock": 6,
+      "placeholder": true
+    },
+    {
+      "slug": "aged-rum-8",
+      "name": "Aged Rum, 8 Years",
+      "producer": "",
+      "category": "rum",
+      "abv": 43.0,
+      "volume": 700,
+      "price": 990,
+      "notes": "Tropical ageing does in eight years what Scotland needs twenty for.",
+      "stock": 11,
+      "placeholder": true
+    },
+    {
+      "slug": "overproof-white-rum",
+      "name": "Overproof White Rum",
+      "producer": "",
+      "category": "rum",
+      "abv": 63.0,
+      "volume": 700,
+      "price": 850,
+      "notes": "Funky, high-ester and unreasonable. Built for tiki and for float.",
+      "stock": 8,
+      "placeholder": true
+    },
+    {
+      "slug": "agricole-blanc",
+      "name": "Rhum Agricole Blanc",
+      "producer": "",
+      "category": "rum",
+      "abv": 50.0,
+      "volume": 700,
+      "price": 1150,
+      "notes": "Pressed cane juice, never molasses. Grassy and faintly saline.",
+      "stock": 4,
+      "placeholder": true
+    },
+    {
+      "slug": "sweet-vermouth",
+      "name": "Sweet Vermouth",
+      "producer": "",
+      "category": "aperitivo",
+      "abv": 16.5,
+      "volume": 750,
+      "price": 490,
+      "notes": "Keep it in the fridge. Yes, really - it is wine, and it dies in a cupboard.",
+      "stock": 14,
+      "featured": true,
+      "placeholder": true
+    },
+    {
+      "slug": "dry-vermouth",
+      "name": "Dry Vermouth",
+      "producer": "",
+      "category": "aperitivo",
+      "abv": 18.0,
+      "volume": 750,
+      "price": 520,
+      "notes": "Alpine and bone-dry. The half of a Martini nobody credits.",
+      "stock": 12,
+      "placeholder": true
+    },
+    {
+      "slug": "bitter-aperitivo",
+      "name": "Bitter Aperitivo",
+      "producer": "",
+      "category": "aperitivo",
+      "abv": 25.0,
+      "volume": 700,
+      "price": 610,
+      "notes": "Rhubarb and gentian, coloured somewhere between sunset and a warning.",
+      "stock": 10,
+      "placeholder": true
+    },
+    {
+      "slug": "amaro-alpino",
+      "name": "Alpine Amaro",
+      "producer": "",
+      "category": "liqueur",
+      "abv": 30.0,
+      "volume": 700,
+      "price": 780,
+      "notes": "Root, mint and bitterness. Drink it after everything else has failed.",
+      "stock": 9,
+      "placeholder": true
+    },
+    {
+      "slug": "orange-curacao",
+      "name": "Orange Curacao",
+      "producer": "",
+      "category": "liqueur",
+      "abv": 40.0,
+      "volume": 700,
+      "price": 640,
+      "notes": "Bitter orange in brandy. The unglamorous third of a Sidecar.",
+      "stock": 13,
+      "placeholder": true
+    },
+    {
+      "slug": "maraschino",
+      "name": "Maraschino Liqueur",
+      "producer": "",
+      "category": "liqueur",
+      "abv": 32.0,
+      "volume": 500,
+      "price": 720,
+      "notes": "Marasca cherry with the stones in. Nothing like the syrup of the same name.",
+      "stock": 7,
+      "placeholder": true
+    },
+    {
+      "slug": "creme-de-cassis",
+      "name": "Creme de Cassis",
+      "producer": "",
+      "category": "liqueur",
+      "abv": 20.0,
+      "volume": 500,
+      "price": 560,
+      "notes": "Blackcurrant, thick and dark. One bar spoon changes a whole drink.",
+      "stock": 8,
+      "placeholder": true
+    }
   ]
 }

@@ -30,6 +30,8 @@
       href="assets/fonts/cormorant-garamond-normal-500-latin.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="assets/fonts/eb-garamond-normal-400800-latin.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="assets/fonts/eb-garamond-italic-400800-latin.woff2">
 <link rel="stylesheet" href="css/main.css">
 
 </head>
@@ -39,10 +41,11 @@
 
 <a class="skip-link" href="#main">Skip to content</a>
 
-<div class="age-gate" data-age-gate hidden>
+<div class="age-gate" data-age-gate hidden role="dialog"
+     aria-modal="true" aria-labelledby="age-gate-title">
   <div class="age-gate__inner">
     <div class="age-gate__satyr"><svg aria-hidden="true" focusable="false" viewBox="0 0 399.7 747.4"><use href="#m-satyr"/></svg></div>
-    <h1>Are you over 18?</h1>
+    <h1 id="age-gate-title" tabindex="-1">Are you over 18?</h1>
     <p>This is a catalogue of spirits, so we have to ask. Photo ID is checked
     at the counter too &mdash; this is only the first gate.</p>
     <div class="age-gate__actions">
@@ -103,7 +106,7 @@
       </div>
       <div>
         <h3>Visit</h3>
-        <ul><li>Soukenicka 1756</li><li>110 00 Nove Mesto</li><li>Prague, Czechia</li></ul>
+        <ul><li lang="cs">Soukenicka 1756</li><li lang="cs">110 00 Nove Mesto</li><li><span lang="cs">Prague</span>, Czechia</li></ul>
       </div>
       <div>
         <h3>Elsewhere</h3>
