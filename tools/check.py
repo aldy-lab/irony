@@ -455,12 +455,14 @@ def check_mobile(br):
                             photos:document.querySelectorAll('.card__media img').length};}"""
         )
         check(f"{name}: compact card is in effect", card["pad"] < 18, f'padding {card["pad"]}px')
-        # A frame with no photograph in it is the thing that made twenty cards
-        # look like a template, so there should never be one.
-        check(f"{name}: no empty media frames", card["frames"] == card["photos"],
-              f'{card["frames"]} frames, {card["photos"]} photographs')
-        if card["ar"]:
-            check(f"{name}: photo frame is square", card["ar"].replace(" ", "") == "1/1", card["ar"])
+        # The frame is a slot held open for photographs that have not arrived.
+        # It must be square, so the grid does not move when they do, and every
+        # card must have one — a grid where some have frames and some do not
+        # would be worse than either.
+        check(f"{name}: every card holds a photo slot", card["frames"] == 20,
+              f'{card["frames"]} frames on 20 cards')
+        check(f"{name}: the slot is square", (card["ar"] or "").replace(" ", "") == "1/1",
+              str(card["ar"]))
         ctx.close()
 
 

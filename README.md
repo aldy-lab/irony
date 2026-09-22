@@ -58,12 +58,20 @@ is a missing link, never a dead one.
   distillery is named anywhere, because listing a brand is claiming to stock it.
   Replace them with the real list (name, producer, volume, ABV, price, a line of
   copy) and delete the `"placeholder": true` line from each.
-- **No product photography.** Nothing renders an empty frame waiting for one.
-  A card with no `image` is purely typographic — category, name, tasting note,
-  price — and a product page with no `image` is two columns of type instead of
-  one column beside a blank panel. Add `"image": "assets/products/x.webp"` and
-  the frame appears, square, on both. Twenty identical empty panels is what
-  makes a site look like a template, so there are none.
+- **No product photography.** Every card holds a **square slot** open for one,
+  so the grid is already the shape it will be when the photographs land and
+  nothing has to be re-laid out around them. Empty, the slot holds the mark
+  very quietly; the card carries its own content underneath either way —
+  category, name, tasting note, price.
+
+  Photographs go in `assets/products/` and are named in the product's `image`
+  field. **The slot is square and the image is cropped to fill it**, so shoot
+  square or leave room around the bottle; 1200x1200 WebP is plenty.
+
+  The product page is the exception: with no photograph it is two columns of
+  type rather than one column beside a blank panel, because at full size an
+  empty frame is the largest thing on the page. Set an `image` and the frame
+  appears there too.
 - **No contact details.** The footer shows a holding line until `email`,
   `phone` or a social URL is filled in, and product pages show no enquiry
   button at all rather than one that goes nowhere.

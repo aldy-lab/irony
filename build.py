@@ -281,10 +281,10 @@ def card(product: dict, cats: dict, base: str, order: int) -> str:
         else ""
     )
 
-    # No photograph means no frame. Twenty identical empty panels read as
-    # images that failed to load; the card carries its own content instead,
-    # and the frame returns the moment there is something to put in it.
-    frame = media(product, base, "card__media") if product.get("image") else ""
+    # The frame is always there, so the grid is already the shape it will be
+    # once photographs land and nothing has to be re-laid out around them.
+    # Empty, it holds the mark quietly rather than a hard grey panel.
+    frame = media(product, base, "card__media")
 
     note = product.get("notes", "")
     note_html = f'<p class="card__note">{esc(note)}</p>' if note else ""

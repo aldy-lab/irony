@@ -1142,7 +1142,7 @@ main > .shell:first-child {
 }
 
 .card__media {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
   margin-bottom: 1.3rem;
@@ -1154,6 +1154,22 @@ main > .shell:first-child {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Waiting for a photograph. Kept very quiet — a strong mark repeated down the
+   page is what made the grid look like twenty failed images. */
+.card__media--mark {
+  color: color-mix(in srgb, var(--green) 16%, transparent);
+  transition: color 0.4s var(--ease);
+}
+
+.card__media--mark svg {
+  width: 46%;
+  height: auto;
+}
+
+.card:hover .card__media--mark {
+  color: color-mix(in srgb, var(--maroon) 34%, transparent);
 }
 
 .card__category {
@@ -1290,8 +1306,6 @@ main > .shell:first-child {
   }
 
   .card__media {
-    /* Squarer, so two columns of cards do not run to seventeen screens. */
-    aspect-ratio: 1 / 1;
     margin-bottom: 0.9rem;
   }
 
