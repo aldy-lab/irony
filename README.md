@@ -108,6 +108,21 @@ gate and `catalogue.availability_note` is the line that says so; it appears on
 every product page and on Visit, and it is a statement of how the shop works
 rather than decoration.
 
+## Weight
+
+Every mark is defined **once per page as an SVG sprite** and referenced with
+`<use>`. Before that the motif was inlined twenty-two times on the catalogue
+page — 40 KB of identical path data each — which made the front page 1.13 MB
+and the twenty product pages 6.6 MB between them. They are now 188 KB and
+3.4 MB.
+
+What remains is the sprite itself, 163 KB raw and 66 KB gzipped, of which the
+satyr is 114 KB. It cannot be moved to an external file without losing
+`currentColor`, which is what lets one mark be gold on the header and muted on
+a card. Moving these to CSS `mask-image` would cache them across pages and cut
+the HTML to a few KB — worth doing if the page weight ever matters more than
+the simplicity.
+
 ## Brand assets
 
 `assets/brand/*.svg` are extracted from `pres_Irony_vs_Satyr.ai` by

@@ -198,6 +198,57 @@ def check_fonts(br):
     ctx.close()
 
 
+def check_a11y(br):
+    print("\nAccessibility")
+    ctx = br.new_context(viewport={"width": 1440, "height": 900})
+    pg = open_page(ctx, "/")
+
+    # Muted text sat at 4.46:1, fractionally under the AA floor, on six
+    # different labels at once — it is one token, so it regresses as one.
+    low = pg.evaluate(
+        r"""()=>{
+      const lum=c=>{const s=c/255; return s<=0.03928? s/12.92 : ((s+0.055)/1.055)**2.4;};
+      const L=([r,g,b])=>0.2126*lum(r)+0.7152*lum(g)+0.0722*lum(b);
+      const rgb=s=>s.replace(/rgba?\(|\)/g,'').split(',').slice(0,3).map(Number);
+      const bgOf=e=>{let p=e; while(p){const b=getComputedStyle(p).backgroundColor;
+        if(b && b!=='rgba(0, 0, 0, 0)') return b; p=p.parentElement;} return 'rgb(255,255,255)';};
+      const out=[];
+      for(const sel of ['.facet__label','.card__category','.card__meta','.card__stock',
+                        '.results__count','.badge','.nav__link','.footer h3','.masthead__copy']){
+        const e=document.querySelector(sel); if(!e) continue;
+        const cs=getComputedStyle(e);
+        const a=L(rgb(cs.color)), b=L(bgOf(e));
+        const ratio=(Math.max(a,b)+0.05)/(Math.min(a,b)+0.05);
+        const need=parseFloat(cs.fontSize)>=18.66?3:4.5;
+        if(ratio<need) out.push(sel+' '+ratio.toFixed(2)+':1 (needs '+need+')');
+      }
+      return out;}"""
+    )
+    check("all text meets its contrast floor", not low, "; ".join(low))
+
+    levels = pg.evaluate(
+        "()=>[...document.querySelectorAll('main h1,main h2,main h3,main h4')].map(h=>+h.tagName[1])"
+    )
+    skips = [f"h{a}->h{b}" for a, b in zip(levels, levels[1:]) if b > a + 1]
+    check("no heading level is skipped", not skips, "; ".join(skips))
+
+    unlabelled = pg.eval_on_selector_all(
+        "input, select, textarea",
+        """els=>els.filter(e=>!e.labels?.length && !e.getAttribute('aria-label')
+             && !e.getAttribute('aria-labelledby')).map(e=>e.tagName+'#'+(e.id||'?'))""",
+    )
+    check("every field has a label", not unlabelled, str(unlabelled))
+
+    # Structured data is how a shop with a street address gets found at all.
+    blocks = pg.evaluate(
+        """()=>[...document.querySelectorAll('script[type="application/ld+json"]')]
+             .map(s=>{try{return JSON.parse(s.textContent)['@type'];}catch(e){return 'INVALID';}})"""
+    )
+    check("the shop is described for search", "Store" in blocks, str(blocks))
+    check("no structured data is malformed", "INVALID" not in blocks, str(blocks))
+    ctx.close()
+
+
 def check_mobile(br):
     print("\nMobile")
     for name, w, h in PHONES:
@@ -317,6 +368,7 @@ def main():
         br = pw.chromium.launch()
         check_filters(br)
         check_fonts(br)
+        check_a11y(br)
         check_mobile(br)
         check_widths(br)
         check_grids(br)

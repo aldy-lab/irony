@@ -66,6 +66,40 @@ def mark(name: str) -> str:
     return path.read_text().strip()
 
 
+def symbol(name: str, sprite_id: str) -> str:
+    """Turn a mark into a <symbol> for the page sprite."""
+    svg = mark(name)
+    box = re.search(r'viewBox="([^"]+)"', svg).group(1)
+    body = re.sub(r"^<svg[^>]*>|</svg>$", "", svg.strip())
+    body = re.sub(r"<title>.*?</title>", "", body)
+    return f'<symbol id="{sprite_id}" viewBox="{box}">{body}</symbol>'
+
+
+def sprite() -> str:
+    """Every mark, once per page, instead of once per use.
+
+    The motif was inlined twenty-two times on the catalogue page — 40 KB each,
+    which is most of a megabyte of identical path data. Defined once here and
+    referenced with <use>, the page drops to a fraction of that.
+    """
+    return (
+        '<svg class="sprite" aria-hidden="true" focusable="false" '
+        'style="position:absolute;width:0;height:0;overflow:hidden">'
+        + symbol("motif", "m-motif")
+        + symbol("satyr", "m-satyr")
+        + symbol("wordmark-stacked", "m-wordmark")
+        + symbol("wordmark-line1", "m-word1")
+        + symbol("wordmark-line2", "m-word2")
+        + "</svg>"
+    )
+
+
+def use(sprite_id: str, label: str = "") -> str:
+    """Reference a sprite symbol. Decorative unless given a label."""
+    a = f'role="img" aria-label="{esc(label)}"' if label else 'aria-hidden="true"'
+    return f'<svg {a} focusable="false"><use href="#{sprite_id}"/></svg>'
+
+
 def money(amount) -> str:
     return f"{int(round(amount)):,}".replace(",", " ")
 
@@ -92,8 +126,8 @@ def nav_links(base: str, current: str) -> str:
 def wordmark_inline() -> str:
     """The two outlined lines of the mark, set side by side."""
     return (
-        f'<span class="brand__line">{mark("wordmark-line1")}</span>'
-        f'<span class="brand__line">{mark("wordmark-line2")}</span>'
+        f'<span class="brand__line">{use("m-word1")}</span>'
+        f'<span class="brand__line">{use("m-word2")}</span>'
     )
 
 
@@ -101,7 +135,7 @@ def age_gate(site: dict) -> str:
     age = site["catalogue"]["min_age"]
     return f"""<div class="age-gate" data-age-gate hidden>
   <div class="age-gate__inner">
-    <div class="age-gate__satyr" aria-hidden="true">{mark("satyr")}</div>
+    <div class="age-gate__satyr">{use("m-satyr")}</div>
     <h1>Are you over {age}?</h1>
     <p>This is a catalogue of spirits, so we have to ask. Photo ID is checked
     at the counter too &mdash; this is only the first gate.</p>
@@ -176,7 +210,7 @@ def media(product: dict, base: str, css_class: str) -> str:
             f'<img src="{base}{esc(image)}" alt="{esc(product["name"])}" '
             f'loading="lazy" decoding="async" width="600" height="750"></div>'
         )
-    return f'<div class="{css_class} {css_class}--mark" aria-hidden="true">{mark("motif")}</div>'
+    return f'<div class="{css_class} {css_class}--mark">{use("m-motif")}</div>'
 
 
 def product_media(product: dict) -> str:
@@ -191,7 +225,7 @@ def product_media(product: dict) -> str:
             f'<img src="../{esc(image)}" alt="{esc(product["name"])}" '
             'width="900" height="1200" decoding="async">'
         )
-    return f'<div class="mark" aria-hidden="true">{mark("motif")}</div>'
+    return f'<div class="mark">{use("m-motif")}</div>'
 
 
 def search_text(product: dict, cats: dict) -> str:
@@ -216,7 +250,7 @@ def card(product: dict, cats: dict, base: str, order: int) -> str:
   {draft}
   {media(product, base, "card__media")}
   <p class="card__category">{esc(cats[product['category']]['name'])}</p>
-  <h3 class="card__name"><a class="card__link" href="{base}shop/{product['slug']}.html">{esc(product['name'])}</a></h3>
+  <h2 class="card__name"><a class="card__link" href="{base}shop/{product['slug']}.html">{esc(product['name'])}</a></h2>
   <p class="card__meta">{product['volume']} ml &middot; {product['abv']}%</p>
   <div class="card__foot">
     <span class="price">{money(product['price'])} <small>CZK</small></span>
@@ -275,7 +309,8 @@ def render_page(
         "head_extra": head_extra,
         "age_gate": age_gate(site),
         "wordmark_inline": wordmark_inline(),
-        "wordmark_stacked": mark("wordmark-stacked"),
+        "sprite": sprite(),
+        "wordmark_stacked": use("m-wordmark"),
         "nav_links": nav_links(base, current),
         "main": body,
         "legal": esc(
@@ -291,6 +326,61 @@ def render_page(
 
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(fill(template("base.html"), values))
+
+
+DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+
+def opening_hours(site: dict) -> list:
+    """Turn "Monday - Thursday, 12:00 - 22:00" into schema.org specifications."""
+    out = []
+    for days, times in site["hours"]:
+        names = [d.strip() for d in days.split("-")]
+        if len(names) == 2 and names[0] in DAYS and names[1] in DAYS:
+            a, z = DAYS.index(names[0]), DAYS.index(names[1])
+            span = DAYS[a : z + 1] if a <= z else DAYS[a:] + DAYS[: z + 1]
+        else:
+            span = [d for d in names if d in DAYS]
+        opens, _, closes = times.partition("-")
+        if not span or not closes:
+            continue
+        out.append({
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": span,
+            "opens": opens.strip(),
+            "closes": closes.strip(),
+        })
+    return out
+
+
+def shop_jsonld(site: dict) -> str:
+    """The shop itself: a real address and real hours, which is what a bottle
+    shop is found by. Empty fields are dropped before serialising — Google
+    rejects a block containing null."""
+    a = site["address"]
+    data = {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": site["name"],
+        "description": site["description"],
+        "url": site["url"].rstrip("/") + "/",
+        "image": site["url"].rstrip("/") + "/assets/brand/share.png",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": a["street"],
+            "postalCode": a["postal"],
+            "addressLocality": a["city"],
+            "addressCountry": a["country_code"],
+        },
+        "openingHoursSpecification": opening_hours(site),
+        "priceRange": "$$",
+        "telephone": site["contact"]["phone"],
+        "email": site["contact"]["email"],
+        "hasMap": site["contact"]["maps_url"],
+        "sameAs": [u for u in site["social"].values() if u],
+    }
+    data = {k: v for k, v in data.items() if v not in ("", None, [], {})}
+    return '<script type="application/ld+json">' + json.dumps(data, separators=(",", ":")) + "</script>"
 
 
 def hours_list(site: dict) -> str:
@@ -359,9 +449,9 @@ def build():
             "tagline": esc(site["tagline"]),
             "city": esc(site["address"]["city"]),
             "description": esc(site["description"]),
-            "motif": mark("motif"),
-            "satyr": mark("satyr"),
-            "wordmark_stacked": mark("wordmark-stacked"),
+            "motif": use("m-motif"),
+            "satyr": use("m-satyr"),
+            "wordmark_stacked": use("m-wordmark"),
             "category_list": category_list,
             "size_options": size_options,
             "product_grid": grid(products, cats, ""),
@@ -376,6 +466,7 @@ def build():
         site=site, catalogue=catalogue, body=home, out=ROOT / "index.html",
         title=f"{site['name']} — {site['tagline']}, {site['address']['city']}",
         description=site["description"], slug="", base="", current="index.html",
+        head_extra=shop_jsonld(site),
     )
     pages.append(("", "1.0"))
 
@@ -488,7 +579,19 @@ def build():
             slug=f"shop/{product['slug']}.html", base="../", current="index.html",
             og_type="product",
             head_extra='<script type="application/ld+json">'
-                       + json.dumps(jsonld, separators=(",", ":")) + "</script>",
+                       + json.dumps(jsonld, separators=(",", ":")) + "</script>"
+                       + '<script type="application/ld+json">'
+                       + json.dumps({
+                           "@context": "https://schema.org",
+                           "@type": "BreadcrumbList",
+                           "itemListElement": [
+                               {"@type": "ListItem", "position": 1, "name": "Catalogue",
+                                "item": site["url"].rstrip("/") + "/"},
+                               {"@type": "ListItem", "position": 2, "name": cat["name"],
+                                "item": site["url"].rstrip("/") + "/?c=" + cat["slug"]},
+                               {"@type": "ListItem", "position": 3, "name": product["name"]},
+                           ],
+                       }, separators=(",", ":")) + "</script>",
         )
         pages.append((f"shop/{product['slug']}.html", "0.7"))
 
@@ -497,8 +600,8 @@ def build():
         template("about.html"),
         {
             "heading": "Two ways to hold a drink.",
-            "motif": mark("motif"),
-            "satyr": mark("satyr"),
+            "motif": use("m-motif"),
+            "satyr": use("m-satyr"),
             "hours_list": hours_list(site),
             "street": esc(site["address"]["street"]),
             "district": esc(site["address"]["district"]),
@@ -551,6 +654,7 @@ def build():
         title=f"Visit — {site['name']}",
         description=f"{site['address']['street']}, {site['address']['district']}, {site['address']['city']}.",
         slug="visit.html", base="", current="visit.html",
+        head_extra=shop_jsonld(site),
     )
     pages.append(("visit.html", "0.6"))
 

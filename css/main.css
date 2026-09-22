@@ -30,7 +30,9 @@
   --bg-invert: var(--green);
   --text: #16210b;
   --text-soft: #3d4634;
-  --muted: #6a7360;
+  /* 4.5:1 on --paper. It was #6a7360, which measured 4.46 — under the AA
+     floor for small text, and every muted label is small text. */
+  --muted: #656e5b;
   --accent: var(--pink);
   --accent-ink: var(--maroon);
   --rule: color-mix(in srgb, var(--green) 22%, transparent);
