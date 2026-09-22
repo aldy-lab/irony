@@ -262,6 +262,85 @@ def check_a11y(br):
     ctx.close()
 
 
+def check_marks(br):
+    """The brand marks, after a sprite refactor broke both of these at once.
+
+    Moving them into <symbol> + <use> dropped `fill="currentColor"` (which had
+    lived on each file's <svg> root) and the viewBox. The marks went black —
+    invisible on the green header — and, having no intrinsic size, fell back to
+    the SVG default of 300px wide, which tore the two wordmark lines apart.
+    Neither showed up in any assertion, only in a screenshot.
+    """
+    print("\nBrand marks")
+    ctx = br.new_context(viewport={"width": 1440, "height": 900}, device_scale_factor=2)
+    pg = open_page(ctx, "/")
+    # The site scrolls smoothly, so a rect read straight after scrollIntoView
+    # is measured mid-flight and lands outside the frame.
+    pg.add_style_tag(content="html{scroll-behavior:auto !important}")
+
+    squashed = pg.evaluate(
+        """()=>{const out=[];
+      document.querySelectorAll('svg use').forEach(u=>{
+        const s=u.parentElement, d=s.getBoundingClientRect();
+        if(d.width<1) return;
+        if(!s.hasAttribute('viewBox')){out.push([u.getAttribute('href'),'no viewBox']); return;}
+        const b=s.viewBox.baseVal;
+        const want=b.width/b.height, got=d.width/d.height;
+        if(Math.abs(want-got)>0.05) out.push([u.getAttribute('href'),
+          'ratio '+got.toFixed(2)+' vs '+want.toFixed(2)]);});
+      return out;}"""
+    )
+    check("every mark keeps its aspect ratio", not squashed, str(squashed))
+
+    # Sampling CSS `color` here would be worthless: during the bug the parent's
+    # color was gold the whole time, and the black came from the SVG's own
+    # missing fill. Only the pixels tell the truth, so every mark is measured
+    # against the colour it is supposed to take from its surroundings.
+    # The header mark specifically: gold on green, or the logo is invisible.
+    import io as _io
+
+    from PIL import Image
+
+    def painted_in(selector, target, label):
+        # Scroll it in first: a clip outside the viewport is an error, not a
+        # measurement.
+        pg.eval_on_selector(selector, "e=>e.scrollIntoView({block:'center'})")
+        pg.wait_for_timeout(300)
+        box = pg.eval_on_selector(
+            selector,
+            "e=>{const b=e.getBoundingClientRect();"
+            "return{x:b.x,y:b.y,width:b.width,height:b.height};}",
+        )
+        vh = pg.evaluate("window.innerHeight")
+        vw = pg.evaluate("window.innerWidth")
+        if not box or box["width"] < 2 or box["height"] < 2:
+            check(f"{label} is on the page", False, "not rendered")
+            return
+        # Clamp to the frame rather than letting the screenshot throw.
+        box["x"] = max(0, min(box["x"], vw - 2))
+        box["y"] = max(0, min(box["y"], vh - 2))
+        box["width"] = min(box["width"], vw - box["x"])
+        box["height"] = min(box["height"], vh - box["y"])
+        if box["width"] < 2 or box["height"] < 2:
+            check(f"{label} could be measured", False, "outside the viewport")
+            return
+        im = Image.open(_io.BytesIO(pg.screenshot(clip=box))).convert("RGB")
+        hit = sum(
+            n for n, c in im.getcolors(400000)
+            if all(abs(a - b) < 45 for a, b in zip(c, target))
+        )
+        check(f"{label} is painted in its own colour", hit > 300, f"{hit} matching pixels")
+
+    # Only marks whose colour is far from black can be asserted this way. The
+    # masthead wordmark is #16210b and the flute #260408 — both so close to
+    # black that "did it fall back to black" is indistinguishable from "is it
+    # correct", and a check that cannot fail is worse than none. The gold marks
+    # carry the guard; the aspect-ratio assertion above covers the rest.
+    painted_in(".brand", (211, 189, 141), "the header logo")
+    painted_in(".footer__mark", (211, 189, 141), "the footer logo")
+    ctx.close()
+
+
 def check_mobile(br):
     print("\nMobile")
     for name, w, h in PHONES:
@@ -382,6 +461,7 @@ def main():
         check_filters(br)
         check_fonts(br)
         check_a11y(br)
+        check_marks(br)
         check_mobile(br)
         check_widths(br)
         check_grids(br)

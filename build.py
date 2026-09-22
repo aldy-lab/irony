@@ -66,13 +66,33 @@ def mark(name: str) -> str:
     return path.read_text().strip()
 
 
+# sprite id -> the mark it comes from, so a <use> can be given the viewBox its
+# source has. Without one the outer <svg> has no intrinsic proportions and
+# width:auto falls back to the SVG default of 300px, which tore the two
+# wordmark lines apart with a gap between them.
+MARKS = {
+    "m-motif": "motif",
+    "m-satyr": "satyr",
+    "m-wordmark": "wordmark-stacked",
+    "m-word1": "wordmark-line1",
+    "m-word2": "wordmark-line2",
+}
+
+
+def view_box(name: str) -> str:
+    return re.search(r'viewBox="([^"]+)"', mark(name)).group(1)
+
+
 def symbol(name: str, sprite_id: str) -> str:
     """Turn a mark into a <symbol> for the page sprite."""
     svg = mark(name)
     box = re.search(r'viewBox="([^"]+)"', svg).group(1)
     body = re.sub(r"^<svg[^>]*>|</svg>$", "", svg.strip())
     body = re.sub(r"<title>.*?</title>", "", body)
-    return f'<symbol id="{sprite_id}" viewBox="{box}">{body}</symbol>'
+    # fill="currentColor" lives on the source file's <svg> root, which the line
+    # above strips. Without it carried onto the symbol the mark renders black,
+    # which on the dark green header means an invisible logo.
+    return f'<symbol id="{sprite_id}" viewBox="{box}" fill="currentColor">{body}</symbol>'
 
 
 def sprite() -> str:
@@ -95,9 +115,16 @@ def sprite() -> str:
 
 
 def use(sprite_id: str, label: str = "") -> str:
-    """Reference a sprite symbol. Decorative unless given a label."""
+    """Reference a sprite symbol. Decorative unless given a label.
+
+    The viewBox is repeated on the referencing <svg> so it keeps the mark's
+    aspect ratio — a <use> has no intrinsic size of its own.
+    """
     a = f'role="img" aria-label="{esc(label)}"' if label else 'aria-hidden="true"'
-    return f'<svg {a} focusable="false"><use href="#{sprite_id}"/></svg>'
+    return (
+        f'<svg {a} focusable="false" viewBox="{view_box(MARKS[sprite_id])}">'
+        f'<use href="#{sprite_id}"/></svg>'
+    )
 
 
 def money(amount) -> str:
