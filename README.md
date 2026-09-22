@@ -77,12 +77,21 @@ the after-hours colourway.
 
 ## Filtering
 
+Filters sit in a **left sidebar** rather than a bar across the top, so the grid
+starts directly under the masthead instead of below 400px of controls, and the
+filters stay in view while the list scrolls. On a phone the same panel
+collapses behind one button carrying a count of how many filters are active,
+which puts bottles on the first screen at every size measured.
+
 The grid is rendered **statically at build time**, so it is crawlable and the
 full list is readable with JavaScript off. The filters only narrow what is
 already on the page:
 
-- **Category** chips, **search** (name, producer, category and tasting note),
-  **price** band, **strength** band, **bottle size**, and **sort**.
+- **Category** list with per-category counts, **search** (name, producer,
+  category and tasting note), **price** band, **strength** band, **bottle
+  size**, and **sort** beside the result count.
+- Category counts come from the same data the grid does, so they cannot
+  disagree with it.
 - Bottle sizes are read from the data, so adding a 1 litre bottle adds its own
   filter option without the template being touched.
 - Search text is lowercased once at build time into `data-search`, so filtering

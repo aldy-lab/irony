@@ -338,17 +338,17 @@ def build():
     size_options = '<option value="any">Any</option>' + "".join(
         f'<option value="{v}">{v} ml</option>' for v in sizes
     )
-    # Chips on a wide screen, a select on a phone — four rows of chips cost
-    # more height than the whole rest of the filter bar. Both drive the same
-    # state, so whichever is visible is the one that works.
-    category_options = '<option value="all">All</option>' + "".join(
-        f'<option value="{c["slug"]}">{esc(c["name"])}</option>'
-        for c in catalogue["categories"]
+    # One category control at every size, in the sidebar. Counts come from the
+    # same data the grid does, so they cannot disagree with it.
+    counts = {c["slug"]: sum(1 for p in products if p["category"] == c["slug"])
+              for c in catalogue["categories"]}
+    category_list = (
+        '<li><button class="facet__option" type="button" data-filter="all" '
+        f'aria-pressed="true">All<span>{len(products)}</span></button></li>'
     )
-    chips = '<li><button class="chip" type="button" data-filter="all" aria-pressed="true">All</button></li>'
-    chips += "".join(
-        f'<li><button class="chip" type="button" data-filter="{c["slug"]}" '
-        f'aria-pressed="false">{esc(c["name"])}</button></li>'
+    category_list += "".join(
+        f'<li><button class="facet__option" type="button" data-filter="{c["slug"]}" '
+        f'aria-pressed="false">{esc(c["name"])}<span>{counts[c["slug"]]}</span></button></li>'
         for c in catalogue["categories"]
     )
 
@@ -362,8 +362,7 @@ def build():
             "motif": mark("motif"),
             "satyr": mark("satyr"),
             "wordmark_stacked": mark("wordmark-stacked"),
-            "chips": chips,
-            "category_options": category_options,
+            "category_list": category_list,
             "size_options": size_options,
             "product_grid": grid(products, cats, ""),
             "product_count": len(products),

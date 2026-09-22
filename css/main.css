@@ -754,76 +754,116 @@ main > .shell:first-child {
 }
 
 /* --------------------------------------------------------------------------
-   Filters
+   Catalogue layout — filters beside the grid
+
+   A sidebar rather than a bar across the top: the grid then starts directly
+   under the masthead instead of below 400px of controls, and the filters stay
+   in view while the list scrolls. On a phone the same panel collapses behind
+   one button, so the bottles are the first thing on screen.
+
+   Base rules first, media queries after — at equal specificity source order
+   decides, and putting the overrides above made them silently inert.
    -------------------------------------------------------------------------- */
 
-.filters {
-  position: sticky;
-  top: var(--header-h);
-  z-index: 40;
-  background: color-mix(in srgb, var(--paper) 94%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-block: 1px solid var(--rule-soft);
-  padding-block: 1rem;
-  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+.catalogue {
+  padding-bottom: var(--section);
 }
 
-/* Stacked on a phone the bar is most of the screen tall, so pinning it would
-   leave almost nothing for the results it is filtering. */
-.filters__row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem 1.2rem;
-  align-items: flex-end;
-}
-
-.filters__row > * {
-  min-width: 0;
-}
-
-.search {
-  position: relative;
-  /* Allowed to grow, but not to dwarf the selects beside it. */
-  flex: 1 1 220px;
-  max-width: 420px;
-  min-width: 0;
+.catalogue__layout {
   display: grid;
-  gap: 0.4rem;
+  grid-template-columns: 1fr;
+  gap: clamp(1.25rem, 3vw, 3rem);
+  align-items: start;
 }
 
-.search > span {
+.catalogue__layout > * {
+  min-width: 0;
+}
+
+/* Filters -------------------------------------------------------------- */
+
+.facets__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 1rem;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--body);
   font-size: var(--step--1);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.facets__badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5em;
+  height: 1.5em;
+  padding: 0 0.35em;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--maroon);
+  font-size: 0.78em;
+  font-variant-numeric: tabular-nums;
+}
+
+.facet {
+  padding-block: 1.1rem;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.facet:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.facet__label {
+  display: block;
+  margin: 0 0 0.6rem;
+  font-size: var(--step--1);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
-.search input {
+.facet__search {
+  position: relative;
+}
+
+.facet__search input {
   width: 100%;
   min-height: 46px;
   padding: 0.6rem 2.6rem 0.6rem 0.9rem;
   border: 1px solid var(--rule);
-  background: var(--paper);
+  background: transparent;
   color: var(--text);
   /* 16px floor keeps iOS Safari from zooming the page on focus. */
   font: 16px/1.4 var(--body);
 }
 
-.search input::placeholder {
+.facet__search input::placeholder {
   color: var(--muted);
   font-style: italic;
 }
 
-.search input:focus {
+.facet__search input:focus,
+.facet select:focus,
+.results__sort select:focus {
   outline: none;
   border-color: var(--accent-ink);
 }
 
-.search__clear {
+.facet__clear {
   position: absolute;
   right: 2px;
-  bottom: 2px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 42px;
   height: 42px;
   display: none;
@@ -831,168 +871,169 @@ main > .shell:first-child {
   border: 0;
   background: none;
   color: var(--muted);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   cursor: pointer;
 }
 
-.search[data-filled="true"] .search__clear {
+[data-search-wrap][data-filled="true"] .facet__clear {
   display: grid;
 }
 
-.select {
-  display: grid;
-  gap: 0.4rem;
-  flex: 0 1 auto;
-}
-
-/* The chips are the wide-screen control; the select is its small-screen
-   twin — the swap lives after .chips is defined, or the base rule wins on
-   source order and the chips never hide. */
-.select--category {
-  display: none;
-}
-
-.select > span {
-  font-size: var(--step--1);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.select select {
+.facet select,
+.results__sort select {
+  width: 100%;
   min-height: 46px;
   padding: 0.5rem 0.9rem;
   border: 1px solid var(--rule);
-  background: var(--paper);
+  background: transparent;
   color: var(--text);
   font: 16px/1.4 var(--body);
   cursor: pointer;
 }
 
-.select select:focus {
-  outline: none;
-  border-color: var(--accent-ink);
-}
-
-/* Category chips — the deck's sticker ovals. */
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 0;
-  margin: 0 0 1rem;
+.facet__list {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.chip {
-  display: inline-flex;
+.facet__option {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
   min-height: 44px;
-  padding: 0 1.1rem;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
+  padding: 0 0.55rem;
+  border: 0;
   background: transparent;
   color: var(--muted);
   font-family: var(--body);
-  font-size: var(--step--1);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  text-decoration: none;
+  font-size: var(--step-0);
+  text-align: left;
   cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.25s var(--ease), border-color 0.25s var(--ease),
-    background 0.25s var(--ease);
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
 }
 
-.chip:hover {
+.facet__option span {
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.facet__option:hover {
   color: var(--text);
-  border-color: var(--text);
+  background: var(--bg-alt);
 }
 
-.chip[aria-pressed="true"] {
+.facet__option[aria-pressed="true"] {
   background: var(--accent);
-  border-color: var(--accent);
   color: var(--maroon);
 }
 
-@media (max-width: 759px) {
-  .chips {
-    display: none;
-  }
-
-  .select--category {
-    display: grid;
-  }
+.facet__option[aria-pressed="true"] span {
+  color: var(--maroon);
 }
 
-/* Small-screen filter bar. Must come after the .search/.select/.chip rules,
-   or these overrides lose on source order and silently do nothing. */
-@media (max-width: 860px) {
-  .filters {
-    position: static;
-    padding-block: 0.85rem;
-    margin-bottom: 1.25rem;
-  }
-
-  /* Tighter horizontally — the tap target stays 44px tall, but the chips fit
-     more per row, which is what actually costs height. */
-  .chip {
-    padding: 0 0.8rem;
-    letter-spacing: 0.08em;
-    font-size: 0.8rem;
-  }
-
-  .chips {
-    gap: 0.4rem;
-    margin-bottom: 0.8rem;
-  }
-
-  .filters__row {
-    gap: 0.6rem 0.8rem;
-  }
-
-  .search {
-    max-width: none;
-    flex-basis: 100%;
-  }
-
-  .select {
-    flex: 1 1 calc(50% - 0.4rem);
-  }
-
-  .select select {
-    width: 100%;
-  }
-}
-
-
-.filters__status {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.6rem 1.2rem;
-  margin-top: 0.9rem;
-  font-size: var(--step--1);
-  color: var(--muted);
-  letter-spacing: 0.06em;
-}
-
-.filters__reset {
+.facets__reset {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 1rem;
   border: 0;
   background: none;
-  padding: 0.4rem 0;
-  min-height: 44px;
   color: var(--accent-ink);
   font: var(--step--1) / 1 var(--body);
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  text-align: left;
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 0.3em;
 }
 
-.filters__reset[hidden] {
-  display: none;
+/* Results -------------------------------------------------------------- */
+
+.results__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding-bottom: 0.9rem;
+  margin-bottom: 1px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.results__count {
+  margin: 0;
+  font-size: var(--step--1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.results__sort {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.results__sort > span {
+  font-size: var(--step--1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.results__sort select {
+  width: auto;
+  min-width: 11rem;
+}
+
+/* Wide: a real sidebar, staying put while the list scrolls. ------------- */
+
+@media (min-width: 900px) {
+  .catalogue__layout {
+    grid-template-columns: minmax(200px, 250px) minmax(0, 1fr);
+  }
+
+  .facets {
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+  }
+
+  .facets__toggle {
+    display: none;
+  }
+
+  .facets__panel {
+    display: block !important;
+  }
+}
+
+/* Narrow: one button, and the bottles start immediately. --------------- */
+
+@media (max-width: 899px) {
+  .facets {
+    border: 0;
+  }
+
+  .facets__panel {
+    display: none;
+    padding: 1.1rem 0 0.25rem;
+  }
+
+  .facets[data-open="true"] .facets__panel {
+    display: block;
+  }
+
+  .facets[data-open="true"] .facets__toggle {
+    border-color: var(--accent-ink);
+  }
+
+  .results__head {
+    margin-top: 1.25rem;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1687,8 +1728,9 @@ body[data-colourway="satyr"] {
   transition: background 0.8s var(--ease), color 0.8s var(--ease);
 }
 
-body[data-colourway="satyr"] .filters {
-  background: color-mix(in srgb, var(--green) 90%, transparent);
+body[data-colourway="satyr"] .facet__option[aria-pressed="true"],
+body[data-colourway="satyr"] .facets__badge {
+  color: var(--maroon);
 }
 
 body[data-colourway="satyr"] .header,
@@ -1700,8 +1742,9 @@ body[data-colourway="satyr"] .age-gate {
   background: var(--green);
 }
 
-body[data-colourway="satyr"] .search input,
-body[data-colourway="satyr"] .select select {
+body[data-colourway="satyr"] .facet__search input,
+body[data-colourway="satyr"] .facet select,
+body[data-colourway="satyr"] .results__sort select {
   background: transparent;
   color: var(--gold);
 }

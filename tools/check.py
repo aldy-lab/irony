@@ -163,26 +163,32 @@ def check_mobile(br):
         check(f"{name}: viewport is really {w}px", inner == w, f"innerWidth={inner}")
 
         m = pg.evaluate(
-            """()=>{const d=document.documentElement, f=document.querySelector('.filters');
+            """()=>{const d=document.documentElement, f=document.querySelector('[data-facets]');
               return {overflow:d.scrollWidth-d.clientWidth,
                       page:d.scrollHeight,
                       filtersTop:Math.round(f.getBoundingClientRect().top),
+                      firstCard:Math.round(document.querySelector('[data-grid] > li').getBoundingClientRect().top),
                       cols:new Set([...document.querySelectorAll('[data-grid] > li')]
                             .map(e=>Math.round(e.getBoundingClientRect().left))).size};}"""
         )
         check(f"{name}: no sideways overflow", m["overflow"] == 0, str(m["overflow"]))
-        check(f"{name}: filters above the fold", m["filtersTop"] < h, f"{m['filtersTop']} vs {h}")
+        check(f"{name}: filter button above the fold", m["filtersTop"] < h, f"{m['filtersTop']} vs {h}")
+        # The point of collapsing the panel: bottles on the first screen.
+        check(f"{name}: a bottle is on the first screen", m["firstCard"] < h, f"{m['firstCard']} vs {h}")
         check(f"{name}: catalogue in two columns", m["cols"] == 2, f"{m['cols']} columns")
         # One column of tall cards made this 14 000px for twenty bottles.
         check(f"{name}: page under 9000px", m["page"] < 9000, f"{m['page']}px")
 
-        check(
-            f"{name}: category control is usable",
-            pg.is_visible("[data-category]") and pg.eval_on_selector(".chips", "e=>getComputedStyle(e).display") == "none",
-        )
-        pg.select_option("[data-category]", "rum")
+        # The panel is collapsed on a phone so the bottles come first; it has
+        # to actually open, and filter, from the one button.
+        check(f"{name}: filters start collapsed", not pg.is_visible("[data-facets] .facet__list"))
+        pg.click("[data-facets-toggle]")
+        pg.wait_for_timeout(250)
+        check(f"{name}: the filter button opens the panel", pg.is_visible("[data-facets] .facet__list"))
+        pg.click('[data-filter="rum"]')
         pg.wait_for_timeout(300)
-        check(f"{name}: category select filters", painted(pg) == 3, str(painted(pg)))
+        check(f"{name}: category filters", painted(pg) == 3, str(painted(pg)))
+        check(f"{name}: active-filter badge shows", pg.inner_text("[data-facet-count]") == "1")
 
         small = pg.eval_on_selector_all(
             "a, button, select, input",

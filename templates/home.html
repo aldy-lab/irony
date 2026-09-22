@@ -12,77 +12,87 @@
   </div>
 </section>
 
-<section data-catalogue>
-  <div class="filters">
-    <div class="shell">
-      <ul class="chips">{{chips}}</ul>
-
-      <div class="filters__row">
-        <label class="search" data-search-wrap>
-          <span>Search</span>
-          <input type="search" data-search autocomplete="off"
-                 placeholder="Name, note or producer">
-          <button class="search__clear" type="button" data-search-clear
-                  aria-label="Clear search">&times;</button>
-        </label>
-
-        <label class="select select--category">
-          <span>Category</span>
-          <select data-category>{{category_options}}</select>
-        </label>
-
-        <label class="select">
-          <span>Price</span>
-          <select data-price>
-            <option value="any">Any</option>
-            <option value="-599">Under 600</option>
-            <option value="600-999">600 &ndash; 999</option>
-            <option value="1000-1499">1 000 &ndash; 1 499</option>
-            <option value="1500-">1 500 and up</option>
-          </select>
-        </label>
-
-        <label class="select">
-          <span>Strength</span>
-          <select data-strength>
-            <option value="any">Any</option>
-            <option value="-24.9">Under 25%</option>
-            <option value="25-42.9">25 &ndash; 42%</option>
-            <option value="43-49.9">43 &ndash; 49%</option>
-            <option value="50-">50% and up</option>
-          </select>
-        </label>
-
-        <label class="select">
-          <span>Bottle</span>
-          <select data-size>{{size_options}}</select>
-        </label>
-
-        <label class="select">
-          <span>Sort</span>
-          <select data-sort>
-            <option value="default">Our order</option>
-            <option value="price-asc">Price, low to high</option>
-            <option value="price-desc">Price, high to low</option>
-            <option value="abv-desc">Strongest first</option>
-            <option value="name">Name</option>
-          </select>
-        </label>
-      </div>
-
-      <div class="filters__status">
-        <span data-result-count>{{product_count}} bottles</span>
-        <button class="filters__reset" type="button" data-reset hidden>Clear filters</button>
-      </div>
-    </div>
-  </div>
-
+<section class="catalogue" data-catalogue>
   <div class="shell">
-    <ul class="product-grid" data-grid>{{product_grid}}</ul>
+    <div class="catalogue__layout">
 
-    <div class="no-results" data-no-results hidden>
-      <div class="mark" aria-hidden="true">{{motif}}</div>
-      <p class="lede" style="margin-inline:auto">Nothing on the shelf matches that.</p>
+      <aside class="facets" data-facets aria-label="Filters">
+        <button class="facets__toggle" type="button" data-facets-toggle
+                aria-expanded="false" aria-controls="facet-panel">
+          <span>Filter</span>
+          <span class="facets__badge" data-facet-count hidden>0</span>
+        </button>
+
+        <div class="facets__panel" id="facet-panel">
+          <div class="facet">
+            <label class="facet__label" for="q">Search</label>
+            <div class="facet__search" data-search-wrap>
+              <input id="q" type="search" data-search autocomplete="off"
+                     placeholder="Name, note or producer">
+              <button class="facet__clear" type="button" data-search-clear
+                      aria-label="Clear search">&times;</button>
+            </div>
+          </div>
+
+          <div class="facet">
+            <p class="facet__label" id="facet-category">Category</p>
+            <ul class="facet__list" aria-labelledby="facet-category">{{category_list}}</ul>
+          </div>
+
+          <div class="facet">
+            <label class="facet__label" for="price">Price</label>
+            <select id="price" data-price>
+              <option value="any">Any price</option>
+              <option value="-599">Under 600</option>
+              <option value="600-999">600 &ndash; 999</option>
+              <option value="1000-1499">1 000 &ndash; 1 499</option>
+              <option value="1500-">1 500 and up</option>
+            </select>
+          </div>
+
+          <div class="facet">
+            <label class="facet__label" for="strength">Strength</label>
+            <select id="strength" data-strength>
+              <option value="any">Any strength</option>
+              <option value="-24.9">Under 25%</option>
+              <option value="25-42.9">25 &ndash; 42%</option>
+              <option value="43-49.9">43 &ndash; 49%</option>
+              <option value="50-">50% and up</option>
+            </select>
+          </div>
+
+          <div class="facet">
+            <label class="facet__label" for="size">Bottle</label>
+            <select id="size" data-size>{{size_options}}</select>
+          </div>
+
+          <button class="facets__reset" type="button" data-reset hidden>Clear filters</button>
+        </div>
+      </aside>
+
+      <div class="results">
+        <div class="results__head">
+          <p class="results__count"><span data-result-count>{{product_count}} bottles</span></p>
+          <label class="results__sort">
+            <span>Sort</span>
+            <select data-sort>
+              <option value="default">Our order</option>
+              <option value="price-asc">Price, low to high</option>
+              <option value="price-desc">Price, high to low</option>
+              <option value="abv-desc">Strongest first</option>
+              <option value="name">Name</option>
+            </select>
+          </label>
+        </div>
+
+        <ul class="product-grid" data-grid>{{product_grid}}</ul>
+
+        <div class="no-results" data-no-results hidden>
+          <div class="mark" aria-hidden="true">{{motif}}</div>
+          <p class="lede" style="margin-inline:auto">Nothing on the shelf matches that.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>

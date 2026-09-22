@@ -45,10 +45,10 @@
   if (root) {
     var grid = root.querySelector("[data-grid]");
     var cards = Array.prototype.slice.call(grid.children);
-    var chips = root.querySelectorAll("[data-filter]");
-    // Chips on a wide screen, a select on a phone. Only one is visible at a
-    // time, but both drive the same state and both are kept in sync.
-    var categorySelect = root.querySelector("[data-category]");
+    var options = root.querySelectorAll("[data-filter]");
+    var facets = root.querySelector("[data-facets]");
+    var facetsToggle = root.querySelector("[data-facets-toggle]");
+    var facetCount = root.querySelector("[data-facet-count]");
     var search = root.querySelector("[data-search]");
     var searchWrap = root.querySelector("[data-search-wrap]");
     var clear = root.querySelector("[data-search-clear]");
@@ -125,15 +125,12 @@
 
       sortCards();
 
-      chips.forEach(function (chip) {
-        chip.setAttribute(
+      options.forEach(function (option) {
+        option.setAttribute(
           "aria-pressed",
-          chip.dataset.filter === state.category ? "true" : "false"
+          option.dataset.filter === state.category ? "true" : "false"
         );
       });
-      if (categorySelect && categorySelect.value !== state.category) {
-        categorySelect.value = state.category;
-      }
 
       if (count) {
         count.textContent = shown + (shown === 1 ? " bottle" : " bottles");
@@ -143,13 +140,22 @@
         searchWrap.setAttribute("data-filled", state.q ? "true" : "false");
       }
 
-      var narrowed =
-        state.category !== "all" ||
-        state.q !== "" ||
-        state.price !== "any" ||
-        state.strength !== "any" ||
-        state.size !== "any";
-      if (reset) reset.hidden = !narrowed;
+      // How many filters are actually narrowing the list — shown on the
+      // collapsed button, so a phone visitor can see the list is filtered
+      // without opening the panel.
+      var active = [
+        state.category !== "all",
+        state.q !== "",
+        state.price !== "any",
+        state.strength !== "any",
+        state.size !== "any",
+      ].filter(Boolean).length;
+
+      if (reset) reset.hidden = active === 0;
+      if (facetCount) {
+        facetCount.textContent = active;
+        facetCount.hidden = active === 0;
+      }
 
       writeUrl();
     }
@@ -185,24 +191,24 @@
       state.sort = p.get("sort") || "default";
 
       if (search) search.value = p.get("q") || "";
-      if (categorySelect) categorySelect.value = state.category;
       if (priceSelect) priceSelect.value = state.price;
       if (strengthSelect) strengthSelect.value = state.strength;
       if (sizeSelect) sizeSelect.value = state.size;
       if (sortSelect) sortSelect.value = state.sort;
     }
 
-    chips.forEach(function (chip) {
-      chip.addEventListener("click", function () {
-        state.category = chip.dataset.filter;
+    options.forEach(function (option) {
+      option.addEventListener("click", function () {
+        state.category = option.dataset.filter;
         apply();
       });
     });
 
-    if (categorySelect) {
-      categorySelect.addEventListener("change", function () {
-        state.category = categorySelect.value;
-        apply();
+    if (facetsToggle && facets) {
+      facetsToggle.addEventListener("click", function () {
+        var open = facets.getAttribute("data-open") === "true";
+        facets.setAttribute("data-open", open ? "false" : "true");
+        facetsToggle.setAttribute("aria-expanded", open ? "false" : "true");
       });
     }
 
@@ -245,7 +251,6 @@
         state.strength = "any";
         state.size = "any";
         if (search) search.value = "";
-        if (categorySelect) categorySelect.value = "all";
         if (priceSelect) priceSelect.value = "any";
         if (strengthSelect) strengthSelect.value = "any";
         if (sizeSelect) sizeSelect.value = "any";
