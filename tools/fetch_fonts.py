@@ -17,8 +17,13 @@ UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 )
+# Cormorant Garamond for display rather than a Bodoni: narrower and sharper,
+# so it sits closer to the outlined Expo wordmark, and unlike Italiana — which
+# matches the logo's proportions best of all — it has lining figures. Italiana
+# renders "10 Years" as "Io Years", which a catalogue full of ages, strengths
+# and volumes cannot carry.
 FAMILIES = {
-    "Bodoni Moda": "ital,opsz,wght@0,6..96,400..900;1,6..96,400..900",
+    "Cormorant Garamond": "ital,wght@0,400;0,500;0,600;1,400;1,500;1,600",
     "EB Garamond": "ital,wght@0,400..800;1,400..800",
 }
 # Latin only. latin-ext carries the Czech diacritics for names and addresses.
@@ -64,7 +69,13 @@ def main():
             style = re.search(r"font-style:\s*(\w+)", face).group(1)
             weight = re.search(r"font-weight:\s*([^;]+);", face).group(1).strip()
             slug = family.lower().replace(" ", "-")
-            name = f"{slug}-{style}-{'ext' if 'U+0100' in rng.group(1) else 'latin'}.woff2"
+            subset = "ext" if "U+0100" in rng.group(1) else "latin"
+            # The weight has to be in the filename. A non-variable family ships
+            # one file per weight, and without it they all collapse onto the
+            # same name — the last one downloaded silently wins, so text asking
+            # for 400 renders in 600.
+            tag = weight.replace(" ", "").replace("..", "-")
+            name = f"{slug}-{style}-{tag}-{subset}.woff2"
             (FONTS / name).write_bytes(get(src.group(1)))
             kb = (FONTS / name).stat().st_size / 1024
             print(f"  {name:38} {kb:6.1f} KB")

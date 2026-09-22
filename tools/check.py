@@ -20,6 +20,7 @@ Three rules this file exists to enforce, each learned from a bug that shipped:
 
 from __future__ import annotations
 
+import re
 import subprocess
 import sys
 import time
@@ -152,6 +153,51 @@ def check_filters(br):
     pg.context.close()
 
 
+def check_fonts(br):
+    print("\nFonts")
+    ctx = br.new_context(viewport={"width": 1440, "height": 900})
+    pg = ctx.new_page()
+    missing = []
+    pg.on(
+        "response",
+        lambda r: missing.append(r.url.split("/")[-1])
+        if ".woff2" in r.url and r.status != 200
+        else None,
+    )
+    pg.goto(BASE + "/")
+    pg.evaluate("try{localStorage.setItem('ivs.age.v1','true')}catch(e){}")
+    pg.goto(BASE + "/shop/single-malt-10.html", wait_until="networkidle")
+    pg.wait_for_timeout(1200)
+
+    check("no font 404s", not missing, str(missing))
+
+    title = pg.eval_on_selector(
+        ".product__title",
+        "e=>getComputedStyle(e).fontFamily.split(',')[0].replace(/\"/g,'')",
+    )
+    body = pg.eval_on_selector(
+        ".lede", "e=>getComputedStyle(e).fontFamily.split(',')[0].replace(/\"/g,'')"
+    )
+    check("display face is the webfont, not a fallback", title == "Cormorant Garamond", title)
+    check("text face is the webfont, not a fallback", body == "EB Garamond", body)
+
+    loaded = pg.evaluate("()=>[...document.fonts].filter(f=>f.status==='loaded').length")
+    check("webfonts actually loaded", loaded >= 2, str(loaded))
+
+    # Italiana rendered "10 Years" as "Io Years"; figures are pinned lining so
+    # a future face swap cannot quietly bring old-style figures back.
+    nums = pg.eval_on_selector(".product__price", "e=>getComputedStyle(e).fontVariantNumeric")
+    check("prices are lining and tabular", "lining-nums" in nums and "tabular-nums" in nums, nums)
+
+    # A non-variable family ships one file per weight; identical names would
+    # mean the last download silently wins and 400 renders as 600.
+    css = (ROOT / "css" / "fonts.css").read_text()
+    urls = re.findall(r"url\('([^']+)'\)", css)
+    check("every @font-face has its own file", len(urls) == len(set(urls)),
+          f"{len(urls)} faces, {len(set(urls))} files")
+    ctx.close()
+
+
 def check_mobile(br):
     print("\nMobile")
     for name, w, h in PHONES:
@@ -270,6 +316,7 @@ def main():
     with server(), sync_playwright() as pw:
         br = pw.chromium.launch()
         check_filters(br)
+        check_fonts(br)
         check_mobile(br)
         check_widths(br)
         check_grids(br)

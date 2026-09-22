@@ -36,9 +36,12 @@
   --rule: color-mix(in srgb, var(--green) 22%, transparent);
   --rule-soft: color-mix(in srgb, var(--green) 11%, transparent);
 
-  /* Type. Bodoni Moda carries the display register next to the outlined
-     wordmark; EB Garamond stands in for Arno Pro, which it descends from. */
-  --display: "Bodoni Moda", "Didot", "Times New Roman", serif;
+  /* Type. Cormorant Garamond for display: narrower and sharper than a Bodoni,
+     so it sits closer to the outlined Expo wordmark, and it has lining figures
+     — Italiana matches the logo's proportions better still but renders
+     "10 Years" as "Io Years". EB Garamond stands in for Arno Pro, which it
+     descends from. */
+  --display: "Cormorant Garamond", "Cormorant", "Didot", serif;
   --body: "EB Garamond", "Iowan Old Style", Georgia, serif;
 
   --step--1: clamp(0.82rem, 0.79rem + 0.14vw, 0.9rem);
@@ -98,6 +101,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--body);
+  font-variant-numeric: lining-nums;
   font-size: var(--step-0);
   line-height: 1.6;
   font-feature-settings: "kern" 1, "liga" 1;
@@ -125,7 +129,7 @@ h2,
 h3,
 h4 {
   font-family: var(--display);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.03;
   letter-spacing: -0.012em;
   margin: 0;
@@ -1142,6 +1146,7 @@ main > .shell:first-child {
 
 .card__name {
   font-size: var(--step-1);
+  font-weight: 500;
   margin-bottom: 0.45rem;
 }
 
@@ -1165,7 +1170,8 @@ main > .shell:first-child {
 .price {
   font-family: var(--display);
   font-size: var(--step-1);
-  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-variant-numeric: lining-nums tabular-nums;
   color: var(--text);
   white-space: nowrap;
 }
@@ -1335,7 +1341,8 @@ main > .shell:first-child {
   font-family: var(--display);
   font-size: var(--step-2);
   color: var(--text);
-  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-variant-numeric: lining-nums tabular-nums;
   margin-block: 1.4rem;
 }
 

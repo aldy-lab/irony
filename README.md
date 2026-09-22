@@ -131,11 +131,24 @@ the site ships self-hosted substitutes:
 
 | Role | Brand font | Shipped |
 |---|---|---|
-| Display | Expo Regular | Bodoni Moda |
+| Display | Expo Regular | Cormorant Garamond |
 | Body / italic | Arno Pro Italic | EB Garamond |
 
 EB Garamond is a Garamond revival, which is the family Arno descends from, so
-it is a genuine relative rather than a lookalike. Both are OFL and self-hosted
+it is a genuine relative rather than a lookalike.
+
+The display face was chosen by setting the candidates beside the outlined
+wordmark and looking. **Italiana** matches Expo's proportions best — narrow,
+high contrast, flared stems — but it has no lining figures, and `lnum` cannot
+conjure them: it renders "10 Years" as "Io Years", which a catalogue full of
+ages, strengths and volumes cannot carry. **Bodoni Moda**, shipped first, has
+sound figures but is far wider and rounder than the wordmark. **Cormorant
+Garamond** is narrower and sharper than the Bodoni, has proper figures, and
+being a Garamond it is of a piece with the text face. Headings and prices are
+set at weight 500, since Cormorant's 400 is light enough to look anaemic.
+
+Figures are pinned to `lining-nums` on `body`, and `lining-nums tabular-nums`
+on prices, so a swapped face can never quietly turn a price into old-style. Both are OFL and self-hosted
 (`tools/fetch_fonts.py`), which also keeps the Google Fonts IP disclosure out
 of the privacy story.
 
