@@ -5,6 +5,7 @@ Generated rather than drawn so they cannot drift away from the logo. Every page
 gets the same 1200x630 card for now; per-page cards come when there is
 photography to put on them.
 """
+import json
 import re
 import subprocess
 from pathlib import Path
@@ -66,9 +67,15 @@ def main():
         print("playwright not available — share.png and apple-touch-icon.png skipped")
         return
 
+    # A lone SVG favicon leaves older browsers, Windows and pinned tabs with
+    # nothing, so the raster sizes are generated from the same source.
     jobs = [
         ("share.svg", "share.png", 1200, 630),
         ("favicon.svg", "apple-touch-icon.png", 180, 180),
+        ("favicon.svg", "icon-512.png", 512, 512),
+        ("favicon.svg", "icon-192.png", 192, 192),
+        ("favicon.svg", "favicon-32.png", 32, 32),
+        ("favicon.svg", "favicon-16.png", 16, 16),
     ]
     with sync_playwright() as pw:
         browser = pw.chromium.launch()
@@ -88,6 +95,35 @@ def main():
             page.close()
             print(f"  {dest}  {(BRAND / dest).stat().st_size / 1024:.1f} KB")
         browser.close()
+
+    # A single .ico carrying both small sizes, for anything that still asks.
+    try:
+        from PIL import Image
+
+        ico = BRAND / "favicon.ico"
+        Image.open(BRAND / "favicon-32.png").save(
+            ico, sizes=[(16, 16), (32, 32), (48, 48)]
+        )
+        print(f"  favicon.ico  {ico.stat().st_size / 1024:.1f} KB")
+    except ImportError:
+        print("Pillow not available — favicon.ico skipped")
+
+    manifest = {
+        "name": "Irony vs. Satyr",
+        "short_name": "Irony vs. Satyr",
+        "description": "A bottle shop in Nove Mesto, Prague.",
+        "start_url": "./",
+        "display": "minimal-ui",
+        "background_color": GREEN,
+        "theme_color": GREEN,
+        "icons": [
+            {"src": "assets/brand/icon-192.png", "sizes": "192x192", "type": "image/png"},
+            {"src": "assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png"},
+            {"src": "assets/brand/favicon.svg", "sizes": "any", "type": "image/svg+xml"},
+        ],
+    }
+    (ROOT / "site.webmanifest").write_text(json.dumps(manifest, indent=2) + "\n")
+    print("  site.webmanifest")
 
 
 if __name__ == "__main__":

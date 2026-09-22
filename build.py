@@ -13,6 +13,7 @@ would have used it rather than shipping a dead link.
 
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import re
@@ -26,8 +27,13 @@ TPL = ROOT / "templates"
 DATA = ROOT / "data"
 BRAND = ROOT / "assets" / "brand"
 SHOP_DIR = ROOT / "shop"
+STAMPS = DATA / "lastmod.json"
 
 warnings: list[str] = []
+
+# Placeholder markers are for whoever is building the site, not for a customer.
+# `python3 build.py --preview` labels them; a plain build ships none.
+PREVIEW = "--preview" in sys.argv
 
 
 # ---------------------------------------------------------------------------
@@ -267,9 +273,18 @@ def search_text(product: dict, cats: dict) -> str:
 
 
 def card(product: dict, cats: dict, base: str, order: int) -> str:
-    draft = '<span class="badge">Draft</span>' if product.get("placeholder") else ""
-    stock = product.get("stock", 0)
-    stock_label = "In stock" if stock > 3 else f"Only {stock} left" if stock else "Ask us"
+    draft = (
+        '<span class="badge">Draft</span>'
+        if PREVIEW and product.get("placeholder")
+        else ""
+    )
+    # A placeholder's stock number is invented, so it is not shown as fact.
+    stock = 0 if product.get("placeholder") else product.get("stock", 0)
+    stock_label = (
+        "Ask in the shop"
+        if product.get("placeholder")
+        else "In stock" if stock > 3 else f"Only {stock} left" if stock else "Ask us"
+    )
     return f"""<li class="card" data-category="{esc(product['category'])}"
     data-price="{product['price']}" data-abv="{product['abv']}"
     data-volume="{product['volume']}" data-name="{esc(product['name'])}"
@@ -308,7 +323,12 @@ def render_page(
     current: str = "",
     og_type: str = "website",
     head_extra: str = "",
+    share: str = "",
+    share_alt: str = "",
 ) -> None:
+    # Each page can carry its own share card; without one it falls back to the
+    # site card rather than to nothing.
+    share_image = site["url"].rstrip("/") + "/" + (share or "assets/brand/share.png")
     # The catalogue filters read from data- attributes on the cards, so the
     # page needs no product list of its own.
     ivs = {"base": base, "currency": site["currency"]}
@@ -330,7 +350,8 @@ def render_page(
         "og_type": og_type,
         "og_title": esc(title),
         "site_name": esc(site["name"]),
-        "share_image": esc(site["url"].rstrip("/") + "/assets/brand/share.png"),
+        "share_image": esc(share_image),
+        "share_alt": esc(share_alt or f"{site['name']} — {site['tagline']}"),
         "base": base,
         "body_attrs": "",
         "head_extra": head_extra,
@@ -340,10 +361,13 @@ def render_page(
         "wordmark_stacked": use("m-wordmark"),
         "nav_links": nav_links(base, current),
         "main": body,
-        "legal": esc(
-            "A catalogue of what is on the shelf. Nothing is sold through this "
-            "site; we sell alcohol only to adults, and photo ID is checked in "
-            "the shop every time."
+        "legal": (
+            esc(
+                "A catalogue of what is on the shelf. Nothing is sold through this "
+                "site; we sell alcohol only to adults, and photo ID is checked in "
+                "the shop every time."
+            )
+            + f' <a href="{base}privacy.html">Privacy &amp; imprint</a>.'
         ),
         "year": date.today().year,
         "ivs_data": json.dumps(ivs, separators=(",", ":")),
@@ -380,6 +404,24 @@ def opening_hours(site: dict) -> list:
     return out
 
 
+def share_card(name: str) -> str:
+    """A page's own share card, or "" so the site card is used instead."""
+    path = f"assets/share/{name}.png"
+    return path if (ROOT / path).exists() else ""
+
+
+def price_range() -> str:
+    """Derived from the catalogue, never asserted.
+
+    A hardcoded "$$" is a claim about the shop nobody made; this is simply the
+    span of the prices actually listed.
+    """
+    prices = [p["price"] for p in load("catalogue.json")["products"] if p.get("price")]
+    if not prices:
+        return ""
+    return f"{money(min(prices))}–{money(max(prices))} CZK"
+
+
 def shop_jsonld(site: dict) -> str:
     """The shop itself: a real address and real hours, which is what a bottle
     shop is found by. Empty fields are dropped before serialising — Google
@@ -400,7 +442,7 @@ def shop_jsonld(site: dict) -> str:
             "addressCountry": a["country_code"],
         },
         "openingHoursSpecification": opening_hours(site),
-        "priceRange": "$$",
+        "priceRange": price_range(),
         "telephone": site["contact"]["phone"],
         "email": site["contact"]["email"],
         "hasMap": site["contact"]["maps_url"],
@@ -493,20 +535,25 @@ def build():
         site=site, catalogue=catalogue, body=home, out=ROOT / "index.html",
         title=f"{site['name']} — {site['tagline']}, {site['address']['city']}",
         description=site["description"], slug="", base="", current="index.html",
-        head_extra=shop_jsonld(site),
+        head_extra=shop_jsonld(site), share=share_card("index"),
+        share_alt=f"{site['name']}, {site['tagline']} in {site['address']['city']}",
     )
     pages.append(("", "1.0"))
 
-    # shop.html was the catalogue before it moved to the front page. Kept as a
-    # redirect so a link shared earlier does not land on a 404.
-    (ROOT / "shop.html").write_text(
-        "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
-        '<title>Catalogue — ' + site["name"] + "</title>\n"
-        '<link rel="canonical" href="' + site["url"].rstrip("/") + '/">\n'
-        '<meta http-equiv="refresh" content="0; url=index.html">\n'
-        '<meta name="robots" content="noindex">\n</head>\n<body>\n'
-        '<p>The catalogue is now the front page. <a href="index.html">Continue</a>.</p>\n'
-        "</body>\n</html>\n"
+    # shop.html was the catalogue before it moved to the front page. It is kept
+    # so a link shared in between does not 404 — as a real page, because a bare
+    # meta-refresh stub is what a visitor sees if the refresh is blocked.
+    moved = fill(
+        template("moved.html"),
+        {"base": "", "motif": use("m-motif")},
+    )
+    render_page(
+        site=site, catalogue=catalogue, body=moved, out=ROOT / "shop.html",
+        title=f"The catalogue moved — {site['name']}",
+        description="The catalogue is now the front page.",
+        slug="shop.html", base="", current="index.html",
+        head_extra='<meta http-equiv="refresh" content="2; url=index.html">'
+                   '<meta name="robots" content="noindex,follow">',
     )
 
     # Product pages ----------------------------------------------------------
@@ -587,8 +634,9 @@ def build():
                 "@type": "Offer",
                 "price": product["price"],
                 "priceCurrency": site["currency"],
-                "availability": "https://schema.org/InStoreOnly"
-                if stock
+                "availability": ""
+                if product.get("placeholder")
+                else "https://schema.org/InStoreOnly" if stock
                 else "https://schema.org/OutOfStock",
                 "url": f"{site['url'].rstrip('/')}/shop/{product['slug']}.html",
             },
@@ -596,6 +644,7 @@ def build():
         if product.get("producer"):
             jsonld["brand"] = {"@type": "Brand", "name": product["producer"]}
         # Google rejects a block containing null, so empty fields go before serialising.
+        jsonld["offers"] = {k: v for k, v in jsonld["offers"].items() if v not in ("", None)}
         jsonld = {k: v for k, v in jsonld.items() if v not in ("", None, [], {})}
 
         render_page(
@@ -605,6 +654,8 @@ def build():
             description=product.get("notes", "") or f"{product['name']}, {product['volume']} ml.",
             slug=f"shop/{product['slug']}.html", base="../", current="index.html",
             og_type="product",
+            share=share_card(f"shop-{product['slug']}"),
+            share_alt=f"{product['name']} — {cat['name']}, {product['volume']} ml",
             head_extra='<script type="application/ld+json">'
                        + json.dumps(jsonld, separators=(",", ":")) + "</script>"
                        + '<script type="application/ld+json">'
@@ -640,6 +691,7 @@ def build():
         title=f"About — {site['name']}",
         description="A small bottle shop in Nove Mesto, and why the shelf is short.",
         slug="about.html", base="", current="about.html",
+        share=share_card("about"), share_alt="Two ways to hold a drink",
     )
     pages.append(("about.html", "0.6"))
 
@@ -681,9 +733,58 @@ def build():
         title=f"Visit — {site['name']}",
         description=f"{site['address']['street']}, {site['address']['district']}, {site['address']['city']}.",
         slug="visit.html", base="", current="visit.html",
-        head_extra=shop_jsonld(site),
+        head_extra=shop_jsonld(site), share=share_card("visit"),
+        share_alt=f"{site['address']['street']}, {site['address']['city']}",
     )
     pages.append(("visit.html", "0.6"))
+
+    # Privacy and imprint ----------------------------------------------------
+    a = site["address"]
+    legal = site.get("legal", {})
+    rows = [
+        ("Trading name", site["name"]),
+        ("Registered name", legal.get("company", "")),
+        ("Company number", legal.get("company_id", "")),
+        ("VAT number", legal.get("vat_id", "")),
+        ("Address", f"{a['street']}, {a['postal']} {a['district']}, {a['city']}, {a['country']}"),
+        ("Email", site["contact"]["email"]),
+        ("Phone", site["contact"]["phone"]),
+    ]
+    filled = [(k, v) for k, v in rows if v]
+    imprint = (
+        '<table class="spec"><tbody>'
+        + "".join(f"<tr><th scope=\"row\">{esc(k)}</th><td>{esc(v)}</td></tr>" for k, v in filled)
+        + "</tbody></table>"
+    )
+    missing = [k for k, v in rows if not v]
+    if missing:
+        # Stated on the page rather than silently omitted: an imprint that is
+        # quietly incomplete looks finished and is not.
+        imprint += (
+            '<p class="note">Still to be confirmed by the shop: '
+            + esc(", ".join(missing).lower())
+            + ". These are required on a Czech business site and this page is "
+            "not complete without them.</p>"
+        )
+        warnings.append(
+            f"imprint incomplete — missing {', '.join(missing).lower()}"
+        )
+
+    privacy = fill(
+        template("privacy.html"),
+        {
+            "motif": use("m-motif"),
+            "min_age": site["catalogue"]["min_age"],
+            "imprint": imprint,
+        },
+    )
+    render_page(
+        site=site, catalogue=catalogue, body=privacy, out=ROOT / "privacy.html",
+        title=f"Privacy & imprint — {site['name']}",
+        description="What this site collects, which is nothing, and who runs it.",
+        slug="privacy.html", base="",
+    )
+    pages.append(("privacy.html", "0.3"))
 
     # 404 --------------------------------------------------------------------
     notfound = fill(template("404.html"), {"base": "", "motif": mark("motif")})
@@ -695,10 +796,29 @@ def build():
 
     # sitemap + robots -------------------------------------------------------
     # Generated from the same list the pages were, so it cannot drift into 404s.
+    # lastmod tracks the page's content, not the build: stamping today on every
+    # URL each time tells a crawler the whole site changed whenever anything
+    # did, and it learns to ignore the field.
     base_url = site["url"].rstrip("/")
     today = date.today().isoformat()
+    stamps = json.loads(STAMPS.read_text()) if STAMPS.exists() else {}
+    changed = 0
+    for path, _ in pages:
+        f = ROOT / (path or "index.html")
+        if not f.exists():
+            continue
+        digest = hashlib.sha256(f.read_bytes()).hexdigest()[:16]
+        entry = stamps.get(path)
+        if not entry or entry.get("hash") != digest:
+            stamps[path] = {"hash": digest, "date": today}
+            changed += 1
+    # Forget pages that no longer exist, so the file cannot grow stale entries.
+    stamps = {k: v for k, v in stamps.items() if k in {p for p, _ in pages}}
+    STAMPS.write_text(json.dumps(stamps, indent=2, sort_keys=True) + "\n")
+
     urls = "".join(
-        f"<url><loc>{base_url}/{path}</loc><lastmod>{today}</lastmod>"
+        f"<url><loc>{base_url}/{path}</loc>"
+        f"<lastmod>{stamps.get(path, {}).get('date', today)}</lastmod>"
         f"<priority>{priority}</priority></url>"
         for path, priority in pages
     )
@@ -712,7 +832,8 @@ def build():
     )
     (ROOT / ".nojekyll").write_text("")
 
-    print(f"built {len(pages) + 1} pages ({len(products)} products)")
+    print(f"built {len(pages) + 1} pages ({len(products)} products)"
+          + (f", {changed} changed since last build" if changed else ", none changed"))
     # Deduplicated: the per-page checks would otherwise repeat once per page.
     for w in dict.fromkeys(warnings):
         print(f"  ! {w}")

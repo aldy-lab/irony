@@ -36,6 +36,17 @@
     "maps_url": ""
   },
 
+  "legal": {
+    "_readme": [
+      "Required on a Czech business site and shown on privacy.html.",
+      "build.py names every one of these that is still blank, and the page",
+      "says so on itself rather than looking finished while incomplete."
+    ],
+    "company": "",
+    "company_id": "",
+    "vat_id": ""
+  },
+
   "social": {
     "instagram": "",
     "facebook": ""

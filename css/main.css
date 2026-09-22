@@ -1298,6 +1298,26 @@ main > .shell:first-child {
 }
 
 
+/* Cards that have just come back into the results ease in. Only entering is
+   animated — animating the exit would hold space for something already gone
+   and make the grid reflow twice. */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.card.is-entering {
+  animation: card-in 0.42s var(--ease) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card.is-entering {
+    animation: none;
+  }
+}
+
 .no-results,
 .empty-state {
   padding-block: clamp(3rem, 8vw, 5rem);
@@ -1664,11 +1684,37 @@ main > .shell:first-child {
   max-width: 52ch;
 }
 
+/* Only shown once an answer is actually stored — there is nothing to reset
+   before that. */
+.footer__reset {
+  display: inline;
+  margin-left: 0.5em;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.footer__reset:hover {
+  color: var(--pink);
+}
+
 /* A pointer can hit a 32px link; a finger wants 44. Scoped to touch so the
    footer does not go slack on a desktop. */
 @media (hover: none) {
   .footer a,
   .nav__link {
+    min-height: 44px;
+  }
+
+  /* Added with the rest of the footer links, and it needs the same reach. */
+  .footer__reset {
+    display: inline-flex;
+    align-items: center;
     min-height: 44px;
   }
 }
@@ -1770,6 +1816,82 @@ body[data-gated="true"] > *:not(.age-gate) {
   [data-reveal] {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Print — a shelf list someone can carry
+   -------------------------------------------------------------------------- */
+
+@media print {
+  :root {
+    --bg: #fff;
+    --bg-alt: #fff;
+    --text: #000;
+    --text-soft: #222;
+    --muted: #444;
+    --rule: #999;
+    --rule-soft: #ccc;
+  }
+
+  .header,
+  .footer,
+  .facets,
+  .results__sort,
+  .skip-link,
+  .age-gate,
+  .masthead__figure,
+  .masthead__motif {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .section,
+  .catalogue,
+  .product {
+    padding-block: 0 1rem;
+  }
+
+  .catalogue__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .card__media,
+  .product__media {
+    display: none;
+  }
+
+  .card,
+  .category-card {
+    break-inside: avoid;
+  }
+
+  /* A printed link is useless without its address. The same pseudo-element
+     is the card's click overlay, so it has to come out of absolute
+     positioning first or the address prints across the card's top corner. */
+  .card__link::after {
+    content: " (" attr(href) ")";
+    position: static;
+    display: block;
+    inset: auto;
+    margin-top: 0.3em;
+    font-size: 0.68em;
+    font-style: italic;
+    color: #666;
+    word-break: break-all;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

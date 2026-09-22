@@ -15,9 +15,14 @@ survives in the footer, in the occasional inverted section, and after hours.
 ## Running it
 
 ```sh
-python3 build.py          # regenerate every page
-python3 -m http.server 8731   # then open http://127.0.0.1:8731
+python3 build.py                  # regenerate every page
+python3 build.py --preview        # same, but labels the placeholder products
+python3 -m http.server 8731       # then open http://127.0.0.1:8731
 ```
+
+**`--preview` is the only build that shows the Draft labels.** They are for
+whoever is building the site; a plain build — the one that gets pushed — ships
+none, so a visitor never sees the shop looking unfinished.
 
 `build.py` writes `index.html` (the catalogue itself), `about.html`,
 `visit.html`, `404.html`, one page per bottle under `shop/`, plus
@@ -123,6 +128,24 @@ a card. Moving these to CSS `mask-image` would cache them across pages and cut
 the HTML to a few KB — worth doing if the page weight ever matters more than
 the simplicity.
 
+## Generated assets
+
+```sh
+python3 tools/make_icons.py        # favicon set, touch icon, manifest, site card
+python3 tools/make_share_cards.py  # one 1200x630 card per page
+```
+
+Each page carries **its own share card**, built from the same data the page is,
+so a link to one bottle does not show the picture of the shop. A page with no
+card of its own falls back to the site card rather than to nothing.
+
+`sitemap.xml` records **lastmod per page, by content**: `data/lastmod.json`
+keeps a hash of each rendered page, and a date only moves when that page's
+output actually changes. Stamping today on every URL each build tells a crawler
+the whole site changed whenever anything did, and it learns to ignore the
+field. A stylesheet change deliberately does not move any date — the indexed
+content is the same.
+
 ## Brand assets
 
 `assets/brand/*.svg` are extracted from `pres_Irony_vs_Satyr.ai` by
@@ -170,6 +193,27 @@ of the privacy story.
 Swapping in a licensed Expo webfont is two lines: drop the files into
 `assets/fonts/`, add the `@font-face` rules, and change `--display` in
 `css/main.css`.
+
+## Print
+
+The catalogue and the product pages print as a plain shelf list: no header,
+navigation, filters or footer, black on white, three columns, and each bottle's
+address set under its name — a printed link with no URL is useless. The address
+rides the same pseudo-element that makes the card clickable, so it is taken out
+of absolute positioning first, or it prints across the card's corner.
+
+## Privacy
+
+`privacy.html` states what the site does, which is very little: no analytics,
+no cookies, no third-party request of any kind, and one value in local storage
+for the age answer — removable from the footer. It does name GitHub Pages as
+the host, since like any server it receives a visitor's IP address, and that is
+the only place a visit is recorded.
+
+The imprint is generated from `site.legal` in the config. **Every field still
+blank is named on the page itself and in the build output**, rather than
+quietly omitted — an imprint that is incomplete and looks finished is worse
+than one that admits it.
 
 ## Analytics
 

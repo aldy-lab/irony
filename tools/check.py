@@ -341,6 +341,54 @@ def check_marks(br):
     ctx.close()
 
 
+def check_links(br):
+    """Every internal link and asset must resolve.
+
+    A 404 on a stylesheet or a footer link is invisible until someone clicks
+    it, and by then it is in production.
+    """
+    print("\nLinks and assets")
+    ctx = br.new_context(viewport={"width": 1440, "height": 900})
+    pg = open_page(ctx, "/")
+
+    import urllib.parse
+    import urllib.request
+
+    pages = ["/", "/about.html", "/visit.html", "/privacy.html", "/404.html",
+             "/shop.html", "/shop/single-malt-10.html"]
+    seen, broken = set(), []
+    for path in pages:
+        pg.goto(BASE + path, wait_until="networkidle")
+        refs = pg.evaluate(
+            """()=>{const out=[];
+              document.querySelectorAll('a[href]').forEach(a=>out.push(a.getAttribute('href')));
+              document.querySelectorAll('link[href]').forEach(l=>out.push(l.getAttribute('href')));
+              document.querySelectorAll('img[src], script[src]').forEach(e=>out.push(e.getAttribute('src')));
+              return out;}"""
+        )
+        for ref in refs:
+            if not ref or ref.startswith(("#", "mailto:", "tel:", "data:", "http")):
+                continue
+            target = urllib.parse.urljoin(BASE + path, ref.split("?")[0].split("#")[0])
+            if target in seen:
+                continue
+            seen.add(target)
+            try:
+                code = urllib.request.urlopen(target, timeout=5).getcode()
+            except Exception as exc:
+                code = getattr(exc, "code", "error")
+            if code != 200:
+                broken.append(f"{path} -> {ref} ({code})")
+    check(f"all {len(seen)} internal targets resolve", not broken, "; ".join(broken[:4]))
+
+    # The card a link shows when it is shared.
+    cards = pg.evaluate(
+        """()=>[...document.querySelectorAll('meta[property="og:image"]')].map(m=>m.content)"""
+    )
+    check("the page declares a share card", bool(cards) and cards[0].endswith(".png"), str(cards))
+    ctx.close()
+
+
 def check_mobile(br):
     print("\nMobile")
     for name, w, h in PHONES:
@@ -462,6 +510,7 @@ def main():
         check_fonts(br)
         check_a11y(br)
         check_marks(br)
+        check_links(br)
         check_mobile(br)
         check_widths(br)
         check_grids(br)

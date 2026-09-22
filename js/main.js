@@ -115,13 +115,25 @@
       return parseFloat(el.dataset[key]) || 0;
     }
 
+    var motionOK = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var first = true;
+
     function apply() {
       var shown = 0;
       cards.forEach(function (card) {
         var ok = matches(card);
+        // Only cards that were hidden a moment ago animate in; the ones that
+        // were already on screen must not flicker every keystroke.
+        var returning = ok && card.hidden && !first && motionOK;
         card.hidden = !ok;
+        if (returning) {
+          card.classList.remove("is-entering");
+          void card.offsetWidth; // restart the animation
+          card.classList.add("is-entering");
+        }
         if (ok) shown += 1;
       });
+      first = false;
 
       sortCards();
 
@@ -258,6 +270,12 @@
       });
     }
 
+    grid.addEventListener("animationend", function (event) {
+      if (event.animationName === "card-in") {
+        event.target.classList.remove("is-entering");
+      }
+    });
+
     readUrl();
     apply();
   }
@@ -266,6 +284,22 @@
      Age gate. The page is hidden only once JavaScript confirms the gate is
      needed, so a crawler or a no-script visitor is never shown a blank page.
      --------------------------------------------------------------------- */
+
+  // The answer is remembered, so offer a way to forget it. The control stays
+  // hidden until there is something stored, and does nothing if storage is
+  // unavailable — in which case the gate was never skipped anyway.
+  var ageReset = document.querySelector("[data-age-reset]");
+  if (ageReset && read(AGE_KEY, false) === true) {
+    ageReset.hidden = false;
+    ageReset.addEventListener("click", function () {
+      try {
+        window.localStorage.removeItem(AGE_KEY);
+      } catch (e) {
+        /* nothing stored means nothing to clear */
+      }
+      window.location.reload();
+    });
+  }
 
   var gate = document.querySelector("[data-age-gate]");
   if (gate) {
