@@ -220,6 +220,16 @@ main > .shell:first-child {
   background: var(--bg-alt);
 }
 
+/* A divider between two sections otherwise sits in a full section's padding
+   from both, which is a quarter of a screen of nothing around a hairline. */
+.section--flush-bottom {
+  padding-bottom: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+}
+
+.section--flush-top {
+  padding-top: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+}
+
 /* A rare inversion, so the dark half of the brand still appears. */
 .section--invert {
   background: var(--bg-invert);
@@ -744,6 +754,21 @@ main > .shell:first-child {
   color: var(--paper);
 }
 
+.button--solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--maroon);
+}
+
+.button--solid::before {
+  display: none;
+}
+
+.button--solid:hover {
+  color: var(--maroon);
+  filter: brightness(1.06);
+}
+
 /* A hover fill is meaningless on touch and leaves a stuck state behind. */
 @media (hover: none) {
   .button::before {
@@ -756,6 +781,10 @@ main > .shell:first-child {
 
   .button--primary:hover {
     color: var(--accent-ink);
+  }
+
+  .button--solid:hover {
+    filter: none;
   }
 }
 
@@ -1269,9 +1298,24 @@ main > .shell:first-child {
 }
 
 
-.no-results {
+.no-results,
+.empty-state {
   padding-block: clamp(3rem, 8vw, 5rem);
   text-align: center;
+}
+
+/* Centre everything the block contains, including the eyebrow whose flex rule
+   would otherwise stretch to the left edge. */
+.empty-state .eyebrow {
+  justify-content: center;
+}
+
+.empty-state .eyebrow::after {
+  display: none;
+}
+
+.empty-state .lede {
+  margin-inline: auto;
 }
 
 .no-results[hidden] {
@@ -1292,7 +1336,8 @@ main > .shell:first-child {
   display: grid;
   gap: clamp(2rem, 6vw, 5rem);
   grid-template-columns: 1fr;
-  padding-block: clamp(1.5rem, 1rem + 3vw, 3rem) var(--section);
+  padding-block: clamp(1.5rem, 1rem + 3vw, 3rem)
+    clamp(2rem, 1.2rem + 3vw, 3.5rem);
 }
 
 @media (min-width: 900px) {
@@ -1307,7 +1352,10 @@ main > .shell:first-child {
 }
 
 .product__media {
-  aspect-ratio: 3 / 4;
+  /* Until there are photographs this panel is a large empty field, so it is
+     kept square: tall ratios ran it well past the end of the text beside it
+     and made the grey the loudest thing on the page. */
+  aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
   background: var(--bg-alt);
@@ -1393,6 +1441,12 @@ main > .shell:first-child {
   gap: clamp(2rem, 5vw, 4.5rem);
   grid-template-columns: 1fr;
   align-items: center;
+}
+
+/* Columns of very different heights should share a top edge, not float
+   against each other's middles. */
+.split--top {
+  align-items: start;
 }
 
 @media (min-width: 860px) {
