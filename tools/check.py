@@ -21,6 +21,7 @@ Three rules this file exists to enforce, each learned from a bug that shipped:
 from __future__ import annotations
 
 import re
+import socket
 import subprocess
 import sys
 import time
@@ -54,6 +55,15 @@ def check(label, ok, detail=""):
 
 @contextmanager
 def server():
+    # Refuse to run against someone else's server. A leftover process on this
+    # port would answer with different files and every assertion below would be
+    # about those, not about this build.
+    with socket.socket() as probe:
+        if probe.connect_ex(("127.0.0.1", PORT)) == 0:
+            sys.exit(
+                f"port {PORT} is already in use — another server would answer "
+                "these checks. Stop it and re-run."
+            )
     proc = subprocess.Popen(
         [sys.executable, "-m", "http.server", str(PORT), "--bind", "127.0.0.1"],
         cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
@@ -69,6 +79,9 @@ def server():
                 break
             except Exception:
                 time.sleep(0.1)
+        else:
+            proc.terminate()
+            sys.exit(f"server on port {PORT} never came up")
         yield
     finally:
         proc.terminate()
