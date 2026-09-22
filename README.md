@@ -145,13 +145,26 @@ requires a privacy policy — which this site does not yet have.
 ## Checks
 
 ```sh
-python3 build.py    # fails loudly on an unknown template token
+python3 build.py && python3 tools/check.py
 ```
 
-Before shipping a change, re-check horizontal overflow across the width range
-(not just at 1440), that every filter still narrows correctly and stacks with
-the others, that a filtered URL survives a reload, and that no grid is left with
-a partly-filled last row against a contrasting background.
+`tools/check.py` starts its own server, drives a real browser and exits
+non-zero on failure: every filter and combination, a filtered URL surviving a
+reload, five phone sizes (two-column grid, filters above the fold, 44px tap
+targets, 16px inputs, page height), horizontal overflow over 85 width/page
+combinations, and no grid left with a partly-filled last row.
+
+Three habits it encodes, each from a bug that shipped here:
+
+- **Assert pixels, not properties.** `hidden` is outranked by any element with
+  its own `display`, so a filter reported "4 bottles" while all twenty stayed
+  on screen.
+- **Source order decides between equal specificity.** A `@media` block placed
+  above the rules it overrides is inert and still looks right in the diff —
+  that happened three times in one sitting, to the mobile card, the filter bar
+  and the chip/select swap. The check asserts computed values for that reason.
+- **Emulate the device.** macOS Chrome clamps a headless window to 500px, so a
+  390px screenshot is silently fake.
 
 ## Easter egg
 

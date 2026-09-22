@@ -304,7 +304,10 @@ main > .shell:first-child {
 
 .brand {
   display: flex;
-  align-items: baseline;
+  /* Both wordmark lines are set to the same height, so centring lines them up
+     exactly as baseline did — and lets the link reach a 44px touch target. */
+  align-items: center;
+  min-height: 44px;
   gap: 0.42em;
   color: var(--text);
   text-decoration: none;
@@ -312,7 +315,7 @@ main > .shell:first-child {
 }
 
 .brand svg {
-  height: clamp(13px, 1.5vw, 17px);
+  height: clamp(21px, 2.6vw, 32px);
   width: auto;
   color: currentColor;
 }
@@ -507,7 +510,7 @@ main > .shell:first-child {
 }
 
 .masthead__mark {
-  width: min(100%, 300px);
+  width: min(100%, 420px);
   color: var(--text);
 }
 
@@ -560,7 +563,7 @@ main > .shell:first-child {
   }
 
   .masthead__mark {
-    width: min(78%, 240px);
+    width: min(94%, 320px);
   }
 
   .masthead__copy {
@@ -768,12 +771,6 @@ main > .shell:first-child {
 
 /* Stacked on a phone the bar is most of the screen tall, so pinning it would
    leave almost nothing for the results it is filtering. */
-@media (max-width: 860px) {
-  .filters {
-    position: static;
-  }
-}
-
 .filters__row {
   display: flex;
   flex-wrap: wrap;
@@ -848,6 +845,13 @@ main > .shell:first-child {
   flex: 0 1 auto;
 }
 
+/* The chips are the wide-screen control; the select is its small-screen
+   twin — the swap lives after .chips is defined, or the base rule wins on
+   source order and the chips never hide. */
+.select--category {
+  display: none;
+}
+
 .select > span {
   font-size: var(--step--1);
   letter-spacing: 0.18em;
@@ -911,6 +915,57 @@ main > .shell:first-child {
   color: var(--maroon);
 }
 
+@media (max-width: 759px) {
+  .chips {
+    display: none;
+  }
+
+  .select--category {
+    display: grid;
+  }
+}
+
+/* Small-screen filter bar. Must come after the .search/.select/.chip rules,
+   or these overrides lose on source order and silently do nothing. */
+@media (max-width: 860px) {
+  .filters {
+    position: static;
+    padding-block: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Tighter horizontally — the tap target stays 44px tall, but the chips fit
+     more per row, which is what actually costs height. */
+  .chip {
+    padding: 0 0.8rem;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+  }
+
+  .chips {
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .filters__row {
+    gap: 0.6rem 0.8rem;
+  }
+
+  .search {
+    max-width: none;
+    flex-basis: 100%;
+  }
+
+  .select {
+    flex: 1 1 calc(50% - 0.4rem);
+  }
+
+  .select select {
+    width: 100%;
+  }
+}
+
+
 .filters__status {
   display: flex;
   flex-wrap: wrap;
@@ -926,7 +981,7 @@ main > .shell:first-child {
   border: 0;
   background: none;
   padding: 0.4rem 0;
-  min-height: 36px;
+  min-height: 44px;
   color: var(--accent-ink);
   font: var(--step--1) / 1 var(--body);
   letter-spacing: 0.14em;
@@ -1104,6 +1159,66 @@ main > .shell:first-child {
   border-left: 1px solid var(--rule-soft);
   border-bottom: 1px solid var(--rule-soft);
 }
+
+/* Small-screen card. Must come after the base rules above: same specificity,
+   so source order decides, and placing it earlier made every one of these
+   declarations inert while still looking correct in the diff. */
+@media (max-width: 759px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card {
+    padding: 0.85rem 0.85rem 1rem;
+  }
+
+  .card__media {
+    /* Squarer, so two columns of cards do not run to seventeen screens. */
+    aspect-ratio: 1 / 1;
+    margin-bottom: 0.9rem;
+  }
+
+  .card__category {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.4rem;
+  }
+
+  .card__name {
+    font-size: 1.05rem;
+    line-height: 1.12;
+  }
+
+  .card__meta {
+    margin-bottom: 0.7rem;
+  }
+
+  .card__foot {
+    /* Price and stock stack rather than squeezing onto one narrow line. */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    padding-top: 0.75rem;
+  }
+
+  .badge {
+    padding: 0.2rem 0.45rem;
+    font-size: 0.6rem;
+  }
+}
+
+/* 320px still holds two columns once the card is this compact; one column
+   there meant thirteen thousand pixels of scrolling for twenty bottles. */
+@media (max-width: 359px) {
+  .card {
+    padding: 0.7rem 0.7rem 0.85rem;
+  }
+
+  .card__name {
+    font-size: 0.98rem;
+  }
+}
+
 
 .no-results {
   padding-block: clamp(3rem, 8vw, 5rem);
@@ -1443,6 +1558,15 @@ main > .shell:first-child {
 .footer__legal {
   font-style: italic;
   max-width: 52ch;
+}
+
+/* A pointer can hit a 32px link; a finger wants 44. Scoped to touch so the
+   footer does not go slack on a desktop. */
+@media (hover: none) {
+  .footer a,
+  .nav__link {
+    min-height: 44px;
+  }
 }
 
 /* --------------------------------------------------------------------------

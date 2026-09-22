@@ -46,6 +46,9 @@
     var grid = root.querySelector("[data-grid]");
     var cards = Array.prototype.slice.call(grid.children);
     var chips = root.querySelectorAll("[data-filter]");
+    // Chips on a wide screen, a select on a phone. Only one is visible at a
+    // time, but both drive the same state and both are kept in sync.
+    var categorySelect = root.querySelector("[data-category]");
     var search = root.querySelector("[data-search]");
     var searchWrap = root.querySelector("[data-search-wrap]");
     var clear = root.querySelector("[data-search-clear]");
@@ -128,6 +131,9 @@
           chip.dataset.filter === state.category ? "true" : "false"
         );
       });
+      if (categorySelect && categorySelect.value !== state.category) {
+        categorySelect.value = state.category;
+      }
 
       if (count) {
         count.textContent = shown + (shown === 1 ? " bottle" : " bottles");
@@ -179,6 +185,7 @@
       state.sort = p.get("sort") || "default";
 
       if (search) search.value = p.get("q") || "";
+      if (categorySelect) categorySelect.value = state.category;
       if (priceSelect) priceSelect.value = state.price;
       if (strengthSelect) strengthSelect.value = state.strength;
       if (sizeSelect) sizeSelect.value = state.size;
@@ -191,6 +198,13 @@
         apply();
       });
     });
+
+    if (categorySelect) {
+      categorySelect.addEventListener("change", function () {
+        state.category = categorySelect.value;
+        apply();
+      });
+    }
 
     if (search) {
       search.addEventListener("input", function () {
@@ -231,6 +245,7 @@
         state.strength = "any";
         state.size = "any";
         if (search) search.value = "";
+        if (categorySelect) categorySelect.value = "all";
         if (priceSelect) priceSelect.value = "any";
         if (strengthSelect) strengthSelect.value = "any";
         if (sizeSelect) sizeSelect.value = "any";
