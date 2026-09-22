@@ -276,6 +276,13 @@
       }
     });
 
+    // Let the opening stagger finish, then take it out of the way so filtering
+    // is instant rather than waiting on a queue of delays.
+    var settle = 600 + 11 * 45;
+    window.setTimeout(function () {
+      grid.setAttribute("data-settled", "true");
+    }, settle);
+
     readUrl();
     apply();
   }

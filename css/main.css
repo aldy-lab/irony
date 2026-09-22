@@ -107,7 +107,11 @@ body {
   font-size: var(--step-0);
   line-height: 1.6;
   font-feature-settings: "kern" 1, "liga" 1;
+  /* Quotes and hyphens hang into the margin where supported, so the text edge
+     stays optically straight rather than mathematically straight. */
+  hanging-punctuation: first last;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
 }
 
@@ -1078,7 +1082,7 @@ main > .shell:first-child {
 .product-grid {
   display: grid;
   /* auto-fit, not auto-fill: empty tracks collapse instead of being drawn. */
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
   gap: 0;
   border-top: 1px solid var(--rule-soft);
   border-left: 1px solid var(--rule-soft);
@@ -1118,7 +1122,7 @@ main > .shell:first-child {
   border-right: 1px solid var(--rule-soft);
   border-bottom: 1px solid var(--rule-soft);
   background: var(--bg);
-  padding: clamp(1.3rem, 2.4vw, 1.9rem);
+  padding: clamp(1.5rem, 2.6vw, 2.25rem);
   transition: background 0.35s var(--ease);
 }
 
@@ -1152,40 +1156,36 @@ main > .shell:first-child {
   object-fit: cover;
 }
 
-/* No photograph yet, so the card leans on the mark rather than an empty box. */
-.card__media--mark {
-  color: color-mix(in srgb, var(--green) 26%, transparent);
-  transition: color 0.35s var(--ease);
-}
-
-.card__media--mark svg {
-  width: 62%;
-  height: auto;
-}
-
-.card:hover .card__media--mark {
-  color: color-mix(in srgb, var(--maroon) 55%, transparent);
-}
-
 .card__category {
   font-size: var(--step--1);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.7rem;
 }
 
 .card__name {
-  font-size: var(--step-1);
-  font-weight: 500;
-  margin-bottom: 0.45rem;
+  font-size: var(--step-2);
+  line-height: 1.04;
+  margin-bottom: 0.7rem;
+  text-wrap: balance;
+  transition: color 0.3s var(--ease);
 }
 
-.card__meta {
-  font-size: var(--step--1);
+.card:hover .card__name {
+  color: var(--accent-ink);
+}
+
+/* The tasting note is the card's content. Without it the card was a name and
+   an empty frame, which is what made twenty of them look like a template. */
+.card__note {
+  font-size: var(--step-0);
   font-style: italic;
-  color: var(--muted);
-  margin-bottom: 1rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+  color: var(--text-soft);
+  margin: 0 0 1.5rem;
+  max-width: 34ch;
 }
 
 .card__foot {
@@ -1194,35 +1194,74 @@ main > .shell:first-child {
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--rule-soft);
+  padding-top: 1.1rem;
+  position: relative;
+}
+
+/* A hairline that draws itself on hover, rather than sitting there. */
+.card__foot::before,
+.card__foot::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+}
+
+.card__foot::before {
+  right: 0;
+  background: var(--rule-soft);
+}
+
+.card__foot::after {
+  width: 100%;
+  background: var(--accent-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s var(--ease);
+}
+
+.card:hover .card__foot::after {
+  transform: scaleX(1);
 }
 
 .price {
   font-family: var(--display);
-  font-size: var(--step-1);
+  font-size: var(--step-2);
   font-weight: 500;
   font-variant-numeric: lining-nums tabular-nums;
   color: var(--text);
   white-space: nowrap;
+  line-height: 1;
 }
 
 .price small {
   font-family: var(--body);
-  font-size: 0.6em;
-  letter-spacing: 0.1em;
+  font-size: 0.42em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--muted);
 }
 
-.card__stock {
+.card__spec {
   font-size: var(--step--1);
   font-style: italic;
   color: var(--muted);
   white-space: nowrap;
 }
 
-.card__stock[data-out="true"] {
+/* Only present when it says something, so it can afford to be loud. */
+.card__flag {
+  align-self: flex-start;
+  margin-top: 0.9rem;
+  font-size: var(--step--1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--accent-ink);
+}
+
+.card__flag[data-out="true"] {
+  color: var(--muted);
 }
 
 .badge {
@@ -1265,6 +1304,19 @@ main > .shell:first-child {
   .card__name {
     font-size: 1.05rem;
     line-height: 1.12;
+  }
+
+  /* In a 160px column the note runs to five lines and every card in the row
+     grows to match the longest. Three lines keeps the grid even; the whole
+     note is on the bottle's own page. */
+  .card__note {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    font-size: var(--step--1);
+    margin-bottom: 1.1rem;
   }
 
   .card__meta {
@@ -1312,8 +1364,16 @@ main > .shell:first-child {
   animation: card-in 0.42s var(--ease) both;
 }
 
+/* First paint only: the shelf fills in rather than appearing at once. JS marks
+   the grid settled afterwards so filtering is not slowed by the stagger. */
+.product-grid:not([data-settled]) .card {
+  animation: card-in 0.6s var(--ease) both;
+  animation-delay: calc(var(--n, 0) * 45ms);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .card.is-entering {
+  .card.is-entering,
+  .product-grid:not([data-settled]) .card {
     animation: none;
   }
 }
@@ -1365,6 +1425,25 @@ main > .shell:first-child {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     align-items: start;
   }
+
+  /* With a photograph the text sits beside it, so the lead and the detail
+     stack in the one column. Without one they take a column each, which uses
+     the width instead of leaving half the page empty. */
+  .product:has(.product__media) .product__lead,
+  .product:has(.product__media) .product__detail {
+    grid-column: 2;
+  }
+
+  .product:not(:has(.product__media)) {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+
+  /* No cap on the lead: capping it inside a proportional column only opens a
+     trough between the two. The column width is the measure. */
+  .product:not(:has(.product__media)) {
+    gap: clamp(2rem, 5vw, 4.5rem);
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
 }
 
 .product > * {
@@ -1405,6 +1484,15 @@ main > .shell:first-child {
 .product__title {
   font-size: var(--step-3);
   margin-bottom: 0.6rem;
+  text-wrap: balance;
+}
+
+.product__lead .lede {
+  text-wrap: pretty;
+}
+
+.product__detail .spec {
+  margin-top: 0;
 }
 
 .product__price {
@@ -1816,6 +1904,20 @@ body[data-gated="true"] > *:not(.age-gate) {
   [data-reveal] {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Same-origin navigation cross-fades where the browser supports it; elsewhere
+   this rule is simply ignored. */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 

@@ -247,18 +247,20 @@ def media(product: dict, base: str, css_class: str) -> str:
 
 
 def product_media(product: dict) -> str:
-    """Inner contents of the product page's media frame.
+    """The product's photograph, frame and all — or nothing.
 
-    The frame itself is in the template; this is only what sits inside it, so
-    a product with no photograph shows the mark instead of an empty panel.
+    An empty frame beside the type was the largest thing on the page and said
+    nothing. Without a photograph the page is simply one column of type, which
+    is the stronger layout anyway.
     """
     image = product.get("image", "")
-    if image:
-        return (
-            f'<img src="../{esc(image)}" alt="{esc(product["name"])}" '
-            'width="900" height="1200" decoding="async">'
-        )
-    return f'<div class="mark">{use("m-motif")}</div>'
+    if not image:
+        return ""
+    return (
+        f'<div class="product__media"><img src="../{esc(image)}" '
+        f'alt="{esc(product["name"])}" width="900" height="1200" '
+        'decoding="async"></div>'
+    )
 
 
 def search_text(product: dict, cats: dict) -> str:
@@ -278,26 +280,41 @@ def card(product: dict, cats: dict, base: str, order: int) -> str:
         if PREVIEW and product.get("placeholder")
         else ""
     )
-    # A placeholder's stock number is invented, so it is not shown as fact.
+
+    # No photograph means no frame. Twenty identical empty panels read as
+    # images that failed to load; the card carries its own content instead,
+    # and the frame returns the moment there is something to put in it.
+    frame = media(product, base, "card__media") if product.get("image") else ""
+
+    note = product.get("notes", "")
+    note_html = f'<p class="card__note">{esc(note)}</p>' if note else ""
+
+    # Shown only when it tells you something. "In stock" on every one of twenty
+    # cards is twenty lines of nothing.
     stock = 0 if product.get("placeholder") else product.get("stock", 0)
-    stock_label = (
-        "Ask in the shop"
-        if product.get("placeholder")
-        else "In stock" if stock > 3 else f"Only {stock} left" if stock else "Ask us"
-    )
-    return f"""<li class="card" data-category="{esc(product['category'])}"
+    flag = ""
+    if not product.get("placeholder"):
+        if stock == 0:
+            flag = '<span class="card__flag" data-out="true">Currently out</span>'
+        elif stock == 1:
+            flag = '<span class="card__flag">Last bottle</span>'
+        elif stock <= 3:
+            flag = f'<span class="card__flag">Only {stock} left</span>'
+
+    return f"""<li class="card" style="--n:{min(order, 11)}" data-category="{esc(product['category'])}"
     data-price="{product['price']}" data-abv="{product['abv']}"
     data-volume="{product['volume']}" data-name="{esc(product['name'])}"
     data-search="{esc(search_text(product, cats))}" data-order="{order}">
   {draft}
-  {media(product, base, "card__media")}
+  {frame}
   <p class="card__category">{esc(cats[product['category']]['name'])}</p>
   <h2 class="card__name"><a class="card__link" href="{base}shop/{product['slug']}.html">{esc(product['name'])}</a></h2>
-  <p class="card__meta">{product['volume']} ml &middot; {product['abv']}%</p>
+  {note_html}
   <div class="card__foot">
     <span class="price">{money(product['price'])} <small>CZK</small></span>
-    <span class="card__stock" data-out="{'true' if not stock else 'false'}">{esc(stock_label)}</span>
+    <span class="card__spec">{product['volume']} ml &middot; {product['abv']}%</span>
   </div>
+  {flag}
 </li>"""
 
 

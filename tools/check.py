@@ -447,11 +447,20 @@ def check_mobile(br):
         # source order decides. Placed too early they go inert while still
         # reading correctly in the CSS — assert the computed value, not the rule.
         card = pg.evaluate(
-            """()=>({ar:getComputedStyle(document.querySelector('.card__media')).aspectRatio,
-                     pad:parseFloat(getComputedStyle(document.querySelector('.card')).paddingTop)})"""
+            """()=>{const c=document.querySelector('.card');
+                    const m=document.querySelector('.card__media');
+                    return {pad:parseFloat(getComputedStyle(c).paddingTop),
+                            ar:m?getComputedStyle(m).aspectRatio:null,
+                            frames:document.querySelectorAll('.card__media').length,
+                            photos:document.querySelectorAll('.card__media img').length};}"""
         )
-        check(f"{name}: compact card is in effect", card["ar"].replace(" ", "") == "1/1" and card["pad"] < 16,
-              f'aspect {card["ar"]}, padding {card["pad"]}px')
+        check(f"{name}: compact card is in effect", card["pad"] < 18, f'padding {card["pad"]}px')
+        # A frame with no photograph in it is the thing that made twenty cards
+        # look like a template, so there should never be one.
+        check(f"{name}: no empty media frames", card["frames"] == card["photos"],
+              f'{card["frames"]} frames, {card["photos"]} photographs')
+        if card["ar"]:
+            check(f"{name}: photo frame is square", card["ar"].replace(" ", "") == "1/1", card["ar"])
         ctx.close()
 
 

@@ -58,9 +58,12 @@ is a missing link, never a dead one.
   distillery is named anywhere, because listing a brand is claiming to stock it.
   Replace them with the real list (name, producer, volume, ABV, price, a line of
   copy) and delete the `"placeholder": true` line from each.
-- **No product photography.** Cards are designed to work without it and fall
-  back to the brand mark. Add `"image": "assets/products/x.webp"` to a product
-  and its card grows a photo; leave it out and the card stays typographic.
+- **No product photography.** Nothing renders an empty frame waiting for one.
+  A card with no `image` is purely typographic — category, name, tasting note,
+  price — and a product page with no `image` is two columns of type instead of
+  one column beside a blank panel. Add `"image": "assets/products/x.webp"` and
+  the frame appears, square, on both. Twenty identical empty panels is what
+  makes a site look like a template, so there are none.
 - **No contact details.** The footer shows a holding line until `email`,
   `phone` or a social URL is filled in, and product pages show no enquiry
   button at all rather than one that goes nowhere.
