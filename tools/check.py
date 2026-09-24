@@ -159,6 +159,44 @@ def check_filters(br):
     pg.wait_for_timeout(400)
     check("a filtered URL survives a reload", painted(pg) == 2, str(painted(pg)))
 
+    # Newest first, from the listing dates.
+    pg.goto(BASE + "/", wait_until="networkidle")
+    pg.wait_for_timeout(400)
+    pg.select_option("[data-sort]", "newest")
+    pg.wait_for_timeout(350)
+    dates = pg.eval_on_selector_all("[data-grid] > li", "e=>e.map(x=>x.dataset.added)")
+    check("newest first is actually newest first", dates == sorted(dates, reverse=True),
+          str(dates[:3]))
+    check("every bottle has a listing date", all(dates), f"{dates.count('')} missing")
+
+    # Diacritics folded both ways: the haystack is folded at build time and the
+    # query is folded in the browser.
+    pg.select_option("[data-sort]", "default")
+    pg.fill("[data-search]", "aperitivo")
+    pg.wait_for_timeout(350)
+    plain = painted(pg)
+    pg.fill("[data-search]", "apéritivo")
+    pg.wait_for_timeout(350)
+    check("search ignores diacritics", painted(pg) == plain and plain > 0,
+          f"{plain} plain vs {painted(pg)} accented")
+    pg.fill("[data-search]", "")
+    pg.wait_for_timeout(300)
+
+    # The random pick must respect the shelf you are looking at.
+    pg.click('[data-filter="rum"]')
+    pg.wait_for_timeout(300)
+    pg.click("[data-random]")
+    pg.wait_for_load_state("networkidle")
+    pg.wait_for_timeout(300)
+    crumb = pg.eval_on_selector(".eyebrow", "e=>e.textContent")
+    check("the random pick stays inside the filter", "Rum" in crumb, crumb.strip()[:40])
+
+    # A bottle is not a dead end.
+    check("a bottle links to its neighbours",
+          pg.eval_on_selector_all("a[rel=prev], a[rel=next]", "e=>e.length") == 2)
+
+    pg.goto(BASE + "/", wait_until="networkidle")
+    pg.wait_for_timeout(400)
     check(
         "nothing is buyable",
         pg.eval_on_selector_all("[data-add], .card__add, [data-checkout-form]", "e=>e.length") == 0,

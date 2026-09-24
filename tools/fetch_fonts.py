@@ -22,8 +22,12 @@ UA = (
 # matches the logo's proportions best of all — it has lining figures. Italiana
 # renders "10 Years" as "Io Years", which a catalogue full of ages, strengths
 # and volumes cannot carry.
+# Only what the stylesheet actually asks for. Cormorant is the display face and
+# is never set italic or at any weight but 500, so the other ten files were
+# downloaded by nobody. The -ext subsets stay: they carry the Czech diacritics
+# that arrive with the real product names.
 FAMILIES = {
-    "Cormorant Garamond": "ital,wght@0,400;0,500;0,600;1,400;1,500;1,600",
+    "Cormorant Garamond": "wght@500",
     "EB Garamond": "ital,wght@0,400..800;1,400..800",
 }
 # Latin only. latin-ext carries the Czech diacritics for names and addresses.

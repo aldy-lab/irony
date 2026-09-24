@@ -25,6 +25,7 @@
 <link rel="alternate icon" href="../assets/brand/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="New on the shelf" href="../arrivals.xml">
 
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="../assets/fonts/cormorant-garamond-normal-500-latin.woff2">
@@ -33,6 +34,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="../assets/fonts/eb-garamond-italic-400800-latin.woff2">
 <link rel="stylesheet" href="../css/main.css">
+<script>
+  /* Before first paint: decides whether the gate or the shop is shown, so
+     neither flashes into the other. Wrapped because storage throws in a
+     private window, where the gate simply appears. */
+  try {
+    if (localStorage.getItem("ivs.age.v1") !== "true") {
+      document.documentElement.className += " is-gated";
+    }
+  } catch (e) {
+    document.documentElement.className += " is-gated";
+  }
+</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Sweet Vermouth","category":"Vermouth & Aperitivo","description":"Keep it in the fridge. Yes, really - it is wine, and it dies in a cupboard.","offers":{"@type":"Offer","price":490,"priceCurrency":"CZK","url":"https://aldy-lab.github.io/irony/shop/sweet-vermouth.html"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Catalogue","item":"https://aldy-lab.github.io/irony/"},{"@type":"ListItem","position":2,"name":"Vermouth & Aperitivo","item":"https://aldy-lab.github.io/irony/?c=aperitivo"},{"@type":"ListItem","position":3,"name":"Sweet Vermouth"}]}</script>
 </head>
 <body>
@@ -115,11 +128,14 @@
     </div>
   </article>
 
+  <nav class="pager" aria-label="Other bottles"><a class="pager__link" rel="prev" href="agricole-blanc.html"><span class="pager__dir">Previous</span><span class="pager__name">Rhum Agricole Blanc</span></a><a class="pager__link pager__link--next" rel="next" href="dry-vermouth.html"><span class="pager__dir">Next</span><span class="pager__name">Dry Vermouth</span></a></nav>
+
   <section class="section" style="border-top:1px solid var(--rule-soft)">
     <p class="eyebrow">More from the shelf</p>
     <ul class="product-grid product-grid--four"><li class="card" style="--n:0" data-category="aperitivo"
     data-price="520" data-abv="18.0"
     data-volume="750" data-name="Dry Vermouth"
+    data-added="2025-12-22"
     data-search="dry vermouth vermouth &amp; aperitivo alpine and bone-dry. the half of a martini nobody credits." data-order="0">
   
   <div class="card__media card__media--mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 496.95 260.22"><use href="#m-motif"/></svg></div>
@@ -135,6 +151,7 @@
 <li class="card" style="--n:1" data-category="aperitivo"
     data-price="610" data-abv="25.0"
     data-volume="700" data-name="Bitter Aperitivo"
+    data-added="2025-11-21"
     data-search="bitter aperitivo vermouth &amp; aperitivo rhubarb and gentian, coloured somewhere between sunset and a warning." data-order="1">
   
   <div class="card__media card__media--mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 496.95 260.22"><use href="#m-motif"/></svg></div>
@@ -150,8 +167,9 @@
 <li class="card" style="--n:2" data-category="gin"
     data-price="690" data-abv="43.0"
     data-volume="700" data-name="London Dry Gin"
+    data-added="2026-08-29"
     data-search="london dry gin gin juniper-forward and unambiguous. the gin a martini was written for." data-order="2">
-  
+  <span class="card__new">New</span>
   <div class="card__media card__media--mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 496.95 260.22"><use href="#m-motif"/></svg></div>
   <p class="card__category">Gin</p>
   <h2 class="card__name"><a class="card__link" href="../shop/london-dry-gin-classic.html">London Dry Gin</a></h2>
@@ -165,6 +183,7 @@
 <li class="card" style="--n:3" data-category="gin"
     data-price="990" data-abv="57.0"
     data-volume="700" data-name="Navy Strength Gin"
+    data-added="2025-10-28"
     data-search="navy strength gin gin overproof, so it survives contact with citrus and ice without going quiet." data-order="3">
   
   <div class="card__media card__media--mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 496.95 260.22"><use href="#m-motif"/></svg></div>

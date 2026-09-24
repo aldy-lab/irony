@@ -25,6 +25,7 @@
 <link rel="alternate icon" href="../assets/brand/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="New on the shelf" href="../arrivals.xml">
 
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="../assets/fonts/cormorant-garamond-normal-500-latin.woff2">
@@ -33,6 +34,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="../assets/fonts/eb-garamond-italic-400800-latin.woff2">
 <link rel="stylesheet" href="../css/main.css">
+<script>
+  /* Before first paint: decides whether the gate or the shop is shown, so
+     neither flashes into the other. Wrapped because storage throws in a
+     private window, where the gate simply appears. */
+  try {
+    if (localStorage.getItem("ivs.age.v1") !== "true") {
+      document.documentElement.className += " is-gated";
+    }
+  } catch (e) {
+    document.documentElement.className += " is-gated";
+  }
+</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Orange Curacao","category":"Liqueur","description":"Bitter orange in brandy. The unglamorous third of a Sidecar.","offers":{"@type":"Offer","price":640,"priceCurrency":"CZK","url":"https://aldy-lab.github.io/irony/shop/orange-curacao.html"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Catalogue","item":"https://aldy-lab.github.io/irony/"},{"@type":"ListItem","position":2,"name":"Liqueur","item":"https://aldy-lab.github.io/irony/?c=liqueur"},{"@type":"ListItem","position":3,"name":"Orange Curacao"}]}</script>
 </head>
 <body>
@@ -115,13 +128,16 @@
     </div>
   </article>
 
+  <nav class="pager" aria-label="Other bottles"><a class="pager__link" rel="prev" href="amaro-alpino.html"><span class="pager__dir">Previous</span><span class="pager__name">Alpine Amaro</span></a><a class="pager__link pager__link--next" rel="next" href="maraschino.html"><span class="pager__dir">Next</span><span class="pager__name">Maraschino Liqueur</span></a></nav>
+
   <section class="section" style="border-top:1px solid var(--rule-soft)">
     <p class="eyebrow">More from the shelf</p>
     <ul class="product-grid product-grid--four"><li class="card" style="--n:0" data-category="liqueur"
     data-price="780" data-abv="30.0"
     data-volume="700" data-name="Alpine Amaro"
+    data-added="2026-09-16"
     data-search="alpine amaro liqueur root, mint and bitterness. drink it after everything else has failed." data-order="0">
-  
+  <span class="card__new">New</span>
   <div class="card__media card__media--mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 496.95 260.22"><use href="#m-motif"/></svg></div>
   <p class="card__category">Liqueur</p>
   <h2 class="card__name"><a class="card__link" href="../shop/amaro-alpino.html">Alpine Amaro</a></h2>
@@ -135,8 +151,9 @@
 <li class="card" style="--n:1" data-category="liqueur"
     data-price="720" data-abv="32.0"
     data-volume="500" data-name="Maraschino Liqueur"
+    data-added="2026-09-07"
     data-search="maraschino liqueur liqueur marasca cherry with the stones in. nothing like the syrup of the same name." data-order="1">
-  
+  <span class="card__new">New</span>
   <div class="card__media card__media--mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 496.95 260.22"><use href="#m-motif"/></svg></div>
   <p class="card__category">Liqueur</p>
   <h2 class="card__name"><a class="card__link" href="../shop/maraschino.html">Maraschino Liqueur</a></h2>
@@ -150,6 +167,7 @@
 <li class="card" style="--n:2" data-category="liqueur"
     data-price="560" data-abv="20.0"
     data-volume="500" data-name="Creme de Cassis"
+    data-added="2025-12-22"
     data-search="creme de cassis liqueur blackcurrant, thick and dark. one bar spoon changes a whole drink." data-order="2">
   
   <div class="card__media card__media--mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 496.95 260.22"><use href="#m-motif"/></svg></div>
@@ -165,8 +183,9 @@
 <li class="card" style="--n:3" data-category="gin"
     data-price="690" data-abv="43.0"
     data-volume="700" data-name="London Dry Gin"
+    data-added="2026-08-29"
     data-search="london dry gin gin juniper-forward and unambiguous. the gin a martini was written for." data-order="3">
-  
+  <span class="card__new">New</span>
   <div class="card__media card__media--mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 496.95 260.22"><use href="#m-motif"/></svg></div>
   <p class="card__category">Gin</p>
   <h2 class="card__name"><a class="card__link" href="../shop/london-dry-gin-classic.html">London Dry Gin</a></h2>

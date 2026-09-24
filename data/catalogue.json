@@ -5,7 +5,7 @@
     "because listing a brand is claiming to stock it. build.py prints a warning for",
     "every placeholder still present, so none can reach the client by accident.",
     "",
-    "To make a product real: replace name/producer/notes, set a price, delete the",
+    "\"added\" is the date the bottle went on the shelf. It drives \"new\" on the\n    card and the newest-first sort, and the arrivals feed. Format YYYY-MM-DD.\n",
     "placeholder line.",
     "",
     "PHOTOGRAPHS: \"image\": \"assets/products/<slug>.webp\". The slot is SQUARE",
@@ -60,7 +60,8 @@
       "notes": "Juniper-forward and unambiguous. The gin a Martini was written for.",
       "stock": 12,
       "featured": true,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2026-08-29"
     },
     {
       "slug": "navy-strength-gin",
@@ -72,7 +73,8 @@
       "price": 990,
       "notes": "Overproof, so it survives contact with citrus and ice without going quiet.",
       "stock": 6,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-10-28"
     },
     {
       "slug": "barrel-rested-gin",
@@ -84,7 +86,8 @@
       "price": 1150,
       "notes": "Six months in oak. Somewhere between a gin and a young whisky, and honest about it.",
       "stock": 4,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-09-30"
     },
     {
       "slug": "single-malt-10",
@@ -97,7 +100,8 @@
       "notes": "Orchard fruit, a little malt sweetness, no smoke to argue with.",
       "stock": 8,
       "featured": true,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2026-03-08"
     },
     {
       "slug": "islay-peated-single-malt",
@@ -109,7 +113,8 @@
       "price": 1690,
       "notes": "Coastal and medicinal. Divides a room faster than politics.",
       "stock": 5,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-09-22"
     },
     {
       "slug": "straight-rye",
@@ -121,7 +126,8 @@
       "price": 1190,
       "notes": "Dry, peppery, and the reason a Manhattan has a spine.",
       "stock": 9,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-12-15"
     },
     {
       "slug": "bourbon-small-batch",
@@ -133,7 +139,8 @@
       "price": 1090,
       "notes": "Corn-sweet and vanilla-heavy, with enough oak to stop it being a dessert.",
       "stock": 10,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-11-23"
     },
     {
       "slug": "blanco-tequila",
@@ -146,7 +153,8 @@
       "notes": "Unaged, additive-free, and tasting of the plant rather than the barrel.",
       "stock": 7,
       "featured": true,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2026-05-07"
     },
     {
       "slug": "espadin-mezcal",
@@ -158,7 +166,8 @@
       "price": 1450,
       "notes": "Roasted in a stone pit, so the smoke is a method, not a flavouring.",
       "stock": 5,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2026-09-21"
     },
     {
       "slug": "reposado-tequila",
@@ -170,7 +179,8 @@
       "price": 1490,
       "notes": "Eight months in oak. Softer, and it stops fighting the glass.",
       "stock": 6,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-12-25"
     },
     {
       "slug": "aged-rum-8",
@@ -182,7 +192,8 @@
       "price": 990,
       "notes": "Tropical ageing does in eight years what Scotland needs twenty for.",
       "stock": 11,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-12-10"
     },
     {
       "slug": "overproof-white-rum",
@@ -194,7 +205,8 @@
       "price": 850,
       "notes": "Funky, high-ester and unreasonable. Built for tiki and for float.",
       "stock": 8,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-10-14"
     },
     {
       "slug": "agricole-blanc",
@@ -206,7 +218,8 @@
       "price": 1150,
       "notes": "Pressed cane juice, never molasses. Grassy and faintly saline.",
       "stock": 4,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2026-05-08"
     },
     {
       "slug": "sweet-vermouth",
@@ -219,7 +232,8 @@
       "notes": "Keep it in the fridge. Yes, really - it is wine, and it dies in a cupboard.",
       "stock": 14,
       "featured": true,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2026-05-05"
     },
     {
       "slug": "dry-vermouth",
@@ -231,7 +245,8 @@
       "price": 520,
       "notes": "Alpine and bone-dry. The half of a Martini nobody credits.",
       "stock": 12,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-12-22"
     },
     {
       "slug": "bitter-aperitivo",
@@ -243,7 +258,8 @@
       "price": 610,
       "notes": "Rhubarb and gentian, coloured somewhere between sunset and a warning.",
       "stock": 10,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-11-21"
     },
     {
       "slug": "amaro-alpino",
@@ -255,7 +271,8 @@
       "price": 780,
       "notes": "Root, mint and bitterness. Drink it after everything else has failed.",
       "stock": 9,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2026-09-16"
     },
     {
       "slug": "orange-curacao",
@@ -267,7 +284,8 @@
       "price": 640,
       "notes": "Bitter orange in brandy. The unglamorous third of a Sidecar.",
       "stock": 13,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2026-06-23"
     },
     {
       "slug": "maraschino",
@@ -279,7 +297,8 @@
       "price": 720,
       "notes": "Marasca cherry with the stones in. Nothing like the syrup of the same name.",
       "stock": 7,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2026-09-07"
     },
     {
       "slug": "creme-de-cassis",
@@ -291,7 +310,8 @@
       "price": 560,
       "notes": "Blackcurrant, thick and dark. One bar spoon changes a whole drink.",
       "stock": 8,
-      "placeholder": true
+      "placeholder": true,
+      "added": "2025-12-22"
     }
   ]
 }

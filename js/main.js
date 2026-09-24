@@ -37,6 +37,12 @@
     }
   }
 
+  /* Strip diacritics, so "Becherovka" finds "Bečerovka" and the other way
+     round. build.py folds the searchable text the same way. */
+  function fold(text) {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  }
+
   /* ---------------------------------------------------------------------
      Catalogue filtering
      --------------------------------------------------------------------- */
@@ -103,6 +109,9 @@
         if (mode === "price-asc") return num(a, "price") - num(b, "price");
         if (mode === "price-desc") return num(b, "price") - num(a, "price");
         if (mode === "abv-desc") return num(b, "abv") - num(a, "abv");
+        if (mode === "newest") {
+          return (b.dataset.added || "").localeCompare(a.dataset.added || "");
+        }
         if (mode === "name") return a.dataset.name.localeCompare(b.dataset.name);
         return num(a, "order") - num(b, "order");
       });
@@ -117,6 +126,7 @@
 
     var motionOK = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var first = true;
+    var lastMiss = "";
 
     function apply() {
       var shown = 0;
@@ -148,6 +158,18 @@
         count.textContent = shown + (shown === 1 ? " bottle" : " bottles");
       }
       if (empty) empty.hidden = shown !== 0;
+
+      // A search that finds nothing is the most useful thing the shop can
+      // learn — it is a bottle somebody wanted and the shelf did not have.
+      // Only reported if analytics is switched on at all; with it off,
+      // window.plausible does not exist and nothing is sent anywhere.
+      if (shown === 0 && state.q && state.q !== lastMiss) {
+        lastMiss = state.q;
+        if (typeof window.plausible === "function") {
+          window.plausible("Search miss", { props: { query: state.q } });
+        }
+      }
+      if (shown > 0) lastMiss = "";
       if (searchWrap) {
         searchWrap.setAttribute("data-filled", state.q ? "true" : "false");
       }
@@ -196,7 +218,7 @@
       if (category && root.querySelector('[data-filter="' + CSS.escape(category) + '"]')) {
         state.category = category;
       }
-      state.q = (p.get("q") || "").toLowerCase();
+      state.q = fold(p.get("q") || "");
       state.price = p.get("price") || "any";
       state.strength = p.get("abv") || "any";
       state.size = p.get("ml") || "any";
@@ -209,12 +231,40 @@
       if (sortSelect) sortSelect.value = state.sort;
     }
 
+    var narrow = function () {
+      return window.matchMedia("(max-width: 899px)").matches;
+    };
+
+    function closePanelAndShowResults() {
+      if (!narrow() || !facets || facets.getAttribute("data-open") !== "true") return;
+      facets.setAttribute("data-open", "false");
+      if (facetsToggle) facetsToggle.setAttribute("aria-expanded", "false");
+      // Choosing a filter and being left looking at the filter panel is the
+      // one thing that made this feel unfinished on a phone.
+      var head = root.querySelector(".results__head");
+      if (head) head.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+
     options.forEach(function (option) {
       option.addEventListener("click", function () {
         state.category = option.dataset.filter;
         apply();
+        closePanelAndShowResults();
       });
     });
+
+    var randomButton = root.querySelector("[data-random]");
+    if (randomButton) {
+      randomButton.addEventListener("click", function () {
+        var open = cards.filter(function (card) {
+          return !card.hidden;
+        });
+        if (!open.length) return;
+        var pick = open[Math.floor(Math.random() * open.length)];
+        var link = pick.querySelector(".card__link");
+        if (link) window.location.href = link.getAttribute("href");
+      });
+    }
 
     if (facetsToggle && facets) {
       facetsToggle.addEventListener("click", function () {
@@ -229,7 +279,7 @@
       search.addEventListener("input", function () {
         window.clearTimeout(typing);
         typing = window.setTimeout(function () {
-          state.q = search.value.trim().toLowerCase();
+          state.q = fold(search.value.trim());
           apply();
         }, 130);
       });
@@ -350,7 +400,6 @@
   var gate = document.querySelector("[data-age-gate]");
   if (gate) {
     if (read(AGE_KEY, false) !== true) {
-      document.body.setAttribute("data-gated", "true");
       gate.hidden = false;
 
       // Focus starts inside the dialog and stays there. There is no Escape:
@@ -375,7 +424,7 @@
 
       gate.querySelector("[data-age-yes]").addEventListener("click", function () {
         write(AGE_KEY, true);
-        document.body.removeAttribute("data-gated");
+        document.documentElement.classList.remove("is-gated");
         gate.hidden = true;
         var skip = document.querySelector(".skip-link");
         if (skip) skip.focus();

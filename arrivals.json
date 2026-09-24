@@ -1,0 +1,226 @@
+{
+  "shop": "Irony vs. Satyr",
+  "updated": "2026-09-24",
+  "bottles": [
+    {
+      "name": "Espadin Mezcal",
+      "category": "Agave",
+      "volume_ml": 700,
+      "abv": 45.0,
+      "price": 1450,
+      "currency": "CZK",
+      "note": "Roasted in a stone pit, so the smoke is a method, not a flavouring.",
+      "added": "2026-09-21",
+      "url": "https://aldy-lab.github.io/irony/shop/espadin-mezcal.html"
+    },
+    {
+      "name": "Alpine Amaro",
+      "category": "Liqueur",
+      "volume_ml": 700,
+      "abv": 30.0,
+      "price": 780,
+      "currency": "CZK",
+      "note": "Root, mint and bitterness. Drink it after everything else has failed.",
+      "added": "2026-09-16",
+      "url": "https://aldy-lab.github.io/irony/shop/amaro-alpino.html"
+    },
+    {
+      "name": "Maraschino Liqueur",
+      "category": "Liqueur",
+      "volume_ml": 500,
+      "abv": 32.0,
+      "price": 720,
+      "currency": "CZK",
+      "note": "Marasca cherry with the stones in. Nothing like the syrup of the same name.",
+      "added": "2026-09-07",
+      "url": "https://aldy-lab.github.io/irony/shop/maraschino.html"
+    },
+    {
+      "name": "London Dry Gin",
+      "category": "Gin",
+      "volume_ml": 700,
+      "abv": 43.0,
+      "price": 690,
+      "currency": "CZK",
+      "note": "Juniper-forward and unambiguous. The gin a Martini was written for.",
+      "added": "2026-08-29",
+      "url": "https://aldy-lab.github.io/irony/shop/london-dry-gin-classic.html"
+    },
+    {
+      "name": "Orange Curacao",
+      "category": "Liqueur",
+      "volume_ml": 700,
+      "abv": 40.0,
+      "price": 640,
+      "currency": "CZK",
+      "note": "Bitter orange in brandy. The unglamorous third of a Sidecar.",
+      "added": "2026-06-23",
+      "url": "https://aldy-lab.github.io/irony/shop/orange-curacao.html"
+    },
+    {
+      "name": "Rhum Agricole Blanc",
+      "category": "Rum",
+      "volume_ml": 700,
+      "abv": 50.0,
+      "price": 1150,
+      "currency": "CZK",
+      "note": "Pressed cane juice, never molasses. Grassy and faintly saline.",
+      "added": "2026-05-08",
+      "url": "https://aldy-lab.github.io/irony/shop/agricole-blanc.html"
+    },
+    {
+      "name": "Blanco Tequila",
+      "category": "Agave",
+      "volume_ml": 700,
+      "abv": 40.0,
+      "price": 1250,
+      "currency": "CZK",
+      "note": "Unaged, additive-free, and tasting of the plant rather than the barrel.",
+      "added": "2026-05-07",
+      "url": "https://aldy-lab.github.io/irony/shop/blanco-tequila.html"
+    },
+    {
+      "name": "Sweet Vermouth",
+      "category": "Vermouth & Aperitivo",
+      "volume_ml": 750,
+      "abv": 16.5,
+      "price": 490,
+      "currency": "CZK",
+      "note": "Keep it in the fridge. Yes, really - it is wine, and it dies in a cupboard.",
+      "added": "2026-05-05",
+      "url": "https://aldy-lab.github.io/irony/shop/sweet-vermouth.html"
+    },
+    {
+      "name": "Single Malt, 10 Years",
+      "category": "Whisky",
+      "volume_ml": 700,
+      "abv": 43.0,
+      "price": 1290,
+      "currency": "CZK",
+      "note": "Orchard fruit, a little malt sweetness, no smoke to argue with.",
+      "added": "2026-03-08",
+      "url": "https://aldy-lab.github.io/irony/shop/single-malt-10.html"
+    },
+    {
+      "name": "Reposado Tequila",
+      "category": "Agave",
+      "volume_ml": 700,
+      "abv": 40.0,
+      "price": 1490,
+      "currency": "CZK",
+      "note": "Eight months in oak. Softer, and it stops fighting the glass.",
+      "added": "2025-12-25",
+      "url": "https://aldy-lab.github.io/irony/shop/reposado-tequila.html"
+    },
+    {
+      "name": "Dry Vermouth",
+      "category": "Vermouth & Aperitivo",
+      "volume_ml": 750,
+      "abv": 18.0,
+      "price": 520,
+      "currency": "CZK",
+      "note": "Alpine and bone-dry. The half of a Martini nobody credits.",
+      "added": "2025-12-22",
+      "url": "https://aldy-lab.github.io/irony/shop/dry-vermouth.html"
+    },
+    {
+      "name": "Creme de Cassis",
+      "category": "Liqueur",
+      "volume_ml": 500,
+      "abv": 20.0,
+      "price": 560,
+      "currency": "CZK",
+      "note": "Blackcurrant, thick and dark. One bar spoon changes a whole drink.",
+      "added": "2025-12-22",
+      "url": "https://aldy-lab.github.io/irony/shop/creme-de-cassis.html"
+    },
+    {
+      "name": "Straight Rye",
+      "category": "Whisky",
+      "volume_ml": 700,
+      "abv": 50.0,
+      "price": 1190,
+      "currency": "CZK",
+      "note": "Dry, peppery, and the reason a Manhattan has a spine.",
+      "added": "2025-12-15",
+      "url": "https://aldy-lab.github.io/irony/shop/straight-rye.html"
+    },
+    {
+      "name": "Aged Rum, 8 Years",
+      "category": "Rum",
+      "volume_ml": 700,
+      "abv": 43.0,
+      "price": 990,
+      "currency": "CZK",
+      "note": "Tropical ageing does in eight years what Scotland needs twenty for.",
+      "added": "2025-12-10",
+      "url": "https://aldy-lab.github.io/irony/shop/aged-rum-8.html"
+    },
+    {
+      "name": "Small Batch Bourbon",
+      "category": "Whisky",
+      "volume_ml": 700,
+      "abv": 45.0,
+      "price": 1090,
+      "currency": "CZK",
+      "note": "Corn-sweet and vanilla-heavy, with enough oak to stop it being a dessert.",
+      "added": "2025-11-23",
+      "url": "https://aldy-lab.github.io/irony/shop/bourbon-small-batch.html"
+    },
+    {
+      "name": "Bitter Aperitivo",
+      "category": "Vermouth & Aperitivo",
+      "volume_ml": 700,
+      "abv": 25.0,
+      "price": 610,
+      "currency": "CZK",
+      "note": "Rhubarb and gentian, coloured somewhere between sunset and a warning.",
+      "added": "2025-11-21",
+      "url": "https://aldy-lab.github.io/irony/shop/bitter-aperitivo.html"
+    },
+    {
+      "name": "Navy Strength Gin",
+      "category": "Gin",
+      "volume_ml": 700,
+      "abv": 57.0,
+      "price": 990,
+      "currency": "CZK",
+      "note": "Overproof, so it survives contact with citrus and ice without going quiet.",
+      "added": "2025-10-28",
+      "url": "https://aldy-lab.github.io/irony/shop/navy-strength-gin.html"
+    },
+    {
+      "name": "Overproof White Rum",
+      "category": "Rum",
+      "volume_ml": 700,
+      "abv": 63.0,
+      "price": 850,
+      "currency": "CZK",
+      "note": "Funky, high-ester and unreasonable. Built for tiki and for float.",
+      "added": "2025-10-14",
+      "url": "https://aldy-lab.github.io/irony/shop/overproof-white-rum.html"
+    },
+    {
+      "name": "Barrel-Rested Gin",
+      "category": "Gin",
+      "volume_ml": 500,
+      "abv": 46.0,
+      "price": 1150,
+      "currency": "CZK",
+      "note": "Six months in oak. Somewhere between a gin and a young whisky, and honest about it.",
+      "added": "2025-09-30",
+      "url": "https://aldy-lab.github.io/irony/shop/barrel-rested-gin.html"
+    },
+    {
+      "name": "Peated Single Malt",
+      "category": "Whisky",
+      "volume_ml": 700,
+      "abv": 46.0,
+      "price": 1690,
+      "currency": "CZK",
+      "note": "Coastal and medicinal. Divides a room faster than politics.",
+      "added": "2025-09-22",
+      "url": "https://aldy-lab.github.io/irony/shop/islay-peated-single-malt.html"
+    }
+  ]
+}

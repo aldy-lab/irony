@@ -91,6 +91,13 @@ The header is the dark half of the brand, gold on green, and carries its own
 colour tokens so it stays that way over a light page, an inverted section, or
 the after-hours colourway.
 
+## New arrivals
+
+Each bottle carries an `added` date. It drives the **New** mark (30 days), the
+newest-first sort, and `arrivals.json` / `arrivals.xml` — one generated list a
+newsletter, a shop window or a feed reader can all read, instead of three
+hand-kept ones.
+
 ## Filtering
 
 Filters sit in a **left sidebar** rather than a bar across the top, so the grid
@@ -248,6 +255,16 @@ requires a privacy policy — which this site does not yet have.
 ```sh
 python3 build.py && python3 tools/check.py
 ```
+
+`.github/workflows/check.yml` runs both on every push and pull request, and
+fails if the committed HTML differs from a fresh build — so what is on the site
+is always what the templates and data produce. Running the checks by hand works
+right up until the once somebody forgets.
+
+`build.py` validates the data before rendering anything: an unknown category, a
+duplicate slug, a price that is a string, a malformed date — each is reported
+with the product named, instead of surfacing as a KeyError from deep inside the
+renderer.
 
 `tools/check.py` starts its own server, drives a real browser and exits
 non-zero on failure: every filter and combination, a filtered URL surviving a

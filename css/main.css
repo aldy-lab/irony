@@ -1011,6 +1011,40 @@ main > .shell:first-child {
   color: var(--muted);
 }
 
+/* Not knowing what to buy is the normal state in a bottle shop. */
+.results__pick {
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--body);
+  font-size: var(--step--1);
+  font-style: italic;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease),
+    border-color 0.25s var(--ease);
+}
+
+.results__pick:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--maroon);
+}
+
+@media (hover: none) {
+  .results__pick:hover {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--rule);
+  }
+}
+
+.results__head {
+  gap: 0.75rem 1rem;
+}
+
 .results__sort {
   display: flex;
   align-items: center;
@@ -1278,6 +1312,27 @@ main > .shell:first-child {
 
 .card__flag[data-out="true"] {
   color: var(--muted);
+}
+
+/* New on the shelf. Deliberately a small pink tick rather than a loud label —
+   four of twenty carry it, and it should reward noticing. */
+.card__new {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  padding: 0.35rem 0.7rem;
+  background: var(--accent);
+  color: var(--maroon);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* A long grid costs layout even where it is not on screen. */
+.product-grid > * {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
 }
 
 .badge {
@@ -1552,6 +1607,62 @@ main > .shell:first-child {
   line-height: 1.5;
   color: var(--muted);
   margin-top: 1.2rem;
+}
+
+/* Somewhere to go from a bottle other than back. */
+.pager {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  border-top: 1px solid var(--rule-soft);
+  border-left: 1px solid var(--rule-soft);
+}
+
+@media (min-width: 620px) {
+  .pager {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.pager__link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 88px;
+  justify-content: center;
+  padding: 1.25rem clamp(1rem, 2vw, 1.75rem);
+  border-right: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule-soft);
+  text-decoration: none;
+  transition: background 0.3s var(--ease);
+}
+
+.pager__link:hover {
+  background: var(--bg-alt);
+}
+
+.pager__link--next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.pager__dir {
+  font-size: var(--step--1);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pager__name {
+  font-family: var(--display);
+  font-size: var(--step-1);
+  font-weight: 500;
+  color: var(--text);
+  transition: color 0.25s var(--ease);
+}
+
+.pager__link:hover .pager__name {
+  color: var(--accent-ink);
 }
 
 /* --------------------------------------------------------------------------
@@ -1895,8 +2006,14 @@ main > .shell:first-child {
   }
 }
 
-body[data-gated="true"] > *:not(.age-gate) {
+/* Set in the head before paint, so the shop is never shown to someone who has
+   not answered and the gate never flashes for someone who has. */
+.is-gated body > *:not(.age-gate) {
   visibility: hidden;
+}
+
+.is-gated .age-gate {
+  display: grid;
 }
 
 /* --------------------------------------------------------------------------

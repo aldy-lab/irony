@@ -74,10 +74,15 @@
         <div class="results__head">
           <p class="results__count"><span data-result-count role="status"
              aria-live="polite">{{product_count}} bottles</span></p>
+
+          <button class="results__pick" type="button" data-random>
+            Pour me something
+          </button>
           <label class="results__sort">
             <span>Sort</span>
             <select data-sort>
               <option value="default">Our order</option>
+              <option value="newest">Newest first</option>
               <option value="price-asc">Price, low to high</option>
               <option value="price-desc">Price, high to low</option>
               <option value="abv-desc">Strongest first</option>

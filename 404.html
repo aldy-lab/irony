@@ -25,6 +25,7 @@
 <link rel="alternate icon" href="assets/brand/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="New on the shelf" href="arrivals.xml">
 
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="assets/fonts/cormorant-garamond-normal-500-latin.woff2">
@@ -33,6 +34,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="assets/fonts/eb-garamond-italic-400800-latin.woff2">
 <link rel="stylesheet" href="css/main.css">
+<script>
+  /* Before first paint: decides whether the gate or the shop is shown, so
+     neither flashes into the other. Wrapped because storage throws in a
+     private window, where the gate simply appears. */
+  try {
+    if (localStorage.getItem("ivs.age.v1") !== "true") {
+      document.documentElement.className += " is-gated";
+    }
+  } catch (e) {
+    document.documentElement.className += " is-gated";
+  }
+</script>
 
 </head>
 <body>

@@ -69,10 +69,16 @@ def main():
                     # Never upscale past the original; the smallest is always
                     # written so there is something for a phone.
                     continue
-                out = SRC / f"{slug}-{width}.webp"
                 resized = img.resize((width, width), Image.LANCZOS)
-                resized.save(out, "WEBP", quality=82, method=6)
+                resized.save(SRC / f"{slug}-{width}.webp", "WEBP", quality=82, method=6)
                 made += 1
+                # AVIF where Pillow can write it; the browser falls back to
+                # WebP on its own if the file is not there.
+                try:
+                    resized.save(SRC / f"{slug}-{width}.avif", "AVIF", quality=62)
+                    made += 1
+                except Exception:
+                    pass
         print(f"  {slug}: {source.name} -> {len([w for w in WIDTHS])} variants")
 
     if missing:

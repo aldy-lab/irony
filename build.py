@@ -19,7 +19,8 @@ import json
 import re
 import shutil
 import sys
-from datetime import date
+import unicodedata
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -236,6 +237,19 @@ def footer_blocks(site: dict, catalogue: dict, base: str) -> dict:
 IMAGE_WIDTHS = (400, 800, 1200)
 
 
+def responsive_sources(image: str, base: str, sizes: str) -> str:
+    """<source> lines for the formats that exist, best first."""
+    stem = Path(image).with_suffix("")
+    out = []
+    for fmt in ("avif", "webp"):
+        widths = [w for w in IMAGE_WIDTHS if (ROOT / f"{stem}-{w}.{fmt}").exists()]
+        if not widths:
+            continue
+        srcset = ", ".join(f"{base}{esc(str(stem))}-{w}.{fmt} {w}w" for w in widths)
+        out.append(f'<source type="image/{fmt}" srcset="{srcset}" sizes="{sizes}">')
+    return "".join(out)
+
+
 def responsive(image: str, base: str) -> tuple[str, str]:
     """src and srcset, using whatever variants exist beside the original.
 
@@ -262,11 +276,12 @@ def media(product: dict, base: str, css_class: str) -> str:
         sizes = (
             '(max-width: 759px) 45vw, (max-width: 1039px) 30vw, 22vw'
         )
-        extra = f' srcset="{srcset}" sizes="{sizes}"' if srcset else ""
+        sources = responsive_sources(image, base, sizes)
+        extra = f' srcset="{srcset}" sizes="{sizes}"' if srcset and not sources else ""
         return (
-            f'<div class="{css_class}">'
+            f'<div class="{css_class}"><picture>{sources}'
             f'<img src="{src}"{extra} alt="{esc(product["name"])}" '
-            f'loading="lazy" decoding="async" width="800" height="800"></div>'
+            f'loading="lazy" decoding="async" width="800" height="800"></picture></div>'
         )
     return f'<div class="{css_class} {css_class}--mark">{use("m-motif")}</div>'
 
@@ -281,26 +296,57 @@ def product_media(product: dict) -> str:
     image = product.get("image", "")
     if not image:
         return ""
+    sizes = "(max-width: 899px) 92vw, 40vw"
     src, srcset = responsive(image, "../")
-    extra = (
-        f' srcset="{srcset}" sizes="(max-width: 899px) 92vw, 40vw"' if srcset else ""
-    )
+    sources = responsive_sources(image, "../", sizes)
+    extra = f' srcset="{srcset}" sizes="{sizes}"' if srcset and not sources else ""
     return (
-        f'<div class="product__media"><img src="{src}"{extra} '
-        f'alt="{esc(product["name"])}" width="800" height="800" '
-        'decoding="async"></div>'
+        f'<div class="product__media"><picture>{sources}'
+        f'<img src="{src}"{extra} alt="{esc(product["name"])}" '
+        'width="800" height="800" decoding="async"></picture></div>'
     )
+
+
+def fold(text: str) -> str:
+    """Lowercase and strip diacritics.
+
+    Half the names in a Prague bottle shop carry hacek and carka. Somebody
+    typing "Becherovka" should find "Becherovka", and somebody typing it
+    properly should find it too, so both forms are in the haystack.
+    """
+    stripped = "".join(
+        c for c in unicodedata.normalize("NFD", text)
+        if unicodedata.category(c) != "Mn"
+    )
+    return unicodedata.normalize("NFC", stripped).lower()
 
 
 def search_text(product: dict, cats: dict) -> str:
-    """Everything the search box should match, lowercased once at build time."""
+    """Everything the search box should match, prepared once at build time."""
     parts = [
         product["name"],
         product.get("producer", ""),
         cats[product["category"]]["name"],
         product.get("notes", ""),
     ]
-    return " ".join(p for p in parts if p).lower()
+    joined = " ".join(p for p in parts if p)
+    folded = fold(joined)
+    lowered = joined.lower()
+    return folded if folded == lowered else f"{lowered} {folded}"
+
+
+NEW_FOR_DAYS = 30
+
+
+def is_new(product: dict) -> bool:
+    added = product.get("added")
+    if not added:
+        return False
+    try:
+        when = datetime.strptime(added, "%Y-%m-%d").date()
+    except ValueError:
+        return False
+    return (date.today() - when).days <= NEW_FOR_DAYS
 
 
 def card(product: dict, cats: dict, base: str, order: int) -> str:
@@ -330,11 +376,14 @@ def card(product: dict, cats: dict, base: str, order: int) -> str:
         elif stock <= 3:
             flag = f'<span class="card__flag">Only {stock} left</span>'
 
+    new_mark = '<span class="card__new">New</span>' if is_new(product) else ""
+
     return f"""<li class="card" style="--n:{min(order, 11)}" data-category="{esc(product['category'])}"
     data-price="{product['price']}" data-abv="{product['abv']}"
     data-volume="{product['volume']}" data-name="{esc(product['name'])}"
+    data-added="{esc(product.get('added', ''))}"
     data-search="{esc(search_text(product, cats))}" data-order="{order}">
-  {draft}
+  {draft}{new_mark}
   {frame}
   <p class="card__category">{esc(cats[product['category']]['name'])}</p>
   <h2 class="card__name"><a class="card__link" href="{base}shop/{product['slug']}.html">{esc(product['name'])}</a></h2>
@@ -519,9 +568,55 @@ def address_block(site: dict) -> str:
 # ---------------------------------------------------------------------------
 
 
+def validate(site: dict, catalogue: dict) -> None:
+    """Fail on bad data with the offending record named.
+
+    A typo in a category used to surface as KeyError: 'nonexistent' from deep
+    inside the renderer, with nothing to say which bottle caused it.
+    """
+    problems: list[str] = []
+    categories = {c["slug"] for c in catalogue["categories"]}
+
+    seen: dict[str, int] = {}
+    for i, p in enumerate(catalogue["products"]):
+        where = f"product {i + 1} ({p.get('slug', 'no slug')})"
+        for field in ("slug", "name", "category", "price", "volume", "abv"):
+            if p.get(field) in (None, ""):
+                problems.append(f"{where}: missing {field}")
+        if p.get("category") and p["category"] not in categories:
+            problems.append(
+                f"{where}: category '{p['category']}' is not in the categories list "
+                f"({', '.join(sorted(categories))})"
+            )
+        for field in ("price", "volume", "abv"):
+            if field in p and not isinstance(p[field], (int, float)):
+                problems.append(f"{where}: {field} must be a number, got {p[field]!r}")
+        if p.get("added") and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(p["added"])):
+            problems.append(f"{where}: added must be YYYY-MM-DD, got {p['added']!r}")
+        if p.get("slug"):
+            if p["slug"] in seen:
+                problems.append(
+                    f"{where}: slug repeats product {seen[p['slug']]} — "
+                    "they would overwrite each other's page"
+                )
+            seen[p["slug"]] = i + 1
+
+    for c in catalogue["categories"]:
+        if not c.get("slug") or not c.get("name"):
+            problems.append(f"category {c!r}: needs both slug and name")
+
+    if not site.get("url"):
+        problems.append("site.json: url is required — canonicals and the sitemap use it")
+
+    if problems:
+        print("data problems:\n  " + "\n  ".join(problems), file=sys.stderr)
+        raise SystemExit(1)
+
+
 def build():
     site = load("site.json")
     catalogue = load("catalogue.json")
+    validate(site, catalogue)
     cats = {c["slug"]: c for c in catalogue["categories"]}
     products = catalogue["products"]
 
@@ -620,6 +715,21 @@ def build():
         ]
         related = (same + others)[:4]
 
+        # A bottle used to be a dead end: breadcrumbs, and nothing else.
+        index = products.index(product)
+        prev_p = products[index - 1] if index else products[-1]
+        next_p = products[(index + 1) % len(products)]
+        neighbours = (
+            '<nav class="pager" aria-label="Other bottles">'
+            f'<a class="pager__link" rel="prev" href="{prev_p["slug"]}.html">'
+            f'<span class="pager__dir">Previous</span>'
+            f'<span class="pager__name">{esc(prev_p["name"])}</span></a>'
+            f'<a class="pager__link pager__link--next" rel="next" href="{next_p["slug"]}.html">'
+            f'<span class="pager__dir">Next</span>'
+            f'<span class="pager__name">{esc(next_p["name"])}</span></a>'
+            "</nav>"
+        )
+
         # Nothing is sold here, so the only action is asking about a bottle —
         # and only when there is somewhere for that to go.
         enquire = ""
@@ -667,6 +777,7 @@ def build():
                 "enquire": enquire,
                 "availability_note": esc(site["catalogue"]["availability_note"]),
                 "related_grid": grid(related, cats, "../"),
+                "neighbours": neighbours,
             },
         )
 
@@ -816,12 +927,29 @@ def build():
             f"imprint incomplete — missing {', '.join(missing).lower()}"
         )
 
+    # The page has to describe the site as configured, not as it was written.
+    if site["analytics"]["plausible_domain"]:
+        analytics_note = (
+            "<h3>Analytics</h3><p>We use Plausible, which is cookieless and "
+            "collects no personal data — no IP address is stored and nothing "
+            "follows you between sites. We also record when a search on this "
+            "site finds nothing, together with what was typed, because it "
+            "tells us which bottle to order next. Nothing else about your "
+            "visit is recorded.</p>"
+        )
+    else:
+        analytics_note = (
+            "<h3>Analytics</h3><p>None. No analytics script is loaded, so "
+            "there is nothing to opt out of and nothing to disclose.</p>"
+        )
+
     privacy = fill(
         template("privacy.html"),
         {
             "motif": use("m-motif"),
             "min_age": site["catalogue"]["min_age"],
             "imprint": imprint,
+            "analytics_note": analytics_note,
         },
     )
     render_page(
@@ -838,6 +966,58 @@ def build():
         site=site, catalogue=catalogue, body=notfound, out=ROOT / "404.html",
         title=f"Not found — {site['name']}", description="Page not found.",
         slug="404.html", base="",
+    )
+
+    # Arrivals feed ----------------------------------------------------------
+    newest = sorted(
+        (p for p in products if p.get("added")),
+        key=lambda p: p["added"], reverse=True,
+    )[:20]
+    base_url_feed = site["url"].rstrip("/")
+    items = [
+        {
+            "name": p["name"],
+            "category": cats[p["category"]]["name"],
+            "volume_ml": p["volume"],
+            "abv": p["abv"],
+            "price": p["price"],
+            "currency": site["currency"],
+            "note": p.get("notes", ""),
+            "added": p["added"],
+            "url": f"{base_url_feed}/shop/{p['slug']}.html",
+        }
+        for p in newest
+    ]
+    (ROOT / "arrivals.json").write_text(
+        json.dumps(
+            {"shop": site["name"], "updated": date.today().isoformat(), "bottles": items},
+            indent=2, ensure_ascii=False,
+        ) + "\n"
+    )
+
+    def rfc822(iso: str) -> str:
+        return datetime.strptime(iso, "%Y-%m-%d").strftime("%a, %d %b %Y 12:00:00 +0000")
+
+    rss_items = "".join(
+        "<item>"
+        f"<title>{esc(i['name'])}</title>"
+        f"<link>{esc(i['url'])}</link>"
+        f"<guid isPermaLink=\"true\">{esc(i['url'])}</guid>"
+        f"<pubDate>{rfc822(i['added'])}</pubDate>"
+        f"<category>{esc(i['category'])}</category>"
+        f"<description>{esc(i['note'] or i['name'])} "
+        f"{i['volume_ml']} ml, {i['abv']}%, {money(i['price'])} {esc(i['currency'])}.</description>"
+        "</item>"
+        for i in items
+    )
+    (ROOT / "arrivals.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<rss version="2.0"><channel>'
+        f"<title>{esc(site['name'])} — new on the shelf</title>"
+        f"<link>{base_url_feed}/</link>"
+        f"<description>Bottles as they arrive at {esc(site['address']['street'])}.</description>"
+        "<language>en</language>"
+        f"{rss_items}</channel></rss>\n"
     )
 
     # sitemap + robots -------------------------------------------------------
