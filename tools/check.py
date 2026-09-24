@@ -197,6 +197,21 @@ def check_filters(br):
 
     pg.goto(BASE + "/", wait_until="networkidle")
     pg.wait_for_timeout(400)
+    # Everything added in this pass, asserted so it cannot rot quietly.
+    check("the shelf is described as one list",
+          "ItemList" in pg.content(), "no ItemList block")
+    check("search has suggestions",
+          pg.eval_on_selector_all("#bottle-names option", "e=>e.length") == 20)
+    pg.keyboard.press("/")
+    pg.wait_for_timeout(200)
+    check("slash jumps to the search box",
+          pg.evaluate("()=>document.activeElement.hasAttribute('data-search')"))
+    pg.keyboard.press("Escape")
+
+    opening = pg.eval_on_selector("[data-open-now]", "e=>e.textContent.trim()")
+    check("the header says whether the shop is open",
+          bool(opening) and ("Open" in opening or "Closed" in opening), repr(opening))
+
     check(
         "nothing is buyable",
         pg.eval_on_selector_all("[data-add], .card__add, [data-checkout-form]", "e=>e.length") == 0,
@@ -344,19 +359,26 @@ def check_marks(br):
     # is measured mid-flight and lands outside the frame.
     pg.add_style_tag(content="html{scroll-behavior:auto !important}")
 
-    squashed = pg.evaluate(
-        """()=>{const out=[];
-      document.querySelectorAll('svg use').forEach(u=>{
-        const s=u.parentElement, d=s.getBoundingClientRect();
-        if(d.width<1) return;
-        if(!s.hasAttribute('viewBox')){out.push([u.getAttribute('href'),'no viewBox']); return;}
-        const b=s.viewBox.baseVal;
-        const want=b.width/b.height, got=d.width/d.height;
-        if(Math.abs(want-got)>0.05) out.push([u.getAttribute('href'),
-          'ratio '+got.toFixed(2)+' vs '+want.toFixed(2)]);});
+    marks = pg.evaluate(
+        """()=>{const out={count:0, bad:[]};
+      document.querySelectorAll('.mark').forEach(m=>{
+        const d=m.getBoundingClientRect();
+        if(d.width<1||d.height<1) return;      // deliberately hidden
+        out.count += 1;
+        const cs=getComputedStyle(m);
+        const ar=cs.aspectRatio.replace(/\s/g,'');
+        if(ar==='auto'){out.bad.push(m.className+': no aspect-ratio'); return;}
+        const parts=ar.split('/').map(Number);
+        const want=parts[0]/parts[1], got=d.width/d.height;
+        if(Math.abs(want-got)>0.05) out.bad.push(m.className+' ratio '+got.toFixed(2));
+        if(!cs.maskImage || cs.maskImage==='none'){
+          if(!cs.webkitMaskImage || cs.webkitMaskImage==='none')
+            out.bad.push(m.className+': no mask');}
+      });
       return out;}"""
     )
-    check("every mark keeps its aspect ratio", not squashed, str(squashed))
+    check("marks are painted", marks["count"] > 5, f'{marks["count"]} visible')
+    check("every mark keeps its shape and mask", not marks["bad"], str(marks["bad"][:3]))
 
     # Sampling CSS `color` here would be worthless: during the bug the parent's
     # color was gold the whole time, and the black came from the SVG's own

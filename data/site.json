@@ -24,6 +24,11 @@
     "country_code": "CZ"
   },
 
+  "transit": [
+    ["Namesti Republiky", "Metro B, 5 minutes on foot"],
+    ["Bilá labut", "Trams 3, 8, 14 — 3 minutes"]
+  ],
+
   "hours": [
     ["Monday - Thursday", "12:00 - 22:00"],
     ["Friday - Saturday", "12:00 - 24:00"],
@@ -60,6 +65,16 @@
     ],
     "availability_note": "Prices are what you pay at the counter. Stock moves, so call ahead if you are making a trip for one bottle - and bring photo ID, we check it every time.",
     "min_age": 18
+  },
+
+  "appearance": {
+    "_readme": [
+      "The brand has a dark half and the site uses the light one.",
+      "Set follow_system_dark to true and a visitor whose system is in dark",
+      "mode gets the dark palette automatically. Left false because a light",
+      "site was the decision, and a dark laptop should not overrule it."
+    ],
+    "follow_system_dark": false
   },
 
   "analytics": {

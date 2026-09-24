@@ -16,6 +16,8 @@
   <div class="shell">
     <div class="catalogue__layout">
 
+      {{suggestions}}
+
       <aside class="facets" data-facets aria-label="Filters">
         <button class="facets__toggle" type="button" data-facets-toggle
                 aria-expanded="false" aria-controls="facet-panel">
@@ -28,7 +30,7 @@
             <label class="facet__label" for="q">Search</label>
             <div class="facet__search" data-search-wrap>
               <input id="q" type="search" data-search autocomplete="off"
-                     placeholder="Name, note or producer">
+                     list="bottle-names" placeholder="Name, note or producer">
               <button class="facet__clear" type="button" data-search-clear
                       aria-label="Clear search">&times;</button>
             </div>
@@ -92,6 +94,11 @@
         </div>
 
         <ul class="product-grid" data-grid>{{product_grid}}</ul>
+
+        <nav class="recent" data-recent hidden aria-label="Recently looked at">
+          <p class="eyebrow">You were looking at</p>
+          <ul class="recent__list" data-recent-list></ul>
+        </nav>
 
         <div class="no-results" data-no-results hidden>
           <div class="mark" aria-hidden="true">{{motif}}</div>

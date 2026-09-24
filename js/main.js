@@ -437,6 +437,56 @@
   }
 
   /* ---------------------------------------------------------------------
+     Open now
+
+     Against the visitor's own clock. A build from last Tuesday cannot know
+     it is Sunday, so the hours ship as data and the answer is worked out here.
+     --------------------------------------------------------------------- */
+
+  var openNow = document.querySelector("[data-open-now]");
+  if (openNow && IVS.hours && IVS.hours.length) {
+    (function () {
+      var now = new Date();
+      var day = (now.getDay() + 6) % 7; // Monday first, as the data is
+      var minutes = now.getHours() * 60 + now.getMinutes();
+
+      function parse(t) {
+        var bits = t.split(":");
+        return parseInt(bits[0], 10) * 60 + parseInt(bits[1] || "0", 10);
+      }
+
+      var open = null;
+      IVS.hours.forEach(function (span) {
+        if (span.days.indexOf(day) === -1) return;
+        var from = parse(span.from);
+        var to = parse(span.to);
+        if (minutes >= from && minutes < to) open = { to: span.to };
+      });
+
+      if (open) {
+        openNow.textContent = "Open until " + open.to;
+        openNow.setAttribute("data-state", "open");
+      } else {
+        // The next opening, looking forward through the week.
+        var next = null;
+        for (var ahead = 0; ahead < 8 && !next; ahead += 1) {
+          var d = (day + ahead) % 7;
+          IVS.hours.forEach(function (span) {
+            if (next || span.days.indexOf(d) === -1) return;
+            if (ahead === 0 && minutes >= parse(span.from)) return;
+            next = { when: ahead === 0 ? "today" : ahead === 1 ? "tomorrow" : null, at: span.from };
+          });
+        }
+        openNow.textContent = next
+          ? "Closed · opens " + (next.when ? next.when + " " : "") + next.at
+          : "Closed";
+        openNow.setAttribute("data-state", "closed");
+      }
+      openNow.hidden = false;
+    })();
+  }
+
+  /* ---------------------------------------------------------------------
      Navigation
      --------------------------------------------------------------------- */
 
@@ -480,6 +530,67 @@
     reveals.forEach(function (el) {
       el.setAttribute("data-revealed", "true");
     });
+  }
+
+  /* "/" jumps to the search box, the way it does in anything people search
+     in often. Ignored while already typing somewhere. */
+  window.addEventListener("keydown", function (event) {
+    if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
+    var tag = (event.target.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "textarea" || tag === "select") return;
+    var box = document.querySelector("[data-search]");
+    if (!box) return;
+    event.preventDefault();
+    var panel = document.querySelector("[data-facets]");
+    var toggle = document.querySelector("[data-facets-toggle]");
+    if (panel && toggle && window.matchMedia("(max-width: 899px)").matches) {
+      panel.setAttribute("data-open", "true");
+      toggle.setAttribute("aria-expanded", "true");
+    }
+    box.focus();
+    box.select();
+  });
+
+  /* ---------------------------------------------------------------------
+     Recently looked at
+
+     A bottle shop is a place people come back to, so what you were looking at
+     last time is more use than "similar products".
+     --------------------------------------------------------------------- */
+
+  var SEEN_KEY = "ivs.seen.v1";
+  var seenStrip = document.querySelector("[data-recent]");
+  var thisBottle = document.querySelector("[data-bottle]");
+
+  if (thisBottle) {
+    var entry = {
+      slug: thisBottle.getAttribute("data-bottle"),
+      name: thisBottle.getAttribute("data-bottle-name"),
+      href: thisBottle.getAttribute("data-bottle-href"),
+    };
+    var seen = read(SEEN_KEY, []).filter(function (x) {
+      return x && x.slug !== entry.slug;
+    });
+    seen.unshift(entry);
+    write(SEEN_KEY, seen.slice(0, 6));
+  }
+
+  if (seenStrip) {
+    var recent = read(SEEN_KEY, []).filter(function (x) {
+      return x && x.slug && x.name && x.href;
+    });
+    if (recent.length > 1) {
+      var list = seenStrip.querySelector("[data-recent-list]");
+      recent.slice(0, 5).forEach(function (item) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = IVS.base + item.href;
+        a.textContent = item.name;
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+      seenStrip.hidden = false;
+    }
   }
 
   /* ---------------------------------------------------------------------

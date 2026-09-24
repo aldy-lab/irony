@@ -286,9 +286,8 @@ main > .shell:first-child {
   color: var(--rule);
 }
 
-.motif-rule svg {
+.motif-rule .mark {
   width: 100%;
-  height: auto;
 }
 
 /* --------------------------------------------------------------------------
@@ -334,10 +333,8 @@ main > .shell:first-child {
   flex: none;
 }
 
-.brand svg {
+.brand .mark {
   height: clamp(21px, 2.6vw, 32px);
-  width: auto;
-  color: currentColor;
 }
 
 .brand:hover {
@@ -385,6 +382,31 @@ main > .shell:first-child {
 
 .nav__link[aria-current="page"]::after {
   background: var(--rule);
+}
+
+/* Open or shut, worked out against the visitor's clock. */
+.open-now {
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.open-now[data-state="open"] {
+  color: var(--accent);
+}
+
+.open-now[hidden] {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .open-now {
+    order: -1;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--rule-soft);
+  }
 }
 
 /* Mobile navigation ------------------------------------------------------- */
@@ -519,24 +541,22 @@ main > .shell:first-child {
 }
 
 .masthead__motif {
-  width: min(40%, 140px);
+  width: clamp(110px, 12vw, 140px);
   margin-bottom: clamp(0.7rem, 1.5vw, 1.1rem);
   color: var(--accent-ink);
 }
 
-.masthead__motif svg {
+.masthead__motif .mark {
   width: 100%;
-  height: auto;
 }
 
 .masthead__mark {
-  width: min(100%, 420px);
+  width: clamp(260px, 30vw, 420px);
   color: var(--text);
 }
 
-.masthead__mark svg {
+.masthead__mark .mark {
   width: 100%;
-  height: auto;
 }
 
 .masthead__copy {
@@ -562,10 +582,9 @@ main > .shell:first-child {
   justify-self: end;
 }
 
-.masthead__figure svg {
+.masthead__figure .mark {
   /* Height-capped: the satyr is tall and narrow, and sizing it by width lets
      it decide how much of the screen the brand block takes. */
-  width: auto;
   height: clamp(150px, 22vw, 260px);
 }
 
@@ -632,7 +651,7 @@ main > .shell:first-child {
   color: var(--text);
 }
 
-.hero__mark svg {
+.hero__mark .mark {
   width: 100%;
   height: auto;
 }
@@ -643,7 +662,7 @@ main > .shell:first-child {
   color: var(--accent-ink);
 }
 
-.hero__motif svg {
+.hero__motif .mark {
   width: 100%;
   height: auto;
 }
@@ -668,7 +687,7 @@ main > .shell:first-child {
   color: var(--text);
 }
 
-.hero__satyr svg {
+.hero__satyr .mark {
   width: 100%;
   height: auto;
 }
@@ -681,7 +700,7 @@ main > .shell:first-child {
     max-height: 42svh;
   }
 
-  .hero__satyr svg {
+  .hero__satyr .mark {
     width: auto;
     height: 100%;
     max-height: 42svh;
@@ -1188,6 +1207,19 @@ main > .shell:first-child {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  animation: photo-in 0.5s var(--ease) both;
+}
+
+@keyframes photo-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__media img {
+    animation: none;
+  }
 }
 
 /* Waiting for a photograph. Kept very quiet — a strong mark repeated down the
@@ -1197,9 +1229,8 @@ main > .shell:first-child {
   transition: color 0.4s var(--ease);
 }
 
-.card__media--mark svg {
+.card__media--mark .mark {
   width: 46%;
-  height: auto;
 }
 
 .card:hover .card__media--mark {
@@ -1445,6 +1476,53 @@ main > .shell:first-child {
   .product-grid:not([data-settled]) .card {
     animation: none;
   }
+}
+
+/* What you were looking at last time. Only appears once there is more than
+   one, since a list of one is not a history. */
+.recent {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.recent[hidden] {
+  display: none;
+}
+
+.recent__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recent__list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  font-family: var(--display);
+  font-size: var(--step-1);
+  text-decoration: none;
+}
+
+.recent__list a:hover {
+  color: var(--accent-ink);
+}
+
+/* The map is a card, not an embed: nothing is fetched from a map provider
+   until somebody chooses to open one. */
+.mapcard {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  border: 1px solid var(--rule-soft);
+  background: var(--bg-alt);
+}
+
+.mapcard__inner {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  max-width: 52ch;
 }
 
 .no-results,
@@ -1956,6 +2034,11 @@ main > .shell:first-child {
   animation: rise 0.7s var(--ease) both;
 }
 
+.age-gate__satyr .mark {
+  height: min(42vh, 260px);
+  margin-inline: auto;
+}
+
 .age-gate__satyr {
   width: min(42vw, 140px);
   margin: 0 auto 2rem;
@@ -2125,6 +2208,37 @@ main > .shell:first-child {
   [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* The night palette, applied by the system preference — but only when the
+   config asks for it. See site.json: appearance.follow_system_dark. */
+@media (prefers-color-scheme: dark) {
+  body[data-follow-system] {
+    --bg: var(--green);
+    --bg-alt: #172b05;
+    --bg-invert: var(--maroon);
+    --text: var(--gold);
+    --text-soft: #c4b58e;
+    --muted: #8d9a74;
+    --accent: var(--pink);
+    --accent-ink: var(--pink);
+    --rule: color-mix(in srgb, var(--gold) 26%, transparent);
+    --rule-soft: color-mix(in srgb, var(--gold) 12%, transparent);
+  }
+
+  body[data-follow-system] .header,
+  body[data-follow-system] .nav,
+  body[data-follow-system] .age-gate {
+    background: var(--green);
+  }
+
+  body[data-follow-system] .filters,
+  body[data-follow-system] .facet__search input,
+  body[data-follow-system] .facet select,
+  body[data-follow-system] .results__sort select {
+    background: transparent;
+    color: var(--gold);
   }
 }
 

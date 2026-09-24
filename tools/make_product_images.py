@@ -54,6 +54,8 @@ def main():
     SRC.mkdir(parents=True, exist_ok=True)
 
     made, missing = 0, []
+    tints_path = SRC / "tints.json"
+    tints = json.loads(tints_path.read_text()) if tints_path.exists() else {}
     for product in catalogue["products"]:
         slug = product["slug"]
         source = source_for(slug)
@@ -79,12 +81,18 @@ def main():
                     made += 1
                 except Exception:
                     pass
-        print(f"  {slug}: {source.name} -> {len([w for w in WIDTHS])} variants")
+            # Average colour, for the frame to hold while the photo decodes.
+            small = img.resize((1, 1), Image.LANCZOS)
+            tints[slug] = "#%02x%02x%02x" % small.getpixel((0, 0))
+        print(f"  {slug}: {source.name} -> variants + tint {tints[slug]}")
 
     if missing:
         print("\n  ! named in catalogue.json but no file found in assets/products/:")
         for slug in missing:
             print(f"      {slug}")
+
+    if tints:
+        tints_path.write_text(json.dumps(tints, indent=2, sort_keys=True) + "\n")
 
     if not made:
         print("no photographs found in assets/products/ — nothing to do")

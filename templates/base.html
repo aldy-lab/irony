@@ -34,6 +34,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="{{base}}assets/fonts/eb-garamond-italic-400800-latin.woff2">
 <link rel="stylesheet" href="{{base}}css/main.css">
+<link rel="stylesheet" href="{{base}}css/marks.css">
 <script>
   /* Before first paint: decides whether the gate or the shop is shown, so
      neither flashes into the other. Wrapped because storage throws in a
@@ -49,8 +50,6 @@
 {{head_extra}}
 </head>
 <body{{body_attrs}}>
-
-{{sprite}}
 
 <a class="skip-link" href="#main">Skip to content</a>
 
@@ -68,6 +67,7 @@
 
     <nav class="nav" id="site-nav" data-nav aria-label="Main">
       {{nav_links}}
+      <span class="open-now" data-open-now hidden></span>
     </nav>
   </div>
 </header>
