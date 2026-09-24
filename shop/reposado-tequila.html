@@ -19,6 +19,16 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <meta name="theme-color" content="#112103">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Everything is served from this origin, so the policy can simply say so.
+     Loosen it only when something genuinely external is added.
+     frame-ancestors is deliberately absent: a browser ignores it in a <meta>
+     and warns on every load. Refusing to be framed needs a real header, which
+     GitHub Pages cannot set. -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';
+               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self';
+               base-uri 'self'">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../assets/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="../assets/brand/favicon-16.png" sizes="16x16" type="image/png">
@@ -105,6 +115,7 @@
     
 
     <div class="product__lead">
+      
       <p class="eyebrow">Agave</p>
       <h1 class="product__title">Reposado Tequila</h1>
       <p class="lede">Eight months in oak. Softer, and it stops fighting the glass.</p>
@@ -112,6 +123,12 @@
       <p class="product__price">1 490 <small style="font-family:var(--body);font-size:0.5em;letter-spacing:.1em;color:var(--muted)">CZK</small></p>
 
       
+
+      <p class="product__share">
+        <button class="link-share" type="button" data-share
+                data-share-title="Reposado Tequila">Share this bottle</button>
+        <span class="link-share__said" data-share-said hidden>Link copied</span>
+      </p>
     </div>
 
     <div class="product__detail">
@@ -136,6 +153,7 @@
     <ul class="product-grid product-grid--four"><li class="card" style="--n:0" data-category="agave"
     data-price="1250" data-abv="40.0"
     data-volume="700" data-name="Blanco Tequila"
+    data-stock="0"
     data-added="2026-05-07"
     data-search="blanco tequila agave unaged, additive-free, and tasting of the plant rather than the barrel." data-order="0">
   
@@ -144,7 +162,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/blanco-tequila.html">Blanco Tequila</a></h2>
   <p class="card__note">Unaged, additive-free, and tasting of the plant rather than the barrel.</p>
   <div class="card__foot">
-    <span class="price">1 250 <small>CZK</small></span>
+    <span class="price">1 250 <small>CZK</small>
+      <small class="price__rate">1 786 / litre</small></span>
     <span class="card__spec">700 ml &middot; 40.0%</span>
   </div>
   
@@ -152,6 +171,7 @@
 <li class="card" style="--n:1" data-category="agave"
     data-price="1450" data-abv="45.0"
     data-volume="700" data-name="Espadin Mezcal"
+    data-stock="0"
     data-added="2026-09-21"
     data-search="espadin mezcal agave roasted in a stone pit, so the smoke is a method, not a flavouring." data-order="1">
   <span class="card__new">New</span>
@@ -160,7 +180,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/espadin-mezcal.html">Espadin Mezcal</a></h2>
   <p class="card__note">Roasted in a stone pit, so the smoke is a method, not a flavouring.</p>
   <div class="card__foot">
-    <span class="price">1 450 <small>CZK</small></span>
+    <span class="price">1 450 <small>CZK</small>
+      <small class="price__rate">2 071 / litre</small></span>
     <span class="card__spec">700 ml &middot; 45.0%</span>
   </div>
   
@@ -168,6 +189,7 @@
 <li class="card" style="--n:2" data-category="gin"
     data-price="690" data-abv="43.0"
     data-volume="700" data-name="London Dry Gin"
+    data-stock="0"
     data-added="2026-08-29"
     data-search="london dry gin gin juniper-forward and unambiguous. the gin a martini was written for." data-order="2">
   <span class="card__new">New</span>
@@ -176,7 +198,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/london-dry-gin-classic.html">London Dry Gin</a></h2>
   <p class="card__note">Juniper-forward and unambiguous. The gin a Martini was written for.</p>
   <div class="card__foot">
-    <span class="price">690 <small>CZK</small></span>
+    <span class="price">690 <small>CZK</small>
+      <small class="price__rate">986 / litre</small></span>
     <span class="card__spec">700 ml &middot; 43.0%</span>
   </div>
   
@@ -184,6 +207,7 @@
 <li class="card" style="--n:3" data-category="gin"
     data-price="990" data-abv="57.0"
     data-volume="700" data-name="Navy Strength Gin"
+    data-stock="0"
     data-added="2025-10-28"
     data-search="navy strength gin gin overproof, so it survives contact with citrus and ice without going quiet." data-order="3">
   
@@ -192,7 +216,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/navy-strength-gin.html">Navy Strength Gin</a></h2>
   <p class="card__note">Overproof, so it survives contact with citrus and ice without going quiet.</p>
   <div class="card__foot">
-    <span class="price">990 <small>CZK</small></span>
+    <span class="price">990 <small>CZK</small>
+      <small class="price__rate">1 414 / litre</small></span>
     <span class="card__spec">700 ml &middot; 57.0%</span>
   </div>
   
@@ -218,7 +243,9 @@
       </div>
       <div>
         <h3>Elsewhere</h3>
-        <ul><li>Contact details to follow.</li></ul>
+        <ul><li>Contact details to follow.</li>
+          <li><a href="../arrivals.xml">New arrivals feed</a></li>
+        </ul>
       </div>
     </div>
     <div class="footer__bottom">

@@ -212,6 +212,21 @@ def check_filters(br):
     check("the header says whether the shop is open",
           bool(opening) and ("Open" in opening or "Closed" in opening), repr(opening))
 
+    check("prices are comparable across bottle sizes",
+          pg.eval_on_selector_all(".price__rate", "e=>e.length") == 20,
+          f'{pg.eval_on_selector_all(".price__rate", "e=>e.length")} per-litre figures')
+
+    # A meta CSP cannot carry frame-ancestors; the browser warns on every load
+    # if it is there, and the directive does nothing.
+    csp = pg.eval_on_selector(
+        'meta[http-equiv="Content-Security-Policy"]', "e=>e.content"
+    )
+    check("a content policy is declared", "default-src 'self'" in csp, csp[:60])
+    check("no directive a meta tag cannot carry", "frame-ancestors" not in csp)
+
+    check("the feed is reachable by a person",
+          pg.eval_on_selector_all('a[href$="arrivals.xml"]', "e=>e.length") > 0)
+
     check(
         "nothing is buyable",
         pg.eval_on_selector_all("[data-add], .card__add, [data-checkout-form]", "e=>e.length") == 0,
@@ -530,6 +545,16 @@ def check_mobile(br):
             "els=>els.filter(e=>parseFloat(getComputedStyle(e).fontSize)<16).map(e=>e.tagName)",
         )
         check(f"{name}: no input under 16px", not tiny, str(tiny))
+
+        # Opening the panel should put you in it, and Escape should get you out.
+        pg.click("[data-facets-toggle]")
+        pg.wait_for_timeout(300)
+        check(f"{name}: opening the filters focuses the search",
+              pg.evaluate("()=>document.activeElement.hasAttribute('data-search')"))
+        pg.keyboard.press("Escape")
+        pg.wait_for_timeout(300)
+        check(f"{name}: escape closes the filters",
+              not pg.is_visible("[data-facets] .facet__list"))
 
         # The small-screen card rules share specificity with the base ones, so
         # source order decides. Placed too early they go inert while still

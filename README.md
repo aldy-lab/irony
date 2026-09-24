@@ -16,7 +16,8 @@ survives in the footer, in the occasional inverted section, and after hours.
 
 ```sh
 python3 build.py                  # regenerate every page
-python3 build.py --preview        # same, but labels the placeholder products
+python3 build.py --watch          # rebuild whenever templates/ or data/ change
+python3 build.py --preview        # label the placeholder products
 python3 -m http.server 8731       # then open http://127.0.0.1:8731
 ```
 
@@ -90,6 +91,14 @@ size that was measured, down to a 664px-tall phone.
 The header is the dark half of the brand, gold on green, and carries its own
 colour tokens so it stays that way over a light page, an inverted section, or
 the after-hours colourway.
+
+## Retiring a bottle
+
+Set `"retired": true` rather than deleting the product. It leaves the shelf,
+the counts, the feed, the sitemap and the ItemList, but **its page stays**,
+marked `noindex`, saying it is no longer stocked and pointing at its category.
+Deleting a product turns every link anyone has shared, printed or indexed into
+a 404; this does not.
 
 ## New arrivals
 

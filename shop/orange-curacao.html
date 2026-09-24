@@ -19,6 +19,16 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <meta name="theme-color" content="#112103">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Everything is served from this origin, so the policy can simply say so.
+     Loosen it only when something genuinely external is added.
+     frame-ancestors is deliberately absent: a browser ignores it in a <meta>
+     and warns on every load. Refusing to be framed needs a real header, which
+     GitHub Pages cannot set. -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';
+               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self';
+               base-uri 'self'">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../assets/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="../assets/brand/favicon-16.png" sizes="16x16" type="image/png">
@@ -105,6 +115,7 @@
     
 
     <div class="product__lead">
+      
       <p class="eyebrow">Liqueur</p>
       <h1 class="product__title">Orange Curacao</h1>
       <p class="lede">Bitter orange in brandy. The unglamorous third of a Sidecar.</p>
@@ -112,6 +123,12 @@
       <p class="product__price">640 <small style="font-family:var(--body);font-size:0.5em;letter-spacing:.1em;color:var(--muted)">CZK</small></p>
 
       
+
+      <p class="product__share">
+        <button class="link-share" type="button" data-share
+                data-share-title="Orange Curacao">Share this bottle</button>
+        <span class="link-share__said" data-share-said hidden>Link copied</span>
+      </p>
     </div>
 
     <div class="product__detail">
@@ -136,6 +153,7 @@
     <ul class="product-grid product-grid--four"><li class="card" style="--n:0" data-category="liqueur"
     data-price="780" data-abv="30.0"
     data-volume="700" data-name="Alpine Amaro"
+    data-stock="0"
     data-added="2026-09-16"
     data-search="alpine amaro liqueur root, mint and bitterness. drink it after everything else has failed." data-order="0">
   <span class="card__new">New</span>
@@ -144,7 +162,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/amaro-alpino.html">Alpine Amaro</a></h2>
   <p class="card__note">Root, mint and bitterness. Drink it after everything else has failed.</p>
   <div class="card__foot">
-    <span class="price">780 <small>CZK</small></span>
+    <span class="price">780 <small>CZK</small>
+      <small class="price__rate">1 114 / litre</small></span>
     <span class="card__spec">700 ml &middot; 30.0%</span>
   </div>
   
@@ -152,6 +171,7 @@
 <li class="card" style="--n:1" data-category="liqueur"
     data-price="720" data-abv="32.0"
     data-volume="500" data-name="Maraschino Liqueur"
+    data-stock="0"
     data-added="2026-09-07"
     data-search="maraschino liqueur liqueur marasca cherry with the stones in. nothing like the syrup of the same name." data-order="1">
   <span class="card__new">New</span>
@@ -160,7 +180,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/maraschino.html">Maraschino Liqueur</a></h2>
   <p class="card__note">Marasca cherry with the stones in. Nothing like the syrup of the same name.</p>
   <div class="card__foot">
-    <span class="price">720 <small>CZK</small></span>
+    <span class="price">720 <small>CZK</small>
+      <small class="price__rate">1 440 / litre</small></span>
     <span class="card__spec">500 ml &middot; 32.0%</span>
   </div>
   
@@ -168,6 +189,7 @@
 <li class="card" style="--n:2" data-category="liqueur"
     data-price="560" data-abv="20.0"
     data-volume="500" data-name="Creme de Cassis"
+    data-stock="0"
     data-added="2025-12-22"
     data-search="creme de cassis liqueur blackcurrant, thick and dark. one bar spoon changes a whole drink." data-order="2">
   
@@ -176,7 +198,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/creme-de-cassis.html">Creme de Cassis</a></h2>
   <p class="card__note">Blackcurrant, thick and dark. One bar spoon changes a whole drink.</p>
   <div class="card__foot">
-    <span class="price">560 <small>CZK</small></span>
+    <span class="price">560 <small>CZK</small>
+      <small class="price__rate">1 120 / litre</small></span>
     <span class="card__spec">500 ml &middot; 20.0%</span>
   </div>
   
@@ -184,6 +207,7 @@
 <li class="card" style="--n:3" data-category="gin"
     data-price="690" data-abv="43.0"
     data-volume="700" data-name="London Dry Gin"
+    data-stock="0"
     data-added="2026-08-29"
     data-search="london dry gin gin juniper-forward and unambiguous. the gin a martini was written for." data-order="3">
   <span class="card__new">New</span>
@@ -192,7 +216,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/london-dry-gin-classic.html">London Dry Gin</a></h2>
   <p class="card__note">Juniper-forward and unambiguous. The gin a Martini was written for.</p>
   <div class="card__foot">
-    <span class="price">690 <small>CZK</small></span>
+    <span class="price">690 <small>CZK</small>
+      <small class="price__rate">986 / litre</small></span>
     <span class="card__spec">700 ml &middot; 43.0%</span>
   </div>
   
@@ -218,7 +243,9 @@
       </div>
       <div>
         <h3>Elsewhere</h3>
-        <ul><li>Contact details to follow.</li></ul>
+        <ul><li>Contact details to follow.</li>
+          <li><a href="../arrivals.xml">New arrivals feed</a></li>
+        </ul>
       </div>
     </div>
     <div class="footer__bottom">

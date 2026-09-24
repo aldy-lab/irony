@@ -19,6 +19,7 @@ import json
 import re
 import shutil
 import sys
+import time
 import unicodedata
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -147,6 +148,14 @@ def use(sprite_id: str, label: str = "") -> str:
         f'role="img" aria-label="{esc(label)}"' if label else 'aria-hidden="true"'
     )
     return f'<span class="mark mark--{name}" {a}></span>' 
+
+
+def per_litre(product: dict) -> str:
+    """Price per litre, so two different bottle sizes can be compared."""
+    volume = product.get("volume") or 0
+    if not volume:
+        return ""
+    return money(product["price"] / volume * 1000)
 
 
 def money(amount) -> str:
@@ -412,6 +421,7 @@ def card(product: dict, cats: dict, base: str, order: int) -> str:
     return f"""<li class="card" style="--n:{min(order, 11)}" data-category="{esc(product['category'])}"
     data-price="{product['price']}" data-abv="{product['abv']}"
     data-volume="{product['volume']}" data-name="{esc(product['name'])}"
+    data-stock="{stock}"
     data-added="{esc(product.get('added', ''))}"
     data-search="{esc(search_text(product, cats))}" data-order="{order}">
   {draft}{new_mark}
@@ -420,7 +430,8 @@ def card(product: dict, cats: dict, base: str, order: int) -> str:
   <h2 class="card__name"><a class="card__link" href="{base}shop/{product['slug']}.html">{esc(product['name'])}</a></h2>
   {note_html}
   <div class="card__foot">
-    <span class="price">{money(product['price'])} <small>CZK</small></span>
+    <span class="price">{money(product['price'])} <small>CZK</small>
+      <small class="price__rate">{per_litre(product)} / litre</small></span>
     <span class="card__spec">{product['volume']} ml &middot; {product['abv']}%</span>
   </div>
   {flag}
@@ -653,6 +664,8 @@ def validate(site: dict, catalogue: dict) -> None:
                 problems.append(f"{where}: {field} must be a number, got {p[field]!r}")
         if p.get("added") and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(p["added"])):
             problems.append(f"{where}: added must be YYYY-MM-DD, got {p['added']!r}")
+        if "retired" in p and not isinstance(p["retired"], bool):
+            problems.append(f"{where}: retired must be true or false")
         image = p.get("image")
         if image and not (ROOT / image).exists():
             problems.append(f"{where}: image '{image}' is not in the repository")
@@ -682,7 +695,16 @@ def build():
     validate(site, catalogue)
     write_mark_css()
     cats = {c["slug"]: c for c in catalogue["categories"]}
-    products = catalogue["products"]
+    # Retired bottles keep their page — a link that has been shared, printed or
+    # indexed should not turn into a 404 because the shop sold out for good —
+    # but they are gone from the shelf, the counts, the feed and the list.
+    every_product = catalogue["products"]
+    products = [p for p in every_product if not p.get("retired")]
+    retired = [p for p in every_product if p.get("retired")]
+    if retired:
+        warnings.append(
+            f"{len(retired)} retired: page kept and marked noindex, off the shelf"
+        )
 
     drafts = [p["slug"] for p in products if p.get("placeholder")]
     if drafts:
@@ -748,6 +770,13 @@ def build():
             "motif": use("m-motif"),
             "satyr": use("m-satyr"),
             "wordmark_stacked": use("m-wordmark"),
+            "stock_switch": (
+                '<div class="facet facet--switch">'
+                '<label class="switch"><input type="checkbox" data-instock>'
+                "<span>In stock only</span></label></div>"
+                if any(p.get("stock") and not p.get("placeholder") for p in products)
+                else ""
+            ),
             "category_list": category_list,
             "suggestions": suggestions,
             "size_options": size_options,
@@ -790,7 +819,7 @@ def build():
     # Product pages ----------------------------------------------------------
     if SHOP_DIR.exists():
         shutil.rmtree(SHOP_DIR)
-    for product in products:
+    for product in every_product:
         cat = cats[product["category"]]
         # Always exactly four, or the row is left short. Same category first,
         # then topped up from the rest of the shelf — which is why the heading
@@ -806,7 +835,7 @@ def build():
         related = (same + others)[:4]
 
         # A bottle used to be a dead end: breadcrumbs, and nothing else.
-        index = products.index(product)
+        index = products.index(product) if product in products else 0
         prev_p = products[index - 1] if index else products[-1]
         next_p = products[(index + 1) % len(products)]
         neighbours = (
@@ -865,6 +894,14 @@ def build():
                 "producer_row": producer_row,
                 "stock_label": esc(stock_label),
                 "enquire": enquire,
+                "retired_notice": (
+                    '<p class="notice">No longer on the shelf. This page is kept '
+                    'so the link still works — ask us whether it is coming back, '
+                    'or see what else is in '
+                    f'<a href="../index.html?c={esc(cat["slug"])}">'
+                    f'{esc(cat["name"])}</a>.</p>'
+                    if product.get("retired") else ""
+                ),
                 "availability_note": esc(site["catalogue"]["availability_note"]),
                 "related_grid": grid(related, cats, "../"),
                 "neighbours": neighbours,
@@ -903,7 +940,9 @@ def build():
             og_type="product",
             share=share_card(f"shop-{product['slug']}"),
             share_alt=f"{product['name']} — {cat['name']}, {product['volume']} ml",
-            head_extra='<script type="application/ld+json">'
+            head_extra=('<meta name="robots" content="noindex,follow">'
+                        if product.get('retired') else '')
+                       + '<script type="application/ld+json">'
                        + json.dumps(jsonld, separators=(",", ":")) + "</script>"
                        + '<script type="application/ld+json">'
                        + json.dumps({
@@ -918,7 +957,8 @@ def build():
                            ],
                        }, separators=(",", ":")) + "</script>",
         )
-        pages.append((f"shop/{product['slug']}.html", "0.7"))
+        if not product.get("retired"):
+            pages.append((f"shop/{product['slug']}.html", "0.7"))
 
     # About ------------------------------------------------------------------
     about = fill(
@@ -1169,15 +1209,32 @@ def build():
     stamps = {k: v for k, v in stamps.items() if k in {p for p, _ in pages}}
     STAMPS.write_text(json.dumps(stamps, indent=2, sort_keys=True) + "\n")
 
+    photos = {
+        f"shop/{p['slug']}.html": p["image"]
+        for p in products
+        if p.get("image")
+    }
+
+    def image_tag(path: str) -> str:
+        image = photos.get(path)
+        if not image:
+            return ""
+        return (
+            "<image:image>"
+            f"<image:loc>{base_url}/{image}</image:loc>"
+            "</image:image>"
+        )
+
     urls = "".join(
         f"<url><loc>{base_url}/{path}</loc>"
         f"<lastmod>{stamps.get(path, {}).get('date', today)}</lastmod>"
-        f"<priority>{priority}</priority></url>"
+        f"<priority>{priority}</priority>{image_tag(path)}</url>"
         for path, priority in pages
     )
     (ROOT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'
         f"{urls}</urlset>\n"
     )
     (ROOT / "robots.txt").write_text(
@@ -1193,5 +1250,43 @@ def build():
     return 0
 
 
+def watch() -> None:
+    """Rebuild whenever a source file changes.
+
+    Polling rather than an OS watcher: no dependency, and a site this size
+    rebuilds faster than the interval anyway.
+    """
+    watched = [TPL, DATA, ROOT / "tools"]
+    print("watching templates/, data/ and tools/ — ctrl-c to stop")
+    seen: dict[Path, float] = {}
+    while True:
+        changed = []
+        for folder in watched:
+            for f in folder.rglob("*"):
+                if not f.is_file() or f.name.startswith("."):
+                    continue
+                stamp = f.stat().st_mtime
+                if seen.get(f) != stamp:
+                    if f in seen:
+                        changed.append(f.relative_to(ROOT))
+                    seen[f] = stamp
+        if changed:
+            print(f"\n{', '.join(str(c) for c in changed)} changed")
+            try:
+                build()
+            except SystemExit as exc:
+                print(f"build failed ({exc.code}) — fix and save again")
+            except Exception as exc:  # keep watching rather than dying
+                print(f"build failed: {exc}")
+        time.sleep(0.7)
+
+
 if __name__ == "__main__":
+    if "--watch" in sys.argv:
+        build()
+        try:
+            watch()
+        except KeyboardInterrupt:
+            print("\nstopped")
+        sys.exit(0)
     sys.exit(build())

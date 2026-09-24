@@ -19,6 +19,16 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <meta name="theme-color" content="#112103">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Everything is served from this origin, so the policy can simply say so.
+     Loosen it only when something genuinely external is added.
+     frame-ancestors is deliberately absent: a browser ignores it in a <meta>
+     and warns on every load. Refusing to be framed needs a real header, which
+     GitHub Pages cannot set. -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';
+               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self';
+               base-uri 'self'">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../assets/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="../assets/brand/favicon-16.png" sizes="16x16" type="image/png">
@@ -105,6 +115,7 @@
     
 
     <div class="product__lead">
+      
       <p class="eyebrow">Whisky</p>
       <h1 class="product__title">Small Batch Bourbon</h1>
       <p class="lede">Corn-sweet and vanilla-heavy, with enough oak to stop it being a dessert.</p>
@@ -112,6 +123,12 @@
       <p class="product__price">1 090 <small style="font-family:var(--body);font-size:0.5em;letter-spacing:.1em;color:var(--muted)">CZK</small></p>
 
       
+
+      <p class="product__share">
+        <button class="link-share" type="button" data-share
+                data-share-title="Small Batch Bourbon">Share this bottle</button>
+        <span class="link-share__said" data-share-said hidden>Link copied</span>
+      </p>
     </div>
 
     <div class="product__detail">
@@ -136,6 +153,7 @@
     <ul class="product-grid product-grid--four"><li class="card" style="--n:0" data-category="whisky"
     data-price="1290" data-abv="43.0"
     data-volume="700" data-name="Single Malt, 10 Years"
+    data-stock="0"
     data-added="2026-03-08"
     data-search="single malt, 10 years whisky orchard fruit, a little malt sweetness, no smoke to argue with." data-order="0">
   
@@ -144,7 +162,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/single-malt-10.html">Single Malt, 10 Years</a></h2>
   <p class="card__note">Orchard fruit, a little malt sweetness, no smoke to argue with.</p>
   <div class="card__foot">
-    <span class="price">1 290 <small>CZK</small></span>
+    <span class="price">1 290 <small>CZK</small>
+      <small class="price__rate">1 843 / litre</small></span>
     <span class="card__spec">700 ml &middot; 43.0%</span>
   </div>
   
@@ -152,6 +171,7 @@
 <li class="card" style="--n:1" data-category="whisky"
     data-price="1690" data-abv="46.0"
     data-volume="700" data-name="Peated Single Malt"
+    data-stock="0"
     data-added="2025-09-22"
     data-search="peated single malt whisky coastal and medicinal. divides a room faster than politics." data-order="1">
   
@@ -160,7 +180,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/islay-peated-single-malt.html">Peated Single Malt</a></h2>
   <p class="card__note">Coastal and medicinal. Divides a room faster than politics.</p>
   <div class="card__foot">
-    <span class="price">1 690 <small>CZK</small></span>
+    <span class="price">1 690 <small>CZK</small>
+      <small class="price__rate">2 414 / litre</small></span>
     <span class="card__spec">700 ml &middot; 46.0%</span>
   </div>
   
@@ -168,6 +189,7 @@
 <li class="card" style="--n:2" data-category="whisky"
     data-price="1190" data-abv="50.0"
     data-volume="700" data-name="Straight Rye"
+    data-stock="0"
     data-added="2025-12-15"
     data-search="straight rye whisky dry, peppery, and the reason a manhattan has a spine." data-order="2">
   
@@ -176,7 +198,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/straight-rye.html">Straight Rye</a></h2>
   <p class="card__note">Dry, peppery, and the reason a Manhattan has a spine.</p>
   <div class="card__foot">
-    <span class="price">1 190 <small>CZK</small></span>
+    <span class="price">1 190 <small>CZK</small>
+      <small class="price__rate">1 700 / litre</small></span>
     <span class="card__spec">700 ml &middot; 50.0%</span>
   </div>
   
@@ -184,6 +207,7 @@
 <li class="card" style="--n:3" data-category="gin"
     data-price="690" data-abv="43.0"
     data-volume="700" data-name="London Dry Gin"
+    data-stock="0"
     data-added="2026-08-29"
     data-search="london dry gin gin juniper-forward and unambiguous. the gin a martini was written for." data-order="3">
   <span class="card__new">New</span>
@@ -192,7 +216,8 @@
   <h2 class="card__name"><a class="card__link" href="../shop/london-dry-gin-classic.html">London Dry Gin</a></h2>
   <p class="card__note">Juniper-forward and unambiguous. The gin a Martini was written for.</p>
   <div class="card__foot">
-    <span class="price">690 <small>CZK</small></span>
+    <span class="price">690 <small>CZK</small>
+      <small class="price__rate">986 / litre</small></span>
     <span class="card__spec">700 ml &middot; 43.0%</span>
   </div>
   
@@ -218,7 +243,9 @@
       </div>
       <div>
         <h3>Elsewhere</h3>
-        <ul><li>Contact details to follow.</li></ul>
+        <ul><li>Contact details to follow.</li>
+          <li><a href="../arrivals.xml">New arrivals feed</a></li>
+        </ul>
       </div>
     </div>
     <div class="footer__bottom">

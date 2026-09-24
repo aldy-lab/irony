@@ -62,6 +62,7 @@
     var strengthSelect = root.querySelector("[data-strength]");
     var sizeSelect = root.querySelector("[data-size]");
     var sortSelect = root.querySelector("[data-sort]");
+    var inStock = root.querySelector("[data-instock]");
     var reset = root.querySelector("[data-reset]");
     var count = root.querySelector("[data-result-count]");
     var empty = root.querySelector("[data-no-results]");
@@ -78,6 +79,7 @@
       strength: "any",
       size: "any",
       sort: "default",
+      inStock: false,
     };
 
     function inBand(value, band) {
@@ -95,6 +97,7 @@
       if (!inBand(parseFloat(card.dataset.price), state.price)) return false;
       if (!inBand(parseFloat(card.dataset.abv), state.strength)) return false;
       if (state.size !== "any" && card.dataset.volume !== state.size) return false;
+      if (state.inStock && parseInt(card.dataset.stock, 10) <= 0) return false;
       if (state.q) {
         // data-search holds name, producer, category and tasting note, all
         // lowercased at build time so this stays a substring test.
@@ -183,6 +186,7 @@
         state.price !== "any",
         state.strength !== "any",
         state.size !== "any",
+        state.inStock,
       ].filter(Boolean).length;
 
       if (reset) reset.hidden = active === 0;
@@ -203,6 +207,7 @@
         price: state.price === "any" ? "" : state.price,
         abv: state.strength === "any" ? "" : state.strength,
         ml: state.size === "any" ? "" : state.size,
+        stock: state.inStock ? "1" : "",
         sort: state.sort === "default" ? "" : state.sort,
       };
       Object.keys(map).forEach(function (key) {
@@ -222,12 +227,14 @@
       state.price = p.get("price") || "any";
       state.strength = p.get("abv") || "any";
       state.size = p.get("ml") || "any";
-      state.sort = p.get("sort") || "default";
+      state.inStock = p.get("stock") === "1";
+      state.sort = p.get("sort") || read(SORT_KEY, "") || "default";
 
       if (search) search.value = p.get("q") || "";
       if (priceSelect) priceSelect.value = state.price;
       if (strengthSelect) strengthSelect.value = state.strength;
       if (sizeSelect) sizeSelect.value = state.size;
+      if (inStock) inStock.checked = state.inStock;
       if (sortSelect) sortSelect.value = state.sort;
     }
 
@@ -271,6 +278,21 @@
         var open = facets.getAttribute("data-open") === "true";
         facets.setAttribute("data-open", open ? "false" : "true");
         facetsToggle.setAttribute("aria-expanded", open ? "false" : "true");
+        if (!open) {
+          // Opening it should put you in it, not leave you on the button.
+          var first = facets.querySelector("[data-search]");
+          if (first) first.focus();
+        }
+      });
+
+      // Escape closes the filters. Deliberately unlike the age gate, which
+      // must not be dismissable without an answer.
+      facets.addEventListener("keydown", function (event) {
+        if (event.key !== "Escape") return;
+        if (facets.getAttribute("data-open") !== "true") return;
+        facets.setAttribute("data-open", "false");
+        facetsToggle.setAttribute("aria-expanded", "false");
+        facetsToggle.focus();
       });
     }
 
@@ -305,9 +327,17 @@
       if (!el) return;
       el.addEventListener("change", function () {
         state[key] = el.value;
+        if (key === "sort") write(SORT_KEY, el.value);
         apply();
       });
     });
+
+    if (inStock) {
+      inStock.addEventListener("change", function () {
+        state.inStock = inStock.checked;
+        apply();
+      });
+    }
 
     if (reset) {
       reset.addEventListener("click", function () {
@@ -316,6 +346,8 @@
         state.price = "any";
         state.strength = "any";
         state.size = "any";
+        state.inStock = false;
+        if (inStock) inStock.checked = false;
         if (search) search.value = "";
         if (priceSelect) priceSelect.value = "any";
         if (strengthSelect) strengthSelect.value = "any";
@@ -330,6 +362,7 @@
       }
     });
 
+    var SORT_KEY = "ivs.sort.v1";
     var SCROLL_KEY = "ivs.scroll.v1";
 
     if ("scrollRestoration" in window.history) {
@@ -550,6 +583,32 @@
     box.focus();
     box.select();
   });
+
+  /* Share a bottle: the system sheet on a phone, the clipboard otherwise. */
+  var shareButton = document.querySelector("[data-share]");
+  if (shareButton) {
+    var said = document.querySelector("[data-share-said]");
+    shareButton.addEventListener("click", function () {
+      var url = window.location.href;
+      var title = shareButton.getAttribute("data-share-title") || document.title;
+      if (navigator.share) {
+        navigator.share({ title: title, url: url }).catch(function () {
+          /* dismissed — not an error */
+        });
+        return;
+      }
+      var done = function () {
+        if (!said) return;
+        said.hidden = false;
+        window.setTimeout(function () {
+          said.hidden = true;
+        }, 2400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, function () {});
+      }
+    });
+  }
 
   /* ---------------------------------------------------------------------
      Recently looked at

@@ -43,8 +43,8 @@
      — Italiana matches the logo's proportions better still but renders
      "10 Years" as "Io Years". EB Garamond stands in for Arno Pro, which it
      descends from. */
-  --display: "Cormorant Garamond", "Cormorant", "Didot", serif;
-  --body: "EB Garamond", "Iowan Old Style", Georgia, serif;
+  --display: "Cormorant Garamond", "Cormorant Fallback", "Didot", serif;
+  --body: "EB Garamond", "EB Garamond Fallback", "Iowan Old Style", Georgia, serif;
 
   --step--1: clamp(0.82rem, 0.79rem + 0.14vw, 0.9rem);
   --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
@@ -949,6 +949,28 @@ main > .shell:first-child {
   cursor: pointer;
 }
 
+/* In stock only — a switch, not another dropdown, because it is a yes or no. */
+.facet--switch {
+  padding-block: 1rem;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: var(--step-0);
+  color: var(--text);
+}
+
+.switch input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-ink);
+  cursor: pointer;
+}
+
 .facet__list {
   list-style: none;
   padding: 0;
@@ -1649,6 +1671,63 @@ main > .shell:first-child {
   font-weight: 500;
   font-variant-numeric: lining-nums tabular-nums;
   margin-block: 1.4rem;
+}
+
+.product__share {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: -0.5rem;
+}
+
+.link-share {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: var(--step--1) / 1 var(--body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.link-share:hover {
+  color: var(--accent-ink);
+}
+
+.link-share__said {
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--accent-ink);
+}
+
+.link-share__said[hidden] {
+  display: none;
+}
+
+/* A bottle that has left the shelf says so, rather than looking current. */
+.notice {
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border-left: 2px solid var(--accent-ink);
+  background: var(--bg-alt);
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--text-soft);
+}
+
+.price__rate {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--body);
+  font-size: 0.72rem;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--muted);
 }
 
 .spec {

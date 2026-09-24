@@ -19,6 +19,16 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <meta name="theme-color" content="#112103">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Everything is served from this origin, so the policy can simply say so.
+     Loosen it only when something genuinely external is added.
+     frame-ancestors is deliberately absent: a browser ignores it in a <meta>
+     and warns on every load. Refusing to be framed needs a real header, which
+     GitHub Pages cannot set. -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';
+               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self';
+               base-uri 'self'">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/brand/favicon-16.png" sizes="16x16" type="image/png">
@@ -123,7 +133,9 @@
       </div>
       <div>
         <h3>Elsewhere</h3>
-        <ul><li>Contact details to follow.</li></ul>
+        <ul><li>Contact details to follow.</li>
+          <li><a href="arrivals.xml">New arrivals feed</a></li>
+        </ul>
       </div>
     </div>
     <div class="footer__bottom">

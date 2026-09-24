@@ -12,6 +12,7 @@
     {{media}}
 
     <div class="product__lead">
+      {{retired_notice}}
       <p class="eyebrow">{{category_name}}</p>
       <h1 class="product__title">{{name}}</h1>
       <p class="lede">{{notes}}</p>
@@ -19,6 +20,12 @@
       <p class="product__price">{{price}} <small style="font-family:var(--body);font-size:0.5em;letter-spacing:.1em;color:var(--muted)">{{currency}}</small></p>
 
       {{enquire}}
+
+      <p class="product__share">
+        <button class="link-share" type="button" data-share
+                data-share-title="{{name}}">Share this bottle</button>
+        <span class="link-share__said" data-share-said hidden>Link copied</span>
+      </p>
     </div>
 
     <div class="product__detail">
