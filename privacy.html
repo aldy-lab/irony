@@ -27,7 +27,7 @@
      GitHub Pages cannot set. -->
 <meta http-equiv="Content-Security-Policy"
       content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';
-               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self';
+               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self'; worker-src 'self';
                base-uri 'self'">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/brand/favicon-32.png" sizes="32x32" type="image/png">
@@ -189,8 +189,23 @@
   </div>
 </footer>
 
+<a class="to-top" href="#main" data-to-top hidden>
+  <span class="to-top__arrow" aria-hidden="true">&uarr;</span>
+  <span class="visually-hidden">Back to the top</span>
+</a>
+
 <script>window.IVS = {"base":"","currency":"CZK","hours":[{"days":[0,1,2,3],"from":"12:00","to":"22:00"},{"days":[4,5],"from":"12:00","to":"24:00"},{"days":[6],"from":"14:00","to":"20:00"}],"timezone":"Europe/Prague"};</script>
 <script src="js/main.js" defer></script>
+<script>
+  /* Offline, because the whole site is static and a phone in a metro station
+     has no reason to see nothing. Failure here is silent: the site works
+     exactly as before without it. */
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+</script>
 
 </body>
 </html>

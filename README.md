@@ -267,8 +267,25 @@ requires a privacy policy — which this site does not yet have.
 ## Checks
 
 ```sh
-python3 build.py && python3 tools/check.py
+python3 tests/test_build.py          # pure functions, no browser, under a second
+python3 tools/lint.py                # copy consistency, unstyled classes, page weight
+python3 tools/check.py               # the whole browser suite, about two minutes
+python3 tools/check.py --only fonts  # one group of it
+python3 tools/visual.py              # compare against approved screenshots
+python3 tools/visual.py --approve    # accept a change on purpose
 ```
+
+Four tools because they answer four different questions. The unit tests ask
+whether a function rounds correctly and answer in milliseconds; the browser
+suite asks whether the page works and takes two minutes; the linter asks what
+neither of them looks at — prose, unstyled classes, and whether the page has
+quietly grown; and the screenshots ask whether it still *looks* right, which no
+number can.
+
+**A visual difference is a question, not a failure.** Look at
+`tests/diff/*.diff.png`, then either fix the page or approve the change
+deliberately. A height change is diffed too, by padding both images onto one
+canvas — answering "did it change" without "where" is not worth the tool.
 
 `.github/workflows/check.yml` runs both on every push and pull request, and
 fails if the committed HTML differs from a fresh build — so what is on the site

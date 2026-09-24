@@ -27,7 +27,7 @@
      GitHub Pages cannot set. -->
 <meta http-equiv="Content-Security-Policy"
       content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';
-               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self';
+               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self'; worker-src 'self';
                base-uri 'self'">
 <link rel="icon" href="{{base}}assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="{{base}}assets/brand/favicon-32.png" sizes="32x32" type="image/png">
@@ -116,8 +116,23 @@
   </div>
 </footer>
 
+<a class="to-top" href="#main" data-to-top hidden>
+  <span class="to-top__arrow" aria-hidden="true">&uarr;</span>
+  <span class="visually-hidden">Back to the top</span>
+</a>
+
 <script>window.IVS = {{ivs_data}};</script>
 <script src="{{base}}js/main.js" defer></script>
+<script>
+  /* Offline, because the whole site is static and a phone in a metro station
+     has no reason to see nothing. Failure here is silent: the site works
+     exactly as before without it. */
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("{{base}}sw.js").catch(function () {});
+    });
+  }
+</script>
 {{analytics}}
 </body>
 </html>

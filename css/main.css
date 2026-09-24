@@ -1524,7 +1524,7 @@ main > .shell:first-child {
 .recent__list a {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
+  min-height: 44px;
   font-family: var(--display);
   font-size: var(--step-1);
   text-decoration: none;
@@ -2211,6 +2211,317 @@ main > .shell:first-child {
   ::view-transition-old(*),
   ::view-transition-new(*) {
     animation: none !important;
+  }
+}
+
+/* Compare, on the card. Above the card's full-area link, or the click would
+   go straight through to the bottle. */
+.card__compare {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  min-height: 44px;
+  padding: 0 0.85rem;
+  border: 0;
+  border-top: 1px solid var(--rule-soft);
+  border-left: 1px solid var(--rule-soft);
+  background: var(--bg);
+  color: var(--muted);
+  font: var(--step--1) / 1 var(--body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease), background 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+
+.card:hover .card__compare,
+.card__compare:focus-visible,
+.card__compare[aria-pressed="true"] {
+  opacity: 1;
+}
+
+/* No hover on a touch screen, so it is simply always there. */
+@media (hover: none) {
+  .card__compare {
+    opacity: 1;
+  }
+}
+
+.card__compare[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--maroon);
+}
+
+.card__compare__on,
+.card__compare[aria-pressed="true"] .card__compare__add {
+  display: none;
+}
+
+.card__compare[aria-pressed="true"] .card__compare__on {
+  display: inline;
+}
+
+.tray {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  background: var(--bg-invert);
+  color: var(--gold);
+  border-top: 1px solid color-mix(in srgb, var(--gold) 20%, transparent);
+}
+
+.tray[hidden] {
+  display: none;
+}
+
+.tray__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  padding-block: 0.9rem;
+}
+
+.tray__what {
+  margin: 0;
+  font-size: var(--step--1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9aa683;
+}
+
+.tray__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: var(--display);
+  font-size: var(--step-1);
+  font-weight: 500;
+}
+
+.tray__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* The base rule went out with the cart when this became a catalogue, and the
+   only thing still mentioning the class was a nested selector — enough to fool
+   a search for the name, not enough to style anything. */
+.link-quiet {
+  min-height: 44px;
+  padding: 0.4rem 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: var(--step--1) / 1 var(--body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.link-quiet:hover {
+  color: var(--accent-ink);
+}
+
+.tray__actions .link-quiet {
+  color: #9aa683;
+}
+
+/* Two is the minimum that means anything. */
+.tray:not([data-ready="true"]) [data-tray-open] {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.compare {
+  width: min(92vw, 820px);
+  padding: 0;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.compare::backdrop {
+  background: color-mix(in srgb, var(--green) 70%, transparent);
+}
+
+.compare__inner {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.compare__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.compare__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.compare__table th,
+.compare__table td {
+  padding: 0.85rem 0.75rem;
+  border-bottom: 1px solid var(--rule-soft);
+  text-align: left;
+  vertical-align: baseline;
+  font-size: var(--step--1);
+}
+
+.compare__table thead th {
+  font-family: var(--display);
+  font-size: var(--step-1);
+  font-weight: 500;
+}
+
+.compare__table tbody th {
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.compare__table td {
+  font-style: italic;
+  color: var(--text-soft);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* Six screens of shelf deserve a way back. Appears once you are well down,
+   and is a plain link to #main so it works without JavaScript. */
+.to-top {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2.5rem);
+  bottom: clamp(1rem, 3vw, 2.5rem);
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease),
+    background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.to-top[hidden] {
+  display: none;
+}
+
+.to-top[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.to-top:hover {
+  background: var(--accent-ink);
+  color: var(--paper);
+  border-color: var(--accent-ink);
+}
+
+.to-top__arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+@media (max-width: 359px), (max-height: 600px) {
+  .presets {
+    display: none;
+  }
+}
+
+/* A short screen — a 320x568 phone, or a landscape one — has to spend its
+   height on the shelf rather than on the name of the shop. The wordmark
+   shrinks and the line under it goes; the brand is still the first thing,
+   just not the only thing. */
+@media (max-height: 620px) {
+  .masthead {
+    padding-block: 0.9rem 0.7rem;
+  }
+
+  .masthead__mark {
+    width: min(62%, 190px);
+  }
+
+  .masthead__copy {
+    display: none;
+  }
+}
+
+/* Presets, because "something under a thousand" is how a present is chosen. */
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.25rem;
+  margin: 0 0 1.5rem;
+  font-size: var(--step--1);
+}
+
+.presets > span {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.presets a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-style: italic;
+  font-size: var(--step-0);
+  text-decoration-color: var(--rule);
+}
+
+.presets a:hover {
+  color: var(--accent-ink);
+}
+
+/* 11. Someone asking their browser to save data should not be sent 336 KB of
+   webfonts for a shelf list. */
+@media (prefers-reduced-data: reduce) {
+  :root {
+    --display: Georgia, "Times New Roman", serif;
+    --body: Georgia, "Times New Roman", serif;
+  }
+
+  .card__media--mark,
+  .masthead__figure,
+  .masthead__motif,
+  .motif-rule {
+    display: none;
+  }
+
+  [data-reveal],
+  .card,
+  .card.is-entering {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

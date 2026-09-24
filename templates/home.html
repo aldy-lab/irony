@@ -41,6 +41,7 @@
             <ul class="facet__list" aria-labelledby="facet-category">{{category_list}}</ul>
           </div>
 
+          {{producer_facet}}
           {{stock_switch}}
 
           <div class="facet">
@@ -95,6 +96,14 @@
           </label>
         </div>
 
+        <p class="presets">
+          <span>Looking for a present?</span>
+          <a href="?price=-599">Under 600</a>
+          <a href="?price=600-999">600 to 1 000</a>
+          <a href="?sort=newest">Just arrived</a>
+          <a href="?abv=50-">Something strong</a>
+        </p>
+
         <ul class="product-grid" data-grid>{{product_grid}}</ul>
 
         <nav class="recent" data-recent hidden aria-label="Recently looked at">
@@ -110,6 +119,29 @@
 
     </div>
   </div>
+
+  <div class="tray" data-tray hidden>
+    <div class="shell tray__inner">
+      <p class="tray__what"><span data-tray-count>0</span> to compare</p>
+      <ul class="tray__list" data-tray-list></ul>
+      <span class="tray__actions">
+        <button class="link-quiet" type="button" data-tray-clear>Clear</button>
+        <button class="button button--primary" type="button" data-tray-open>
+          <span>Compare</span>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <dialog class="compare" data-compare-dialog aria-label="Bottles compared">
+    <div class="compare__inner">
+      <div class="compare__head">
+        <p class="eyebrow" style="margin:0">Side by side</p>
+        <button class="link-quiet" type="button" data-compare-close>Close</button>
+      </div>
+      <div class="compare__body" data-compare-body></div>
+    </div>
+  </dialog>
 </section>
 
 <section class="section">

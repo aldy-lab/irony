@@ -27,7 +27,7 @@
      GitHub Pages cannot set. -->
 <meta http-equiv="Content-Security-Policy"
       content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';
-               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self';
+               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self'; worker-src 'self';
                base-uri 'self'">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../assets/brand/favicon-32.png" sizes="32x32" type="image/png">
@@ -153,7 +153,7 @@
     <ul class="product-grid product-grid--four"><li class="card" style="--n:0" data-category="rum"
     data-price="990" data-abv="43.0"
     data-volume="700" data-name="Aged Rum, 8 Years"
-    data-stock="0"
+    data-stock="0" data-producer=""
     data-added="2025-12-10"
     data-search="aged rum, 8 years rum tropical ageing does in eight years what scotland needs twenty for." data-order="0">
   
@@ -167,11 +167,16 @@
     <span class="card__spec">700 ml &middot; 43.0%</span>
   </div>
   
+  <button class="card__compare" type="button" data-compare="aged-rum-8"
+          aria-pressed="false">
+    <span class="card__compare__add">Compare</span>
+    <span class="card__compare__on">Comparing</span>
+  </button>
 </li>
 <li class="card" style="--n:1" data-category="rum"
     data-price="850" data-abv="63.0"
     data-volume="700" data-name="Overproof White Rum"
-    data-stock="0"
+    data-stock="0" data-producer=""
     data-added="2025-10-14"
     data-search="overproof white rum rum funky, high-ester and unreasonable. built for tiki and for float." data-order="1">
   
@@ -185,11 +190,16 @@
     <span class="card__spec">700 ml &middot; 63.0%</span>
   </div>
   
+  <button class="card__compare" type="button" data-compare="overproof-white-rum"
+          aria-pressed="false">
+    <span class="card__compare__add">Compare</span>
+    <span class="card__compare__on">Comparing</span>
+  </button>
 </li>
 <li class="card" style="--n:2" data-category="gin"
     data-price="690" data-abv="43.0"
     data-volume="700" data-name="London Dry Gin"
-    data-stock="0"
+    data-stock="0" data-producer=""
     data-added="2026-08-29"
     data-search="london dry gin gin juniper-forward and unambiguous. the gin a martini was written for." data-order="2">
   <span class="card__new">New</span>
@@ -203,11 +213,16 @@
     <span class="card__spec">700 ml &middot; 43.0%</span>
   </div>
   
+  <button class="card__compare" type="button" data-compare="london-dry-gin-classic"
+          aria-pressed="false">
+    <span class="card__compare__add">Compare</span>
+    <span class="card__compare__on">Comparing</span>
+  </button>
 </li>
 <li class="card" style="--n:3" data-category="gin"
     data-price="990" data-abv="57.0"
     data-volume="700" data-name="Navy Strength Gin"
-    data-stock="0"
+    data-stock="0" data-producer=""
     data-added="2025-10-28"
     data-search="navy strength gin gin overproof, so it survives contact with citrus and ice without going quiet." data-order="3">
   
@@ -221,6 +236,11 @@
     <span class="card__spec">700 ml &middot; 57.0%</span>
   </div>
   
+  <button class="card__compare" type="button" data-compare="navy-strength-gin"
+          aria-pressed="false">
+    <span class="card__compare__add">Compare</span>
+    <span class="card__compare__on">Comparing</span>
+  </button>
 </li></ul>
   </section>
 </div>
@@ -257,8 +277,23 @@
   </div>
 </footer>
 
+<a class="to-top" href="#main" data-to-top hidden>
+  <span class="to-top__arrow" aria-hidden="true">&uarr;</span>
+  <span class="visually-hidden">Back to the top</span>
+</a>
+
 <script>window.IVS = {"base":"../","currency":"CZK","hours":[{"days":[0,1,2,3],"from":"12:00","to":"22:00"},{"days":[4,5],"from":"12:00","to":"24:00"},{"days":[6],"from":"14:00","to":"20:00"}],"timezone":"Europe/Prague"};</script>
 <script src="../js/main.js" defer></script>
+<script>
+  /* Offline, because the whole site is static and a phone in a metro station
+     has no reason to see nothing. Failure here is silent: the site works
+     exactly as before without it. */
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("../sw.js").catch(function () {});
+    });
+  }
+</script>
 
 </body>
 </html>

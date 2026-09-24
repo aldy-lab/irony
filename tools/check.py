@@ -375,7 +375,7 @@ def check_marks(br):
     pg.add_style_tag(content="html{scroll-behavior:auto !important}")
 
     marks = pg.evaluate(
-        """()=>{const out={count:0, bad:[]};
+        r"""()=>{const out={count:0, bad:[]};
       document.querySelectorAll('.mark').forEach(m=>{
         const d=m.getBoundingClientRect();
         if(d.width<1||d.height<1) return;      // deliberately hidden
@@ -625,19 +625,36 @@ def check_grids(br):
     ctx.close()
 
 
+GROUPS = {
+    "filters": check_filters,
+    "fonts": check_fonts,
+    "a11y": check_a11y,
+    "marks": check_marks,
+    "links": check_links,
+    "mobile": check_mobile,
+    "widths": check_widths,
+    "grids": check_grids,
+}
+
+
 def main():
     if not (ROOT / "index.html").exists():
         sys.exit("nothing built yet — run python3 build.py first")
+
+    # The whole suite takes two minutes, which is the wrong length for "did
+    # that one change work". --only runs a group.
+    wanted = list(GROUPS)
+    if "--only" in sys.argv:
+        names = sys.argv[sys.argv.index("--only") + 1].split(",")
+        unknown = [n for n in names if n not in GROUPS]
+        if unknown:
+            sys.exit(f"unknown group(s): {', '.join(unknown)}. Pick from: {', '.join(GROUPS)}")
+        wanted = names
+
     with server(), sync_playwright() as pw:
         br = pw.chromium.launch()
-        check_filters(br)
-        check_fonts(br)
-        check_a11y(br)
-        check_marks(br)
-        check_links(br)
-        check_mobile(br)
-        check_widths(br)
-        check_grids(br)
+        for name in wanted:
+            GROUPS[name](br)
         br.close()
 
     print()

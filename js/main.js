@@ -63,6 +63,7 @@
     var sizeSelect = root.querySelector("[data-size]");
     var sortSelect = root.querySelector("[data-sort]");
     var inStock = root.querySelector("[data-instock]");
+    var producerSelect = root.querySelector("[data-producer]");
     var reset = root.querySelector("[data-reset]");
     var count = root.querySelector("[data-result-count]");
     var empty = root.querySelector("[data-no-results]");
@@ -73,13 +74,14 @@
     });
 
     var state = {
-      category: "all",
+      categories: [],
       q: "",
       price: "any",
       strength: "any",
       size: "any",
       sort: "default",
       inStock: false,
+      producer: "any",
     };
 
     function inBand(value, band) {
@@ -91,7 +93,11 @@
     }
 
     function matches(card) {
-      if (state.category !== "all" && card.dataset.category !== state.category) {
+      if (state.categories.length &&
+          state.categories.indexOf(card.dataset.category) === -1) {
+        return false;
+      }
+      if (state.producer !== "any" && card.dataset.producer !== state.producer) {
         return false;
       }
       if (!inBand(parseFloat(card.dataset.price), state.price)) return false;
@@ -151,10 +157,11 @@
       sortCards();
 
       options.forEach(function (option) {
-        option.setAttribute(
-          "aria-pressed",
-          option.dataset.filter === state.category ? "true" : "false"
-        );
+        var slug = option.dataset.filter;
+        var on = slug === "all"
+          ? state.categories.length === 0
+          : state.categories.indexOf(slug) !== -1;
+        option.setAttribute("aria-pressed", on ? "true" : "false");
       });
 
       if (count) {
@@ -181,7 +188,8 @@
       // collapsed button, so a phone visitor can see the list is filtered
       // without opening the panel.
       var active = [
-        state.category !== "all",
+        state.categories.length > 0,
+        state.producer !== "any",
         state.q !== "",
         state.price !== "any",
         state.strength !== "any",
@@ -202,7 +210,8 @@
     function writeUrl() {
       var url = new URL(window.location.href);
       var map = {
-        c: state.category === "all" ? "" : state.category,
+        c: state.categories.join(","),
+        producer: state.producer === "any" ? "" : state.producer,
         q: state.q,
         price: state.price === "any" ? "" : state.price,
         abv: state.strength === "any" ? "" : state.strength,
@@ -219,10 +228,12 @@
 
     function readUrl() {
       var p = new URL(window.location.href).searchParams;
-      var category = p.get("c");
-      if (category && root.querySelector('[data-filter="' + CSS.escape(category) + '"]')) {
-        state.category = category;
-      }
+      state.categories = (p.get("c") || "")
+        .split(",")
+        .filter(function (slug) {
+          return slug && root.querySelector('[data-filter="' + CSS.escape(slug) + '"]');
+        });
+      state.producer = p.get("producer") || "any";
       state.q = fold(p.get("q") || "");
       state.price = p.get("price") || "any";
       state.strength = p.get("abv") || "any";
@@ -235,6 +246,7 @@
       if (strengthSelect) strengthSelect.value = state.strength;
       if (sizeSelect) sizeSelect.value = state.size;
       if (inStock) inStock.checked = state.inStock;
+      if (producerSelect) producerSelect.value = state.producer;
       if (sortSelect) sortSelect.value = state.sort;
     }
 
@@ -254,11 +266,134 @@
 
     options.forEach(function (option) {
       option.addEventListener("click", function () {
-        state.category = option.dataset.filter;
+        var slug = option.dataset.filter;
+        if (slug === "all") {
+          state.categories = [];
+        } else {
+          var at = state.categories.indexOf(slug);
+          if (at === -1) state.categories.push(slug);
+          else state.categories.splice(at, 1);
+        }
         apply();
-        closePanelAndShowResults();
+        // Only leave the panel when the choice is likely finished — picking a
+        // second category is the common case, and closing after the first
+        // would fight the person.
+        if (!state.categories.length || state.categories.length === 1) {
+          closePanelAndShowResults();
+        }
       });
     });
+
+    if (producerSelect) {
+      producerSelect.addEventListener("change", function () {
+        state.producer = producerSelect.value;
+        apply();
+      });
+    }
+
+    /* Comparing two or three bottles is the actual decision on a shelf this
+       size. Built from what is already on the cards, so there is nothing to
+       fetch and it works with the network cut. */
+    var tray = root.querySelector("[data-tray]");
+    var dialog = root.querySelector("[data-compare-dialog]");
+    var chosen = [];
+
+    function cardBySlug(slug) {
+      return cards.filter(function (c) {
+        return c.querySelector('[data-compare="' + CSS.escape(slug) + '"]');
+      })[0];
+    }
+
+    function drawTray() {
+      if (!tray) return;
+      var list = tray.querySelector("[data-tray-list]");
+      var count = tray.querySelector("[data-tray-count]");
+      list.innerHTML = "";
+      chosen.forEach(function (slug) {
+        var card = cardBySlug(slug);
+        if (!card) return;
+        var li = document.createElement("li");
+        li.textContent = card.dataset.name;
+        list.appendChild(li);
+      });
+      if (count) count.textContent = chosen.length;
+      tray.hidden = chosen.length < 1;
+      tray.setAttribute("data-ready", chosen.length > 1 ? "true" : "false");
+
+      root.querySelectorAll("[data-compare]").forEach(function (button) {
+        var on = chosen.indexOf(button.dataset.compare) !== -1;
+        button.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+    }
+
+    function row(label, values) {
+      return (
+        "<tr><th scope=\"row\">" + label + "</th>" +
+        values.map(function (v) { return "<td>" + v + "</td>"; }).join("") +
+        "</tr>"
+      );
+    }
+
+    function openCompare() {
+      if (!dialog || chosen.length < 2) return;
+      var picked = chosen.map(cardBySlug).filter(Boolean);
+      var money = function (n) {
+        return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      };
+      var body = root.querySelector("[data-compare-body]");
+      body.innerHTML =
+        '<table class="compare__table"><thead><tr><th></th>' +
+        picked.map(function (c) {
+          return "<th>" + c.dataset.name + "</th>";
+        }).join("") +
+        "</tr></thead><tbody>" +
+        row("Price", picked.map(function (c) { return money(c.dataset.price) + " " + IVS.currency; })) +
+        row("Per litre", picked.map(function (c) {
+          return money(c.dataset.price / c.dataset.volume * 1000) + " " + IVS.currency;
+        })) +
+        row("Bottle", picked.map(function (c) { return c.dataset.volume + " ml"; })) +
+        row("Strength", picked.map(function (c) { return c.dataset.abv + "%"; })) +
+        row("Category", picked.map(function (c) {
+          var label = c.querySelector(".card__category");
+          return label ? label.textContent : "";
+        })) +
+        "</tbody></table>";
+      if (typeof dialog.showModal === "function") dialog.showModal();
+      else dialog.setAttribute("open", "");
+    }
+
+    root.querySelectorAll("[data-compare]").forEach(function (button) {
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var slug = button.dataset.compare;
+        var at = chosen.indexOf(slug);
+        if (at !== -1) chosen.splice(at, 1);
+        else if (chosen.length < 3) chosen.push(slug);
+        drawTray();
+      });
+    });
+
+    if (tray) {
+      tray.querySelector("[data-tray-clear]").addEventListener("click", function () {
+        chosen = [];
+        drawTray();
+      });
+      tray.querySelector("[data-tray-open]").addEventListener("click", openCompare);
+    }
+
+    if (dialog) {
+      var closer = root.querySelector("[data-compare-close]");
+      if (closer) {
+        closer.addEventListener("click", function () {
+          if (typeof dialog.close === "function") dialog.close();
+          else dialog.removeAttribute("open");
+        });
+      }
+      dialog.addEventListener("click", function (event) {
+        if (event.target === dialog) dialog.close();
+      });
+    }
 
     var randomButton = root.querySelector("[data-random]");
     if (randomButton) {
@@ -341,13 +476,15 @@
 
     if (reset) {
       reset.addEventListener("click", function () {
-        state.category = "all";
+        state.categories = [];
+        state.producer = "any";
         state.q = "";
         state.price = "any";
         state.strength = "any";
         state.size = "any";
         state.inStock = false;
         if (inStock) inStock.checked = false;
+        if (producerSelect) producerSelect.value = "any";
         if (search) search.value = "";
         if (priceSelect) priceSelect.value = "any";
         if (strengthSelect) strengthSelect.value = "any";
@@ -517,6 +654,18 @@
       }
       openNow.hidden = false;
     })();
+  }
+
+  /* The back-to-top button earns its place only once there is a way back. */
+  var toTop = document.querySelector("[data-to-top]");
+  if (toTop) {
+    toTop.hidden = false;
+    var updateToTop = function () {
+      var deep = window.scrollY > window.innerHeight * 1.5;
+      toTop.setAttribute("data-shown", deep ? "true" : "false");
+    };
+    window.addEventListener("scroll", updateToTop, { passive: true });
+    updateToTop();
   }
 
   /* ---------------------------------------------------------------------
