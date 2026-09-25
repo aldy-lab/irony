@@ -17,6 +17,7 @@ from __future__ import annotations
 import subprocess
 import sys
 import time
+from datetime import datetime
 from contextlib import contextmanager
 from pathlib import Path
 
@@ -77,6 +78,12 @@ def capture(pw, name, path, width, height) -> Path:
         reduced_motion="reduce",  # no animation mid-shot
     )
     page = ctx.new_page()
+    # The header says "Open until 22:00" or "Closed - opens tomorrow 12:00"
+    # depending on the wall clock, so an unfrozen screenshot of any page
+    # disagrees with its baseline by the time of day rather than by a change
+    # anyone made. set_fixed_time pins Date without freezing timers, which
+    # would stop the page's own deferred work. Thursday, inside opening hours.
+    page.clock.set_fixed_time(datetime(2026, 1, 15, 15, 0, 0))
     page.goto(f"{BASE}/", wait_until="load")
     page.evaluate("try{localStorage.setItem('ivs.age.v1','true')}catch(e){}")
     page.goto(BASE + path, wait_until="networkidle")

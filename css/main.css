@@ -505,34 +505,33 @@ main > .shell:first-child {
 }
 
 /* --------------------------------------------------------------------------
-   Masthead — the brand block above the catalogue
+   Masthead — the mascot, then the name
 
-   Deliberately short. The grid is the point of the page, so this is capped in
-   height instead of filling the viewport the way a hero would.
+   The mark used to be 420px here, ten pixels below the same mark in the
+   header: two logos stacked on each other, with the satyr stranded at the far
+   edge at 139px like an afterthought. The satyr is the identity on the front
+   page; the header is already carrying the wordmark, so this one can be half
+   the size and the figure can be the thing you see. The flute is gone — three
+   marks in one block is two too many.
+
+   Still capped in height: the catalogue is the point of the page.
    -------------------------------------------------------------------------- */
 
 .masthead {
-  padding-block: clamp(1.75rem, 1rem + 3vw, 3.25rem) clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  padding-block: clamp(1.5rem, 1rem + 2.5vw, 2.75rem) clamp(1.25rem, 1rem + 2vw, 2.25rem);
+  border-bottom: 1px solid var(--rule-soft);
 }
 
 .masthead__inner {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(1.25rem, 3vw, 2.5rem);
+  gap: clamp(1.25rem, 3vw, 3rem);
   align-items: center;
 }
 
-/* Three parts across the full measure — mark, line, figure. Two columns left
-   the middle of a 1400px shell empty, with the figure stranded at the edge. */
 @media (min-width: 760px) {
   .masthead__inner {
     grid-template-columns: auto minmax(0, 1fr);
-  }
-}
-
-@media (min-width: 1040px) {
-  .masthead__inner {
-    grid-template-columns: auto minmax(0, 1fr) auto;
   }
 }
 
@@ -540,18 +539,59 @@ main > .shell:first-child {
   min-width: 0;
 }
 
-.masthead__motif {
-  width: clamp(110px, 12vw, 140px);
-  margin-bottom: clamp(0.7rem, 1.5vw, 1.1rem);
-  color: var(--accent-ink);
+/* The mascot, at a size that reads as a drawing rather than an icon. */
+.masthead__figure {
+  color: var(--text);
+  justify-self: start;
 }
 
-.masthead__motif .mark {
-  width: 100%;
+.masthead__figure .mark {
+  height: clamp(190px, 24vw, 320px);
 }
 
+.masthead__brand {
+  min-width: 0;
+}
+
+/* A rule to the right edge, the same device the section headings use. The
+   column is wider than its text; this spends the difference on purpose
+   instead of leaving it blank. */
+.masthead__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0 0 0.9rem;
+  font-size: var(--step--1);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.masthead__eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* The text is one flex item and the rule is the other. Leaving the words bare
+   made every span and text run its own item, and the container's gap then
+   opened a hole before the comma. */
+.masthead__eyebrow__text {
+  white-space: nowrap;
+}
+
+/* Letter-spacing applies after the last character as well, so an inline span
+   still pushes the punctuation after it away. */
+.masthead__eyebrow [lang] {
+  margin-right: -0.22em;
+}
+
+/* Half what it was, because the header has the same mark permanently. */
 .masthead__mark {
-  width: clamp(260px, 30vw, 420px);
+  width: clamp(170px, 19vw, 250px);
+  margin: 0;
   color: var(--text);
 }
 
@@ -560,55 +600,71 @@ main > .shell:first-child {
 }
 
 .masthead__copy {
-  margin: 0;
-  max-width: 34ch;
+  margin: clamp(1rem, 2vw, 1.4rem) 0 0;
+  max-width: 52ch;
   font-size: var(--step-1);
   font-style: italic;
   line-height: 1.45;
   color: var(--text-soft);
 }
 
-@media (min-width: 760px) {
-  .masthead__copy {
-    /* Sits against the wordmark's right edge rather than under it, with a
-       hairline to make the relationship deliberate. */
-    padding-left: clamp(1.5rem, 3vw, 3rem);
-    border-left: 1px solid var(--rule-soft);
-  }
-}
-
-.masthead__figure {
-  color: var(--text);
-  justify-self: end;
-}
-
-.masthead__figure .mark {
-  /* Height-capped: the satyr is tall and narrow, and sizing it by width lets
-     it decide how much of the screen the brand block takes. */
-  height: clamp(150px, 22vw, 260px);
-}
-
 @media (max-width: 759px) {
-  /* On a phone the brand block has to clear the screen quickly, or the
-     catalogue it introduces is never seen. The wordmark is the brand; the
-     figure and the flute both cost more height than they earn here. */
-  .masthead {
-    padding-block: 1.4rem 1.1rem;
+  /* Beside the words, not under them. Stacked, the figure cost 150px of
+     height and pushed the first bottle off the opening screen — which is the
+     one thing the front page has to get right. A phone has width to spare and
+     no height to spare. */
+  .masthead__inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
   }
 
-  .masthead__figure,
-  .masthead__motif {
-    display: none;
+  .masthead__brand {
+    order: -1;
+  }
+
+  .masthead__figure .mark {
+    height: 120px;
   }
 
   .masthead__mark {
-    width: min(94%, 320px);
+    width: min(78%, 190px);
   }
 
   .masthead__copy {
     font-size: var(--step--1);
-    max-width: 38ch;
-    margin-top: 0.9rem;
+    max-width: 34ch;
+  }
+}
+
+/* Under 360px the two columns leave the words nowhere to go. */
+@media (max-width: 359px) {
+  .masthead__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .masthead__figure {
+    display: none;
+  }
+}
+
+/* A short screen spends its height on the shelf, not on the name. The eyebrow
+   goes too: the header above it already says whose shop this is, and thirty
+   pixels is the difference between seeing a bottle on the opening screen and
+   not. */
+@media (max-height: 620px) {
+  .masthead {
+    padding-block: 0.75rem 0.6rem;
+  }
+
+  .masthead__figure,
+  .masthead__copy,
+  .masthead__eyebrow {
+    display: none;
+  }
+
+  .masthead__mark {
+    width: min(48%, 150px);
   }
 }
 

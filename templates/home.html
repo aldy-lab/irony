@@ -1,13 +1,17 @@
 <section class="section masthead">
   <div class="shell">
     <div class="masthead__inner">
-      <div class="masthead__brand">
-        <div class="masthead__motif" aria-hidden="true">{{motif}}</div>
-        <h1 class="visually-hidden">{{site_name}} — {{tagline}}, {{city}}</h1>
-        <div class="masthead__mark" aria-hidden="true">{{wordmark_stacked}}</div>
-      </div>
-      <p class="masthead__copy">{{description}}</p>
       <div class="masthead__figure" aria-hidden="true">{{satyr}}</div>
+
+      <div class="masthead__brand">
+        <p class="masthead__eyebrow"><span class="masthead__eyebrow__text">{{tagline}}
+          &middot; <span lang="cs">{{district}}</span>, {{city}}</span></p>
+        <h1 class="masthead__mark">
+          <span class="visually-hidden">{{site_name}}</span>
+          {{wordmark_stacked}}
+        </h1>
+        <p class="masthead__copy">{{description}}</p>
+      </div>
     </div>
   </div>
 </section>
