@@ -392,7 +392,10 @@ def check_marks(br):
       });
       return out;}"""
     )
-    check("marks are painted", marks["count"] > 5, f'{marks["count"]} visible')
+    # The header, masthead and footer carry the marks; the card slots held
+    # the motif only until the drawings landed, so their count is no longer
+    # part of this — the threshold is the chrome alone.
+    check("marks are painted", marks["count"] >= 4, f'{marks["count"]} visible')
     check("every mark keeps its shape and mask", not marks["bad"], str(marks["bad"][:3]))
 
     # Sampling CSS `color` here would be worthless: during the bug the parent's

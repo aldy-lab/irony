@@ -51,6 +51,7 @@
   "products": [
     {
       "slug": "london-dry-gin-classic",
+      "image": "assets/products/london-dry-gin-classic.webp",
       "name": "London Dry Gin",
       "producer": "",
       "category": "gin",
@@ -65,6 +66,7 @@
     },
     {
       "slug": "navy-strength-gin",
+      "image": "assets/products/navy-strength-gin.webp",
       "name": "Navy Strength Gin",
       "producer": "",
       "category": "gin",
@@ -78,6 +80,7 @@
     },
     {
       "slug": "barrel-rested-gin",
+      "image": "assets/products/barrel-rested-gin.webp",
       "name": "Barrel-Rested Gin",
       "producer": "",
       "category": "gin",
@@ -91,6 +94,7 @@
     },
     {
       "slug": "single-malt-10",
+      "image": "assets/products/single-malt-10.webp",
       "name": "Single Malt, 10 Years",
       "producer": "",
       "category": "whisky",
@@ -105,6 +109,7 @@
     },
     {
       "slug": "islay-peated-single-malt",
+      "image": "assets/products/islay-peated-single-malt.webp",
       "name": "Peated Single Malt",
       "producer": "",
       "category": "whisky",
@@ -118,6 +123,7 @@
     },
     {
       "slug": "straight-rye",
+      "image": "assets/products/straight-rye.webp",
       "name": "Straight Rye",
       "producer": "",
       "category": "whisky",
@@ -131,6 +137,7 @@
     },
     {
       "slug": "bourbon-small-batch",
+      "image": "assets/products/bourbon-small-batch.webp",
       "name": "Small Batch Bourbon",
       "producer": "",
       "category": "whisky",
@@ -144,6 +151,7 @@
     },
     {
       "slug": "blanco-tequila",
+      "image": "assets/products/blanco-tequila.webp",
       "name": "Blanco Tequila",
       "producer": "",
       "category": "agave",
@@ -158,6 +166,7 @@
     },
     {
       "slug": "espadin-mezcal",
+      "image": "assets/products/espadin-mezcal.webp",
       "name": "Espadin Mezcal",
       "producer": "",
       "category": "agave",
@@ -171,6 +180,7 @@
     },
     {
       "slug": "reposado-tequila",
+      "image": "assets/products/reposado-tequila.webp",
       "name": "Reposado Tequila",
       "producer": "",
       "category": "agave",
@@ -184,6 +194,7 @@
     },
     {
       "slug": "aged-rum-8",
+      "image": "assets/products/aged-rum-8.webp",
       "name": "Aged Rum, 8 Years",
       "producer": "",
       "category": "rum",
@@ -197,6 +208,7 @@
     },
     {
       "slug": "overproof-white-rum",
+      "image": "assets/products/overproof-white-rum.webp",
       "name": "Overproof White Rum",
       "producer": "",
       "category": "rum",
@@ -210,6 +222,7 @@
     },
     {
       "slug": "agricole-blanc",
+      "image": "assets/products/agricole-blanc.webp",
       "name": "Rhum Agricole Blanc",
       "producer": "",
       "category": "rum",
@@ -223,6 +236,7 @@
     },
     {
       "slug": "sweet-vermouth",
+      "image": "assets/products/sweet-vermouth.webp",
       "name": "Sweet Vermouth",
       "producer": "",
       "category": "aperitivo",
@@ -237,6 +251,7 @@
     },
     {
       "slug": "dry-vermouth",
+      "image": "assets/products/dry-vermouth.webp",
       "name": "Dry Vermouth",
       "producer": "",
       "category": "aperitivo",
@@ -250,6 +265,7 @@
     },
     {
       "slug": "bitter-aperitivo",
+      "image": "assets/products/bitter-aperitivo.webp",
       "name": "Bitter Aperitivo",
       "producer": "",
       "category": "aperitivo",
@@ -263,6 +279,7 @@
     },
     {
       "slug": "amaro-alpino",
+      "image": "assets/products/amaro-alpino.webp",
       "name": "Alpine Amaro",
       "producer": "",
       "category": "liqueur",
@@ -276,6 +293,7 @@
     },
     {
       "slug": "orange-curacao",
+      "image": "assets/products/orange-curacao.webp",
       "name": "Orange Curacao",
       "producer": "",
       "category": "liqueur",
@@ -289,6 +307,7 @@
     },
     {
       "slug": "maraschino",
+      "image": "assets/products/maraschino.webp",
       "name": "Maraschino Liqueur",
       "producer": "",
       "category": "liqueur",
@@ -302,6 +321,7 @@
     },
     {
       "slug": "creme-de-cassis",
+      "image": "assets/products/creme-de-cassis.webp",
       "name": "Creme de Cassis",
       "producer": "",
       "category": "liqueur",

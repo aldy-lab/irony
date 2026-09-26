@@ -14,6 +14,7 @@ tests/diff/, and either fix the page or approve the change deliberately.
 
 from __future__ import annotations
 
+import platform
 import subprocess
 import sys
 import time
@@ -41,6 +42,18 @@ VIEWS = [
 
 # A handful of pixels differ between runs from antialiasing alone.
 TOLERANCE = 0.001
+
+# The baselines are Linux renders, because CI is where they are enforced and
+# CI runs ubuntu. Chromium lays the same sentence out at slightly different
+# widths on macOS — different glyph advances, accumulating across a line —
+# so a page with no change at all comes out 2-10% different here. Approving
+# on a Mac therefore committed baselines that could only ever fail in CI,
+# which is what had the check red for weeks while the pages were fine.
+#
+# So: Linux judges, everything else looks. Off-platform the screenshots are
+# still taken and still written to tests/diff/, because seeing the page is
+# most of what this tool is for; they just do not decide anything.
+JUDGES = "linux"
 
 
 @contextmanager
@@ -97,6 +110,26 @@ def capture(pw, name, path, width, height) -> Path:
     )
     page.evaluate("document.querySelectorAll('[data-grid]')"
                   ".forEach(g=>g.setAttribute('data-settled','true'))")
+    # networkidle says the bytes arrived, not that the picture is on screen:
+    # a WebP still has to decode, and a shot taken in between differed from the
+    # same page by 8% one run to the next. A full-page screenshot also shows
+    # rows that were never scrolled to, whose lazy images have not begun to
+    # load at all, so those are asked for eagerly first and then decoded.
+    page.evaluate(
+        """() => {
+             document.querySelectorAll('img[loading=lazy]')
+               .forEach(i => { i.loading = 'eager'; });
+           }"""
+    )
+    page.wait_for_function(
+        "() => Array.from(document.images).every(i => i.complete)", timeout=20000
+    )
+    page.evaluate(
+        """() => Promise.all(
+             Array.from(document.images).map(i => i.decode().catch(() => {}))
+           ).then(() => new Promise(r => requestAnimationFrame(
+             () => requestAnimationFrame(r))))"""
+    )
     page.wait_for_timeout(500)
     shot = DIFF / f"{name}.now.png"
     page.screenshot(path=str(shot), full_page=True)
@@ -145,6 +178,19 @@ def main() -> int:
         sys.exit("playwright is required")
 
     approve = "--approve" in sys.argv
+    judging = sys.platform.startswith(JUDGES)
+    if not judging:
+        print(
+            f"Rendering on {platform.system()}; the baselines are Linux renders, so the\n"
+            "numbers below are platform difference, not change. Look at the pictures in\n"
+            "tests/diff/ — CI decides.\n"
+        )
+        if approve:
+            sys.exit(
+                "refusing to approve from here: these renders would fail in CI.\n"
+                "Approve where the baselines are made — push the change and let CI "
+                "render it, or run this on Linux."
+            )
     BASELINE.mkdir(parents=True, exist_ok=True)
     DIFF.mkdir(parents=True, exist_ok=True)
 
@@ -160,10 +206,16 @@ def main() -> int:
                 print(f"  {'approved' if approve else 'new baseline'}  {name}")
             else:
                 ok, detail = compare(shot, approved, name)
-                print(f"  {'same    ' if ok else 'CHANGED '}  {name}  ({detail})")
-                if not ok:
+                label = "same    " if ok else ("CHANGED " if judging else "differs ")
+                print(f"  {label}  {name}  ({detail})")
+                if not ok and judging:
                     failures.append(name)
-            shot.unlink(missing_ok=True)
+            # A failing view keeps its fresh render beside the marked-up diff.
+            # CI is the only machine that renders the baselines, so when it
+            # disagrees the artifact has to contain the thing that would
+            # replace them, not only a picture of the disagreement.
+            if judging and ok:
+                shot.unlink(missing_ok=True)
 
     if approve:
         print("\nbaselines approved")
@@ -173,9 +225,16 @@ def main() -> int:
     if failures:
         print(
             f"\n{len(failures)} view(s) changed: {', '.join(failures)}\n"
-            "Look at tests/diff/*.diff.png. If the change is wanted, run with --approve."
+            "Look at tests/diff/*.diff.png. If the change is wanted, run with "
+            "--approve — or, from a machine that does not render the baselines, "
+            "promote the *.now.png files this left behind."
         )
         return 1
+    if not judging:
+        print(
+            "\nnothing judged here — the screenshots are in tests/diff/ to look at."
+        )
+        return 0
     print("\nevery view matches its approved screenshot")
     return 0
 
