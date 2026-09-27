@@ -435,11 +435,6 @@ def card(product: dict, cats: dict, base: str, order: int) -> str:
     <span class="card__spec">{product['volume']} ml &middot; {product['abv']}%</span>
   </div>
   {flag}
-  <button class="card__compare" type="button" data-compare="{esc(product['slug'])}"
-          aria-pressed="false">
-    <span class="card__compare__add">Compare</span>
-    <span class="card__compare__on">Comparing</span>
-  </button>
 </li>"""
 
 

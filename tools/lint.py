@@ -135,7 +135,7 @@ def check_orphan_classes() -> list[str]:
             used.update(group.split())
 
     # Hooks that carry no styling by design.
-    structural = {"brand__line", "masthead__brand", "results", "compare__body", "sprite"}
+    structural = {"brand__line", "masthead__brand", "results", "sprite"}
     orphans = sorted(c for c in used if c not in styled and c not in structural)
     return [f"class {c!r} is used in markup but nothing styles it" for c in orphans]
 
