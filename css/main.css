@@ -634,9 +634,10 @@ main > .shell:first-child {
   }
 }
 
-/* A hold is the whole point of this control, so it must not start a selection
-   or raise the callout menu on the way. */
-.results__pick {
+/* Pressing him repeatedly must not start selecting the masthead, and on a
+   phone must not raise the callout menu. The cursor stays default on purpose:
+   a pointer here would advertise what is meant to be found. */
+.masthead__figure {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
