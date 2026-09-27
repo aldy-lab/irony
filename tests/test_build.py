@@ -126,6 +126,35 @@ class Templating(unittest.TestCase):
         self.assertEqual(build.fill("a {{x}} c", {"x": "b"}), "a b c")
 
 
+class AssetVersion(unittest.TestCase):
+    """A returning visitor kept last week's script for ever, because the URL
+    never changed and the service worker answers that cache-first."""
+
+    def test_the_linked_files_are_stamped(self):
+        for name in ("css/main.css", "css/marks.css", "js/main.js"):
+            self.assertRegex(build.stamp(name, "abc123"), r"\?v=abc123$")
+
+    def test_everything_else_is_left_alone(self):
+        # Fonts and brand marks are already content-named, and "./" is the
+        # page itself, which comes from the network anyway.
+        for name in ("./", "css/fonts.css", "site.webmanifest",
+                     "assets/brand/satyr.svg"):
+            self.assertEqual(build.stamp(name, "abc123"), name)
+
+    def test_the_version_follows_the_bytes(self):
+        first = build.asset_version()
+        self.assertEqual(first, build.asset_version())
+        self.assertRegex(first, r"^[0-9a-f]{12}$")
+
+    def test_the_worker_and_the_pages_agree(self):
+        # If these drift, the page asks for one URL and the cache holds
+        # another, which is the whole failure this guards against.
+        version = build.asset_version()
+        shell = [build.stamp(p, version) for p in build.shell_files()]
+        self.assertIn(f"js/main.js?v={version}", shell)
+        self.assertIn(f"css/main.css?v={version}", shell)
+
+
 class Validation(unittest.TestCase):
     """The build must name the offending record, not raise from deep inside."""
 

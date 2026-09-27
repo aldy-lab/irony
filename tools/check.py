@@ -409,6 +409,21 @@ def check_marks(br):
               poured:f.getAttribute('data-poured'),
               gauge:g ? getComputedStyle(g).opacity : 'no gauge'};}"""
     )
+    # A page served from the network with a script served from an old cache
+    # is how a returning visitor kept a build for ever. The URL has to move
+    # when the build does.
+    stamped = pg.evaluate(
+        """()=>{const out={};
+      const s=document.querySelector('script[src*="main.js"]');
+      const c=document.querySelector('link[href*="main.css"]');
+      out.script = s ? s.getAttribute('src') : '';
+      out.style = c ? c.getAttribute('href') : '';
+      return out;}"""
+    )
+    check("the script and stylesheet URLs carry the build version",
+          "?v=" in stamped["script"] and "?v=" in stamped["style"],
+          str(stamped))
+
     check("the pour easter egg is dormant",
           not egg.get("missing")
           and egg["fill"] in ("", "0%")

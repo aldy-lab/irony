@@ -43,8 +43,8 @@
       href="{{base}}assets/fonts/eb-garamond-normal-400800-latin.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="{{base}}assets/fonts/eb-garamond-italic-400800-latin.woff2">
-<link rel="stylesheet" href="{{base}}css/main.css">
-<link rel="stylesheet" href="{{base}}css/marks.css">
+<link rel="stylesheet" href="{{base}}css/main.css?v={{v}}">
+<link rel="stylesheet" href="{{base}}css/marks.css?v={{v}}">
 <script>
   /* Before first paint: decides whether the gate or the shop is shown, so
      neither flashes into the other. Wrapped because storage throws in a
@@ -122,7 +122,7 @@
 </a>
 
 <script>window.IVS = {{ivs_data}};</script>
-<script src="{{base}}js/main.js" defer></script>
+<script src="{{base}}js/main.js?v={{v}}" defer></script>
 <script>
   /* Offline, because the whole site is static and a phone in a metro station
      has no reason to see nothing. Failure here is silent: the site works

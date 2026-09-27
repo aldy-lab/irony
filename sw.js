@@ -2,10 +2,10 @@
 const VERSION = "ivs-d54c5bc7d461";
 const SHELL = [
   "./",
-  "css/main.css",
-  "css/marks.css",
+  "css/main.css?v=d54c5bc7d461",
+  "css/marks.css?v=d54c5bc7d461",
   "css/fonts.css",
-  "js/main.js",
+  "js/main.js?v=d54c5bc7d461",
   "site.webmanifest",
   "assets/fonts/cormorant-garamond-normal-500-latin.woff2",
   "assets/fonts/eb-garamond-italic-400800-latin.woff2",
