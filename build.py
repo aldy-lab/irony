@@ -1344,8 +1344,13 @@ self.addEventListener("fetch", (event) => {{
   // is worse than one that takes a moment. The cache is the fallback, which is
   // what makes the shop readable underground.
   if (request.mode === "navigate") {{
+    // Past the browser's HTTP cache, or "network first" is only a wish: a
+    // page served with no Cache-Control gets a heuristic freshness lifetime
+    // and comes back from the cache without asking. A visitor was handed the
+    // same markup for three visits running while the server had new markup
+    // the whole time. A navigation is one small document; fetch it.
     event.respondWith(
-      fetch(request)
+      fetch(request.url, {{ cache: "reload", credentials: "same-origin" }})
         .then((response) => {{
           const copy = response.clone();
           caches.open(VERSION).then((cache) => cache.put(request, copy));
