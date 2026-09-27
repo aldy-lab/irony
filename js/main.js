@@ -293,7 +293,92 @@
 
     var randomButton = root.querySelector("[data-random]");
     if (randomButton) {
+      /* Holding the button pours instead of picking. Nothing on the page says
+         so, which is the whole point; a tap behaves exactly as it always did.
+         A hold long enough to be deliberate suppresses the pick, because
+         being thrown at a random bottle is a poor reward for finding this. */
+      var figure = document.querySelector("[data-pour-figure]");
+      var satyr = figure && figure.querySelector(".mark");
+      var FILL_MS = 1500;
+      var DELIBERATE_MS = 300;
+      var still = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var startedAt = 0;
+      var frame = null;
+      var skipPick = false;
+
+      var fill = function (pct) {
+        satyr.style.setProperty("--pour", pct + "%");
+      };
+
+      var drain = function () {
+        window.cancelAnimationFrame(frame);
+        var from = parseFloat(satyr.style.getPropertyValue("--pour")) || 0;
+        var began = 0;
+        var back = function (now) {
+          if (!began) began = now;
+          var pct = from * (1 - Math.min(1, (now - began) / 420));
+          fill(pct);
+          if (pct > 0) frame = window.requestAnimationFrame(back);
+        };
+        if (still.matches) fill(0);
+        else frame = window.requestAnimationFrame(back);
+      };
+
+      var pourFull = function () {
+        figure.setAttribute("data-poured", "true");
+        window.setTimeout(function () {
+          figure.removeAttribute("data-poured");
+          drain();
+        }, 2600);
+      };
+
+      var pour = function (now) {
+        var pct = Math.min(100, ((now - startedAt) / FILL_MS) * 100);
+        fill(pct);
+        if (pct < 100) frame = window.requestAnimationFrame(pour);
+        else pourFull();
+      };
+
+      var begin = function (event) {
+        // Only the satyr the visitor can actually see can be filled.
+        if (!satyr || !satyr.offsetParent) return;
+        if (event.button !== undefined && event.button !== 0) return;
+        startedAt = window.performance.now();
+        if (still.matches) {
+          frame = window.setTimeout(function () {
+            fill(100);
+            pourFull();
+          }, FILL_MS);
+        } else {
+          frame = window.requestAnimationFrame(pour);
+        }
+      };
+
+      var release = function () {
+        if (!startedAt) return;
+        var heldFor = window.performance.now() - startedAt;
+        startedAt = 0;
+        if (heldFor > DELIBERATE_MS) skipPick = true;
+        if (still.matches) window.clearTimeout(frame);
+        if (!figure || figure.getAttribute("data-poured") !== "true") drain();
+      };
+
+      if (satyr) {
+        randomButton.addEventListener("pointerdown", begin);
+        ["pointerup", "pointercancel", "pointerleave"].forEach(function (name) {
+          randomButton.addEventListener(name, release);
+        });
+        // A long press on a phone otherwise raises the selection menu.
+        randomButton.addEventListener("contextmenu", function (event) {
+          if (startedAt) event.preventDefault();
+        });
+      }
+
       randomButton.addEventListener("click", function () {
+        if (skipPick) {
+          skipPick = false;
+          return;
+        }
         var open = cards.filter(function (card) {
           return !card.hidden;
         });

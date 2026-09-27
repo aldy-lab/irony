@@ -541,12 +541,106 @@ main > .shell:first-child {
 
 /* The mascot, at a size that reads as a drawing rather than an icon. */
 .masthead__figure {
+  position: relative;
   color: var(--text);
   justify-self: start;
 }
 
+/* Hold the pour button and the satyr fills from the hooves up, the way the
+   bottle he is holding would. The gradient is transparent at rest, so this
+   costs the page nothing and shows nothing until somebody holds the button:
+   an easter egg that announces itself is just a feature nobody asked for. */
 .masthead__figure .mark {
   height: clamp(190px, 24vw, 320px);
+  background-image: linear-gradient(
+    to top,
+    var(--accent) var(--pour, 0%),
+    transparent var(--pour, 0%)
+  );
+}
+
+/* The reward for filling him: a dimension line, the way the rest of the site
+   borrows from engineering drawings. Sits below the figure and is positioned
+   out of flow, so it can never widen the masthead or push the page sideways. */
+.pour {
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  pointer-events: none;
+}
+
+.pour__rule {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* End ticks, so it reads as a measurement and not as an underline. */
+.pour__rule::before,
+.pour__rule::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 7px;
+  background: var(--accent);
+}
+
+.pour__rule::before {
+  left: 0;
+}
+
+.pour__rule::after {
+  right: 0;
+}
+
+.pour__label {
+  flex: none;
+  color: var(--accent);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.masthead__figure[data-poured="true"] .pour {
+  opacity: 1;
+  transform: none;
+}
+
+/* On a phone the figure is a third of the width and the caption is wider than
+   it is. Anchored to its right edge it grows left into the masthead instead of
+   off the screen, where overflow-x: clip was cutting it without registering as
+   overflow at all. The rules go: there is no room to measure across. */
+@media (max-width: 759px) {
+  .pour {
+    left: auto;
+    right: 0;
+    width: max-content;
+    max-width: 62vw;
+    top: calc(100% + 0.5rem);
+  }
+
+  .pour__rule {
+    display: none;
+  }
+}
+
+/* A hold is the whole point of this control, so it must not start a selection
+   or raise the callout menu on the way. */
+.results__pick {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 .masthead__brand {

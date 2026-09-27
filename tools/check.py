@@ -398,6 +398,24 @@ def check_marks(br):
     check("marks are painted", marks["count"] >= 4, f'{marks["count"]} visible')
     check("every mark keeps its shape and mask", not marks["bad"], str(marks["bad"][:3]))
 
+    # An easter egg that shows up on its own is not an easter egg. Holding the
+    # pour button fills the satyr and prints a dimension line under him; until
+    # somebody holds it, neither may be on the page.
+    egg = pg.evaluate(
+        """()=>{const f=document.querySelector('[data-pour-figure]');
+      if(!f) return {missing:true};
+      const m=f.querySelector('.mark'), g=f.querySelector('.pour');
+      return {fill:getComputedStyle(m).getPropertyValue('--pour').trim() || '0%',
+              poured:f.getAttribute('data-poured'),
+              gauge:g ? getComputedStyle(g).opacity : 'no gauge'};}"""
+    )
+    check("the pour easter egg is dormant",
+          not egg.get("missing")
+          and egg["fill"] in ("", "0%")
+          and egg["poured"] is None
+          and egg["gauge"] == "0",
+          str(egg))
+
     # Sampling CSS `color` here would be worthless: during the bug the parent's
     # color was gold the whole time, and the black came from the SVG's own
     # missing fill. Only the pixels tell the truth, so every mark is measured
