@@ -18,7 +18,6 @@ import platform
 import subprocess
 import sys
 import time
-from datetime import datetime
 from contextlib import contextmanager
 from pathlib import Path
 
@@ -39,6 +38,22 @@ VIEWS = [
     ("notfound", "/404.html", 1440, 900),
     ("privacy", "/privacy.html", 1440, 900),
 ]
+
+# Pinned inside opening hours on a Thursday, so the header's live status is
+# the same sentence in every run. Installed before navigation, so the page's
+# own code never sees the real clock.
+FREEZE_TIME = """(() => {
+  const FIXED = new Date(2026, 0, 15, 15, 0, 0).getTime();
+  const RealDate = Date;
+  function FakeDate(...args) {
+    return args.length ? new RealDate(...args) : new RealDate(FIXED);
+  }
+  FakeDate.prototype = RealDate.prototype;
+  FakeDate.now = () => FIXED;
+  FakeDate.parse = RealDate.parse;
+  FakeDate.UTC = RealDate.UTC;
+  window.Date = FakeDate;
+})();"""
 
 # A handful of pixels differ between runs from antialiasing alone.
 TOLERANCE = 0.001
@@ -94,9 +109,15 @@ def capture(pw, name, path, width, height) -> Path:
     # The header says "Open until 22:00" or "Closed - opens tomorrow 12:00"
     # depending on the wall clock, so an unfrozen screenshot of any page
     # disagrees with its baseline by the time of day rather than by a change
-    # anyone made. set_fixed_time pins Date without freezing timers, which
-    # would stop the page's own deferred work. Thursday, inside opening hours.
-    page.clock.set_fixed_time(datetime(2026, 1, 15, 15, 0, 0))
+    # anyone made. Thursday, inside opening hours.
+    #
+    # Date is replaced rather than frozen with page.clock: Playwright's clock
+    # and a full_page screenshot together left the product page's sticky panel
+    # with its frame drawn and the picture inside missing — two colours where
+    # there should be thirteen thousand. The same page shot at viewport size,
+    # or into a viewport as tall as the document, was right, which is how it
+    # was caught. Nothing was ever wrong with the page.
+    page.add_init_script(FREEZE_TIME)
     page.goto(f"{BASE}/", wait_until="load")
     page.evaluate("try{localStorage.setItem('ivs.age.v1','true')}catch(e){}")
     page.goto(BASE + path, wait_until="networkidle")
@@ -131,8 +152,33 @@ def capture(pw, name, path, width, height) -> Path:
              () => requestAnimationFrame(r))))"""
     )
     page.wait_for_timeout(500)
+    # "The picture is blank" is not a finding; "this src reported no width" is.
+    broken = page.evaluate(
+        """() => Array.from(document.images)
+             .filter(i => !i.naturalWidth)
+             .map(i => i.currentSrc || i.src)"""
+    )
+    if broken:
+        print(f"    {name}: {len(broken)} image(s) loaded nothing — {broken[:3]}")
+
+    # Chromium's full-page capture kept returning the product panel with its
+    # frame drawn and the picture inside missing — four runs in five, the
+    # blank landing on a different step each time, while the DOM insisted the
+    # image was visible and a viewport-sized shot of the same page contained
+    # it. Growing the viewport to the document and taking an ordinary
+    # screenshot was right five times in five, to the same pixel count. No
+    # rule here reads viewport height: the only svh ones style an element no
+    # page contains.
+    height = page.evaluate("() => document.documentElement.scrollHeight")
+    page.set_viewport_size({"width": width, "height": min(height, 20000)})
+    # A taller viewport re-picks from srcset and can start a fresh load.
+    page.wait_for_function(
+        "() => Array.from(document.images).every(i => i.complete)", timeout=20000
+    )
+    page.wait_for_timeout(300)
+
     shot = DIFF / f"{name}.now.png"
-    page.screenshot(path=str(shot), full_page=True)
+    page.screenshot(path=str(shot))
     ctx.close()
     return shot
 
