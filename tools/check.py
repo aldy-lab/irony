@@ -492,8 +492,13 @@ def check_marks(br):
                      && !c.querySelector('.drink:not([hidden])')).length"""
     )
     check("searching narrows the menu", 0 < narrowed < 77, f"{narrowed} shown")
-    check("a section with nothing left in it goes too", empty_courses == 0,
+    check("the panels give way to the results", empty_courses == 0,
           f"{empty_courses} empty headings")
+    check("searching shows a panel of its own",
+          mpg.evaluate("""()=>{const r=document.querySelector('[data-results]');
+            const p=document.querySelector('[data-pager]');
+            return !r.hidden && getComputedStyle(p).display === 'none';}"""),
+          "results replace the pager rather than emptying fourteen panels")
     mpg.fill("[data-menu-search]", "")
     mpg.wait_for_timeout(350)
     back = mpg.evaluate(
@@ -501,6 +506,36 @@ def check_marks(br):
              .filter(d=>d.getBoundingClientRect().height>0).length"""
     )
     check("clearing the search brings them all back", back == 77, f"{back}")
+
+    # The pager. Fourteen categories as panels rather than one long scroll.
+    check("the menu is one screen, not a scroll",
+          mpg.evaluate("()=>document.documentElement.scrollHeight <= innerHeight + 2"),
+          str(mpg.evaluate("()=>[document.documentElement.scrollHeight, innerHeight]")))
+
+    panels = mpg.evaluate("()=>document.querySelectorAll('[data-panel]').length")
+    tabs = mpg.evaluate("()=>document.querySelectorAll('[data-tab]').length")
+    check("a tab for every panel", panels == tabs == 14, f"{tabs} tabs, {panels} panels")
+
+    before = mpg.evaluate("()=>Math.round(document.querySelector('[data-pager]').scrollLeft)")
+    mpg.evaluate("()=>document.querySelectorAll('[data-tab]')[2].click()")
+    mpg.wait_for_timeout(700)
+    after = mpg.evaluate("()=>Math.round(document.querySelector('[data-pager]').scrollLeft)")
+    check("a tab moves the pager", after > before, f"{before} -> {after}")
+    check("and marks itself",
+          mpg.evaluate("""()=>{const t=document.querySelectorAll('[data-tab]')[2];
+            return t.getAttribute('aria-pressed') === 'true';}"""),
+          "the third tab")
+
+    marker = mpg.evaluate(
+        """()=>{const m=document.querySelector('[data-tab-marker]');
+          const r=m.getBoundingClientRect();
+          return [Math.round(r.x), Math.round(r.width)];}"""
+    )
+    check("the marker is under a tab, with width",
+          marker[1] > 20, str(marker))
+
+    mpg.evaluate("()=>document.querySelectorAll('[data-tab]')[0].click()")
+    mpg.wait_for_timeout(600)
 
     check("the menu carries no site navigation",
           mpg.evaluate("()=>!document.querySelector('.header, .footer')"),

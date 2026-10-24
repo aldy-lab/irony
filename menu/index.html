@@ -43,8 +43,8 @@
       href="../assets/fonts/eb-garamond-normal-400800-latin.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="../assets/fonts/eb-garamond-italic-400800-latin.woff2">
-<link rel="stylesheet" href="../css/main.css?v=d9c277780dbe">
-<link rel="stylesheet" href="../css/marks.css?v=d9c277780dbe">
+<link rel="stylesheet" href="../css/main.css?v=f055230b29c4">
+<link rel="stylesheet" href="../css/marks.css?v=f055230b29c4">
 <script>
   /* Before first paint: decides whether the gate or the shop is shown, so
      neither flashes into the other. Wrapped because storage throws in a
@@ -105,16 +105,19 @@
     <input class="menu__search" id="menu-search" type="search"
            autocomplete="off" data-menu-search
            placeholder="Gin, bitter, 300...">
-    <p class="menu__found" data-menu-count hidden></p>
   </div>
 
-  <nav class="menu__jump" aria-label="Sections">
-    <ul class="menu__jump__list"><li><a class="menu__jump__link" href="#c-cocktail">COCKTAIL</a></li><li><a class="menu__jump__link" href="#c-gin">GIN</a></li><li><a class="menu__jump__link" href="#c-tequila-and-mezcal">TEQUILA &amp; MEZCAL</a></li><li><a class="menu__jump__link" href="#c-whiskey">WHISKEY</a></li><li><a class="menu__jump__link" href="#c-rum">RUM</a></li><li><a class="menu__jump__link" href="#c-aperitivo">APERITIVO</a></li><li><a class="menu__jump__link" href="#c-porto">PORTO</a></li><li><a class="menu__jump__link" href="#c-wine">WINE</a></li><li><a class="menu__jump__link" href="#c-liquor">LIQUOR</a></li><li><a class="menu__jump__link" href="#c-vodka">VODKA</a></li><li><a class="menu__jump__link" href="#c-brandy">BRANDY</a></li><li><a class="menu__jump__link" href="#c-beer-and-cider">BEER &amp; CIDER</a></li><li><a class="menu__jump__link" href="#c-cold-and-hot-beverage">COLD &amp; HOT BEVERAGE</a></li><li><a class="menu__jump__link" href="#c-non-alcohol-cocktail">Non Alcohol Cocktail</a></li></ul>
+  <!-- The categories are tabs over a pager, not anchors down one long page.
+       Fourteen sections and seventy-seven drinks in a single scroll means
+       passing forty-five things you did not ask for to reach the gin. -->
+  <nav class="tabs" aria-label="Sections">
+    <ul class="tabs__list" data-tabs><li><button class="tabs__tab" type="button" data-tab="cocktail" aria-pressed="false">COCKTAIL<span class="tabs__count" aria-hidden="true">32</span></button></li><li><button class="tabs__tab" type="button" data-tab="gin" aria-pressed="false">GIN<span class="tabs__count" aria-hidden="true">3</span></button></li><li><button class="tabs__tab" type="button" data-tab="tequila-and-mezcal" aria-pressed="false">TEQUILA &amp; MEZCAL<span class="tabs__count" aria-hidden="true">2</span></button></li><li><button class="tabs__tab" type="button" data-tab="whiskey" aria-pressed="false">WHISKEY<span class="tabs__count" aria-hidden="true">3</span></button></li><li><button class="tabs__tab" type="button" data-tab="rum" aria-pressed="false">RUM<span class="tabs__count" aria-hidden="true">6</span></button></li><li><button class="tabs__tab" type="button" data-tab="aperitivo" aria-pressed="false">APERITIVO<span class="tabs__count" aria-hidden="true">2</span></button></li><li><button class="tabs__tab" type="button" data-tab="porto" aria-pressed="false">PORTO<span class="tabs__count" aria-hidden="true">1</span></button></li><li><button class="tabs__tab" type="button" data-tab="wine" aria-pressed="false">WINE<span class="tabs__count" aria-hidden="true">3</span></button></li><li><button class="tabs__tab" type="button" data-tab="liquor" aria-pressed="false">LIQUOR<span class="tabs__count" aria-hidden="true">11</span></button></li><li><button class="tabs__tab" type="button" data-tab="vodka" aria-pressed="false">VODKA<span class="tabs__count" aria-hidden="true">2</span></button></li><li><button class="tabs__tab" type="button" data-tab="brandy" aria-pressed="false">BRANDY<span class="tabs__count" aria-hidden="true">2</span></button></li><li><button class="tabs__tab" type="button" data-tab="beer-and-cider" aria-pressed="false">BEER &amp; CIDER<span class="tabs__count" aria-hidden="true">1</span></button></li><li><button class="tabs__tab" type="button" data-tab="cold-and-hot-beverage" aria-pressed="false">COLD &amp; HOT BEVERAGE<span class="tabs__count" aria-hidden="true">4</span></button></li><li><button class="tabs__tab" type="button" data-tab="non-alcohol-cocktail" aria-pressed="false">Non Alcohol Cocktail<span class="tabs__count" aria-hidden="true">5</span></button></li></ul>
+    <span class="tabs__marker" data-tab-marker aria-hidden="true"></span>
   </nav>
 
-  <div><section class="course" id="c-cocktail">
-  <h2 class="course__name">COCKTAIL
-    <span class="course__count" aria-hidden="true">32</span></h2>
+  <div class="pager" data-pager><section class="course" id="c-cocktail"
+         data-panel="cocktail"
+         aria-label="COCKTAIL">
   <ul class="course__list">
 <li class="drink" id="d-kyiv-mule-by-ukrainian-nemiroff-vodka">
   <img class="drink__pic" src="../assets/drinks/kyiv-mule-by-ukrainian-nemiroff-vodka.webp" srcset="../assets/drinks/kyiv-mule-by-ukrainian-nemiroff-vodka.webp 320w, ../assets/drinks/kyiv-mule-by-ukrainian-nemiroff-vodka-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -493,9 +496,9 @@ Profil: Suchý, kořeněný, s výrazným banánovým charakterem a lehkými kou
 </li>
   </ul>
 </section>
-<section class="course" id="c-gin">
-  <h2 class="course__name">GIN
-    <span class="course__count" aria-hidden="true">3</span></h2>
+<section class="course" id="c-gin"
+         data-panel="gin"
+         aria-label="GIN">
   <ul class="course__list">
 <li class="drink" id="d-saigon-baigur-premium-dry-gin-th-tonic-43-vietnam">
   <img class="drink__pic" src="../assets/drinks/saigon-baigur-premium-dry-gin-th-tonic-43-vietnam.webp" srcset="../assets/drinks/saigon-baigur-premium-dry-gin-th-tonic-43-vietnam.webp 320w, ../assets/drinks/saigon-baigur-premium-dry-gin-th-tonic-43-vietnam-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -534,9 +537,9 @@ The Process: Patented progressive maceration and a single distillation in small 
 </li>
   </ul>
 </section>
-<section class="course" id="c-tequila-and-mezcal">
-  <h2 class="course__name">TEQUILA &amp; MEZCAL
-    <span class="course__count" aria-hidden="true">2</span></h2>
+<section class="course" id="c-tequila-and-mezcal"
+         data-panel="tequila-and-mezcal"
+         aria-label="TEQUILA &amp; MEZCAL">
   <ul class="course__list">
 <li class="drink" id="d-del-maguey-mezcal-vida-40-ml-mexico">
   <img class="drink__pic" src="../assets/drinks/del-maguey-mezcal-vida-40-ml-mexico.webp" srcset="../assets/drinks/del-maguey-mezcal-vida-40-ml-mexico.webp 320w, ../assets/drinks/del-maguey-mezcal-vida-40-ml-mexico-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -562,9 +565,9 @@ The Process: Patented progressive maceration and a single distillation in small 
 </li>
   </ul>
 </section>
-<section class="course" id="c-whiskey">
-  <h2 class="course__name">WHISKEY
-    <span class="course__count" aria-hidden="true">3</span></h2>
+<section class="course" id="c-whiskey"
+         data-panel="whiskey"
+         aria-label="WHISKEY">
   <ul class="course__list">
 <li class="drink" id="d-ole-smoky-mango-habanero-whiskey-35-usa">
   <img class="drink__pic" src="../assets/drinks/ole-smoky-mango-habanero-whiskey-35-usa.webp" srcset="../assets/drinks/ole-smoky-mango-habanero-whiskey-35-usa.webp 320w, ../assets/drinks/ole-smoky-mango-habanero-whiskey-35-usa-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -613,9 +616,9 @@ Klasická Islay single malt skotská whisky zrající v pěti různých typech s
 </li>
   </ul>
 </section>
-<section class="course" id="c-rum">
-  <h2 class="course__name">RUM
-    <span class="course__count" aria-hidden="true">6</span></h2>
+<section class="course" id="c-rum"
+         data-panel="rum"
+         aria-label="RUM">
   <ul class="course__list">
 <li class="drink" id="d-cachaca-magnifica-40-brasil">
   <img class="drink__pic" src="../assets/drinks/cachaca-magnifica-40-brasil.webp" srcset="../assets/drinks/cachaca-magnifica-40-brasil.webp 320w, ../assets/drinks/cachaca-magnifica-40-brasil-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -697,9 +700,9 @@ Prémiový, křišťálově čistý lehký nikaragujský rum, přirozeně staře
 </li>
   </ul>
 </section>
-<section class="course" id="c-aperitivo">
-  <h2 class="course__name">APERITIVO
-    <span class="course__count" aria-hidden="true">2</span></h2>
+<section class="course" id="c-aperitivo"
+         data-panel="aperitivo"
+         aria-label="APERITIVO">
   <ul class="course__list">
 <li class="drink" id="d-lustau-amontilado-jerez-40-ml-spain">
   <img class="drink__pic" src="../assets/drinks/lustau-amontilado-jerez-40-ml-spain.webp" srcset="../assets/drinks/lustau-amontilado-jerez-40-ml-spain.webp 320w, ../assets/drinks/lustau-amontilado-jerez-40-ml-spain-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -727,9 +730,9 @@ Vyrábí se ze základu čerstvých pomerančů, které se usuší a smíchají 
 </li>
   </ul>
 </section>
-<section class="course" id="c-porto">
-  <h2 class="course__name">PORTO
-    <span class="course__count" aria-hidden="true">1</span></h2>
+<section class="course" id="c-porto"
+         data-panel="porto"
+         aria-label="PORTO">
   <ul class="course__list">
 <li class="drink" id="d-portwein-grahams-tawny-40ml">
   <img class="drink__pic" src="../assets/drinks/portwein-grahams-tawny-40ml.webp" srcset="../assets/drinks/portwein-grahams-tawny-40ml.webp 320w, ../assets/drinks/portwein-grahams-tawny-40ml-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -744,9 +747,9 @@ Vyrábí se ze základu čerstvých pomerančů, které se usuší a smíchají 
 </li>
   </ul>
 </section>
-<section class="course" id="c-wine">
-  <h2 class="course__name">WINE
-    <span class="course__count" aria-hidden="true">3</span></h2>
+<section class="course" id="c-wine"
+         data-panel="wine"
+         aria-label="WINE">
   <ul class="course__list">
 <li class="drink" id="d-white-wine-200ml-italy">
   <img class="drink__pic" src="../assets/drinks/white-wine-200ml-italy.webp" srcset="../assets/drinks/white-wine-200ml-italy.webp 320w, ../assets/drinks/white-wine-200ml-italy-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -783,9 +786,9 @@ Vyrábí se ze základu čerstvých pomerančů, které se usuší a smíchají 
 </li>
   </ul>
 </section>
-<section class="course" id="c-liquor">
-  <h2 class="course__name">LIQUOR
-    <span class="course__count" aria-hidden="true">11</span></h2>
+<section class="course" id="c-liquor"
+         data-panel="liquor"
+         aria-label="LIQUOR">
   <ul class="course__list">
 <li class="drink" id="d-cynar-40ml-italy">
   <img class="drink__pic" src="../assets/drinks/cynar-40ml-italy.webp" srcset="../assets/drinks/cynar-40ml-italy.webp 320w, ../assets/drinks/cynar-40ml-italy-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -931,9 +934,9 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
 </li>
   </ul>
 </section>
-<section class="course" id="c-vodka">
-  <h2 class="course__name">VODKA
-    <span class="course__count" aria-hidden="true">2</span></h2>
+<section class="course" id="c-vodka"
+         data-panel="vodka"
+         aria-label="VODKA">
   <ul class="course__list">
 <li class="drink" id="d-nemiroff-original-40-40-ukraine">
   <img class="drink__pic" src="../assets/drinks/nemiroff-original-40-40-ukraine.webp" srcset="../assets/drinks/nemiroff-original-40-40-ukraine.webp 320w, ../assets/drinks/nemiroff-original-40-40-ukraine-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -959,9 +962,9 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
 </li>
   </ul>
 </section>
-<section class="course" id="c-brandy">
-  <h2 class="course__name">BRANDY
-    <span class="course__count" aria-hidden="true">2</span></h2>
+<section class="course" id="c-brandy"
+         data-panel="brandy"
+         aria-label="BRANDY">
   <ul class="course__list">
 <li class="drink" id="d-ararat-5-yo-40-40-ml-armenia">
   <img class="drink__pic" src="../assets/drinks/ararat-5-yo-40-40-ml-armenia.webp" srcset="../assets/drinks/ararat-5-yo-40-40-ml-armenia.webp 320w, ../assets/drinks/ararat-5-yo-40-40-ml-armenia-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -987,9 +990,9 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
 </li>
   </ul>
 </section>
-<section class="course" id="c-beer-and-cider">
-  <h2 class="course__name">BEER &amp; CIDER
-    <span class="course__count" aria-hidden="true">1</span></h2>
+<section class="course" id="c-beer-and-cider"
+         data-panel="beer-and-cider"
+         aria-label="BEER &amp; CIDER">
   <ul class="course__list">
 <li class="drink" id="d-pilsner-urquell-0-33l">
   <img class="drink__pic" src="../assets/drinks/pilsner-urquell-0-33l.webp" srcset="../assets/drinks/pilsner-urquell-0-33l.webp 320w, ../assets/drinks/pilsner-urquell-0-33l-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -1004,9 +1007,9 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
 </li>
   </ul>
 </section>
-<section class="course" id="c-cold-and-hot-beverage">
-  <h2 class="course__name">COLD &amp; HOT BEVERAGE
-    <span class="course__count" aria-hidden="true">4</span></h2>
+<section class="course" id="c-cold-and-hot-beverage"
+         data-panel="cold-and-hot-beverage"
+         aria-label="COLD &amp; HOT BEVERAGE">
   <ul class="course__list">
 <li class="drink" id="d-coffe-tea">
   <img class="drink__pic" src="../assets/drinks/coffe-tea.webp" srcset="../assets/drinks/coffe-tea.webp 320w, ../assets/drinks/coffe-tea-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -1054,9 +1057,9 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
 </li>
   </ul>
 </section>
-<section class="course" id="c-non-alcohol-cocktail">
-  <h2 class="course__name">Non Alcohol Cocktail
-    <span class="course__count" aria-hidden="true">5</span></h2>
+<section class="course" id="c-non-alcohol-cocktail"
+         data-panel="non-alcohol-cocktail"
+         aria-label="Non Alcohol Cocktail">
   <ul class="course__list">
 <li class="drink" id="d-non-alcoholic-nogroni">
   <img class="drink__pic" src="../assets/drinks/non-alcoholic-nogroni.webp" srcset="../assets/drinks/non-alcoholic-nogroni.webp 320w, ../assets/drinks/non-alcoholic-nogroni-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
@@ -1116,6 +1119,12 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
   </ul>
 </section></div>
 
+  <!-- Searching crosses every section, so it has a panel of its own. -->
+  <section class="results" data-results hidden aria-live="polite">
+    <p class="results__count" data-menu-count></p>
+    <ul class="course__list" data-results-list></ul>
+  </section>
+
   <footer class="menu__foot">
     <p class="menu__foot__note" data-i18n>
       <span lang="en">Prices in Czech crowns, including VAT.</span>
@@ -1136,7 +1145,7 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
 
 
 <script>window.IVS = {"base":"../","currency":"CZK","hours":[{"days":[0,1,2,3],"from":"12:00","to":"22:00"},{"days":[4,5],"from":"12:00","to":"24:00"},{"days":[6],"from":"14:00","to":"20:00"}],"timezone":"Europe/Prague"};</script>
-<script src="../js/main.js?v=d9c277780dbe" defer></script>
+<script src="../js/main.js?v=f055230b29c4" defer></script>
 <script>
   /* Offline, because the whole site is static and a phone in a metro station
      has no reason to see nothing. Failure here is silent: the site works

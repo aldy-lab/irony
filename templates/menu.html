@@ -20,14 +20,23 @@
     <input class="menu__search" id="menu-search" type="search"
            autocomplete="off" data-menu-search
            placeholder="Gin, bitter, 300...">
-    <p class="menu__found" data-menu-count hidden></p>
   </div>
 
-  <nav class="menu__jump" aria-label="Sections">
-    <ul class="menu__jump__list">{{jump_list}}</ul>
+  <!-- The categories are tabs over a pager, not anchors down one long page.
+       Fourteen sections and seventy-seven drinks in a single scroll means
+       passing forty-five things you did not ask for to reach the gin. -->
+  <nav class="tabs" aria-label="Sections">
+    <ul class="tabs__list" data-tabs>{{jump_list}}</ul>
+    <span class="tabs__marker" data-tab-marker aria-hidden="true"></span>
   </nav>
 
-  <div>{{sections}}</div>
+  <div class="pager" data-pager>{{sections}}</div>
+
+  <!-- Searching crosses every section, so it has a panel of its own. -->
+  <section class="results" data-results hidden aria-live="polite">
+    <p class="results__count" data-menu-count></p>
+    <ul class="course__list" data-results-list></ul>
+  </section>
 
   <footer class="menu__foot">
     <p class="menu__foot__note" data-i18n>

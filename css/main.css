@@ -59,6 +59,10 @@
   --shell: 1400px;
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* The browser's own ease-out is too weak to read as deliberate. These are
+     the standard strong curves; nothing here hand-rolls one. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --header-h: 66px;
 }
 
@@ -2233,8 +2237,12 @@ main > .shell:first-child {
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  transform: translateY(12px);
+  /* 800ms read as sluggish. A strong ease-out at 550 arrives sooner and
+     feels more deliberate than a weak curve over longer. */
+  transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+  /* Nothing enters all at once: --i is the item's place in its row. */
+  transition-delay: calc(var(--i, 0) * 55ms);
 }
 
 [data-reveal][data-revealed="true"] {
@@ -2642,23 +2650,25 @@ body:has(.menu) {
   display: none;
 }
 
-/* Sections -------------------------------------------------------------- */
-
-/* Searching, because a guest looking for a gin should not scroll past
-   seventy-seven drinks to find one. 16px or iOS zooms the page on focus and
-   the menu is suddenly bigger than the screen. */
+/* Searching ---------------------------------------------------------------
+   A guest looking for a gin should not swipe fourteen panels to find one.
+   16px, or iOS zooms the page on focus and the menu is suddenly wider than
+   the screen. */
 .menu__find {
-  position: relative;
-  padding-block: 0.1rem 0.9rem;
+  padding-block: 0.1rem 0.75rem;
 }
 
 .menu__search {
+  /* A search input draws itself: left alone it came out a white box with a
+     system magnifier in it, on a page that is otherwise dark green. */
+  appearance: none;
+  -webkit-appearance: none;
   width: 100%;
   min-height: 48px;
   padding: 0.6rem 0.9rem;
   border: 1px solid var(--line);
   border-radius: 0;
-  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
   color: var(--ink);
   font-family: inherit;
   font-size: 16px;
@@ -2668,98 +2678,159 @@ body:has(.menu) {
   color: color-mix(in srgb, var(--ink) 40%, transparent);
 }
 
+.menu__search::-webkit-search-decoration,
+.menu__search::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
 .menu__search:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 
-.menu__found {
-  margin: 0.55rem 0 0;
-  color: var(--ink-quiet);
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
+/* Sections, as a pager ---------------------------------------------------
+   Fourteen categories and seventy-seven drinks down one scroll means passing
+   forty-five things you did not ask for on the way to the gin. They are
+   panels now, one per screen, moved between by the tabs or by swiping.
+
+   The height comes from a flex column rather than a number: a hardcoded
+   "viewport minus the header" rots the first time the header changes, and
+   goes on reporting that it fits. */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  min-height: 100dvh;
 }
 
-.menu__jump {
-  position: sticky;
-  top: 0;
-  z-index: 5;
+.menu__head,
+.menu__find,
+.tabs,
+.menu__foot {
+  flex: none;
+}
+
+.tabs {
+  position: relative;
   margin-inline: calc(var(--gutter) * -1);
   padding-inline: var(--gutter);
-  background: color-mix(in srgb, var(--ground) 92%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
 
-.menu__jump__list {
+.tabs__list {
   display: flex;
-  gap: 1.1rem;
+  gap: 0.35rem;
   margin: 0;
-  padding: 0.75rem 0;
+  padding: 0;
   overflow-x: auto;
-  /* The strip scrolls; the page must not be dragged sideways with it. */
   overscroll-behavior-x: contain;
   scrollbar-width: none;
   list-style: none;
 }
 
-.menu__jump__list::-webkit-scrollbar {
+.tabs__list::-webkit-scrollbar {
   display: none;
 }
 
-.menu__jump__link {
-  display: block;
-  padding-block: 0.35rem;
+.tabs__tab {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  min-height: 48px;
+  padding: 0 0.75rem;
+  border: 0;
+  background: transparent;
   color: var(--ink-quiet);
+  font-family: inherit;
   font-size: 0.7rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
-  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s var(--ease-out);
 }
 
-.menu__jump__link:hover,
-.menu__jump__link:focus-visible {
+.tabs__tab[aria-pressed="true"] {
   color: var(--ink);
 }
 
-.course {
-  padding-top: 2.4rem;
-  /* The jump strip is sticky, so an anchor would land under it. */
-  scroll-margin-top: 4rem;
+.tabs__count {
+  color: color-mix(in srgb, var(--ink) 40%, transparent);
+  font-size: 0.92em;
 }
 
-.course__name {
+/* The marker slides between tabs rather than cutting. Transform only, so it
+   never costs a layout; transition rather than keyframes, because a guest
+   can tap three tabs in a second and it has to retarget, not restart. */
+.tabs__marker {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 1px;
+  height: 2px;
+  background: var(--gold);
+  transform: translateX(var(--marker-x, 0)) scaleX(var(--marker-w, 0));
+  transform-origin: left;
+  transition: transform 0.22s var(--ease-out);
+  pointer-events: none;
+}
+
+.pager {
   display: flex;
-  align-items: baseline;
-  gap: 0.7rem;
-  margin: 0 0 1.1rem;
-  color: var(--gold);
-  font-size: 0.74rem;
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
-.course__name::after {
-  content: "";
   flex: 1;
-  height: 1px;
-  background: var(--line);
+  min-height: 0;
+  margin-inline: calc(var(--gutter) * -1);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
-.course__count {
-  order: 1;
-  color: var(--ink-quiet);
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
+.pager::-webkit-scrollbar {
+  display: none;
+}
+
+.course {
+  flex: 0 0 100%;
+  height: 100%;
+  padding-inline: var(--gutter);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-snap-align: start;
+  scrollbar-width: none;
+}
+
+.course::-webkit-scrollbar {
+  display: none;
 }
 
 .course__list {
   margin: 0;
-  padding: 0;
+  padding: 0.4rem 0 2.5rem;
   list-style: none;
+}
+
+/* Searching crosses every panel, so it replaces them while it is on. */
+.results {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-top: 0.6rem;
+}
+
+.results__count {
+  margin: 0 0 0.2rem;
+  color: var(--ink-quiet);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.menu[data-searching="true"] .pager,
+.menu[data-searching="true"] .tabs {
+  display: none;
 }
 
 /* A drink --------------------------------------------------------------- */
@@ -2768,10 +2839,10 @@ body:has(.menu) {
    the glasses first — a list of names and prices is a spreadsheet. */
 .drink {
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr);
+  grid-template-columns: 108px minmax(0, 1fr);
   align-items: center;
-  gap: 0.9rem;
-  padding-block: 0.8rem;
+  gap: 1.1rem;
+  padding-block: 1rem;
   border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
 }
 
@@ -2782,7 +2853,7 @@ body:has(.menu) {
 }
 
 .drink__pic {
-  width: 76px;
+  width: 108px;
   height: auto;
   /* Beside its words rather than at the foot of the row: a drink with four
      lines of description left its glass stranded at the bottom, a long way
@@ -2856,26 +2927,29 @@ body:has(.menu) {
 /* Foot ------------------------------------------------------------------ */
 
 .menu__foot {
-  margin-top: 3rem;
-  padding-top: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  padding-block: 0.7rem;
   border-top: 1px solid var(--line);
   text-align: center;
 }
 
 .menu__foot__note {
-  margin: 0 0 0.3rem;
+  margin: 0;
   color: var(--ink-quiet);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
 }
 
 .menu__foot__note--quiet {
   color: color-mix(in srgb, var(--ink) 38%, transparent);
 }
 
+/* The satyr is out of the footer: at the size the strip allows he was a
+   smudge, and he is the first thing on the page already. */
 .menu__foot .mark {
-  width: 46px;
-  margin: 1.4rem auto 0;
-  color: color-mix(in srgb, var(--ink) 22%, transparent);
+  display: none;
 }
 
 @media (min-width: 760px) {
@@ -2885,12 +2959,12 @@ body:has(.menu) {
   }
 
   .drink {
-    grid-template-columns: 96px minmax(0, 1fr);
-    gap: 1.2rem;
+    grid-template-columns: 136px minmax(0, 1fr);
+    gap: 1.6rem;
   }
 
   .drink__pic {
-    width: 96px;
+    width: 136px;
   }
 
   .drink__name {
@@ -3125,5 +3199,111 @@ body:has(.menu) {
   .shelf__list,
   .choose__list {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* Fewer and gentler, not none: the pager still moves between panels, it just
+   stops gliding, and the marker stops sliding. */
+@media (prefers-reduced-motion: reduce) {
+  .pager {
+    scroll-behavior: auto;
+  }
+
+  .tabs__marker {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Motion on the front page
+   ========================================================================== */
+
+/* The masthead is the one thing seen on every visit before anything else, so
+   it is allowed an entrance — once, on load, off the main thread while the
+   drawings are still arriving. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.masthead__eyebrow,
+.masthead__mark,
+.masthead__copy,
+.masthead__actions {
+  animation: rise 0.6s var(--ease-out) backwards;
+}
+
+.masthead__mark {
+  animation-delay: 70ms;
+}
+
+.masthead__copy {
+  animation-delay: 140ms;
+}
+
+.masthead__actions {
+  animation-delay: 210ms;
+}
+
+.masthead__figure {
+  animation: rise 0.7s var(--ease-out) backwards;
+}
+
+/* Feedback: the press, not a flourish. */
+.ask__pick,
+.button {
+  transition: background 0.2s var(--ease), color 0.2s var(--ease),
+    border-color 0.2s var(--ease), transform 0.12s var(--ease-out);
+}
+
+.ask__pick:active,
+.button:active {
+  transform: scale(0.97);
+}
+
+/* Results swapping. A guest can tap three answers in a second, so this is a
+   transition and not a keyframe: it retargets from wherever it is rather
+   than restarting from the beginning. */
+.choose__list {
+  transition: opacity 0.16s var(--ease-out);
+}
+
+.choose__list[data-swapping="true"] {
+  opacity: 0;
+}
+
+.choose__list .pour-card {
+  animation: rise 0.4s var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+/* A card lifts under a real pointer only. On a phone every tap would fire
+   this and leave the card stuck in its hover state. */
+@media (hover: hover) and (pointer: fine) {
+  .pour-card__link {
+    transition: background 0.25s var(--ease), transform 0.25s var(--ease-out);
+  }
+
+  .pour-card__link:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masthead__eyebrow,
+  .masthead__mark,
+  .masthead__copy,
+  .masthead__actions,
+  .masthead__figure,
+  .choose__list .pour-card {
+    animation: none;
+  }
+
+  .ask__pick:active,
+  .button:active,
+  .pour-card__link:hover {
+    transform: none;
   }
 }

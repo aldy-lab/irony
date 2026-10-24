@@ -577,12 +577,15 @@ def menu_sections(menu: dict, base: str) -> tuple:
         if not drinks:
             continue
         jump.append(
-            f'<li><a class="menu__jump__link" href="#c-{esc(category["slug"])}">'
-            f'{esc(category["name"])}</a></li>'
+            f'<li><button class="tabs__tab" type="button" '
+            f'data-tab="{esc(category["slug"])}" aria-pressed="false">'
+            f'{esc(category["name"])}'
+            f'<span class="tabs__count" aria-hidden="true">{len(drinks)}</span>'
+            f'</button></li>'
         )
-        sections.append(f"""<section class="course" id="c-{esc(category['slug'])}">
-  <h2 class="course__name">{esc(category['name'])}
-    <span class="course__count" aria-hidden="true">{len(drinks)}</span></h2>
+        sections.append(f"""<section class="course" id="c-{esc(category['slug'])}"
+         data-panel="{esc(category['slug'])}"
+         aria-label="{esc(category['name'])}">
   <ul class="course__list">
 {chr(10).join(drink(d, base) for d in drinks)}
   </ul>
@@ -612,14 +615,14 @@ def choice_buttons(kind: str, options: list) -> str:
     )
 
 
-def drink_card(product: dict, base: str) -> str:
+def drink_card(product: dict, base: str, order: int = 0) -> str:
     """One drink on the front page: its drawing, its name, its price."""
     picture = drink_picture(product, base)
     price = money(product["price"]) if product.get("price") else ""
     note = (product.get("text") or {}).get("en", "")
     if len(note) > 110:
         note = note[:107].rsplit(" ", 1)[0] + "…"
-    return f"""<li class="pour-card">
+    return f"""<li class="pour-card" data-reveal style="--i:{order}">
   <a class="pour-card__link" href="{base}menu/#d-{esc(product['slug'])}">
     {picture}
     <span class="pour-card__name">{esc(product['name'])}</span>
@@ -639,7 +642,8 @@ def signature_drinks(menu: dict, tags: dict, base: str) -> str:
         key=lambda s: -len((by_slug[s].get("text") or {}).get("en", "")),
     )
     chosen += rest[: 6 - len(chosen)]
-    return "\n".join(drink_card(by_slug[s], base) for s in chosen)
+    return "\n".join(drink_card(by_slug[s], base, i)
+                     for i, s in enumerate(chosen))
 
 
 def chooser_data(menu: dict, tags: dict, base: str) -> str:

@@ -842,57 +842,97 @@
     });
   });
 
-  /* Searching. Seventy-seven drinks is too many to scroll for one gin. The
-     haystack is every language at once, so "bitter", "hořký" and "гіркий"
-     all find the Negroni whichever language is on screen. */
-  var search = menu.querySelector("[data-menu-search]");
-  var found = menu.querySelector("[data-menu-count]");
-  if (!search) return;
+  /* ----------------------------------------------------------------- Tabs
+     The categories drive a pager rather than anchoring down one long page.
+     The movement itself is CSS scroll-snap: it stays smooth while the page
+     is still fetching drawings, which a scroll animated in JS would not. */
+  var pager = menu.querySelector("[data-pager]");
+  var tabs = Array.prototype.slice.call(menu.querySelectorAll("[data-tab]"));
+  var marker = menu.querySelector("[data-tab-marker]");
+  var panels = Array.prototype.slice.call(menu.querySelectorAll("[data-panel]"));
 
-  var drinks = Array.prototype.map.call(
-    menu.querySelectorAll(".drink"),
-    function (node) {
-      var price = node.querySelector(".drink__price");
-      return {
-        node: node,
-        hay: (node.textContent + " " + (price ? price.textContent : ""))
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, ""),
-      };
-    }
-  );
-  var courses = Array.prototype.slice.call(menu.querySelectorAll(".course"));
-  var jumps = Array.prototype.slice.call(menu.querySelectorAll(".menu__jump__link"));
-
-  var filter = function () {
-    var term = search.value.trim().toLowerCase()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    var shown = 0;
-    drinks.forEach(function (drink) {
-      var hit = !term || drink.hay.indexOf(term) !== -1;
-      drink.node.hidden = !hit;
-      if (hit) shown += 1;
+  var markTab = function (index) {
+    tabs.forEach(function (tab, i) {
+      tab.setAttribute("aria-pressed", i === index ? "true" : "false");
     });
+    var tab = tabs[index];
+    if (!tab || !marker) return;
+    /* Transform only — a marker that animated left/width would lay the tab
+       strip out again on every frame. */
+    marker.style.setProperty("--marker-x", tab.offsetLeft + "px");
+    marker.style.setProperty("--marker-w", tab.offsetWidth);
+    if (tab.scrollIntoView) {
+      tab.scrollIntoView({ inline: "nearest", block: "nearest" });
+    }
+  };
 
-    /* A heading with nothing under it, and a jump to an empty section, are
-       both worse than no heading at all. */
-    courses.forEach(function (course) {
-      var any = course.querySelector(".drink:not([hidden])");
-      course.hidden = !any;
-      var id = course.getAttribute("id");
-      jumps.forEach(function (link) {
-        if (link.getAttribute("href") === "#" + id) link.hidden = !any;
+  var current = 0;
+  if (pager && tabs.length) {
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener("click", function () {
+        pager.scrollTo({ left: panels[i].offsetLeft - panels[0].offsetLeft });
+        markTab(i);
       });
     });
 
+    var settling = null;
+    pager.addEventListener("scroll", function () {
+      window.clearTimeout(settling);
+      settling = window.setTimeout(function () {
+        var width = pager.clientWidth || 1;
+        var index = Math.round(pager.scrollLeft / width);
+        index = Math.max(0, Math.min(tabs.length - 1, index));
+        if (index !== current) {
+          current = index;
+          markTab(index);
+        }
+      }, 90);
+    }, { passive: true });
+
+    markTab(0);
+    /* The strip is laid out before the fonts land, so the first measurement
+       is of the wrong width. */
+    window.addEventListener("load", function () { markTab(current); });
+    window.addEventListener("resize", function () { markTab(current); });
+  }
+
+  /* --------------------------------------------------------------- Search
+     It crosses every panel, so it answers in a panel of its own rather than
+     emptying fourteen. The haystack is all three languages at once, so
+     "bitter", "hořký" and "гіркий" each find the Negroni. */
+  var search = menu.querySelector("[data-menu-search]");
+  var results = menu.querySelector("[data-results]");
+  var resultList = menu.querySelector("[data-results-list]");
+  var found = menu.querySelector("[data-menu-count]");
+  if (!search || !results) return;
+
+  var fold = function (text) {
+    return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
+  var drinks = Array.prototype.map.call(
+    menu.querySelectorAll(".pager .drink"),
+    function (node) { return { node: node, hay: fold(node.textContent) }; }
+  );
+
+  var filter = function () {
+    var term = fold(search.value.trim());
     if (!term) {
-      found.hidden = true;
+      menu.setAttribute("data-searching", "false");
+      results.hidden = true;
+      resultList.innerHTML = "";
+      markTab(current);
       return;
     }
-    found.hidden = false;
-    found.textContent = shown
-      ? shown + (shown === 1 ? " drink" : " drinks")
+    var hits = drinks.filter(function (d) { return d.hay.indexOf(term) !== -1; });
+    menu.setAttribute("data-searching", "true");
+    results.hidden = false;
+    resultList.innerHTML = "";
+    hits.forEach(function (hit) {
+      resultList.appendChild(hit.node.cloneNode(true));
+    });
+    found.textContent = hits.length
+      ? hits.length + (hits.length === 1 ? " drink" : " drinks")
       : "Nothing by that name — ask the bar.";
   };
 
@@ -930,12 +970,16 @@
 
   var picked = { base: "", mood: "" };
 
-  var card = function (drink) {
+  var swapping = null;
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  var card = function (drink, order) {
     var picture = drink.pic
       ? '<img class="pour-card__pic" src="' + drink.pic +
         '" alt="" width="320" height="330" loading="lazy" decoding="async">'
       : "";
-    return '<li class="pour-card"><a class="pour-card__link" href="' +
+    return '<li class="pour-card" style="--i:' + (order || 0) +
+      '"><a class="pour-card__link" href="' +
       drink.href + '">' + picture +
       '<span class="pour-card__name">' + drink.name + "</span>" +
       '<span class="pour-card__price">' + drink.price +
@@ -953,11 +997,26 @@
       return (!picked.base || drink.base === picked.base) &&
              (!picked.mood || drink.mood === picked.mood);
     });
-    list.innerHTML = hits.slice(0, 6).map(card).join("");
-    none.hidden = hits.length > 0;
-    count.textContent = hits.length
-      ? (hits.length === 1 ? "One drink" : hits.length + " drinks")
-      : "";
+    /* Out, swap, in. Without the pause the old answer is replaced under the
+       reader's eye mid-sentence; with it, the panel clears and fills. */
+    var paint = function () {
+      list.innerHTML = hits.slice(0, 6).map(function (drink, i) {
+        return card(drink, i);
+      }).join("");
+      none.hidden = hits.length > 0;
+      count.textContent = hits.length
+        ? (hits.length === 1 ? "One drink" : hits.length + " drinks")
+        : "";
+      list.setAttribute("data-swapping", "false");
+    };
+
+    if (!list.children.length || still.matches) {
+      paint();
+      return;
+    }
+    list.setAttribute("data-swapping", "true");
+    window.clearTimeout(swapping);
+    swapping = window.setTimeout(paint, 160);
   };
 
   ["base", "mood"].forEach(function (kind) {
