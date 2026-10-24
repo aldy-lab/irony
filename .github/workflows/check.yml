@@ -25,7 +25,9 @@ jobs:
           playwright install --with-deps chromium
 
       - name: Unit tests
-        run: python3 tests/test_build.py
+        run: |
+          python3 tests/test_build.py
+          python3 tests/test_import_menu.py
 
       - name: Build
         run: python3 build.py

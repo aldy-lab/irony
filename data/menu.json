@@ -1,0 +1,1037 @@
+{
+  "_readme": [
+    "Imported from the bar's Poster menu by tools/import_menu.py.",
+    "`text` holds one entry per language: en, cs, uk.",
+    "`poster_photo` is a reference for matching, not for publishing."
+  ],
+  "currency": "CZK",
+  "categories": [
+    {
+      "slug": "cocktail",
+      "name": "COCKTAIL",
+      "count": 32
+    },
+    {
+      "slug": "gin",
+      "name": "GIN",
+      "count": 3
+    },
+    {
+      "slug": "tequila-and-mezcal",
+      "name": "TEQUILA & MEZCAL",
+      "count": 2
+    },
+    {
+      "slug": "whiskey",
+      "name": "WHISKEY",
+      "count": 3
+    },
+    {
+      "slug": "rum",
+      "name": "RUM",
+      "count": 6
+    },
+    {
+      "slug": "aperitivo",
+      "name": "APERITIVO",
+      "count": 2
+    },
+    {
+      "slug": "porto",
+      "name": "PORTO",
+      "count": 1
+    },
+    {
+      "slug": "wine",
+      "name": "WINE",
+      "count": 3
+    },
+    {
+      "slug": "liquor",
+      "name": "LIQUOR",
+      "count": 11
+    },
+    {
+      "slug": "vodka",
+      "name": "VODKA",
+      "count": 2
+    },
+    {
+      "slug": "brandy",
+      "name": "BRANDY",
+      "count": 2
+    },
+    {
+      "slug": "beer-and-cider",
+      "name": "BEER & CIDER",
+      "count": 1
+    },
+    {
+      "slug": "cold-and-hot-beverage",
+      "name": "COLD & HOT BEVERAGE",
+      "count": 4
+    },
+    {
+      "slug": "non-alcohol-cocktail",
+      "name": "Non Alcohol Cocktail",
+      "count": 5
+    }
+  ],
+  "products": [
+    {
+      "slug": "kyiv-mule-by-ukrainian-nemiroff-vodka",
+      "name": "Kyiv Mule by Ukrainian Nemiroff Vodka",
+      "category": "cocktail",
+      "price": 275,
+      "popular": true,
+      "text": {
+        "en": "We use a special ginger lemonade with pepper - spicy but not spicy. Combined with quality vodka and lime juice, the best drink",
+        "cs": "Používáme speciální zázvorovou limonádu s pepřem - pikantní, ale ne pikantní. V kombinaci s kvalitní vodkou a limetkovou šťávou nejlepší nápoj",
+        "uk": "Ми використовуємо особливий імбирний лимонад з перцем-пряно, але не гостро. У поєднанні з якісною горілкою та лаймовим соком найкращий напій"
+      },
+      "poster_id": 105,
+      "poster_photo": "https://img.postershop.me/14649/a8995311-a4b1-4abf-a4a1-9fe106718272_image.jpeg"
+    },
+    {
+      "slug": "gin-basil-smash",
+      "name": "Gin Basil Smash",
+      "category": "cocktail",
+      "price": 314,
+      "popular": true,
+      "text": {
+        "uk": "Basil Smash – це освіжаючий та ароматний коктейль, що базується на джині та свіжому базиліку. Його яскравий трав'яний смак чудово поєднується з цитрусовими нотками, створюючи ідеальний напій",
+        "cs": "Basil Smash je osvěžující a aromatický koktejl, jehož základem je gin a čerstvá bazalka. Jeho výrazná bylinná chuť se skvěle snoubí s citrusovými tóny, což z něj činí ideální nápoj",
+        "en": "The Basil Smash is a refreshing and aromatic cocktail built on a base of gin and fresh basil. Its vibrant herbaceous flavor beautifully complements citrus notes, making it an ideal drink"
+      },
+      "poster_id": 487,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/3bc0e80a-fe4e-48d9-aa93-72cb3cd2219d-image.jpeg"
+    },
+    {
+      "slug": "aviation-cocktail",
+      "name": "Aviation Cocktail",
+      "category": "cocktail",
+      "price": 340,
+      "popular": false,
+      "text": {
+        "cs": "Klasický koktejl ginu, fialkového likéru The Bitter Truth a Luxardo Maraschino",
+        "en": "Classic cocktail of gin, violet liqueur The Bitter Truth and Luxardo Maraschino",
+        "uk": "Kласичний коктейль з джину, фіалкового лікеру The Bitter Truth і Luxardo Maraschino"
+      },
+      "poster_id": 77,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/ae3248a4-9977-4c8f-873c-e80991a59445-image.jpeg"
+    },
+    {
+      "slug": "all-shot",
+      "name": "ALL Shot",
+      "category": "cocktail",
+      "price": 185,
+      "popular": false,
+      "text": {},
+      "poster_id": 79,
+      "poster_photo": "https://img.postershop.me/14649/18d38a77-bd84-4040-8c7f-fb0d2fb56a8f_image.jpeg"
+    },
+    {
+      "slug": "espresso-martini",
+      "name": "Espresso Martini",
+      "category": "cocktail",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "Vodka and strong iced espresso, as well as coffee liqueur Kahlua",
+        "cs": "Vodka a silné ledové espresso, stejně jako kávový likér Kahlua",
+        "uk": "Горілка  і міцний льодяний еспресо , а також кавовий лікер Kahlua"
+      },
+      "poster_id": 84,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/2309ef03-8afb-4405-a0bd-3cd5c9355135-image.jpeg"
+    },
+    {
+      "slug": "tajin-margarita-cocktail",
+      "name": "Tajin Margarita Cocktail",
+      "category": "cocktail",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "cs": ".Our take on the classic Margarita\nnáš pohled na klasickou margaritu,",
+        "uk": "наша версія класичної Маргарити"
+      },
+      "poster_id": 85,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/341b6833-69ac-4d26-9ad2-a98d1c58eaad-image.jpeg"
+    },
+    {
+      "slug": "satyr-cola",
+      "name": "SATYR Cola",
+      "category": "cocktail",
+      "price": 285,
+      "popular": false,
+      "text": {
+        "en": "Cola, 5 year old spiced rum from Panama - Abuelo, Velvet Falernum rum liqueur from Barbados, Coffee liquor Kahlua, Brut or Cava",
+        "cs": "Cola, 5letý kořeněný rum z Panamy - Abuelo, rumový likér Velvet Falernum z Barbadosu, kávový likér Kahlua, Brut nebo Cava",
+        "uk": "Cola,пряний 5-ти річний панамський ром Abuelo   ,ромовий лікер Velvet Falernum з Барбадосу, кавовий лікер Kahlua , Brut або -ж  Cava"
+      },
+      "poster_id": 93,
+      "poster_photo": "https://img.postershop.me/14649/Products/3993715_1689078408.3018_original.png"
+    },
+    {
+      "slug": "negroni",
+      "name": "Negroni",
+      "category": "cocktail",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "A classic combination of dry gin with the bitterness of Campari and sweet French Dolin vermouth",
+        "cs": "klasická kombinace suchého ginu s hořkostí Campari a sladkým francouzským Dolin vermutem",
+        "uk": "класичне поєднання сухого джину з гіркотою Campari  та солодкого французького вермуту Dolin"
+      },
+      "poster_id": 96,
+      "poster_photo": "https://img.postershop.me/14649/8692efcd-0c5f-4566-9f6b-a0fa3f273d24_image.jpeg"
+    },
+    {
+      "slug": "new-york-sour",
+      "name": "New York Sour",
+      "category": "cocktail",
+      "price": 295,
+      "popular": false,
+      "text": {
+        "en": "Bourbon and lemon juice, a bit of foam hiding some red wine underneath",
+        "cs": "Bourbon a citronová šťáva, trocha pěny skrývající pod sebou trochu červeného vína",
+        "uk": "Бурбон і лимонний сік, трохи піни, під якою ховається деяка кількість червоного вина"
+      },
+      "poster_id": 136,
+      "poster_photo": "https://img.postershop.me/14649/Products/4225149_1693484954.4339_original.png"
+    },
+    {
+      "slug": "slava-ukraini-shot",
+      "name": "Slava Ukraini!!! Shot",
+      "category": "cocktail",
+      "price": 179,
+      "popular": false,
+      "text": {
+        "en": "We are Ukrainians and we are proud of it, this shot in the color of the Ukrainian flag is orange juice, violet liqueur and vodka.",
+        "cs": "Jsme Ukrajinci a jsme na to hrdí, tenhle panák v barvě ukrajinské vlajky je pomerančový džus, fialkový likér a vodka.",
+        "uk": "Ми українці і пишаємося цим, цей шот у колір Українського прапора – апельсиновий сік, фіалковий лікер та горілка."
+      },
+      "poster_id": 137,
+      "poster_photo": "https://img.postershop.me/14649/bfd82397-0a89-4a4f-bd6b-eb353fa223e7_image.jpeg"
+    },
+    {
+      "slug": "dark-and-stormy",
+      "name": "Dark&Stormy",
+      "category": "cocktail",
+      "price": 285,
+      "popular": false,
+      "text": {
+        "en": "🇬🇧 EN:\n⚓️ Dark & Stormy ⛈️\nA Bermudian classic with a fiery twist. Rich dark rum, fresh lime, and natural French Pimento ginger beer infused with chili pepper. The perfect balance of sweet and spicy. 🥃 Dark Rum 🌶 Natural French Pimento Ginger Beer (with pepper) 🍋 Lime 🍋 Limetka",
+        "cs": "CZ:\n⚓️ Dark & Stormy ⛈️\nBermudská klasika s novým temperamentem. Bohatý tmavý rum, svěží limetka a přírodní francouzské zázvorové pivo Pimento s přídavkem chilli pepře. Dokonalá rovnováha sladkosti a ohnivé ostrosti. 🥃 Tmavý rum 🌶 Přírodní francouzské zázvorové pivo Pimento (s pepřem)",
+        "uk": "UA:\n⚓️ Dark & Stormy ⛈️\nКласика з Бермудських островів із новим характером. Насичений темний ром, свіжість лайма та натуральне французьке імбирне пиво Pimento з додаванням перцю. Ідеальний баланс солодкості та вогняної гостроти. 🥃 Темний ром 🌶 Натуральне французьке імбирне пиво Pimento (з перцем) 🍋 Лайм"
+      },
+      "poster_id": 146,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/e5e7e09d-2e95-4a6f-9a68-5c93477a76f4-image.jpeg"
+    },
+    {
+      "slug": "bee-s-knees",
+      "name": "Bee's Knees",
+      "category": "cocktail",
+      "price": 295,
+      "popular": false,
+      "text": {
+        "en": "Bees Knees cocktail with Gin, honey, and lemon. The name comes from prohibition-era slang meaning \"the best\".",
+        "cs": "Koktejl včelích kolen s ginem, medem a citronem. Název pochází z prohibičního slangu znamenajícího „nejlepší“.",
+        "uk": "Коктейль Bees Knees з джином, медом і лимоном. Назва походить від сленгу часів заборони, що означає «найкращий»."
+      },
+      "poster_id": 148,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/f1834663-239a-488c-ae0a-b6a2fe8bfbbc-image.jpeg"
+    },
+    {
+      "slug": "adriatico-amaretto-sweet-and-sour",
+      "name": "Adriatico Amaretto  Sweet and Sour",
+      "category": "cocktail",
+      "price": 325,
+      "popular": false,
+      "text": {
+        "en": "English 🇬🇧\nAmaretto Sweet & Sour This drink is made with Adriatico Amaretto, fresh lemon juice, and egg white.\nCzech Amaretto Sweet & Sour Ukrainian Amaretto Sweet & Sour",
+        "cs": "Tento nápoj je vyroben z Adriatico Amaretto, čerstvé citronové šťávy a vaječného bílku.",
+        "uk": "Цей напій зроблений з Adriatico Amaretto, свіжого лимонного соку та яєчного білка."
+      },
+      "poster_id": 163,
+      "poster_photo": "https://img.postershop.me/14649/Products/4281296_1694515374.7802_original.jpg"
+    },
+    {
+      "slug": "sidecar-by-martell-cognac",
+      "name": "Sidecar by Martell Cognac",
+      "category": "cocktail",
+      "price": 325,
+      "popular": false,
+      "text": {
+        "en": "Prague The sidecar is any cocktail traditionally made with cognac, orange liqueur, plus lemon juice.",
+        "cs": "Sidecar je jakýkoli koktejl tradičně vyrobený z koňaku, pomerančového likéru a citronové šťávy",
+        "uk": "Sidecar- це будь-який коктейль, який традиційно готується з коньяком, апельсиновим лікером і лимонним соком."
+      },
+      "poster_id": 186,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/7f3eb689-553c-49f8-b0ad-a0bf61632a06-image.jpeg"
+    },
+    {
+      "slug": "skinny-bitch-by-nemiroff-delikat",
+      "name": "Skinny Bitch by Nemiroff Delikat",
+      "category": "cocktail",
+      "price": 295,
+      "popular": false,
+      "text": {},
+      "poster_id": 209,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/c46dcf79-6c63-459e-af21-09c0e6f24f5a-image.jpeg"
+    },
+    {
+      "slug": "el-presidente",
+      "name": "El Presidente",
+      "category": "cocktail",
+      "price": 295,
+      "popular": false,
+      "text": {
+        "en": "The El Presidente cocktail is a Cuban alcoholic drink made of australian dry spiced rum Cargo Cult, orange curaçao, vermouth, and grenadine.",
+        "cs": "Koktejl El Presidente je kubánský alkoholický nápoj vyrobený z rumu, pomerančového curaçaa, vermutu a grenadiny. Původní recept vyžaduje blanc vermutcuracao vermouth, and grenadine.",
+        "uk": "Коктейль «El Presidente» — кубинський алкогольний напій з рому, апельсинового кюрасао, вермуту та гренадину."
+      },
+      "poster_id": 241,
+      "poster_photo": "https://img.postershop.me/14649/2ba53735-1ddc-4baf-bc44-6eeb23b9c04c_image.png"
+    },
+    {
+      "slug": "bloody-mary",
+      "name": "Bloody Mary",
+      "category": "cocktail",
+      "price": 359,
+      "popular": false,
+      "text": {
+        "en": "a little tomato juice, freshly squeezed orange, lime, add hot Valentina sauce, ginger beer and finish with a spicy, not spicy, strong Mexican liqueur based on green chili peppers",
+        "cs": "trochu rajčatové šťávy, čerstvě vymačkaný pomeranč, limetka, přidejte pálivou omáčku Valentina, zázvorové pivo a zakončete pikantním, nepálivým, silným mexickým likérem na bázi zelených chilli papriček",
+        "uk": "трохи томатного соку, свіжовидавленого апельсина, лайма, додаємо гострий соус Валентина, імбирне пиво і фіналізуємо пряним, не гострим міцним мексиканським лікером на основі зеленого перцю чилі"
+      },
+      "poster_id": 243,
+      "poster_photo": "https://img.postershop.me/14649/e85ac4ef-6677-4d1b-9e60-41a4d7bf13a1_image.jpeg"
+    },
+    {
+      "slug": "salty-dog-by-nemiroff-delikat",
+      "name": "Salty Dog by Nemiroff Delikat",
+      "category": "cocktail",
+      "price": 305,
+      "popular": false,
+      "text": {
+        "en": "Salty Dog English 🇬🇧\nExperience the Salty Dog: crisp vodka meets vibrant natural grapefruit soda and subtle maraschino liqueur . Finished with a salt rim for perfect balance. Pure, zesty refreshment.\nCzech Ukrainian",
+        "cs": "Poznejte Salty Dog: svěží vodka se snoubí s živou přírodní grepovou limonádou a jemným Maraschino likérem. Dokončeno solným okrajem  pro dokonalou rovnováhu. Čisté, pikantní osvěžení.",
+        "uk": "Спробуйте Salty Dog: якісна горілка поєднується з яскравим натуральним грейпфрутовим лимонадом та витонченим лікером Мараскіно. Завершує смак сольовий обідок для ідеального балансу. Чисте, пікантне освіження."
+      },
+      "poster_id": 264,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/8ab99063-2942-458e-b95c-d0ba9d71b267-image.jpeg"
+    },
+    {
+      "slug": "bergamot-dry-martini-by-italicus",
+      "name": "Bergamot Dry Martini by Italicus",
+      "category": "cocktail",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "classic dry martini, but with the addition of Italian bergamot liqueur Italicus",
+        "cs": "klasické suché martini, ale s přídavkem italského bergamotového likéru Italicus",
+        "uk": "класичний сухий мартіні, але з додаванням італійського бергамотового лікеру Італікус"
+      },
+      "poster_id": 272,
+      "poster_photo": "https://img.postershop.me/14649/c88a296b-aa7c-483d-ab4a-9ab33c598333_image.jpeg"
+    },
+    {
+      "slug": "pisco-sour",
+      "name": "Pisco Sour",
+      "category": "cocktail",
+      "price": 285,
+      "popular": false,
+      "text": {},
+      "poster_id": 294,
+      "poster_photo": "https://img.postershop.me/14649/0a321c68-fa6d-4725-af59-802e25134b0b_image.jpeg"
+    },
+    {
+      "slug": "yellow-negroni",
+      "name": "Yellow Negroni",
+      "category": "cocktail",
+      "price": 295,
+      "popular": false,
+      "text": {
+        "en": "summer gin, dry vermouth and liqueur Suze l`Originale  is one of the oldest aperitifs from France, which today is a national treasure of the country. The liqueur is made from gentian infusion, alpine herb extracts and concentrated apple juice.",
+        "cs": "letní gin, suchý vermut a likér Suze l`Originale  je jedním z nejstarších aperitivů z Francie, který je dnes národním pokladem země. Likér se vyrábí z nálevu z hořce, výtažků z alpských bylin a koncentrované jablečné šťávy.",
+        "uk": "літній джин, сухий вермут та лікер Suze l`Originale – це один із найстаріших аперитивів із Франції, який сьогодні є національним надбанням країни. Лікер виготовляють з настою тирличу, екстрактів альпійських трав та концентрованого яблучного соку."
+      },
+      "poster_id": 298,
+      "poster_photo": "https://img.postershop.me/14649/eb7251ac-a566-485d-a241-49d5508d3f25_image.jpeg"
+    },
+    {
+      "slug": "caipirinha",
+      "name": "Caipirinha",
+      "category": "cocktail",
+      "price": 299,
+      "popular": false,
+      "text": {},
+      "poster_id": 332,
+      "poster_photo": "https://img.postershop.me/14649/84684f8e-576c-4ae6-a098-845114815d38_image.jpeg"
+    },
+    {
+      "slug": "bitter-giuseppe",
+      "name": "Bitter Giuseppe",
+      "category": "cocktail",
+      "price": 265,
+      "popular": false,
+      "text": {
+        "en": "the Bitter Giuseppe Built along Manhattan lines, this digestif cocktail features the bitter artichoke-based amaro Cynar. The richness of the sweet vermouth balances the lush, vegetal bitterness of the Cynar.",
+        "cs": "The orange bitters and the brightness of the few drops of lemon juice and the spray of lemon oil cut through the almost oily, unctuous texture on your tongue, allowing the more subtle, underlying spices to come out\nHořký Giuseppe Tento digestivní koktejl, postavený podle manhattanských linií, obsahuje amaro Cynar na bázi hořkého artyčoku. Bohatost sladkého vermutu vyvažuje svěží, rostlinnou hořkost Cynar. Pomerančová hořkost a jas několika kapek citronové šťávy a spreje citronového oleje proříznou téměř mastnou mastnou texturu na vašem jazyku a umožní vyniknout jemnějším kořením.",
+        "uk": "Гіркий Джузеппе Цей дижестивний коктейль, створений за принципом Манхеттена, містить гіркий амаро Cynar на основі артишоку. Насиченість солодкого вермуту врівноважує пишну рослинну гірчинку Cynar. Апельсинова гіркота та яскравість кількох крапель лимонного соку та бризок лимонної олії розрізають майже маслянисту, маслянисту текстуру вашого язика, дозволяючи вийти більш тонким основним прянощам"
+      },
+      "poster_id": 398,
+      "poster_photo": "https://img.postershop.me/14649/8ed84608-a98b-45b3-bcdb-71638d7e7ee5_image.jpeg"
+    },
+    {
+      "slug": "paloma",
+      "name": "Paloma",
+      "category": "cocktail",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "Refreshing and vibrant, the Paloma is your perfect escape. Made with tequila, grapefruit soda, and a squeeze of lime. Simple, classic, and always a good idea.",
+        "cs": "Osvěžující a živá, Paloma je váš dokonalý únik. Vyrobena z tequily, grapefruitové sody a kapky limetky. Jednoduchá, klasická a vždy dobrý nápad.",
+        "uk": "Освіжаюча та яскрава, Палома – ваш ідеальний відпочинок. Зроблена з текіли, грейпфрутової содової та краплі лайма. Проста, класична і завжди гарна ідея."
+      },
+      "poster_id": 421,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/45c828f1-af8e-46f8-a8b6-f3d43fe60966-image.jpeg"
+    },
+    {
+      "slug": "french75",
+      "name": "French75",
+      "category": "cocktail",
+      "price": 295,
+      "popular": false,
+      "text": {
+        "en": "French 75 is a cocktail made from gin, champagne, lemon juice, and sugar. It is also called a 75 cocktail, or in French simply a soixante quinze ('seventy five').",
+        "cs": "French 75 je koktejl vyrobený z ginu, šampaňského, citronové šťávy a cukru. Také se mu říká koktejl 75, nebo ve francouzštině jednoduše soixante quinze („sedmdesát pět“).",
+        "uk": "Френч 75 – це коктейль, приготований з джину, шампанського, лимонного соку та цукру. Його також називають коктейлем 75, або французькою просто soixante quinze («сімдесят п'ять»)."
+      },
+      "poster_id": 429,
+      "poster_photo": "https://img.postershop.me/14649/d87ea55b-2e2b-457f-a48f-ef9025dd60a8_image.jpeg"
+    },
+    {
+      "slug": "dolce-amaro-bittersweet",
+      "name": "Dolce Amaro Bittersweet",
+      "category": "cocktail",
+      "price": 295,
+      "popular": false,
+      "text": {
+        "en": "Sip on sophistication with the **Dolce Amaro** 🌅. This exquisite cocktail blends the dry notes of vermouth with the bittersweet embrace of Campari and the rich almond warmth of Adriatico Amaretto. It's like a Mediterranean sunset in a glass – perfect for unwinding and savoring the moment. Vychutnejte si sofistikovanost s koktejlem **Dolce Amaro** 🌅.",
+        "cs": "Tento vynikající nápoj spojuje suché tóny vermutu s hořkosladkým objetím Campari a bohatou mandlovou hřejivostí Adriatico Amaretto. Je to jako středomořský západ slunce ve sklenici – ideální pro relaxaci a vychutnání si okamžiku.",
+        "uk": "Насолоджуйтесь витонченістю з коктейлем **Dolce Amaro** 🌅. Цей вишуканий напій поєднує сухі нотки вермуту з гірко-солодкими обіймами Campari та насиченою мигдальною теплотою Adriatico Amaretto. Це ніби середземноморський захід сонця у склянці – ідеально для відпочинку та насолоди моментом."
+      },
+      "poster_id": 452,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/1337e1d6-2b0f-4d73-9324-e2ec3502ec8f-image.png"
+    },
+    {
+      "slug": "last-word",
+      "name": "Last Word",
+      "category": "cocktail",
+      "price": 355,
+      "popular": false,
+      "text": {
+        "en": "A classic cocktail of Nordes dry gin, green Chartreuse liqueur, Maraschino liqueur, and lime juice, which originated in Detroit in the early 20th century.",
+        "cs": "Klasický koktejl ze suchého ginu Nordes, zeleného likéru Chartreuse, likéru Maraschino a limetkové šťávy, který vznikl v Detroitu na počátku 20. století.",
+        "uk": "Класичний коктейль із сухого джину Nordes, зеленого лікеру Chartreuse, лікеру Maraschino та соку лайма, який зявився у Детройті на початку 20 століття."
+      },
+      "poster_id": 462,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/2b262241-15d9-4437-8b15-a37bd61146aa-image.jpeg"
+    },
+    {
+      "slug": "green-deacon",
+      "name": "Green Deacon",
+      "category": "cocktail",
+      "price": 349,
+      "popular": false,
+      "text": {
+        "en": "### 🇬🇧 English **Green Deacon**\nA dry and refreshing contrast of London Dry and Sloe gin, balancing tart pink grapefruit with a subtle whisper of absinthe.\n*Flavor: Citrusy, herbal, bittersweet.*",
+        "uk": "Українська **Green Deacon**\nСухий та освіжаючий контраст лондонського та тернового джину, де кислинка рожевого грейпфрута ідеально збалансована ледь помітною краплею абсенту.\n*Смак: Цитрусовий, трав'яний, гіркувато-солодкий.*",
+        "cs": "Čeština **Green Deacon**\nSuchý a osvěžující kontrast londýnského a trnkového ginu, kde se snoubí kyselost růžového grapefruitu s jemnou, sotva znatelnou kapkou absintu.\n*Chuť: Citrusová, bylinná, hořkosladká.*"
+      },
+      "poster_id": 483,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/7f43386c-efe1-4143-9204-4d1dcd394c9e-image.jpeg"
+    },
+    {
+      "slug": "breakfast-martini",
+      "name": "Breakfast Martini",
+      "category": "cocktail",
+      "price": 305,
+      "popular": false,
+      "text": {
+        "en": "Breakfast Martini 🍸🍊\nA sophisticated blend of gin, orange marmalade, and a bold cognac-based orange liqueur. The definitive liquid breakfast.",
+        "cs": "Breakfast Martini 🍸✨\nSofistikovaný mix ginu, marmelády a silného pomerančového likéru na koňaku. Dokonalá tekutá snídaně.",
+        "uk": "Breakfast Martini 🍸🍊\nВишуканий мікс джину, мармеладу та міцного апельсинового лікеру на коньяку. Твій ідеальний «рідкий сніданок»."
+      },
+      "poster_id": 495,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/b4f751d4-d54d-47e8-b8f2-f23e2812646d-image.jpeg"
+    },
+    {
+      "slug": "pinnaple-daiquiri",
+      "name": "Pinnaple  Daiquiri",
+      "category": "cocktail",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "Banana Daiquiri Base Spirit:Cargo Cult — a dry and spiced Australian rum.\nPreparation: The rum is macerated with mountain bananas from Queensland, Australia. These naturally less sweet bananas provide a rich aroma and flavor without excess sugar.\nIngredients: Cargo Cult Spiced Rum (macerated with Queensland bananas), fresh lime juice, smoked Demerara syrup (brown cane sugar).\nProfile: Dry, spiced, with a pronounced banana character and subtle smoky notes. Banana Daiquiri",
+        "cs": "Banana Daiquiri\nZáklad: Cargo Cult — suchý a kořeněný australský rum.\nPříprava: Rum je macerován s horskými banány z Queenslandu (Austrálie). Tyto banány jsou přirozeně méně sladké, dodávají nápoji bohaté aroma a chuť bez nadměrné sladkosti.\nSložení: Kořeněný rum Cargo Cult (macerovaný s queenslandskými banány), čerstvá limetková šťáva, sirup z uzeného třtinového cukru Demerara.\nProfil: Suchý, kořeněný, s výrazným banánovým charakterem a lehkými kouřovými tóny.",
+        "uk": "*Основа: Cargo Cult — сухий та пряний австралійський ром.\nПриготування: Ром мацерується на гірських бананах з Квінсленда (Австралія). Ці банани від природи менш солодкі, тому надають напою багатий аромат і смак без зайвої солодкості.\nСклад: Пряний ром Cargo Cult (мацерований на квінслендських бананах), свіжий сік лайма, сироп із підкопченого тростинного цукру демерара.\nПрофіль: Сухий, пряний, з вираженим банановим характером та легкими димними нотами."
+      },
+      "poster_id": 507,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/46ff899c-9b90-4954-8932-deae6ee6c17e-image.jpeg"
+    },
+    {
+      "slug": "mezcalita-vida",
+      "name": "Mezcalita vida",
+      "category": "cocktail",
+      "price": 465,
+      "popular": false,
+      "text": {},
+      "poster_id": 516,
+      "poster_photo": ""
+    },
+    {
+      "slug": "skiny-beatch",
+      "name": "Skiny beatch",
+      "category": "cocktail",
+      "price": 265,
+      "popular": false,
+      "text": {},
+      "poster_id": 529,
+      "poster_photo": ""
+    },
+    {
+      "slug": "saigon-baigur-premium-dry-gin-th-tonic-43-vietnam",
+      "name": "Saigon Baigur Premium Dry Gin + TH Tonic /43% Vietnam",
+      "category": "gin",
+      "price": 365,
+      "popular": false,
+      "text": {
+        "en": "Impressive and Spice ,Inspired by Vietnamese spice flavour. Outspoken at the start, complex spices in the middle, ending in the smooth finish.",
+        "cs": "Působivé a pikantní Inspirováno vietnamskou chutí koření. Na začátku otevřené, komplexní koření uprostřed, končící v hladkém závěru.",
+        "uk": "Вражаючий і пікантний Натхненний смаком в’єтнамських спецій. Відвертий на початку, складні прянощі в середині, що закінчується м’яким відтінком."
+      },
+      "poster_id": 124,
+      "poster_photo": "https://img.postershop.me/14649/Products/4147406_1694108245.014_original.jpeg"
+    },
+    {
+      "slug": "scapegrace-black-gin-41-6-new-zealand-th-tonic",
+      "name": "Scapegrace Black Gin 41.6% New Zealand +TH Tonic",
+      "category": "gin",
+      "price": 395,
+      "popular": false,
+      "text": {
+        "en": "SCAPEGRACE Black Gin Hello darkness my old friend. In nature, Black has a flavour. A fluent autograph stroked with the ink of specifio organic plants, flowers and berries. This is that flavour. This is the taste of Black."
+      },
+      "poster_id": 133,
+      "poster_photo": "https://img.postershop.me/14649/Products/4160039_1694108334.3946_original.jpg"
+    },
+    {
+      "slug": "citadelle-gin-original-44-0-th-tonic",
+      "name": "Citadelle Gin Original 44,0 %+ TH Tonic",
+      "category": "gin",
+      "price": 295,
+      "popular": false,
+      "text": {
+        "en": "🇬🇧 English Citadelle Original: The Pioneer of French Craft Gin. 🍸🇫🇷 The first French craft gin, born in 1996 in the heart of Grande Champagne. A flawless balance of juniper, citrus, and exotic spices. The Core: Juniper berries grown and strictly controlled directly at Château de Bonbonnet.\nThe Formula: French wheat distillate + 19 distinct botanicals (including cardamon, cubeb pepper, grains of paradise, and violet petals).\nThe Process: Patented progressive maceration and a single distillation in small 25 hL copper pot stills.\n* **Profile:** Delicate fresh flowers and citrus on the nose, opening up to a bold, peppery, and spicy palate. Elegant, round, and refined finish. #citadellegin #originalgin #craftgin #praguebar #barlife #citadellegin #gintonic #remeslnygin #barpraha #praguebar",
+        "cs": "Čeština **Citadelle Original: Průkopník francouzského řemeslného ginu.** 🍸🇫🇷 První francouzský řemeslný gin, představený v roce 1996 v srdci regionu Grande Champagne. Dokonalá rovnováha jalovce, citrusů a exotického koření. * **Základ:** Jalovec pěstovaný pod přímou kontrolou přímo před zámkem Château de Bonbonnet.\n* **Složení:** Pšeničný destilát + 19 rostlinných ingrediencí (včetně kardamomu, pepře kubéba, rajských zrn a květů fialek).\n* **Výroba:** Patentovaná postupná macerace a následná single destilace v malých 25hL měděných kotlích.\n* **Profil:** Jemná vůně čerstvých květin a citrusů, která na patře přechází do výrazných tónů pepře a koření. Elegantní, kulatý a vytříbený závěr.",
+        "uk": "Українська **Citadelle Original: Піонер французького крафтового джину.** 🍸🇫🇷 Перший французький крафтовий джин, створений у 1996 році в самому серці Grande Champagne. Ідеальний баланс ялівцю, цитрусів та екзотичних прянощів. * **Основа:** Ягоди ялівцю вирощуються під максимальним контролем безпосередньо біля замку Château de Bonbonnet.\n* **Склад:** Пшеничний дистилят + 19 рослинних компонентів (серед яких кардамон, перець кубеба, райські зерна та пелюстки фіалки).\n* **Технологія:** Запатентована прогресивна мацерація та єдина дистиляція в малих 25-гектолітрових мідних кубах.\n* **Профіль:** Ніжний аромат свіжих квітів та цитрусів, який на піднебінні розкривається яскравими перцевими та пряними нотами. Елегантний, округлий та витончений посмак."
+      },
+      "poster_id": 486,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/553ad955-f45e-4324-b6be-6d2a9322b6c2-image.jpeg"
+    },
+    {
+      "slug": "del-maguey-mezcal-vida-40-ml-mexico",
+      "name": "Del Maguey Mezcal Vida 40 ml Mexico»",
+      "category": "tequila-and-mezcal",
+      "price": 400,
+      "popular": false,
+      "text": {},
+      "poster_id": 439,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/6df6fe2c-3171-42e3-81e3-ef83c0df7dcd-image.jpeg"
+    },
+    {
+      "slug": "montelobos-mezcal-artesanal-mexico",
+      "name": "Montelobos Mezcal artesanal Mexico",
+      "category": "tequila-and-mezcal",
+      "price": 385,
+      "popular": false,
+      "text": {},
+      "poster_id": 521,
+      "poster_photo": ""
+    },
+    {
+      "slug": "ole-smoky-mango-habanero-whiskey-35-usa",
+      "name": "Ole Smoky Mango Habanero Whiskey 35% USA",
+      "category": "whiskey",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "🇬🇧 ENGLISH 🔥 Ole Smoky Mango Habanero\nSweet tropical mango meets a sharp habanero kick.\nSmooth Tennessee whiskey with a slow-burning finish.\nDangerously drinkable. Unforgettable.",
+        "cs": "ČEŠTINA 🔥 Ole Smoky Mango Habanero\nSladké mango, ostrý dotek habanera.\nJemná whiskey z Tennessee s hřejivým dozvukem.\nNečekaná. Návyková.",
+        "uk": "УКРАЇНСЬКОЮ 🔥 Ole Smoky Mango Habanero\nСолодке манго й пекучий хабанеро.\nМ’який теннесійський віскі з довгим гарячим фінішем.\nСміливий смак, який запам’ятовується."
+      },
+      "poster_id": 473,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/991e69aa-12f9-4e6b-9c83-601442ecdd28-image.jpeg"
+    },
+    {
+      "slug": "laphroaig-oak-select-40-40-ml",
+      "name": "Laphroaig Oak Select 40% 40 ml",
+      "category": "whiskey",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "## 🇬🇧 English Intense, smoky, and complex. A perfect balance of peat smoke, medicinal notes, and sweet oak. Rich flavors of seaweed, vanilla, and a hint of spice, leading into a long, dry, and distinctly smoky finish. A versatile, signature peated base for our premium whiskey cocktails.",
+        "cs": "**Laphroaig Oak Select (40%)**\nA classic Islay single malt Scotch whisky matured in a selection of five distinct casks: Oloroso Sherry, American White Oak, Pedro Ximénez, Quarter Cask, and Bourbon. Čeština **Laphroaig Oak Select (40%)**\nKlasická Islay single malt skotská whisky zrající v pěti různých typech sudů: po Oloroso Sherry, americkém bílém dubu, Pedro Ximénez, Quarter Cask a Bourbonu. Intenzivní, kouřová a komplexní. Dokonalý balanc rašelinového kouře, medicínských tónů a sladkého dřeva. Bohatá chuť mořských řas, vanilky a jemného koření s dlouhým, suchým a výrazně kouřovým závěrem. Charakteristická rašelinová báze pro naše prémiové whisky koktejly.",
+        "uk": "Українська **Laphroaig Oak Select (40%)**\nКласичний односолодовий шотландський віскі з острова Айла, витриманий у п'яти різних типах бочок: з-під хересу Олоросо, американського білого дуба, Педро Хіменеса, Quarter Cask та бурбону. Інтенсивний, торф'яний та комплексний. Ідеальний баланс насиченого диму, медичних нот та солодкого дуба. Багатий смак морських водоростей, ванілі й легких прянощів із довгим, сухим та виразно димним фінішем. Характерна торф'яна база для наших преміальних коктейлів на віскі."
+      },
+      "poster_id": 488,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/3eb63ead-646b-4de2-b46b-99899b36fd7b-image.jpeg"
+    },
+    {
+      "slug": "bushmills-irish-single-malt-whisky-10yo-ireland",
+      "name": "Bushmills Irish single malt whisky 10YO Ireland",
+      "category": "whiskey",
+      "price": 255,
+      "popular": false,
+      "text": {},
+      "poster_id": 520,
+      "poster_photo": ""
+    },
+    {
+      "slug": "cachaca-magnifica-40-brasil",
+      "name": "Cachaca Magnifica 40% Brasil",
+      "category": "rum",
+      "price": 255,
+      "popular": false,
+      "text": {
+        "en": "## 🇬🇧 English Clean, vibrant, and aromatic with distinct notes of fresh tropical fruits, green grass, and a hint of spice. Taste the true vibrant energy of Brazil. Crafted using traditional copper pot stills, this premium Cachaça offers a remarkably smooth and crisp profile with rich sugarcane notes and a subtle herbaceous finish. The ultimate, authentic choice for a flawless, world-class Caipirinha.",
+        "cs": "**Cachaça Magnífica Tradicional (40%)**\nAn authentic, premium Brazilian spirit distilled from fresh sugarcane juice and aged in traditional Ipê wood casks. Čeština **Cachaça Magnífica Tradicional (40%)**\nAutentický, prémiový brazilský destilát z čerstvé šťávy cukrové třtiny, stařený v tradičních sudech ze dřeva Ipê. Čistá, živá a aromatická chuť s výraznými tóny tropického ovoce, zelené trávy a jemného koření. Zažijte skutečnou energii Brazílie. Tato prémiová Cachaça, vyráběná tradiční destilací v měděných kotlích, nabízí mimořádně jemný a svěží profil s bohatou chutí cukrové třtiny a lehkým bylinným závěrem. Naprosto autentická volba pro dokonalou a prvotřídní Caipirinhu.",
+        "uk": "Українська **Cachaça Magnífica Tradicional (40%)**\nАвтентичний преміальний бразильський міцний напій із чистого соку цукрової тростини, витриманий у традиційних бочках із дерева Іпе. Чистий, яскравий та ароматний смак із виразними нотами тропічних фруктів, свіжої трави та легких прянощів. Відчуйте справжню енергію Бразилії. Ця преміальна кашаса, створена шляхом традиційної дистиляції в мідних кубах, має надзвичайно м'який та освіжаючий профіль із насиченими тростинними тонами та легким трав'янистим посмаком. Ідеальний та автентичний вибір для бездоганної Кайпіріньї світового рівня."
+      },
+      "poster_id": 365,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/1c5b3cbb-16d7-4b75-99b6-cb900b098435-image.jpeg"
+    },
+    {
+      "slug": "tiki-lovers-pineapple",
+      "name": "Tiki Lovers Pineapple",
+      "category": "rum",
+      "price": 255,
+      "popular": false,
+      "text": {
+        "en": "## 🇬🇧 English **Tiki Lovers Pineapple (45%)**\nA premium Caribbean rum blend created in Germany by the founders of *The Bitter Truth*. It combines heavy, funk-forward Jamaican pot still rums with select spirits from Barbados, Trinidad, and Guyana, naturally infused with real South American pineapple extract. An uncompromising spirit crafted for true complexity. This exceptional blend brings together the finest Caribbean rums, meticulously married and bottled in Germany. Infused purely with 100% natural South American pineapple extract—completely free from artificial syrups—it delivers an authentic, bold tropical punch balanced by a powerful sugarcane body and complex esters.",
+        "cs": "Čeština **Tiki Lovers Pineapple (45%)**\nPrémiový blend karibských rumů vytvořený v Německu zakladateli značky *The Bitter Truth*. Kombinuje těžké jamajské pot still rumy se spiritis z Barbadosu, Trinidadu a Guyany, přirozeně infuzované reálným extraktem z jihoamerických ananasů. Nekompromisní rum stvořený pro skutečnou komplexnost chuti. Tento jedinečný blend spojuje nejlepší karibské destiláty, které se míchají a lahvují v Německu. Díky infuzi 100% přírodního ananasového extraktu z Jižní Ameriky — bez jakýchkoli umělých sirupů — nabízí autentickou chuť zralého ovoce vyváženou silným tělem a divokým charakterem.",
+        "uk": "Українська **Tiki Lovers Pineapple (45%)**\nПреміальний купаж карибських ромів, створений у Німеччині засновниками бренду *The Bitter Truth*. Поєднує важкі ямайські роми кубової дистиляції зі спиртами з Барбадосу, Тринідаду та Гаяни, природно настояними на справжньому екстракті південноамериканського ананаса. Безкомпромісний алкоголь, створений задля справжньої глибини смаку. Цей унікальний бленд об'єднує найкращі карибські спирти, які змішуються та розливаються в Німеччині. Завдяки настоюванню на 100% натуральному екстракті південноамериканського ананаса — без жодних штучних сиропів чи хімії — напій вибухає автентичним тропічним смаком та потужним міцним характером."
+      },
+      "poster_id": 435,
+      "poster_photo": "https://img.postershop.me/14649/34311bac-2a18-4168-bdd0-58e88f903912_image.jpeg"
+    },
+    {
+      "slug": "cargo-cult-banana-spiced-rum-38",
+      "name": "Cargo Cult Banana Spiced Rum 38 %",
+      "category": "rum",
+      "price": 305,
+      "popular": false,
+      "text": {},
+      "poster_id": 449,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/3d0e535c-78e6-4bf8-96a7-82bbbe5a86af-image.jpeg"
+    },
+    {
+      "slug": "centenario-anejo-aged-9yo-costa-rican-rum-40-40-ml",
+      "name": "Centenario „ Aňejo ” aged 9Yo Costa Rican rum 40%  40 ml",
+      "category": "rum",
+      "price": 285,
+      "popular": false,
+      "text": {
+        "en": "## 🇬🇧 English **Ron Centenario Añejo 9 YO (40%)**\nA premium Costa Rican rum aged for 9 years in select oak barrels. Smooth and sweet with a well-balanced profile of rich caramel, vanilla, and soft oak notes. Discover the pure taste of Costa Rica. Aged for 9 years in the tropical climate, this exceptional rum offers a rich, sweet character packed with notes of brown sugar, vanilla, and a touch of spice. Perfect for slow sipping or enhancing premium drinks.",
+        "cs": "Čeština **Ron Centenario Añejo 9 YO (40%)**\nPrémiový kostarický rum stařený 9 let v lanyžových dubových sudech. Jemný a sladký s dokonale vyváženým profilem bohatého karamelu, vanilky a jemných tónů dřeva. Objevte čistou chuť Kostariky. Tento výjimečný rum, stařený 9 let v tropickém klimatu, nabízí bohatý, sladký charakter s výraznými tóny třtinového cukru, vanilky a jemného koření. Ideální k pomalému popíjení nebo do prémiových drinků.",
+        "uk": "Українська **Ron Centenario Añejo 9 YO (40%)**\nПреміальний костариканський ром, витриманий протягом 9 років у відбірних дубових бочках. М'який та солодкий, із чудово збалансованим профілем насиченої карамелі, ванілі та легких нот дуба. Відкрийте для себе чистий смак Коста-Ріки. Цей винятковий ром, витриманий 9 років у тропічному кліматі, має багатий, солодкий характер із виразними нотами тростинного цукру, ванілі та легких прянощів. Ідеально підходить для смакування в чистому вигляді або як основа для преміальних міксів."
+      },
+      "poster_id": 491,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/a6743a56-51c7-48fb-9c7e-95c14d700f77-image.jpeg"
+    },
+    {
+      "slug": "platation-aged-dark-barbados-40-40-ml",
+      "name": "Platation Aged  Dark Barbados 40% 40 ml",
+      "category": "rum",
+      "price": 255,
+      "popular": false,
+      "text": {},
+      "poster_id": 492,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/8c700fda-d06d-44ec-99f0-72fee0ce7725-image.jpeg"
+    },
+    {
+      "slug": "flor-de-cana-extra-dry-rum-4y",
+      "name": "FLOR DE CANA EXTRA DRY RUM 4y",
+      "category": "rum",
+      "price": 225,
+      "popular": false,
+      "text": {
+        "en": "## 🇬🇧 English **Flor de Caña Extra Seco 4 YO (40%)**\nA premium, crystal-clear light Nicaraguan rum naturally aged for 4 years and charcoal-filtered for ultimate smoothness. Light-bodied, dry, and clean with subtle notes of vanilla, sweet almonds, and white chocolate. Sustainably crafted at the base of an active volcano, this 4-year-old white rum is completely sugar-free yet remarkably smooth. Its dry and crisp profile features delicate hints of vanilla and toasted coconut, making it the ultimate clean base for refreshing summer serves and premium mixers.",
+        "cs": "Čeština **Flor de Caña Extra Seco 4 YO (40%)**\nPrémiový, křišťálově čistý lehký nikaragujský rum, přirozeně stařený 4 roky a filtrovaný přes dřevěné uhlí pro maximální jemnost. Lehké tělo, suchý a čistý profil s jemnými tóny vanilky, sladkých mandlí a bílé čokolády. Tento čtyřletý bílý rum, vyrobený udržitelným způsobem na úpatí aktivní sopky, neobsahuje žádný přidaný cukr, a přesto je výjimečně jemný. Jeho suchý a svěží charakter s elegantními podtóny vanilky a kokosu z něj dělá dokonalý, čistý základ pro osvěžující letní drinky a prémiové mixy.",
+        "uk": "Українська **Flor de Caña Extra Seco 4 YO (40%)**\nПреміальний, кришталево прозорий легкий нікарагуанський ром, витриманий протягом 4 років та відфільтрований через деревне вугілля для максимальної м'якості. Легке тіло, сухий і чистий смак із тонкими нотами ванілі, солодкого мигдалю та білого шоколаду. Створений екологічним способом біля підніжжя діючого вулкана, цей 4-річний білий ром взагалі не містить цукру, але вражає своєю м'якістю. Його сухий, освіжаючий профіль із делікатними натяками на ваніль та кокос робить його ідеальною чистою основою для освіжаючих літніх міксів та преміальних лонг-дрінків."
+      },
+      "poster_id": 499,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/f125a644-455f-45ec-ab01-42b75c6c2d16-image.jpeg"
+    },
+    {
+      "slug": "lustau-amontilado-jerez-40-ml-spain",
+      "name": "Lustau Amontilado Jerez ,40 ml Spain",
+      "category": "aperitivo",
+      "price": 165,
+      "popular": false,
+      "text": {},
+      "poster_id": 352,
+      "poster_photo": "https://img.postershop.me/14649/6ad80308-bd4d-4502-a2a7-66f3fa20d736_image.webp"
+    },
+    {
+      "slug": "picon-aperitif-40-ml-18-abv-france",
+      "name": "Picon (apéritif) 40 ml 18 % ABV France",
+      "category": "aperitivo",
+      "price": 225,
+      "popular": false,
+      "text": {
+        "cs": "Picon is a caramel-coloured, flavoured bitters[1] drunk as an apéritif, which traditionally accompanies beer in the east and north of France. Picon je karamelová hořká limonáda, která se pije jako aperitiv a tradičně se podává k pivu na východě a severu Francie.\nVyrábí se ze základu čerstvých pomerančů, které se usuší a smíchají s roztokem destilovaného alkoholu. Picon také obsahuje hořec a chininovku ve stejném množství.",
+        "en": "It is made from a base of fresh oranges which are dried and mixed with a solution of alcohol which is distilled. Picon also contains gentian and Cinchona in equal measures.",
+        "uk": "Пікон — це карамельний гіркий напій, який п'ють як аперитив і традиційно подають до пива на сході та півночі Франції.\nЙого виготовляють з основи зі свіжих апельсинів, які висушують та змішують з розчином дистильованого спирту. Пікон також містить тирлич та хінну траву в рівних кількостях."
+      },
+      "poster_id": 419,
+      "poster_photo": "https://img.postershop.me/14649/9bb47664-27b7-409e-b6b3-4502315910b8_image.jpeg"
+    },
+    {
+      "slug": "portwein-grahams-tawny-40ml",
+      "name": "PORTWEIN GRAHAMS TAWNY 40ml",
+      "category": "porto",
+      "price": 175,
+      "popular": false,
+      "text": {},
+      "poster_id": 48,
+      "poster_photo": "https://img.postershop.me/14649/Products/3949812_1694108419.9529_original.jpg"
+    },
+    {
+      "slug": "white-wine-200ml-italy",
+      "name": "White wine 200ml Italy",
+      "category": "wine",
+      "price": 200,
+      "popular": false,
+      "text": {},
+      "poster_id": 320,
+      "poster_photo": ""
+    },
+    {
+      "slug": "jaume-serra-cava-brut-200-ml-spain",
+      "name": "Jaume Serra Cava Brut 200 ml Spain",
+      "category": "wine",
+      "price": 200,
+      "popular": false,
+      "text": {},
+      "poster_id": 369,
+      "poster_photo": "https://img.postershop.me/14649/a57a3fbc-fa29-4198-b944-49c65a87197e_image.jpeg"
+    },
+    {
+      "slug": "graham-s-tawny-porto-10yo",
+      "name": "Graham's Tawny Porto 10YO",
+      "category": "wine",
+      "price": 275,
+      "popular": false,
+      "text": {},
+      "poster_id": 447,
+      "poster_photo": ""
+    },
+    {
+      "slug": "cynar-40ml-italy",
+      "name": "Cynar 40ml Italy",
+      "category": "liquor",
+      "price": 195,
+      "popular": false,
+      "text": {
+        "en": "The spirit's name comes from cynarin, an acid found in artichokes believed to aid digestion. Any actual artichoke flavor is subtle, though. Cynar's flavor vegetal, earthy, bitter, herbaceous yet sweet.",
+        "cs": "Jméno ducha pochází z cynarinu, kyseliny obsažené v artyčokech, o kterých se předpokládá, že napomáhá trávení. Jakákoli skutečná chuť artyčoku je však jemná. Chuť Cynar je rostlinná, zemitá, hořká, bylinná a přesto sladká.",
+        "uk": "Назва алкоголю походить від цинарину, кислоти, яка міститься в артишоках, і вважається, що вона сприяє травленню. Однак будь-який справжній смак артишоку є тонким. Смак Cynar рослинний, земляний, гіркий, трав'янистий, але солодкий."
+      },
+      "poster_id": 252,
+      "poster_photo": "https://img.postershop.me/14649/90180c28-0fa0-4d1e-85fc-205f22f8c770_image.jpeg"
+    },
+    {
+      "slug": "amaretto-adriatico-roasted-28-alc-40ml-italy",
+      "name": "AMARETTO ADRIATICO ROASTED/ 28% Alc/ 40ml Italy",
+      "category": "liquor",
+      "price": 295,
+      "popular": false,
+      "text": {
+        "en": "ADRIATICO is a new generation of amaretto liqueurs made with real almonds from Puglia - Italy. Certifikace VEGAN OK",
+        "cs": "Roasted &amp; distilled « Filippo Cea » almonds from PugliaUnique liqueur made with natural ingredientsLess sweet compared to traditional amaretto liqueursCoffee and cinnamon infusionsA pinch of sea salt from the Adriatic seaVEGAN OK CertificationMultiple award winner liqueur\nADRIATICO je nová generace likérů amaretto vyrobených z pravých mandlí z Apulie - Itálie. Pražené a destilované mandle « Filippo Cea » z Puglie Jedinečný likér vyrobený z přírodních ingrediencí Méně sladké ve srovnání s tradičními likéry amaretto Kávové a skořicové nálevy Špetka mořské soli z Jaderského moře Mnohonásobně oceněný likér",
+        "uk": "ADRIATICO - нове покоління лікерів амаретто, виготовлених зі справжнього мигдалю з Апулії - Італія. Смажений і дистильований мигдаль «Filippo Cea» з Апулії Унікальний лікер, виготовлений з натуральних інгредієнтів Менш солодкий у порівнянні з традиційними лікерами амаретто Настої кави та кориці Щіпка морської солі з Адріатичного моря Сертифікація VEGAN OK"
+      },
+      "poster_id": 326,
+      "poster_photo": "https://img.postershop.me/14649/e56829ec-51a3-4288-b510-3056346d5a10_image.jpeg"
+    },
+    {
+      "slug": "grande-absente",
+      "name": "Grande Absente",
+      "category": "liquor",
+      "price": 255,
+      "popular": false,
+      "text": {},
+      "poster_id": 471,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/e638044f-b1fd-4f9b-9729-ed6666eafe03-image.jpeg"
+    },
+    {
+      "slug": "mozart-white-chocolate-40ml-austria",
+      "name": "Mozart White Chocolate 40ml Austria",
+      "category": "liquor",
+      "price": 255,
+      "popular": false,
+      "text": {},
+      "poster_id": 416,
+      "poster_photo": "https://img.postershop.me/14649/44245e3a-17c4-443a-9a42-8d1e404d08b5_image.jpeg"
+    },
+    {
+      "slug": "drambuie-the-isle-of-skye-liqueur-40ml-scotland",
+      "name": "Drambuie The Isle of Skye Liqueur   40ml Scotland",
+      "category": "liquor",
+      "price": 245,
+      "popular": false,
+      "text": {},
+      "poster_id": 427,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/2ac0351a-f038-48a8-bd9f-b9194b3ab1c4-image.jpeg"
+    },
+    {
+      "slug": "ancho-reyes-verde-40-40-ml-mexico",
+      "name": "Ancho Reyes Verde 40% 40 ml Mexico",
+      "category": "liquor",
+      "price": 310,
+      "popular": false,
+      "text": {},
+      "poster_id": 437,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/3ad9dada-4a79-4974-a455-244e0a597c83-image.jpeg"
+    },
+    {
+      "slug": "ole-smoky-butter-pecan-17-5-moonshine-usa",
+      "name": "Ole Smoky Butter Pecan 17.5% Moonshine USA",
+      "category": "liquor",
+      "price": 255,
+      "popular": false,
+      "text": {
+        "en": "🇬🇧 ENGLISH 🥃 Ole Smoky Butter Pecan Moonshine\nRich roasted pecans, silky sweetness, Southern soul.\nCreamy, smooth, dangerously easy to love.\nDessert — with an attitude.",
+        "cs": "ČEŠTINA 🥃 Ole Smoky Butter Pecan Moonshine\nPražené pekany, máslová sladkost, americký jih.\nKrémový, hladký, svůdně jednoduchý.\nTekutý dezert.",
+        "uk": "УКРАЇНСЬКОЮ 🥃 Ole Smoky Butter Pecan Moonshine\nСмажений пекан, вершкова солодкість, дух Півдня.\nНіжний, оксамитовий, небезпечно смачний.\nДесерт у склянці."
+      },
+      "poster_id": 474,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/12b97e42-c429-4386-bbab-4c42825ecefd-image.jpeg"
+    },
+    {
+      "slug": "ole-smoky-butterscotch-20-usa",
+      "name": "Ole Smoky Butterscotch 20% USA",
+      "category": "liquor",
+      "price": 255,
+      "popular": false,
+      "text": {},
+      "poster_id": 475,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/6ccb2f9a-6ce0-4cc7-9e8a-d958f14a1f12-image.jpeg"
+    },
+    {
+      "slug": "hayman-s-sloe-gin-26-40-ml-united-kingdom",
+      "name": "Hayman's Sloe Gin 26% 40 ml United Kingdom",
+      "category": "liquor",
+      "price": 295,
+      "popular": false,
+      "text": {
+        "en": "🇬🇧 English Hayman’s Sloe Gin (26%)\nA traditional English liqueur. Wild sloe berries steeped in classic London Dry Gin for 4 months. Rich, fruity, and perfectly balanced with a touch of natural sugar. Wild English sloe berries + 4 months of steeping in London Dry Gin = the perfect balance of rich fruit and classic botanicals. Discover the taste of tradition in every sip. 🍒✨ Ochutnejte tradici. 🍒vl",
+        "cs": "Čeština Hayman’s Sloe Gin (26%)\nTradiční anglický likér. Divoké trnky infuzované v London Dry Ginu po dobu 4 měsíců. Bohatá ovocná chuť s jemným dotekem přírodního cukru. Instagram Cap\nDivoké anglické trnky a 4 měsíce trpělivého macerování v prvotřídním London Dry Ginu. Výsledkem je dokonale vyvážený, bohatý ovocný likér s britským rodokmenem.",
+        "uk": "Українська\nOnline Menu\nHayman’s Sloe Gin (26%)\nТрадиційний англійський лікер. Дикі ягоди терену, що настоюються на класичному London Dry Gin протягом 4 місяців. Багатий фруктовий смак із легким натяком на природний цукор. Дикий англійський терен та 4 місяці витримки у класичному London Dry Gin. Результат? Ідеальний баланс насиченого фруктового смаку та британських традицій у вашому келиху. Спробуйте класику в новій формі. 🍒🍸"
+      },
+      "poster_id": 503,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/b99d5cc7-8394-43cf-93e6-1be2e5722de0-image.jpeg"
+    },
+    {
+      "slug": "southern-comfort-whisky-liqueur-40-ml-usa",
+      "name": "SOUTHERN COMFORT WHISKY LIQUEUR 40 ml USA",
+      "category": "liquor",
+      "price": 245,
+      "popular": false,
+      "text": {
+        "en": "## 🇬🇧 English **Southern Comfort (35%)**\nA unique, sweet American liqueur blending whiskey with fruit and spice accents. Distinct notes of sweet stone fruits, peach, orange, and warm vanilla. The spirit of New Orleans. Southern Comfort is a smooth, sweet, and unique blend of whiskey, fruit, and spice flavors. A timeless classic with bold notes of sweet peach, apricot, and vanilla that goes perfectly on the ice or in your favorite cocktails.",
+        "cs": "Čeština **Southern Comfort (35%)**\nUnikátní, sladký americký likér kombinující chuť whiskey, ovoce a koření. Výrazné tóny sladkých peckovin, broskví, pomeranče a hřejivé vanilky. Atmosféra New Orleans v každém doušku. Southern Comfort přináší dokonale jemnou, sladkou a jedinečnou kombinaci whiskey, ovocných tónů a koření. Nadčasová klasika s bohatou chutí sladkých broskví, meruněk a vanilky, která skvěle chutná na ledu i v koktejlech.",
+        "uk": "Українська **Southern Comfort (35%)**\nУнікальний, солодкий американський лікер, що поєднує в собі ноти віскі, фруктів та спецій. Виразні тони солодких кісточкових фруктів, персика, апельсина та теплої ванілі. Дух Нового Орлеана у вашому келиху. Southern Comfort — це м'який, солодкий та неповторний мікс нот віскі, фруктів і прянощів. Вічна класика з яскравим акцентом солодкого персика, абрикоса та ванілі, яка ідеально смакує чистою з льодом або в основі коктейлів."
+      },
+      "poster_id": 506,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/b2456217-e772-475a-8d5c-562bf520e383-image.jpeg"
+    },
+    {
+      "slug": "pelinkovac-th-tonic",
+      "name": "Pelinkovac+TH Tonic",
+      "category": "liquor",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "Pelinkovac is a traditional Balkan herbal liqueur (digestif/bitter) made from wormwood and a blend of aromatic herbs. It is famous for its distinct herbal aroma, rich bitterness, and subtle sweet finish. Type: Herbal Liqueur / Bitter (Digestif) Key Ingredient: Wormwood (Artemisia absinthium) + selected herbs Flavor Profile: Bold herbal bitterness balanced with light sweetness, citrus zest, and spice notes Serving Suggestion: Serve well-chilled as a shot, on the rocks with a slice of lemon or lime, or mixed with tonic/cola",
+        "cs": "Čeština\nPelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráběný z pelyňku a směsi aromatických bylin. Выznačuje se výraznou bylinnou vůní, charakteristickou hořkostí a jemně sladkým dozvukem. Typ nápoje: Bylinný likér / Hořká (Digestiv) Hlavní složka: Pelyněk (Artemisia absinthium) + směs horských bylin Chuťový profil: Výrazně bylinně hořký, vyvážený jemnou sladkostí с tóny citrusové kůry a koření Doporučení к podávání: Podávejte dobře vychlazené samostatně, s ledem a plátkem citronu nebo limetky, případně v kombinaci s tonikem či colou",
+        "uk": "Українська\nПелинковаць (Pelinkovac) — популярний балканський гіркий лікер (аперитив) на основі полину та суміші духмяних трав. Поєднує глибокий трав'яний аромат, насичену гіркоту та легку солодкість у посмаку. Тип напою: Трав'яний лікер / Бітер (Аперитив) Основний інгредієнт: Полин (Artemisia absinthium) + комплекс гірських трав Смак: Виражений гіркувато-трав'яний, із нотами полину, цитрусової цедри та прянощів Як споживати: Охолодженим у чистому вигляді, з льодом та скибочкою лимона/лайма, або в міксах із тоніком"
+      },
+      "poster_id": 515,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/33455a93-eb77-4ac6-bc06-eb7d2c9f6ad8-image.jpeg"
+    },
+    {
+      "slug": "nemiroff-original-40-40-ukraine",
+      "name": "Nemiroff  Original  40% 40 Ukraine",
+      "category": "vodka",
+      "price": 225,
+      "popular": false,
+      "text": {},
+      "poster_id": 496,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/e84f8515-220f-414c-9172-39d771a6bd2e-image.png"
+    },
+    {
+      "slug": "nemiroff-delikat-40-40-ml-ukraine",
+      "name": "Nemiroff Delikat 40% 40 ml Ukraine",
+      "category": "vodka",
+      "price": 225,
+      "popular": false,
+      "text": {},
+      "poster_id": 497,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/8a311f9a-1117-471b-ae1a-a5c4838be43a-image.png"
+    },
+    {
+      "slug": "ararat-5-yo-40-40-ml-armenia",
+      "name": "Ararat 5 YO, 40% 40 ml Armenia",
+      "category": "brandy",
+      "price": 255,
+      "popular": false,
+      "text": {},
+      "poster_id": 258,
+      "poster_photo": "https://img.postershop.me/14649/34dadb5c-5222-4649-8cca-6e6347accded_image.png"
+    },
+    {
+      "slug": "martell-vs-0-7l-40-40-ml-france",
+      "name": "Martell VS 0,7l 40% 40 ml France",
+      "category": "brandy",
+      "price": 299,
+      "popular": false,
+      "text": {},
+      "poster_id": 501,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/098b718b-edeb-4163-bd56-5792cf7eb3ab-image.jpeg"
+    },
+    {
+      "slug": "pilsner-urquell-0-33l",
+      "name": "Pilsner Urquell 0,33l",
+      "category": "beer-and-cider",
+      "price": 155,
+      "popular": false,
+      "text": {},
+      "poster_id": 367,
+      "poster_photo": "https://img.postershop.me/14649/19541ad5-f1ae-485a-8b4e-4249361ee56f_image.jpeg"
+    },
+    {
+      "slug": "coffe-tea",
+      "name": "COFFE /TEA",
+      "category": "cold-and-hot-beverage",
+      "price": 60,
+      "popular": false,
+      "text": {},
+      "poster_id": 51,
+      "poster_photo": "https://img.postershop.me/14649/df987de1-96e9-4fe8-b8a7-c6bdf85ff67a_image.png"
+    },
+    {
+      "slug": "tomas-henry-tonic-100ml",
+      "name": "TOMAS HENRY TONIC 100ML",
+      "category": "cold-and-hot-beverage",
+      "price": 75,
+      "popular": false,
+      "text": {},
+      "poster_id": 19,
+      "poster_photo": "https://img.postershop.me/14649/1df77411-3343-4830-a66e-b5d08bd1ee33_image.png"
+    },
+    {
+      "slug": "tomas-henry-tonic-botle",
+      "name": "TOMAS HENRY TONIC BOTLE",
+      "category": "cold-and-hot-beverage",
+      "price": 99,
+      "popular": false,
+      "text": {},
+      "poster_id": 18,
+      "poster_photo": "https://img.postershop.me/14649/0c741388-0533-4152-8b23-b5023c53594f_image.png"
+    },
+    {
+      "slug": "coca-cola",
+      "name": "Coca Cola",
+      "category": "cold-and-hot-beverage",
+      "price": 99,
+      "popular": false,
+      "text": {},
+      "poster_id": 76,
+      "poster_photo": "https://img.postershop.me/14649/27bbd9d5-5202-4a04-a395-114ff711e7e7_image.jpeg"
+    },
+    {
+      "slug": "non-alcoholic-nogroni",
+      "name": "NON-ALCOHOLIC NOGRONI",
+      "category": "non-alcohol-cocktail",
+      "price": 319,
+      "popular": false,
+      "text": {
+        "en": "NON-ALCOHOLIC NEGRONI A sophisticated alcohol-free take on the classic Negroni. Bitter orange, herbal notes and a dry, bittersweet finish.",
+        "cs": "Elegantní nealkoholická variace na klasické Negroni. Hořký pomeranč, bylinné tóny a suchý, hořkosladký závěr.",
+        "uk": "Вишукана безалкогольна версія класичного Negroni. Гіркий апельсин, трав’янисті ноти та сухий, гіркувато-солодкий післясмак."
+      },
+      "poster_id": 522,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/10b65840-316d-44c2-923e-a5e879d3de63-image.jpeg"
+    },
+    {
+      "slug": "whisky-sour-0-0",
+      "name": "WHISKY SOUR 0.0",
+      "category": "non-alcohol-cocktail",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "WHISKY SOUR 0.0 A silky alcohol-free Whisky Sour with notes of oak, vanilla and caramel, balanced by fresh lemon and aromatic bitters.",
+        "cs": "Sametová nealkoholická variace na Whisky Sour s tóny dubu, vanilky a karamelu, vyvážená čerstvým citronem a aromatickými bitters.",
+        "uk": "Оксамитова безалкогольна версія Whisky Sour з нотами дуба, ванілі та карамелі, збалансована свіжим лимоном та ароматичними bitters."
+      },
+      "poster_id": 523,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/915ab5cc-1fb8-4401-83d8-547812ddcdd4-image.jpeg"
+    },
+    {
+      "slug": "daiquiri-0-0",
+      "name": "DAIQUIRI 0.0",
+      "category": "non-alcohol-cocktail",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "A clean and refreshing alcohol-free Daiquiri. Tropical rum notes meet fresh lime for a bright, crisp finish.",
+        "cs": "Čistá a osvěžující nealkoholická variace na Daiquiri. Tropické tóny rumu se spojují s čerstvou limetou a vytvářejí svěží, čistý závěr.",
+        "uk": "Чиста та освіжаюча безалкогольна версія Daiquiri. Тропічні ноти рому поєднуються зі свіжим лаймом, створюючи яскравий та свіжий післясмак."
+      },
+      "poster_id": 524,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/defbca12-cc7c-496e-8e98-d8538c59fc49-image.jpeg"
+    },
+    {
+      "slug": "gin-basil-smash-0-0",
+      "name": "GIN BASIL SMASH 0.0",
+      "category": "non-alcohol-cocktail",
+      "price": 299,
+      "popular": false,
+      "text": {
+        "en": "A vibrant alcohol-free Gin & Tonic with fresh lemon and basil. Crisp, botanical and intensely refreshing.",
+        "cs": "Výrazná nealkoholická variace na Gin & Tonic s čerstvým citronem a bazalkou. Svěží, bylinná a intenzivně osvěžující.",
+        "uk": "Яскрава безалкогольна версія Gin & Tonic зі свіжим лимоном і базиліком. Свіжа, ботанічна та надзвичайно освіжаюча."
+      },
+      "poster_id": 525,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/c502f563-d962-478a-9717-a572e2e71eee-image.jpeg"
+    },
+    {
+      "slug": "bitter-orange-highball",
+      "name": "BITTER ORANGE HIGHBALL",
+      "category": "non-alcohol-cocktail",
+      "price": 319,
+      "popular": false,
+      "text": {
+        "en": "BITTER ORANGE HIGHBALL A bright and refreshing highball with bitter orange, herbal vermouth and premium tonic. Dry, complex and pleasantly bitter.",
+        "cs": "Svěží highball s hořkým pomerančem, bylinným nealkoholickým vermutem a prémiovým tonikem. Suchý, komplexní a příjemně hořký.",
+        "uk": "Освіжаючий хайбол з гірким апельсином, трав’янистим безалкогольним вермутом і преміальним тоніком. Сухий, комплексний і приємно гіркий."
+      },
+      "poster_id": 526,
+      "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/677415fb-d777-4351-8666-f96d70e2e116-image.jpeg"
+    }
+  ]
+}
