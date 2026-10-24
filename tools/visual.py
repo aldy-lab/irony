@@ -124,6 +124,13 @@ def capture(pw, name, path, width, height) -> Path:
     page.add_style_tag(
         content="html{scroll-behavior:auto!important} *{animation:none!important;"
         "transition:none!important}"
+        # content-visibility: auto lets Chromium skip rendering what it judges
+        # to be off screen, and in a capture that judgement is not stable: the
+        # same build drew the New badges in one CI run and not in the next, so
+        # the baselines failed against renders of themselves. A picture of the
+        # whole document has to contain the whole document.
+        "*{content-visibility:visible!important;"
+        "contain-intrinsic-size:auto!important}"
     )
     page.evaluate(
         "document.querySelectorAll('[data-reveal]')"
