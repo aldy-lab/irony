@@ -378,15 +378,35 @@ def search_text(product: dict, cats: dict) -> str:
 NEW_FOR_DAYS = 30
 
 
+# Set from the catalogue's own newest `added` date, once, at the start of a
+# build. Measuring "new" against today made the generated HTML depend on the
+# day it was generated: a badge that was on a card in September was gone in
+# October, so the committed pages drifted from the build and the approved
+# screenshots failed on their own, with nobody having changed anything. A
+# shelf is new relative to the rest of the shelf, not to the calendar.
+NEWEST_ADDED: date | None = None
+
+
+def set_new_window(products: list) -> None:
+    global NEWEST_ADDED
+    dates = []
+    for product in products:
+        try:
+            dates.append(datetime.strptime(product["added"], "%Y-%m-%d").date())
+        except (KeyError, TypeError, ValueError):
+            continue
+    NEWEST_ADDED = max(dates) if dates else None
+
+
 def is_new(product: dict) -> bool:
     added = product.get("added")
-    if not added:
+    if not added or NEWEST_ADDED is None:
         return False
     try:
         when = datetime.strptime(added, "%Y-%m-%d").date()
     except ValueError:
         return False
-    return (date.today() - when).days <= NEW_FOR_DAYS
+    return (NEWEST_ADDED - when).days <= NEW_FOR_DAYS
 
 
 def card(product: dict, cats: dict, base: str, order: int) -> str:
@@ -856,6 +876,7 @@ def build():
     site = load("site.json")
     catalogue = load("catalogue.json")
     validate(site, catalogue)
+    set_new_window(catalogue["products"])
     write_mark_css()
     cats = {c["slug"]: c for c in catalogue["categories"]}
     # Retired bottles keep their page — a link that has been shared, printed or

@@ -95,17 +95,45 @@ class OpeningHours(unittest.TestCase):
 
 
 class New(unittest.TestCase):
-    def test_recent_is_new(self):
-        recent = (date.today() - timedelta(days=3)).isoformat()
-        self.assertTrue(build.is_new({"added": recent}))
+    """"New" is measured against the newest bottle on the shelf, not today.
 
-    def test_old_is_not(self):
-        old = (date.today() - timedelta(days=200)).isoformat()
-        self.assertFalse(build.is_new({"added": old}))
+    Measuring it against today made the generated HTML depend on the day it
+    was generated: a badge present in September was gone in October, so the
+    committed pages drifted from the build and the approved screenshots
+    failed on their own with nobody having touched anything.
+    """
+
+    def setUp(self):
+        self.shelf = [
+            {"added": "2026-09-21"},
+            {"added": "2026-09-01"},
+            {"added": "2026-03-01"},
+            {"added": None},
+        ]
+        build.set_new_window(self.shelf)
+
+    def test_the_newest_is_new(self):
+        self.assertTrue(build.is_new({"added": "2026-09-21"}))
+
+    def test_within_the_window_of_the_newest_is_new(self):
+        self.assertTrue(build.is_new({"added": "2026-09-01"}))
+
+    def test_older_than_the_window_is_not(self):
+        self.assertFalse(build.is_new({"added": "2026-03-01"}))
+
+    def test_the_answer_does_not_change_with_the_calendar(self):
+        first = [build.is_new(p) for p in self.shelf if p.get("added")]
+        build.set_new_window(self.shelf)
+        self.assertEqual(first, [build.is_new(p) for p in self.shelf
+                                 if p.get("added")])
 
     def test_missing_or_broken_dates_are_not_new(self):
         self.assertFalse(build.is_new({}))
         self.assertFalse(build.is_new({"added": "last Tuesday"}))
+
+    def test_a_shelf_with_no_dates_has_nothing_new(self):
+        build.set_new_window([{"name": "x"}])
+        self.assertFalse(build.is_new({"added": "2026-09-21"}))
 
 
 class Escaping(unittest.TestCase):
