@@ -30,8 +30,15 @@ ROOT = Path(__file__).resolve().parent.parent
 # make on purpose, which is the entire point of writing them down.
 BUDGET_KB = {
     "index.html": 10,
+    # 77 drinks with a description in three languages. Heavier than any other
+    # page here and deliberately so: it is one request, read at a table on bar
+    # wifi, and splitting it would cost a round trip per category.
+    "menu/index.html": 26,
     "shop/single-malt-10.html": 8,
-    "css/main.css": 14,
+    # Raised from 14 when the menu arrived: a dark ground, a language switch,
+    # a sticky section strip and the drink setting are a page's worth of rules
+    # on their own. 1.5 KB of dead .hero block went in the same pass.
+    "css/main.css": 16,
     "js/main.js": 9,
 }
 

@@ -447,6 +447,62 @@ def grid(products: list, cats: dict, base: str) -> str:
 # ---------------------------------------------------------------------------
 
 
+
+# ---------------------------------------------------------------------------
+# The bar's menu, as a guest meets it: on a phone, in a dim room, needing one
+# language rather than all three at once.
+# ---------------------------------------------------------------------------
+
+LANGS = ("en", "cs", "uk")
+
+
+def drink_note(product: dict) -> str:
+    """A drink's description, every language present, one shown at a time."""
+    parts = []
+    for code in LANGS:
+        text = (product.get("text") or {}).get(code, "").strip()
+        if text:
+            parts.append(f'<span lang="{code}">{esc(text)}</span>')
+    if not parts:
+        return ""
+    return f'<p class="drink__note" data-i18n>{"".join(parts)}</p>'
+
+
+def drink(product: dict) -> str:
+    price = money(product["price"]) if product.get("price") else ""
+    flag = ('<span class="drink__flag" aria-hidden="true"></span>'
+            if product.get("popular") else "")
+    return f"""<li class="drink" id="d-{esc(product['slug'])}">
+  <p class="drink__line">
+    <span class="drink__name">{esc(product['name'])}{flag}</span>
+    <span class="drink__rule" aria-hidden="true"></span>
+    <span class="drink__price">{price}</span>
+  </p>
+  {drink_note(product)}
+</li>"""
+
+
+def menu_sections(menu: dict) -> tuple:
+    """One section per category, and the list that jumps between them."""
+    jump, sections = [], []
+    for category in menu["categories"]:
+        drinks = [p for p in menu["products"] if p["category"] == category["slug"]]
+        if not drinks:
+            continue
+        jump.append(
+            f'<li><a class="menu__jump__link" href="#c-{esc(category["slug"])}">'
+            f'{esc(category["name"])}</a></li>'
+        )
+        sections.append(f"""<section class="course" id="c-{esc(category['slug'])}">
+  <h2 class="course__name">{esc(category['name'])}
+    <span class="course__count" aria-hidden="true">{len(drinks)}</span></h2>
+  <ul class="course__list">
+{chr(10).join(drink(d) for d in drinks)}
+  </ul>
+</section>""")
+    return "".join(jump), "\n".join(sections)
+
+
 def render_page(
     *,
     site: dict,
@@ -462,7 +518,15 @@ def render_page(
     head_extra: str = "",
     share: str = "",
     share_alt: str = "",
+    chrome: bool = True,
 ) -> None:
+    """`chrome=False` leaves off the site header, footer and back-to-top.
+
+    The menu is reached by scanning a coaster at a table, not by browsing. It
+    had the site's header above its own wordmark — two logos stacked, the same
+    thing the masthead was redesigned to stop — and a nav offering Catalogue,
+    About and Visit to somebody who is sitting in the room already.
+    """
     # Each page can carry its own share card; without one it falls back to the
     # site card rather than to nothing.
     share_image = site["url"].rstrip("/") + "/" + (share or "assets/brand/share.png")
@@ -506,6 +570,8 @@ def render_page(
         "wordmark_inline": wordmark_inline(),
         "wordmark_stacked": use("m-wordmark"),
         "nav_links": nav_links(base, current),
+        "header": template("_header.html") if chrome else "",
+        "footer": template("_footer.html") if chrome else "",
         "main": body,
         "legal": (
             esc(
@@ -1120,6 +1186,30 @@ def build():
     )
     pages.append(("visit.html", "0.6"))
 
+    # The QR menu -----------------------------------------------------------
+    # Its own page, at its own address, because this is the one a coaster
+    # points at and a printed code cannot be changed once it is on a table.
+    menu = load("menu.json")
+    jump_list, sections = menu_sections(menu)
+    menu_body = fill(template("menu.html"), {
+        "site_name": esc(site["name"]),
+        "wordmark_line": wordmark_inline(),
+        "satyr_small": use("m-satyr"),
+        "jump_list": jump_list,
+        "sections": sections,
+    })
+    (ROOT / "menu").mkdir(exist_ok=True)
+    render_page(
+        site=site, catalogue=catalogue, body=menu_body,
+        out=ROOT / "menu" / "index.html",
+        title=f"Menu — {site['name']}",
+        description="Cocktails, spirits and wine, in English, Czech and Ukrainian.",
+        slug="menu/", base="../", current="menu/",
+        share=share_card("menu"),
+        share_alt=f"The menu at {site['name']}", chrome=False,
+    )
+    pages.append(("menu/", "0.9"))
+
     # Privacy and imprint ----------------------------------------------------
     a = site["address"]
     legal = site.get("legal", {})
@@ -1263,7 +1353,10 @@ def build():
     stamps = json.loads(STAMPS.read_text()) if STAMPS.exists() else {}
     changed = 0
     for path, _ in pages:
-        f = ROOT / (path or "index.html")
+        # A page listed by its URL: "" and "menu/" are directories on disk,
+        # and reading one as a file is an error rather than a missing stamp.
+        on_disk = path if path.endswith(".html") else f"{path}index.html"
+        f = ROOT / on_disk
         if not f.exists():
             continue
         digest = hashlib.sha256(f.read_bytes()).hexdigest()[:16]

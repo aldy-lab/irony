@@ -789,3 +789,56 @@
     typed = "";
   });
 })();
+
+/* -------------------------------------------------------------------------
+   The menu's language
+   Three languages, one on screen. The bar's own menu prints all three under
+   every drink, which is the reason nobody reads any of them.
+   ------------------------------------------------------------------------- */
+
+(function () {
+  var menu = document.querySelector("[data-menu]");
+  if (!menu) return;
+
+  var LANGS = ["en", "cs", "uk"];
+  var KEY = "ivs.menu.lang";
+  var picks = menu.querySelectorAll("[data-lang]");
+
+  var stored = null;
+  try {
+    stored = window.localStorage.getItem(KEY);
+  } catch (e) {
+    /* private window, blocked storage: the menu still has to work */
+  }
+
+  /* Guessed from the browser only when nobody has chosen. Ukrainian first
+     because a guest whose phone is in Ukrainian is the one least likely to
+     be served by the other two. */
+  var guess = "en";
+  var tags = (navigator.languages || [navigator.language || ""]).join(",").toLowerCase();
+  if (tags.indexOf("uk") === 0 || tags.indexOf(",uk") !== -1) guess = "uk";
+  else if (tags.indexOf("cs") === 0 || tags.indexOf(",cs") !== -1) guess = "cs";
+
+  var choose = function (code, remember) {
+    if (LANGS.indexOf(code) === -1) code = "en";
+    menu.setAttribute("data-lang", code);
+    document.documentElement.setAttribute("lang", code);
+    picks.forEach(function (button) {
+      button.setAttribute(
+        "aria-pressed", button.dataset.lang === code ? "true" : "false"
+      );
+    });
+    if (!remember) return;
+    try {
+      window.localStorage.setItem(KEY, code);
+    } catch (e) {}
+  };
+
+  choose(stored || guess, false);
+
+  picks.forEach(function (button) {
+    button.addEventListener("click", function () {
+      choose(button.dataset.lang, true);
+    });
+  });
+})();

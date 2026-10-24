@@ -1,98 +1,102 @@
 {
   "": {
-    "date": "2026-09-27",
-    "hash": "948a7673f1357d28"
+    "date": "2026-10-24",
+    "hash": "bda385c558d3b84c"
   },
   "about.html": {
-    "date": "2026-09-27",
-    "hash": "1eff5dd1ebcb618a"
+    "date": "2026-10-24",
+    "hash": "1538396d659f9c9e"
+  },
+  "menu/": {
+    "date": "2026-10-24",
+    "hash": "b69fdbff3a61704e"
   },
   "privacy.html": {
-    "date": "2026-09-27",
-    "hash": "94c4b67be75538d3"
+    "date": "2026-10-24",
+    "hash": "7b004db3498f5640"
   },
   "shop/aged-rum-8.html": {
-    "date": "2026-09-27",
-    "hash": "97d24e42d932c7d9"
+    "date": "2026-10-24",
+    "hash": "f3b868c60e3e5b24"
   },
   "shop/agricole-blanc.html": {
-    "date": "2026-09-27",
-    "hash": "25af92cf0ee4ebaf"
+    "date": "2026-10-24",
+    "hash": "179aa622dbd19de1"
   },
   "shop/amaro-alpino.html": {
-    "date": "2026-09-27",
-    "hash": "d0d8e16d64cc4578"
+    "date": "2026-10-24",
+    "hash": "d977b0840b4f3904"
   },
   "shop/barrel-rested-gin.html": {
-    "date": "2026-09-27",
-    "hash": "53aa3b9bc4136afc"
+    "date": "2026-10-24",
+    "hash": "b66d404d0bb15998"
   },
   "shop/bitter-aperitivo.html": {
-    "date": "2026-09-27",
-    "hash": "15e441bb4d05d667"
+    "date": "2026-10-24",
+    "hash": "1e439beb2e662752"
   },
   "shop/blanco-tequila.html": {
-    "date": "2026-09-27",
-    "hash": "7eaf1d1d9a342758"
+    "date": "2026-10-24",
+    "hash": "32701132bc794c0f"
   },
   "shop/bourbon-small-batch.html": {
-    "date": "2026-09-27",
-    "hash": "55419b288689535b"
+    "date": "2026-10-24",
+    "hash": "fcd9eb14d9c111b2"
   },
   "shop/creme-de-cassis.html": {
-    "date": "2026-09-27",
-    "hash": "d6aaf1a8a2097f9f"
+    "date": "2026-10-24",
+    "hash": "f0364c284f80429e"
   },
   "shop/dry-vermouth.html": {
-    "date": "2026-09-27",
-    "hash": "fc6e661eb7ea9bcd"
+    "date": "2026-10-24",
+    "hash": "881091ff4dfee0e5"
   },
   "shop/espadin-mezcal.html": {
-    "date": "2026-09-27",
-    "hash": "8977fdcd7c0b637f"
+    "date": "2026-10-24",
+    "hash": "c0dc54f0f28a3201"
   },
   "shop/islay-peated-single-malt.html": {
-    "date": "2026-09-27",
-    "hash": "8457dbf696e18a31"
+    "date": "2026-10-24",
+    "hash": "e3ddd08980bdad5c"
   },
   "shop/london-dry-gin-classic.html": {
-    "date": "2026-09-27",
-    "hash": "bc5acfd45f3809aa"
+    "date": "2026-10-24",
+    "hash": "cacc57d2057fed12"
   },
   "shop/maraschino.html": {
-    "date": "2026-09-27",
-    "hash": "db6972bf6ce78053"
+    "date": "2026-10-24",
+    "hash": "a6e64b99cac24b0d"
   },
   "shop/navy-strength-gin.html": {
-    "date": "2026-09-27",
-    "hash": "5d798475cfecd824"
+    "date": "2026-10-24",
+    "hash": "452a8ddcc13544c2"
   },
   "shop/orange-curacao.html": {
-    "date": "2026-09-27",
-    "hash": "0deea42c659e3d54"
+    "date": "2026-10-24",
+    "hash": "48b77aca686b14f3"
   },
   "shop/overproof-white-rum.html": {
-    "date": "2026-09-27",
-    "hash": "b6d413a9e743a634"
+    "date": "2026-10-24",
+    "hash": "94f690d93a192e8f"
   },
   "shop/reposado-tequila.html": {
-    "date": "2026-09-27",
-    "hash": "6c3eddc7aefbd108"
+    "date": "2026-10-24",
+    "hash": "cf681cf4e5e17584"
   },
   "shop/single-malt-10.html": {
-    "date": "2026-09-27",
-    "hash": "7b04c445f5f93476"
+    "date": "2026-10-24",
+    "hash": "c73dc6dc29c943e0"
   },
   "shop/straight-rye.html": {
-    "date": "2026-09-27",
-    "hash": "74c9eff61d359dd6"
+    "date": "2026-10-24",
+    "hash": "20375e8b2afdfb9a"
   },
   "shop/sweet-vermouth.html": {
-    "date": "2026-09-27",
-    "hash": "bfa9e2a2692dcdff"
+    "date": "2026-10-24",
+    "hash": "43b4317f31204ff6"
   },
   "visit.html": {
-    "date": "2026-09-27",
-    "hash": "b78e8cf566ec2ba7"
+    "date": "2026-10-24",
+    "hash": "d129c0e87eed833d"
   }
 }

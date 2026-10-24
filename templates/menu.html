@@ -1,0 +1,38 @@
+<div class="menu" data-menu>
+
+  <header class="menu__head">
+    <div class="menu__brand">
+      <span class="visually-hidden">{{site_name}}</span>
+      {{wordmark_line}}
+    </div>
+
+    <!-- Three languages, and only one of them on screen. The bar's own menu
+         prints all three at once under every drink. -->
+    <div class="langs" role="group" aria-label="Language">
+      <button class="langs__pick" type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button class="langs__pick" type="button" data-lang="cs" aria-pressed="false">CS</button>
+      <button class="langs__pick" type="button" data-lang="uk" aria-pressed="false">UA</button>
+    </div>
+  </header>
+
+  <nav class="menu__jump" aria-label="Sections">
+    <ul class="menu__jump__list">{{jump_list}}</ul>
+  </nav>
+
+  <div>{{sections}}</div>
+
+  <footer class="menu__foot">
+    <p class="menu__foot__note" data-i18n>
+      <span lang="en">Prices in Czech crowns, including VAT.</span>
+      <span lang="cs">Ceny v korunách včetně DPH.</span>
+      <span lang="uk">Ціни в кронах, з ПДВ.</span>
+    </p>
+    <p class="menu__foot__note menu__foot__note--quiet" data-i18n>
+      <span lang="en">Ask the bar about allergens.</span>
+      <span lang="cs">Na alergeny se zeptejte obsluhy.</span>
+      <span lang="uk">Про алергени запитайте бармена.</span>
+    </p>
+    {{satyr_small}}
+  </footer>
+
+</div>

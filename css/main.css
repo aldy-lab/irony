@@ -764,108 +764,6 @@ main > .shell:first-child {
 }
 
 /* --------------------------------------------------------------------------
-   Hero (kept for any page that still wants a full one)
-   -------------------------------------------------------------------------- */
-
-.hero {
-  position: relative;
-  display: grid;
-  align-items: center;
-  overflow: clip;
-  border-bottom: 1px solid var(--rule-soft);
-}
-
-.hero__inner {
-  position: relative;
-  z-index: 2;
-  width: min(100% - var(--gutter) * 2, var(--shell));
-  margin-inline: auto;
-  padding-block: clamp(2.5rem, 6vw, 5rem);
-  display: grid;
-  gap: clamp(2rem, 5vw, 4rem);
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 900px) {
-  .hero {
-    min-height: min(84svh, 820px);
-  }
-
-  .hero__inner {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    align-items: center;
-  }
-}
-
-.hero__mark {
-  width: min(100%, 520px);
-  color: var(--text);
-}
-
-.hero__mark .mark {
-  width: 100%;
-  height: auto;
-}
-
-.hero__motif {
-  width: min(56%, 250px);
-  margin-bottom: clamp(1.2rem, 3vw, 2rem);
-  color: var(--accent-ink);
-}
-
-.hero__motif .mark {
-  width: 100%;
-  height: auto;
-}
-
-.hero__copy {
-  margin-top: clamp(1.5rem, 4vw, 2.5rem);
-  max-width: 44ch;
-  font-size: var(--step-1);
-  font-style: italic;
-  line-height: 1.45;
-  color: var(--text-soft);
-}
-
-.hero__figure {
-  position: relative;
-  display: grid;
-  place-items: center;
-}
-
-.hero__satyr {
-  width: min(100%, 400px);
-  color: var(--text);
-}
-
-.hero__satyr .mark {
-  width: 100%;
-  height: auto;
-}
-
-@media (max-width: 899px) {
-  /* Name first. The figure is capped by height, so a tall narrow illustration
-     cannot take the whole screen and push the wordmark below the fold. */
-  .hero__satyr {
-    width: auto;
-    max-height: 42svh;
-  }
-
-  .hero__satyr .mark {
-    width: auto;
-    height: 100%;
-    max-height: 42svh;
-  }
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem;
-  margin-top: clamp(1.8rem, 4vw, 2.6rem);
-}
-
-/* --------------------------------------------------------------------------
    Buttons
    -------------------------------------------------------------------------- */
 
@@ -2642,4 +2540,289 @@ body[data-colourway="satyr"] .card:hover .card__media--mark {
 
 body[data-colourway="satyr"] .button--primary:hover {
   color: var(--maroon);
+}
+
+/* ==========================================================================
+   The menu
+   The one page a guest opens in the room itself: on a phone, held low, in a
+   bar that is deliberately dark. The rest of the site is light paper; this
+   is not, because a white screen at a dim table lights up a face and makes
+   somebody put the phone down. It carries its own ground and its own tokens
+   rather than inverting the site's, so changing one cannot quietly change
+   the other.
+   ========================================================================== */
+
+.menu {
+  --ink: #f0ece0;
+  --ink-quiet: #a9ad96;
+  --ground: #0d1a04;
+  --line: color-mix(in srgb, var(--ink) 16%, transparent);
+  min-height: 100vh;
+  padding: 0 var(--gutter) 3rem;
+  background: var(--ground);
+  color: var(--ink);
+}
+
+body:has(.menu) {
+  background: #0d1a04;
+}
+
+.menu__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.4rem 1.1rem;
+}
+
+/* The whole name, on one line, the way the site header sets it — the first
+   pass used line one of the stacked mark on its own and the bar was called
+   "Irony vs." on the page a guest actually reads. */
+.menu__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.42em;
+  min-width: 0;
+  color: var(--gold);
+}
+
+/* Without this the flex row shrinks the first line to nothing and the bar is
+   called "Satyr" — a width set on the inner mark does not stop a flex item
+   from collapsing. */
+.menu__brand .brand__line {
+  display: block;
+  flex: none;
+}
+
+/* By the mark, not by position: the first child of .menu__brand is the
+   screen-reader name, so :first-child matched the label and the real first
+   line of the wordmark kept a width of zero. The bar was called "Satyr". */
+.menu__brand .mark--wordmark-line1 {
+  width: clamp(92px, 27vw, 128px);
+}
+
+.menu__brand .mark--wordmark-line2 {
+  width: clamp(59px, 17vw, 82px);
+}
+
+/* Language -------------------------------------------------------------- */
+
+.langs {
+  display: flex;
+  flex: none;
+  gap: 1px;
+  padding: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.langs__pick {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.55rem;
+  border: 0;
+  background: var(--ground);
+  color: var(--ink-quiet);
+  font-family: var(--sans, inherit);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+}
+
+.langs__pick[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+/* One language on screen. The bar's own menu prints all three at once under
+   every drink, which is why nobody reads any of them. */
+.menu[data-lang="en"] [data-i18n] [lang]:not([lang="en"]),
+.menu[data-lang="cs"] [data-i18n] [lang]:not([lang="cs"]),
+.menu[data-lang="uk"] [data-i18n] [lang]:not([lang="uk"]) {
+  display: none;
+}
+
+/* Sections -------------------------------------------------------------- */
+
+.menu__jump {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  background: color-mix(in srgb, var(--ground) 92%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.menu__jump__list {
+  display: flex;
+  gap: 1.1rem;
+  margin: 0;
+  padding: 0.75rem 0;
+  overflow-x: auto;
+  /* The strip scrolls; the page must not be dragged sideways with it. */
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  list-style: none;
+}
+
+.menu__jump__list::-webkit-scrollbar {
+  display: none;
+}
+
+.menu__jump__link {
+  display: block;
+  padding-block: 0.35rem;
+  color: var(--ink-quiet);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.menu__jump__link:hover,
+.menu__jump__link:focus-visible {
+  color: var(--ink);
+}
+
+.course {
+  padding-top: 2.4rem;
+  /* The jump strip is sticky, so an anchor would land under it. */
+  scroll-margin-top: 4rem;
+}
+
+.course__name {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  margin: 0 0 1.1rem;
+  color: var(--gold);
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.course__name::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.course__count {
+  order: 1;
+  color: var(--ink-quiet);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+}
+
+.course__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A drink --------------------------------------------------------------- */
+
+.drink {
+  padding-block: 0.95rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
+.drink:last-child {
+  border-bottom: 0;
+}
+
+.drink__line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.drink__name {
+  font-family: var(--display, inherit);
+  font-size: 1.07rem;
+  line-height: 1.25;
+}
+
+/* The rule carries the eye from a long name to its price, which is the one
+   thing every guest is looking for. */
+.drink__rule {
+  flex: 1;
+  min-width: 1.2rem;
+  height: 1px;
+  margin-bottom: 0.3em;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+.drink__price {
+  flex: none;
+  font-size: 1rem;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.drink__price::after {
+  content: " Kč";
+  color: var(--ink-quiet);
+  font-size: 0.72em;
+  letter-spacing: 0.08em;
+}
+
+.drink__flag {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 0.45em;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: 0.35em;
+}
+
+.drink__note {
+  margin: 0.35rem 0 0;
+  max-width: 60ch;
+  color: var(--ink-quiet);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+/* Foot ------------------------------------------------------------------ */
+
+.menu__foot {
+  margin-top: 3rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.menu__foot__note {
+  margin: 0 0 0.3rem;
+  color: var(--ink-quiet);
+  font-size: 0.78rem;
+}
+
+.menu__foot__note--quiet {
+  color: color-mix(in srgb, var(--ink) 38%, transparent);
+}
+
+.menu__foot .mark {
+  width: 46px;
+  margin: 1.4rem auto 0;
+  color: color-mix(in srgb, var(--ink) 22%, transparent);
+}
+
+@media (min-width: 760px) {
+  .menu {
+    max-width: 760px;
+    margin-inline: auto;
+  }
+
+  .drink__name {
+    font-size: 1.16rem;
+  }
 }

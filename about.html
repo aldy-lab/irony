@@ -43,8 +43,8 @@
       href="assets/fonts/eb-garamond-normal-400800-latin.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="assets/fonts/eb-garamond-italic-400800-latin.woff2">
-<link rel="stylesheet" href="css/main.css?v=d54c5bc7d461">
-<link rel="stylesheet" href="css/marks.css?v=d54c5bc7d461">
+<link rel="stylesheet" href="css/main.css?v=71ab82c28f39">
+<link rel="stylesheet" href="css/marks.css?v=71ab82c28f39">
 <script>
   /* Before first paint: decides whether the gate or the shop is shown, so
      neither flashes into the other. Wrapped because storage throws in a
@@ -83,8 +83,8 @@
 
 <header class="header">
   <div class="header__inner">
-    <a class="brand" href="index.html" aria-label="Irony vs. Satyr — home">
-      <span class="brand__line"><span class="mark mark--wordmark-line1" aria-hidden="true"></span></span><span class="brand__line"><span class="mark mark--wordmark-line2" aria-hidden="true"></span></span>
+    <a class="brand" href="{{base}}index.html" aria-label="{{site_name}} — home">
+      {{wordmark_inline}}
     </a>
 
     <button class="nav-toggle" type="button" data-nav-toggle
@@ -92,9 +92,7 @@
             aria-label="Menu"><span></span></button>
 
     <nav class="nav" id="site-nav" data-nav aria-label="Main">
-      <a class="nav__link" href="index.html">Catalogue</a>
-      <a class="nav__link" href="about.html" aria-current="page">About</a>
-      <a class="nav__link" href="visit.html">Visit</a>
+      {{nav_links}}
       <span class="open-now" data-open-now hidden></span>
     </nav>
   </div>
@@ -152,28 +150,28 @@
   <div class="shell">
     <div class="footer__top">
       <div>
-        <div class="footer__mark"><span class="mark mark--wordmark-stacked" aria-hidden="true"></span></div>
+        <div class="footer__mark">{{wordmark_stacked}}</div>
       </div>
       <div>
         <h3>Catalogue</h3>
-        <ul><li><a href="index.html?c=gin">Gin</a></li><li><a href="index.html?c=whisky">Whisky</a></li><li><a href="index.html?c=agave">Agave</a></li><li><a href="index.html?c=rum">Rum</a></li><li><a href="index.html?c=aperitivo">Vermouth &amp; Aperitivo</a></li><li><a href="index.html?c=liqueur">Liqueur</a></li></ul>
+        <ul>{{footer_categories}}</ul>
       </div>
       <div>
         <h3>Visit</h3>
-        <ul><li lang="cs">Soukenicka 1756</li><li lang="cs">110 00 Nove Mesto</li><li><span lang="cs">Prague</span>, Czechia</li></ul>
+        <ul>{{footer_address}}</ul>
       </div>
       <div>
         <h3>Elsewhere</h3>
-        <ul><li>Contact details to follow.</li>
-          <li><a href="arrivals.xml">New arrivals feed</a></li>
+        <ul>{{footer_contact}}
+          <li><a href="{{base}}arrivals.xml">New arrivals feed</a></li>
         </ul>
       </div>
     </div>
     <div class="footer__bottom">
-      <p class="footer__legal">A catalogue of what is on the shelf. Nothing is sold through this site; we sell alcohol only to adults, and photo ID is checked in the shop every time. <a href="privacy.html">Privacy &amp; imprint</a>.
+      <p class="footer__legal">{{legal}}
         <button class="footer__reset" type="button" data-age-reset hidden>Reset age check</button>
       </p>
-      <p>&copy; 2026 Irony vs. Satyr</p>
+      <p>&copy; {{year}} {{site_name}}</p>
     </div>
   </div>
 </footer>
@@ -184,7 +182,7 @@
 </a>
 
 <script>window.IVS = {"base":"","currency":"CZK","hours":[{"days":[0,1,2,3],"from":"12:00","to":"22:00"},{"days":[4,5],"from":"12:00","to":"24:00"},{"days":[6],"from":"14:00","to":"20:00"}],"timezone":"Europe/Prague"};</script>
-<script src="js/main.js?v=d54c5bc7d461" defer></script>
+<script src="js/main.js?v=71ab82c28f39" defer></script>
 <script>
   /* Offline, because the whole site is static and a phone in a metro station
      has no reason to see nothing. Failure here is silent: the site works
