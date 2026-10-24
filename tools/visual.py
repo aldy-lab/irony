@@ -266,6 +266,12 @@ def main() -> int:
             shot = capture(pw, name, path, width, height)
             approved = BASELINE / f"{name}.png"
 
+            # A view with no baseline yet is recorded rather than compared,
+            # and nothing about it has gone wrong. `ok` has to be set before
+            # the branch or the tidy-up below reads a name that was never
+            # bound — which it did, on the first run after a view was added,
+            # on the only machine that judges.
+            ok = True
             if approve or not approved.exists():
                 approved.write_bytes(shot.read_bytes())
                 (new if not approve else []).append(name)
