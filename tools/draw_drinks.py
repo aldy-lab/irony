@@ -35,11 +35,19 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "assets" / "drinks"
 SIZES = (320, 640)
 
-# The menu's ground, so a picture sits on the page rather than on a white card.
-GROUND = "#0d1a04"
-GLASS = "#e6e2d4"          # the line the glass is drawn with
-GLASS_SOFT = "#8d9179"     # its shaded side
-SHINE = "#ffffff"
+# Drawn on the paper the site is printed on, in the ink it is set in. The
+# first pass drew a pale line for a dark page, which meant every picture had
+# to sit on a black panel wherever the page was light — a patch, and the
+# patch was the thing you noticed.
+#
+# The line is thin and even, the liquid a flat tint the paper shows through,
+# and there is no highlight: this is a drawing of a glass in the manner of a
+# technical drawing, not a rendering of one.
+GLASS = "#16210b"          # the ink the site is set in
+GLASS_SOFT = "#3d4634"
+STROKE = 2.0               # at a 200-unit canvas, about 1px as shown
+HAIRLINE = 1.4
+TINT = 0.55                # the liquid lets the paper through
 
 # ---------------------------------------------------------------------------
 # Glassware. Each returns the outline, and the inside the liquid may fill.
@@ -313,12 +321,31 @@ def ice_cubes(shape, count, seed):
         y = top + down * span
         tilt = -20 + 17 * ((i + seed) % 3)
         cubes.append(
-            f'<rect x="{x:.1f}" y="{y:.1f}" width="26" height="26" rx="5" '
-            f'fill="{SHINE}" fill-opacity="0.16" stroke="{SHINE}" '
-            f'stroke-opacity="0.5" stroke-width="1.8" '
+            f'<rect x="{x:.1f}" y="{y:.1f}" width="26" height="26" rx="4" '
+            f'fill="none" stroke="{GLASS}" stroke-opacity="0.55" '
+            f'stroke-width="{HAIRLINE}" '
             f'transform="rotate({tilt} {x + 13:.1f} {y + 13:.1f})"/>'
         )
     return "".join(cubes)
+
+
+def readable(colour: str) -> tuple:
+    """A tint and a colour that still read on paper.
+
+    A cream sour or a clear tonic at the same transparency as a Negroni came
+    out as nothing at all: #e3dcc4 over #f3f3ee is a difference of four
+    percent. Pale drinks are drawn stronger and a shade deeper, which is what
+    a hand drawing them would do.
+    """
+    r, g, b = (int(colour[1 + i * 2:3 + i * 2], 16) for i in range(3))
+    light = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    if light < 0.72:
+        return TINT, colour
+    # Pulled towards the ink, by how pale it is.
+    pull = min(0.42, (light - 0.72) * 1.6)
+    mix = lambda c, ink: int(round(c * (1 - pull) + ink * pull))
+    deeper = "#%02x%02x%02x" % (mix(r, 0x16), mix(g, 0x21), mix(b, 0x0b))
+    return min(0.82, TINT + (light - 0.72) * 0.9), deeper
 
 
 def svg_for(slug: str, glass: str, liquid: str, garnish: str, ice: int) -> str:
@@ -327,10 +354,10 @@ def svg_for(slug: str, glass: str, liquid: str, garnish: str, ice: int) -> str:
     # A shallow bowl is filled nearly to the rim; a tall glass is not.
     level = top + (bottom - top) * (0.14 if shape["wide"] else 0.26)
     clip = f"clip-{slug}"
-    shine_x = shape["rim"][0] + 13
+    tint, liquid = readable(liquid)
 
     outline = "".join(
-        f'<path d="{d}" fill="none" stroke="{GLASS}" stroke-width="3.2" '
+        f'<path d="{d}" fill="none" stroke="{GLASS}" stroke-width="{STROKE}" '
         f'stroke-linejoin="round" stroke-linecap="round"/>'
         for d in shape["outline"]
     )
@@ -344,8 +371,8 @@ def svg_for(slug: str, glass: str, liquid: str, garnish: str, ice: int) -> str:
   <defs>
     <clipPath id="{clip}"><path d="{shape['fill']}"/></clipPath>
     <linearGradient id="g-{slug}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="{liquid}" stop-opacity="0.95"/>
-      <stop offset="1" stop-color="{liquid}" stop-opacity="0.75"/>
+      <stop offset="0" stop-color="{liquid}" stop-opacity="{tint:.2f}"/>
+      <stop offset="1" stop-color="{liquid}" stop-opacity="{min(0.92, tint + 0.12):.2f}"/>
     </linearGradient>
   </defs>
   <g clip-path="url(#{clip})">
@@ -355,12 +382,9 @@ def svg_for(slug: str, glass: str, liquid: str, garnish: str, ice: int) -> str:
   </g>
   <!-- The surface, so the liquid reads as a volume and not a block. -->
   <path d="M{54 if shape['wide'] else 70} {level:.1f} L{146 if shape['wide'] else 130} {level:.1f}"
-        stroke="{SHINE}" stroke-opacity="0.45" stroke-width="2"
+        stroke="{GLASS}" stroke-opacity="0.5" stroke-width="{HAIRLINE}"
         clip-path="url(#{clip})"/>
   {outline}
-  <path d="M{shine_x:.1f} {top + 14:.1f} L{shine_x - 3:.1f} {bottom - 16:.1f}"
-        stroke="{SHINE}" stroke-opacity="0.22" stroke-width="2.6"
-        stroke-linecap="round" fill="none" clip-path="url(#{clip})"/>
   {GARNISH.get(garnish, GARNISH[''])(shape)}
 </svg>"""
 

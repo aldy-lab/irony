@@ -1090,13 +1090,30 @@
     return "#" + mix(0) + mix(1) + mix(2);
   };
 
+  /* The same rule the drawings use: a cream sour over paper is a difference
+     of four percent, so pale drinks are drawn stronger and a shade deeper. */
+  var readable = function (colour) {
+    var part = function (i) { return parseInt(colour.substr(1 + i * 2, 2), 16); };
+    var r = part(0), g = part(1), b = part(2);
+    var light = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    if (light < 0.72) return { tint: 0.55, colour: colour };
+    var pull = Math.min(0.42, (light - 0.72) * 1.6);
+    var mix = function (c, ink) {
+      return Math.round(c * (1 - pull) + ink * pull).toString(16).padStart(2, "0");
+    };
+    return {
+      tint: Math.min(0.82, 0.55 + (light - 0.72) * 0.9),
+      colour: "#" + mix(r, 0x16) + mix(g, 0x21) + mix(b, 0x0b)
+    };
+  };
+
   var draw = function () {
     var glass = art.glasses[picked.glass];
     if (!glass) return;
 
     var outline = glass.outline.map(function (d) {
-      return '<path d="' + d + '" fill="none" stroke="#e6e2d4" ' +
-        'stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>';
+      return '<path d="' + d + '" fill="none" stroke="#16210b" ' +
+        'stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
     }).join("");
 
     var colour = blend(SPIRITS[picked.spirit] || "#dfe3d4",
@@ -1118,7 +1135,9 @@
       "</g>" + outline + garnish;
 
     var liquid = svg.querySelector("[data-liquid]");
-    liquid.setAttribute("fill", colour);
+    var shown = readable(colour);
+    liquid.setAttribute("fill", shown.colour);
+    liquid.setAttribute("fill-opacity", shown.tint.toFixed(2));
     /* Set on the next frame so the transition has a value to run from. */
     window.requestAnimationFrame(function () {
       liquid.style.transform = "scaleY(" + level + ")";

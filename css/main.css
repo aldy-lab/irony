@@ -2561,10 +2561,15 @@ body[data-colourway="satyr"] .button--primary:hover {
    ========================================================================== */
 
 .menu {
-  --ink: #f0ece0;
-  --ink-quiet: #a9ad96;
-  --ground: #0d1a04;
-  --line: color-mix(in srgb, var(--ink) 16%, transparent);
+  /* Printed on the same paper as the rest of the site. It was dark, on the
+     reasoning that a menu is read in a dim room — but the drawings then had
+     to be pale-lined, which meant every one of them needed a black panel
+     under it wherever the page was light. The panel was the thing you
+     noticed. One surface, one ink. */
+  --ink: var(--text);
+  --ink-quiet: var(--muted);
+  --ground: var(--paper);
+  --line: var(--rule);
   min-height: 100vh;
   padding: 0 var(--gutter) 3rem;
   background: var(--ground);
@@ -2572,7 +2577,7 @@ body[data-colourway="satyr"] .button--primary:hover {
 }
 
 body:has(.menu) {
-  background: #0d1a04;
+  background: var(--paper);
 }
 
 .menu__head {
@@ -2591,7 +2596,7 @@ body:has(.menu) {
   align-items: baseline;
   gap: 0.42em;
   min-width: 0;
-  color: var(--gold);
+  color: var(--text);
 }
 
 /* Without this the flex row shrinks the first line to nothing and the bar is
@@ -2668,7 +2673,8 @@ body:has(.menu) {
   padding: 0.6rem 0.9rem;
   border: 1px solid var(--line);
   border-radius: 0;
-  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  /* A tint of the ink over paper is a grey box. A rule is enough. */
+  background: transparent;
   color: var(--ink);
   font-family: inherit;
   font-size: 16px;
@@ -2769,7 +2775,7 @@ body:has(.menu) {
   left: 0;
   width: 1px;
   height: 2px;
-  background: var(--gold);
+  background: var(--text);
   transform: translateX(var(--marker-x, 0)) scaleX(var(--marker-w, 0));
   transform-origin: left;
   transition: transform 0.22s var(--ease-out);
@@ -3042,16 +3048,12 @@ body:has(.menu) {
   background: color-mix(in srgb, var(--green) 5%, transparent);
 }
 
-/* The drawings are made on the menu's dark ground, where the glass is drawn
-   in a pale line. On paper that line disappears, so the picture sits in a
-   panel of the same dark rather than on the page. */
+/* No panel: the drawings are ink on paper now, so they sit on the page. */
 .pour-card__pic,
 .pour-card .drink__pic {
-  width: 88px;
+  width: 96px;
   height: auto;
   margin-bottom: 0.5rem;
-  padding: 0.5rem 0.6rem;
-  background: #0d1a04;
 }
 
 .pour-card__name {
@@ -3150,10 +3152,14 @@ body:has(.menu) {
   border-color: var(--text);
 }
 
+/* The ink, not the accent. Five bright fields at once pulled the whole page
+   to them; the same mark the menu's language switch uses is quieter and
+   makes the two pages read as one site. The pink stays for the one thing it
+   marks — a drink the bar is pushing. */
 .ask__pick[aria-pressed="true"] {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--maroon);
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--paper);
 }
 
 .choose__out {
@@ -3330,7 +3336,8 @@ body:has(.menu) {
   align-items: center;
   gap: 0.8rem;
   padding: 0.9rem 1.1rem;
-  background: #0d1a04;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
 }
 
 /* He is the one pouring, so he stands over it and tips when something goes
@@ -3347,7 +3354,7 @@ body:has(.menu) {
   width: 100%;
   max-width: 64px;
   margin-inline: auto;
-  color: #e6e2d4;
+  color: var(--text);
   transform-origin: 70% 20%;
   transition: transform 0.42s var(--ease-out);
 }
