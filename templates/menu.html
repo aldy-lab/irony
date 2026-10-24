@@ -28,7 +28,15 @@
   <nav class="tabs" aria-label="Sections">
     <ul class="tabs__list" data-tabs>{{jump_list}}</ul>
     <span class="tabs__marker" data-tab-marker aria-hidden="true"></span>
+    <!-- Pinned, because the strip shows three of fourteen and the other
+         eleven are found by scrolling it blind. -->
+    <button class="tabs__all" type="button" data-index-open
+            aria-expanded="false">All</button>
   </nav>
+
+  <div class="index" data-index hidden>
+    {{index_list}}
+  </div>
 
   <div class="pager" data-pager>{{sections}}</div>
 

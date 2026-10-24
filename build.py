@@ -552,11 +552,12 @@ def drink_picture(product: dict, base: str) -> str:
     )
 
 
-def drink(product: dict, base: str) -> str:
+def drink(product: dict, base: str, spirit: str = "") -> str:
     price = money(product["price"]) if product.get("price") else ""
+    spirit_attr = f' data-spirit-of="{esc(spirit)}"' if spirit else ""
     flag = ('<span class="drink__flag" aria-hidden="true"></span>'
             if product.get("popular") else "")
-    return f"""<li class="drink" id="d-{esc(product['slug'])}">
+    return f"""<li class="drink" id="d-{esc(product['slug'])}"{spirit_attr}>
   {drink_picture(product, base)}
   <div class="drink__body">
     <p class="drink__line">
@@ -569,9 +570,17 @@ def drink(product: dict, base: str) -> str:
 </li>"""
 
 
-def menu_sections(menu: dict, base: str) -> tuple:
-    """One section per category, and the list that jumps between them."""
-    jump, sections = [], []
+# A long panel needs a way through it. Thirty-two cocktails is ten screens
+# of scrolling, where every other category is one or two.
+SPIRIT_FILTER = [("", "All"), ("gin", "Gin"), ("whisky", "Whisky"),
+                 ("rum", "Rum"), ("agave", "Agave"), ("vodka", "Vodka"),
+                 ("other", "Other")]
+LONG_PANEL = 12          # drinks, above which a panel gets its own filter
+
+
+def menu_sections(menu: dict, base: str, tags: dict) -> tuple:
+    """One section per category, the tabs, and the index over all of them."""
+    jump, sections, index = [], [], []
     for category in menu["categories"]:
         drinks = [p for p in menu["products"] if p["category"] == category["slug"]]
         if not drinks:
@@ -583,14 +592,39 @@ def menu_sections(menu: dict, base: str) -> tuple:
             f'<span class="tabs__count" aria-hidden="true">{len(drinks)}</span>'
             f'</button></li>'
         )
+        index.append(
+            f'<li><button class="index__pick" type="button" '
+            f'data-tab-to="{esc(category["slug"])}">{esc(category["name"])}'
+            f'<span class="index__count">{len(drinks)}</span></button></li>'
+        )
+
+        # Only where the scroll is long enough to be worth cutting.
+        filters = ""
+        if len(drinks) > LONG_PANEL:
+            present = {tags.get(d["slug"], ("", ""))[0] for d in drinks}
+            filters = (
+                '<div class="sift" data-sift>'
+                + "".join(
+                    f'<button class="sift__pick" type="button" '
+                    f'data-sift-to="{esc(key)}" '
+                    f'aria-pressed="{"true" if key == "" else "false"}">'
+                    f"{esc(label)}</button>"
+                    for key, label in SPIRIT_FILTER
+                    if key == "" or key in present
+                )
+                + "</div>"
+            )
+
         sections.append(f"""<section class="course" id="c-{esc(category['slug'])}"
          data-panel="{esc(category['slug'])}"
          aria-label="{esc(category['name'])}">
+  {filters}
   <ul class="course__list">
-{chr(10).join(drink(d, base) for d in drinks)}
+{chr(10).join(drink(d, base, tags.get(d["slug"], ("", ""))[0]) for d in drinks)}
   </ul>
 </section>""")
-    return "".join(jump), "\n".join(sections)
+    return ("".join(jump), "\n".join(sections),
+            '<ul class="index__list">' + "".join(index) + "</ul>")
 
 
 
@@ -1444,12 +1478,14 @@ def build():
     # points at and a printed code cannot be changed once it is on a table.
     menu = load("menu.json")
     merge_notes(menu, load("menu-notes.json"))
-    jump_list, sections = menu_sections(menu, "../")
+    jump_list, sections, index_list = menu_sections(
+        menu, "../", load("menu-notes.json").get("tags", {}))
     menu_body = fill(template("menu.html"), {
         "site_name": esc(site["name"]),
         "wordmark_line": wordmark_inline(),
         "satyr_small": use("m-satyr"),
         "jump_list": jump_list,
+        "index_list": index_list,
         "sections": sections,
     })
     (ROOT / "menu").mkdir(exist_ok=True)

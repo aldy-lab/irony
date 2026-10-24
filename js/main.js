@@ -896,6 +896,63 @@
     window.addEventListener("resize", function () { markTab(current); });
   }
 
+  /* ---------------------------------------------------------------- Index
+     The strip shows three categories of fourteen. This is one tap to all of
+     them with their counts, and one more to be in one. */
+  var indexPanel = menu.querySelector("[data-index]");
+  var indexOpen = menu.querySelector("[data-index-open]");
+  if (indexPanel && indexOpen) {
+    var showIndex = function (on) {
+      menu.setAttribute("data-indexing", on ? "true" : "false");
+      indexPanel.hidden = !on;
+      indexOpen.setAttribute("aria-expanded", on ? "true" : "false");
+      indexOpen.textContent = on ? "Close" : "All";
+      if (!on) markTab(current);
+    };
+    indexOpen.addEventListener("click", function () {
+      showIndex(indexPanel.hidden);
+    });
+    indexPanel.querySelectorAll("[data-tab-to]").forEach(function (entry) {
+      entry.addEventListener("click", function () {
+        var slug = entry.getAttribute("data-tab-to");
+        var i = tabs.findIndex(function (tab) {
+          return tab.getAttribute("data-tab") === slug;
+        });
+        if (i < 0) return;
+        showIndex(false);
+        /* The pager is display:none while the index is up, so it has no
+           width to scroll by until the next frame. */
+        window.requestAnimationFrame(function () {
+          pager.scrollTo({ left: panels[i].offsetLeft - panels[0].offsetLeft });
+          current = i;
+          markTab(i);
+        });
+      });
+    });
+  }
+
+  /* ----------------------------------------------------------------- Sift
+     Only the panel long enough to need it: thirty-two cocktails against one
+     or two everywhere else. */
+  menu.querySelectorAll("[data-sift]").forEach(function (bar) {
+    var panel = bar.closest("[data-panel]");
+    bar.querySelectorAll("[data-sift-to]").forEach(function (pick) {
+      pick.addEventListener("click", function () {
+        var want = pick.getAttribute("data-sift-to");
+        bar.querySelectorAll("[data-sift-to]").forEach(function (other) {
+          other.setAttribute(
+            "aria-pressed",
+            other.getAttribute("data-sift-to") === want ? "true" : "false"
+          );
+        });
+        panel.querySelectorAll(".drink").forEach(function (row) {
+          row.hidden = !!want && row.getAttribute("data-spirit-of") !== want;
+        });
+        panel.scrollTop = 0;
+      });
+    });
+  });
+
   /* --------------------------------------------------------------- Search
      It crosses every panel, so it answers in a panel of its own rather than
      emptying fourteen. The haystack is all three languages at once, so

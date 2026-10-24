@@ -537,6 +537,46 @@ def check_marks(br):
     mpg.evaluate("()=>document.querySelectorAll('[data-tab]')[0].click()")
     mpg.wait_for_timeout(600)
 
+    # Finding a category, and cutting the one panel that is ten screens long.
+    mpg.click("[data-index-open]")
+    mpg.wait_for_timeout(350)
+    listed = mpg.evaluate(
+        """()=>[...document.querySelectorAll('.index__pick')]
+             .filter(e=>e.getBoundingClientRect().height>0).length"""
+    )
+    check("every category is one tap away", listed == 14, f"{listed} listed")
+
+    mpg.click('[data-tab-to="wine"]')
+    mpg.wait_for_timeout(800)
+    check("choosing one goes there",
+          mpg.evaluate("""()=>{const t=document.querySelector('[data-tab][aria-pressed=true]');
+            return t && t.getAttribute('data-tab') === 'wine';}"""),
+          mpg.evaluate("()=>document.querySelector('[data-tab][aria-pressed=true]').textContent.trim()"))
+    check("and the index gets out of the way",
+          mpg.evaluate("()=>document.querySelector('[data-index]').hidden"),
+          "still up")
+
+    mpg.evaluate("()=>document.querySelectorAll('[data-tab]')[0].click()")
+    mpg.wait_for_timeout(700)
+    cocktails = lambda: mpg.evaluate(
+        """()=>[...document.querySelectorAll('[data-panel=cocktail] .drink')]
+             .filter(d=>d.getBoundingClientRect().height>0).length"""
+    )
+    whole = cocktails()
+    mpg.click('[data-sift-to="gin"]')
+    mpg.wait_for_timeout(350)
+    sifted = cocktails()
+    check("a long panel can be cut down", 0 < sifted < whole,
+          f"{whole} -> {sifted}")
+    mpg.click('[data-sift-to=""]')
+    mpg.wait_for_timeout(350)
+    check("and put back", cocktails() == whole, f"{cocktails()} of {whole}")
+
+    # The short panels are left alone: a filter over two drinks is furniture.
+    check("only the long panel has one",
+          mpg.evaluate("()=>document.querySelectorAll('[data-sift]').length") == 1,
+          str(mpg.evaluate("()=>document.querySelectorAll('[data-sift]').length")))
+
     check("the menu carries no site navigation",
           mpg.evaluate("()=>!document.querySelector('.header, .footer')"),
           "a guest at a table is already in the room")
