@@ -29,15 +29,24 @@ BASE = f"http://127.0.0.1:{PORT}"
 
 # Wide and narrow, because they are different layouts rather than one resized.
 VIEWS = [
-    ("home-wide", "/", 1440, 1000),
-    ("home-narrow", "/", 390, 1200),
-    ("bottle-wide", "/shop/single-malt-10.html", 1440, 900),
-    ("bottle-narrow", "/shop/single-malt-10.html", 390, 1000),
+    ("menu-narrow", "/menu/", 390, 844),
+    ("menu-wide", "/menu/", 1440, 900),
     ("about", "/about.html", 1440, 1000),
     ("visit", "/visit.html", 1440, 900),
-    ("notfound", "/404.html", 1440, 900),
     ("privacy", "/privacy.html", 1440, 900),
 ]
+
+# Parked with the catalogue itself. The four card-grid pages — the two home
+# views, the bottle page and the 404 — would not render the same twice in a
+# row in CI. Two causes were found and fixed (a New badge measured against
+# today, and content-visibility: auto letting Chromium skip what it judged
+# off screen); a third survived both, and two consecutive runs of identical
+# code still differed by a card row. Chasing it further is work on pages the
+# bar is not using while the menu, which it is, had no baseline at all.
+#
+# They come back when the catalogue does. The browser checks in
+# tools/check.py still cover every one of them.
+PARKED = ["home-wide", "home-narrow", "bottle-wide", "bottle-narrow", "notfound"]
 
 # Pinned inside opening hours on a Thursday, so the header's live status is
 # the same sentence in every run. Installed before navigation, so the page's
