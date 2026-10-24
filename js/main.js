@@ -1111,10 +1111,17 @@
     var glass = art.glasses[picked.glass];
     if (!glass) return;
 
-    var outline = glass.outline.map(function (d) {
-      return '<path d="' + d + '" fill="none" stroke="#16210b" ' +
-        'stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
-    }).join("");
+    /* Drawn the way the menu's pictures are: a thin line over the whole
+       form and a heavier one masked into the side the light leaves, so it
+       swells rather than steps. */
+    var stroke = function (width) {
+      return glass.outline.map(function (d) {
+        return '<path d="' + d + '" fill="none" stroke="#16210b" ' +
+          'stroke-width="' + width + '" stroke-linejoin="round" ' +
+          'stroke-linecap="round"/>';
+      }).join("");
+    };
+    var outline = '<g mask="url(#build-turn)">' + stroke(3.9) + "</g>" + stroke(2.3);
 
     var colour = blend(SPIRITS[picked.spirit] || "#dfe3d4",
                        MIXERS[picked.mixer] || "",
@@ -1126,23 +1133,41 @@
       ? (art.garnish[picked.garnish] || {})[picked.glass] || ""
       : "";
 
+    var depth = glass.bottom - glass.top + 4;
     svg.innerHTML =
-      '<defs><clipPath id="build-clip"><path d="' + glass.fill + '"/></clipPath></defs>' +
+      "<defs>" +
+        '<clipPath id="build-clip"><path d="' + glass.fill + '"/></clipPath>' +
+        '<linearGradient id="build-grad" x1="0.1" y1="0" x2="0.95" y2="0.85">' +
+          '<stop offset="0.2" stop-color="#000" stop-opacity="0"/>' +
+          '<stop offset="0.72" stop-color="#000" stop-opacity="1"/>' +
+        "</linearGradient>" +
+        '<mask id="build-turn"><rect x="0" y="38" width="200" height="206" ' +
+          'fill="url(#build-grad)"/></mask>' +
+      "</defs>" +
       '<g clip-path="url(#build-clip)">' +
         '<rect class="build__liquid" data-liquid x="40" y="' + glass.top +
-        '" width="120" height="' + (glass.bottom - glass.top + 4) + '"/>' +
+        '" width="120" height="' + depth + '"/>' +
+        /* The light decided before the pen went down: one flat band away
+           from it, one towards it. */
+        '<rect class="build__liquid" x="104" y="' + glass.top +
+        '" width="96" height="' + depth + '" fill="#16210b" fill-opacity="0.13"/>' +
+        '<rect class="build__liquid" x="40" y="' + glass.top +
+        '" width="26" height="' + depth + '" fill="#ffffff" fill-opacity="0.16"/>' +
         ice +
       "</g>" + outline + garnish;
 
+    /* All three bands rise together, or the shading detaches from the
+       drink it is shading. */
+    var bands = svg.querySelectorAll(".build__liquid");
+    window.requestAnimationFrame(function () {
+      Array.prototype.forEach.call(bands, function (band) {
+        band.style.transform = "scaleY(" + level + ")";
+      });
+    });
     var liquid = svg.querySelector("[data-liquid]");
     var shown = readable(colour);
     liquid.setAttribute("fill", shown.colour);
     liquid.setAttribute("fill-opacity", shown.tint.toFixed(2));
-    /* Set on the next frame so the transition has a value to run from. */
-    window.requestAnimationFrame(function () {
-      liquid.style.transform = "scaleY(" + level + ")";
-    });
-
     say();
   };
 

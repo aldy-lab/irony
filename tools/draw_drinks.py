@@ -45,9 +45,17 @@ SIZES = (320, 640)
 # technical drawing, not a rendering of one.
 GLASS = "#16210b"          # the ink the site is set in
 GLASS_SOFT = "#3d4634"
-STROKE = 2.0               # at a 200-unit canvas, about 1px as shown
+STROKE = 2.3               # the line where the light falls on it
+STROKE_HEAVY = 3.9         # and where the form turns away from it
 HAIRLINE = 1.4
 TINT = 0.55                # the liquid lets the paper through
+
+# Light from the upper left, as it is in the film: one flat shadow shape on
+# the side away from it, no gradient, and the line thickening as the form
+# turns into that shadow. Nothing here is a rendering — it is a drawing with
+# the light decided before the pen went down.
+SHADOW = 0.13
+LIGHT_FROM = "upper left"
 
 # ---------------------------------------------------------------------------
 # Glassware. Each returns the outline, and the inside the liquid may fill.
@@ -356,9 +364,18 @@ def svg_for(slug: str, glass: str, liquid: str, garnish: str, ice: int) -> str:
     clip = f"clip-{slug}"
     tint, liquid = readable(liquid)
 
+    # The line is drawn twice: once thin over the whole form, then heavier
+    # through the shadow side only. A single even stroke reads as a diagram;
+    # a line that swells where the light leaves it reads as drawn.
     outline = "".join(
         f'<path d="{d}" fill="none" stroke="{GLASS}" stroke-width="{STROKE}" '
         f'stroke-linejoin="round" stroke-linecap="round"/>'
+        for d in shape["outline"]
+    )
+    weighted = "".join(
+        f'<path d="{d}" fill="none" stroke="{GLASS}" '
+        f'stroke-width="{STROKE_HEAVY}" stroke-linejoin="round" '
+        f'stroke-linecap="round"/>'
         for d in shape["outline"]
     )
     seed = sum(ord(c) for c in slug)
@@ -370,6 +387,15 @@ def svg_for(slug: str, glass: str, liquid: str, garnish: str, ice: int) -> str:
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 38 200 206" width="200" height="206">
   <defs>
     <clipPath id="{clip}"><path d="{shape['fill']}"/></clipPath>
+    <!-- The line swells into the shadow instead of stepping into it: the
+         heavy stroke is masked by the same gradient the light follows. -->
+    <linearGradient id="turn-{slug}" x1="0.1" y1="0" x2="0.95" y2="0.85">
+      <stop offset="0.2" stop-color="#000" stop-opacity="0"/>
+      <stop offset="0.72" stop-color="#000" stop-opacity="1"/>
+    </linearGradient>
+    <mask id="shade-{slug}">
+      <rect x="0" y="38" width="200" height="206" fill="url(#turn-{slug})"/>
+    </mask>
     <linearGradient id="g-{slug}" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="{liquid}" stop-opacity="{tint:.2f}"/>
       <stop offset="1" stop-color="{liquid}" stop-opacity="{min(0.92, tint + 0.12):.2f}"/>
@@ -379,11 +405,20 @@ def svg_for(slug: str, glass: str, liquid: str, garnish: str, ice: int) -> str:
     <rect x="40" y="{level:.1f}" width="120" height="{bottom - level + 4:.1f}"
           fill="url(#g-{slug})"/>
     {ice_cubes(shape, ice, seed)}
+    <!-- Flat bands rather than a gradient: the side away from the light is
+         darker, the side towards it catches a little. Only on the liquid —
+         shading the empty half of the glass left a grey rectangle hanging
+         in the air above the drink. -->
+    <rect x="104" y="{level:.1f}" width="96" height="{bottom - level + 4:.1f}"
+          fill="{GLASS}" fill-opacity="{SHADOW}"/>
+    <rect x="40" y="{level:.1f}" width="26" height="{bottom - level + 4:.1f}"
+          fill="#ffffff" fill-opacity="0.16"/>
   </g>
   <!-- The surface, so the liquid reads as a volume and not a block. -->
   <path d="M{54 if shape['wide'] else 70} {level:.1f} L{146 if shape['wide'] else 130} {level:.1f}"
         stroke="{GLASS}" stroke-opacity="0.5" stroke-width="{HAIRLINE}"
         clip-path="url(#{clip})"/>
+  <g mask="url(#shade-{slug})">{weighted}</g>
   {outline}
   {GARNISH.get(garnish, GARNISH[''])(shape)}
 </svg>"""
@@ -393,6 +428,31 @@ def recipe(slug: str, category: str):
     if slug in DRINKS:
         return DRINKS[slug]
     return BY_CATEGORY.get(category, ("rocks", "#b9763f", "", 1))
+
+
+def grained(image):
+    """A little tooth, so the drawing sits on a surface rather than floating.
+
+    Done on the rendered picture rather than as an SVG filter: feTurbulence
+    with a blend mode did not survive the screenshot, and a grain nobody can
+    see is weight for nothing.
+    """
+    import random
+    from PIL import Image
+
+    random.seed(7)            # the same drink grains the same way every time
+    noise = Image.new("L", (image.width // 2, image.height // 2))
+    noise.putdata([random.randint(0, 255) for _ in range(noise.width * noise.height)])
+    noise = noise.resize(image.size, Image.BILINEAR)
+
+    dark = Image.new("RGBA", image.size, (22, 33, 11, 255))
+    dark.putalpha(noise.point(lambda v: int(v * 0.17)))
+    # Only where something is drawn, or the grain squares off the transparent
+    # background into a visible tile.
+    dark.putalpha(Image.composite(dark.getchannel("A"),
+                                  Image.new("L", image.size, 0),
+                                  image.getchannel("A")))
+    return Image.alpha_composite(image, dark)
 
 
 def render(svgs: dict, keep_svg: bool) -> None:
@@ -437,7 +497,7 @@ def render(svgs: dict, keep_svg: bool) -> None:
                 )
                 master = stage / f"{slug}.png"
                 master.write_bytes(raw)
-                image = Image.open(master).convert("RGBA")
+                image = grained(Image.open(master).convert("RGBA"))
                 for size in SIZES:
                     copy = image.resize((size, round(size * 206 / 200)),
                                         Image.LANCZOS)
