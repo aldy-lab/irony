@@ -29,6 +29,8 @@ BASE = f"http://127.0.0.1:{PORT}"
 
 # Wide and narrow, because they are different layouts rather than one resized.
 VIEWS = [
+    ("front-narrow", "/", 390, 844),
+    ("front-wide", "/", 1440, 1000),
     ("menu-narrow", "/menu/", 390, 844),
     ("menu-wide", "/menu/", 1440, 900),
     ("about", "/about.html", 1440, 1000),
@@ -46,7 +48,9 @@ VIEWS = [
 #
 # They come back when the catalogue does. The browser checks in
 # tools/check.py still cover every one of them.
-PARKED = ["home-wide", "home-narrow", "bottle-wide", "bottle-narrow", "notfound"]
+# The front page is watched again: what made it flaky was the catalogue's
+# card grid, and the catalogue is no longer on it.
+PARKED = ["bottle-wide", "bottle-narrow", "notfound"]
 
 # Pinned inside opening hours on a Thursday, so the header's live status is
 # the same sentence in every run. Installed before navigation, so the page's

@@ -17,119 +17,58 @@
           {{wordmark_stacked}}
         </h1>
         <p class="masthead__copy">{{description}}</p>
+        <p class="masthead__actions">
+          <a class="button button--primary" href="{{base}}menu/">See the menu</a>
+          <a class="link-arrow" href="#choose">Help me choose</a>
+        </p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="catalogue" data-catalogue>
+<!-- What the bar is known for. Real drinks at real prices, drawn the same way
+     the menu draws them. -->
+<section class="section">
   <div class="shell">
-    <div class="catalogue__layout">
+    <p class="eyebrow eyebrow--rule">The ones people come back for</p>
+    <ul class="shelf__list">{{signatures}}</ul>
+    <p class="shelf__more">
+      <a class="link-arrow" href="{{base}}menu/">All {{drink_count}} on the menu
+        &mdash; cocktails, spirits, wine</a>
+    </p>
+  </div>
+</section>
 
-      {{suggestions}}
+<!-- The chooser narrows what the bar actually pours. It never composes a
+     drink nobody can order. -->
+<section class="section" id="choose" data-choose>
+  <div class="shell">
+    <p class="eyebrow eyebrow--rule">Not sure yet</p>
+    <h2 class="display-xl choose__title">Tell us two things.</h2>
 
-      <aside class="facets" data-facets aria-label="Filters">
-        <button class="facets__toggle" type="button" data-facets-toggle
-                aria-expanded="false" aria-controls="facet-panel">
-          <span>Filter</span>
-          <span class="facets__badge" data-facet-count hidden>0</span>
-        </button>
+    <div class="choose__asks">
+      <fieldset class="ask">
+        <legend class="ask__legend">What are you drinking?</legend>
+        <div class="ask__row">{{base_options}}</div>
+      </fieldset>
 
-        <div class="facets__panel" id="facet-panel">
-          <div class="facet">
-            <label class="facet__label" for="q">Search</label>
-            <div class="facet__search" data-search-wrap>
-              <input id="q" type="search" data-search autocomplete="off"
-                     list="bottle-names" placeholder="Name, note or producer">
-              <button class="facet__clear" type="button" data-search-clear
-                      aria-label="Clear search">&times;</button>
-            </div>
-          </div>
+      <fieldset class="ask">
+        <legend class="ask__legend">And how do you want it?</legend>
+        <div class="ask__row">{{mood_options}}</div>
+      </fieldset>
+    </div>
 
-          <div class="facet">
-            <p class="facet__label" id="facet-category">Category</p>
-            <ul class="facet__list" aria-labelledby="facet-category">{{category_list}}</ul>
-          </div>
+    <script type="application/json" data-choose-data>{{chooser_data}}</script>
 
-          {{producer_facet}}
-          {{stock_switch}}
-
-          <div class="facet">
-            <label class="facet__label" for="price">Price</label>
-            <select id="price" data-price>
-              <option value="any">Any price</option>
-              <option value="-599">Under 600</option>
-              <option value="600-999">600 &ndash; 999</option>
-              <option value="1000-1499">1 000 &ndash; 1 499</option>
-              <option value="1500-">1 500 and up</option>
-            </select>
-          </div>
-
-          <div class="facet">
-            <label class="facet__label" for="strength">Strength</label>
-            <select id="strength" data-strength>
-              <option value="any">Any strength</option>
-              <option value="-24.9">Under 25%</option>
-              <option value="25-42.9">25 &ndash; 42%</option>
-              <option value="43-49.9">43 &ndash; 49%</option>
-              <option value="50-">50% and up</option>
-            </select>
-          </div>
-
-          <div class="facet">
-            <label class="facet__label" for="size">Bottle</label>
-            <select id="size" data-size>{{size_options}}</select>
-          </div>
-
-          <button class="facets__reset" type="button" data-reset hidden>Clear filters</button>
-        </div>
-      </aside>
-
-      <div class="results">
-        <div class="results__head">
-          <p class="results__count"><span data-result-count role="status"
-             aria-live="polite">{{product_count}} bottles</span></p>
-
-          <button class="results__pick" type="button" data-random>
-            Pour me something
-          </button>
-          <label class="results__sort">
-            <span>Sort</span>
-            <select data-sort>
-              <option value="default">Our order</option>
-              <option value="newest">Newest first</option>
-              <option value="price-asc">Price, low to high</option>
-              <option value="price-desc">Price, high to low</option>
-              <option value="abv-desc">Strongest first</option>
-              <option value="name">Name</option>
-            </select>
-          </label>
-        </div>
-
-        <p class="presets">
-          <span>Looking for a present?</span>
-          <a href="?price=-599">Under 600</a>
-          <a href="?price=600-999">600 to 1 000</a>
-          <a href="?sort=newest">Just arrived</a>
-          <a href="?abv=50-">Something strong</a>
-        </p>
-
-        <ul class="product-grid" data-grid>{{product_grid}}</ul>
-
-        <nav class="recent" data-recent hidden aria-label="Recently looked at">
-          <p class="eyebrow">You were looking at</p>
-          <ul class="recent__list" data-recent-list></ul>
-        </nav>
-
-        <div class="no-results" data-no-results hidden>
-          <div class="mark" aria-hidden="true">{{motif}}</div>
-          <p class="lede" style="margin-inline:auto">Nothing on the shelf matches that.</p>
-        </div>
-      </div>
-
+    <div class="choose__out">
+      <p class="choose__count" role="status" data-choose-count></p>
+      <ul class="choose__list" data-choose-list></ul>
+      <p class="choose__none" data-choose-none hidden>
+        Nothing on that exact pair tonight. Take one answer off, or
+        <a href="{{base}}menu/">read the whole menu</a>.
+      </p>
     </div>
   </div>
-
 </section>
 
 <section class="section">

@@ -903,3 +903,78 @@
   });
   search.addEventListener("search", filter);
 })();
+
+/* -------------------------------------------------------------------------
+   The chooser on the front page
+   Two questions anybody standing at a bar can answer, and every answer it
+   gives is a drink the bar actually pours. It narrows a real list rather
+   than composing something nobody can order.
+   ------------------------------------------------------------------------- */
+
+(function () {
+  var root = document.querySelector("[data-choose]");
+  if (!root) return;
+
+  var source = root.querySelector("[data-choose-data]");
+  var list = root.querySelector("[data-choose-list]");
+  var count = root.querySelector("[data-choose-count]");
+  var none = root.querySelector("[data-choose-none]");
+  if (!source || !list) return;
+
+  var drinks;
+  try {
+    drinks = JSON.parse(source.textContent);
+  } catch (e) {
+    return;                       /* leave the page as the build wrote it */
+  }
+
+  var picked = { base: "", mood: "" };
+
+  var card = function (drink) {
+    var picture = drink.pic
+      ? '<img class="pour-card__pic" src="' + drink.pic +
+        '" alt="" width="320" height="330" loading="lazy" decoding="async">'
+      : "";
+    return '<li class="pour-card"><a class="pour-card__link" href="' +
+      drink.href + '">' + picture +
+      '<span class="pour-card__name">' + drink.name + "</span>" +
+      '<span class="pour-card__price">' + drink.price +
+      " <small>CZK</small></span></a></li>";
+  };
+
+  var show = function () {
+    if (!picked.base && !picked.mood) {
+      list.innerHTML = "";
+      count.textContent = "";
+      none.hidden = true;
+      return;
+    }
+    var hits = drinks.filter(function (drink) {
+      return (!picked.base || drink.base === picked.base) &&
+             (!picked.mood || drink.mood === picked.mood);
+    });
+    list.innerHTML = hits.slice(0, 6).map(card).join("");
+    none.hidden = hits.length > 0;
+    count.textContent = hits.length
+      ? (hits.length === 1 ? "One drink" : hits.length + " drinks")
+      : "";
+  };
+
+  ["base", "mood"].forEach(function (kind) {
+    root.querySelectorAll("[data-" + kind + "]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var value = button.getAttribute("data-" + kind);
+        /* Pressing the answer you already gave takes it back off, which is
+           how somebody widens the question again. */
+        picked[kind] = picked[kind] === value ? "" : value;
+        root.querySelectorAll("[data-" + kind + "]").forEach(function (other) {
+          other.setAttribute(
+            "aria-pressed",
+            other.getAttribute("data-" + kind) === picked[kind] ? "true" : "false"
+          );
+        });
+        show();
+      });
+    });
+  });
+})();

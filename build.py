@@ -166,8 +166,15 @@ def money(amount) -> str:
 # Shared chrome
 # ---------------------------------------------------------------------------
 
+# The bottle catalogue is withheld while the room is a bar: off the
+# navigation, out of the sitemap, and told not to be indexed. The pages stay
+# where they are, because a link that has been shared, printed or indexed
+# should not become a 404 — and turning it back on is this list plus the two
+# flags that read HIDE_CATALOGUE.
+HIDE_CATALOGUE = True
+
 NAV = [
-    ("Catalogue", "index.html"),
+    ("Menu", "menu/"),
     ("About", "about.html"),
     ("Visit", "visit.html"),
 ]
@@ -583,6 +590,80 @@ def menu_sections(menu: dict, base: str) -> tuple:
     return "".join(jump), "\n".join(sections)
 
 
+
+# ---------------------------------------------------------------------------
+# The front page, which presents the bar
+# ---------------------------------------------------------------------------
+
+# Base spirit and character, the two things somebody standing at a bar can
+# actually answer. Every pairing leads to a drink the bar pours.
+BASES = [("gin", "Gin"), ("whisky", "Whisky"), ("rum", "Rum"),
+         ("agave", "Agave"), ("vodka", "Vodka"), ("other", "Something else")]
+MOODS = [("sharp", "Sharp and citrus"), ("bitter", "Bitter"),
+         ("long", "Long and cold"), ("strong", "Short and strong"),
+         ("sweet", "On the sweet side")]
+
+
+def choice_buttons(kind: str, options: list) -> str:
+    return "".join(
+        f'<button class="ask__pick" type="button" data-{kind}="{esc(value)}" '
+        f'aria-pressed="false">{esc(label)}</button>'
+        for value, label in options
+    )
+
+
+def drink_card(product: dict, base: str) -> str:
+    """One drink on the front page: its drawing, its name, its price."""
+    picture = drink_picture(product, base)
+    price = money(product["price"]) if product.get("price") else ""
+    note = (product.get("text") or {}).get("en", "")
+    if len(note) > 110:
+        note = note[:107].rsplit(" ", 1)[0] + "…"
+    return f"""<li class="pour-card">
+  <a class="pour-card__link" href="{base}menu/#d-{esc(product['slug'])}">
+    {picture}
+    <span class="pour-card__name">{esc(product['name'])}</span>
+    <span class="pour-card__price">{price} <small>CZK</small></span>
+    {f'<span class="pour-card__note">{esc(note)}</span>' if note else ''}
+  </a>
+</li>"""
+
+
+def signature_drinks(menu: dict, tags: dict, base: str) -> str:
+    """The six the front page leads with: the two the bar flags itself, then
+    the best described of the rest, because a card with no words is thin."""
+    by_slug = {p["slug"]: p for p in menu["products"]}
+    chosen = [p["slug"] for p in menu["products"] if p.get("popular")]
+    rest = sorted(
+        (s for s in tags if s in by_slug and s not in chosen),
+        key=lambda s: -len((by_slug[s].get("text") or {}).get("en", "")),
+    )
+    chosen += rest[: 6 - len(chosen)]
+    return "\n".join(drink_card(by_slug[s], base) for s in chosen)
+
+
+def chooser_data(menu: dict, tags: dict, base: str) -> str:
+    """What the chooser narrows: one entry per tagged cocktail."""
+    by_slug = {p["slug"]: p for p in menu["products"]}
+    rows = []
+    for slug, (spirit, mood) in tags.items():
+        product = by_slug.get(slug)
+        if not product:
+            continue
+        rows.append({
+            "slug": slug,
+            "name": product["name"],
+            "price": money(product["price"]) if product.get("price") else "",
+            "base": spirit,
+            "mood": mood,
+            "pic": (f"{base}assets/drinks/{slug}.webp"
+                    if (ROOT / "assets" / "drinks" / f"{slug}.webp").exists()
+                    else ""),
+            "href": f"{base}menu/#d-{slug}",
+        })
+    return json.dumps(rows, separators=(",", ":"), ensure_ascii=False)
+
+
 def render_page(
     *,
     site: dict,
@@ -966,6 +1047,12 @@ def build():
         for c in catalogue["categories"]
     )
 
+    # The front page presents the bar. The bottle catalogue it used to show
+    # is withheld, not deleted: see hide_catalogue().
+    bar_menu = load("menu.json")
+    merge_notes(bar_menu, load("menu-notes.json"))
+    tags = load("menu-notes.json").get("tags", {})
+
     home = fill(
         template("home.html"),
         {
@@ -973,34 +1060,14 @@ def build():
             "tagline": esc(site["tagline"]),
             "city": esc(site["address"]["city"]),
             "description": esc(site["description"]),
-            "motif": use("m-motif"),
             "satyr": use("m-satyr"),
             "wordmark_stacked": use("m-wordmark"),
-            "producer_facet": (
-                '<div class="facet"><label class="facet__label" for="producer">'
-                "Producer</label>"
-                '<select id="producer" data-producer>'
-                '<option value="any">Any producer</option>'
-                + "".join(
-                    f'<option value="{esc(name)}">{esc(name)}</option>'
-                    for name in sorted({p["producer"] for p in products if p.get("producer")})
-                )
-                + "</select></div>"
-                if any(p.get("producer") for p in products)
-                else ""
-            ),
-            "stock_switch": (
-                '<div class="facet facet--switch">'
-                '<label class="switch"><input type="checkbox" data-instock>'
-                "<span>In stock only</span></label></div>"
-                if any(p.get("stock") and not p.get("placeholder") for p in products)
-                else ""
-            ),
-            "category_list": category_list,
-            "suggestions": suggestions,
-            "size_options": size_options,
-            "product_grid": grid(products, cats, ""),
-            "product_count": len(products),
+            "base": "",
+            "signatures": signature_drinks(bar_menu, tags, ""),
+            "drink_count": len(bar_menu["products"]),
+            "chooser_data": chooser_data(bar_menu, tags, ""),
+            "base_options": choice_buttons("base", BASES),
+            "mood_options": choice_buttons("mood", MOODS),
             "hours_list": hours_list(site),
             "address_block": address_block(site),
             "street": esc(site["address"]["street"]),
@@ -1160,7 +1227,7 @@ def build():
             share=share_card(f"shop-{product['slug']}"),
             share_alt=f"{product['name']} — {cat['name']}, {product['volume']} ml",
             head_extra=('<meta name="robots" content="noindex,follow">'
-                        if product.get('retired') else '')
+                        if product.get('retired') or HIDE_CATALOGUE else '')
                        + '<script type="application/ld+json">'
                        + json.dumps(jsonld, separators=(",", ":")) + "</script>"
                        + '<script type="application/ld+json">'
@@ -1176,7 +1243,7 @@ def build():
                            ],
                        }, separators=(",", ":")) + "</script>",
         )
-        if not product.get("retired"):
+        if not product.get("retired") and not HIDE_CATALOGUE:
             pages.append((f"shop/{product['slug']}.html", "0.7"))
 
     # About ------------------------------------------------------------------

@@ -6,15 +6,13 @@
     "empty. There is no href=\"#\" fallback anywhere, so the worst case is a missing",
     "link, never a dead one. Run `python3 build.py` after any change."
   ],
-
   "name": "Irony vs. Satyr",
-  "tagline": "Bottle shop",
-  "description": "A bottle shop in Nove Mesto, Prague. The whole shelf, listed - spirits chosen one at a time, by people who drink them.",
+  "tagline": "Cocktail bar",
+  "description": "A cocktail bar in Nove Mesto, Prague. The classics poured properly, a short list of our own, and the whole back bar behind them.",
   "_url_note": "Where the site actually lives. Canonicals, og:url and sitemap.xml all derive from it, so pointing a real domain at Pages means changing this one line and rebuilding.",
   "url": "https://aldy-lab.github.io/irony",
   "locale": "en",
   "currency": "CZK",
-
   "address": {
     "street": "Soukenicka 1756",
     "postal": "110 00",
@@ -23,24 +21,35 @@
     "country": "Czechia",
     "country_code": "CZ"
   },
-
   "transit": [
-    ["Namesti Republiky", "Metro B, 5 minutes on foot"],
-    ["Bilá labut", "Trams 3, 8, 14 — 3 minutes"]
+    [
+      "Namesti Republiky",
+      "Metro B, 5 minutes on foot"
+    ],
+    [
+      "Bilá labut",
+      "Trams 3, 8, 14 — 3 minutes"
+    ]
   ],
-
   "hours": [
-    ["Monday - Thursday", "12:00 - 22:00"],
-    ["Friday - Saturday", "12:00 - 24:00"],
-    ["Sunday", "14:00 - 20:00"]
+    [
+      "Monday - Thursday",
+      "12:00 - 22:00"
+    ],
+    [
+      "Friday - Saturday",
+      "12:00 - 24:00"
+    ],
+    [
+      "Sunday",
+      "14:00 - 20:00"
+    ]
   ],
-
   "contact": {
     "email": "",
     "phone": "",
     "maps_url": ""
   },
-
   "legal": {
     "_readme": [
       "Required on a Czech business site and shown on privacy.html.",
@@ -51,12 +60,10 @@
     "company_id": "",
     "vat_id": ""
   },
-
   "social": {
     "instagram": "",
     "facebook": ""
   },
-
   "catalogue": {
     "_readme": [
       "This is a catalogue, not a shop: nothing is bought on the site.",
@@ -66,7 +73,6 @@
     "availability_note": "Prices are what you pay at the counter. Stock moves, so call ahead if you are making a trip for one bottle - and bring photo ID, we check it every time.",
     "min_age": 18
   },
-
   "appearance": {
     "_readme": [
       "The brand has a dark half and the site uses the light one.",
@@ -76,7 +82,6 @@
     ],
     "follow_system_dark": false
   },
-
   "analytics": {
     "_readme": "Plausible only, cookieless. Leave blank for no analytics and nothing to disclose. Switching it on means the privacy page needs a line about it.",
     "plausible_domain": ""

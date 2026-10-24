@@ -12,9 +12,10 @@
     "",
     "Czech and Ukrainian are written to be correct, not translated word for",
     "word from the English. Have someone who speaks them read these before",
-    "they are printed."
+    "they are printed.",
+    "",
+    "`tags` places each cocktail by its base spirit and its character, for the chooser on the front page. Every answer it gives is a drink the bar actually pours — it narrows the real list rather than inventing a drink."
   ],
-
   "ask_the_bar": {
     "all-shot": "What is in it? Priced at 185, listed under cocktails, no description anywhere.",
     "skinny-bitch-by-nemiroff-delikat": "Assumed vodka, soda and lime, the usual build. Confirm before it goes out.",
@@ -22,7 +23,6 @@
     "mezcalita-vida": "Assumed a mezcal margarita on Del Maguey Vida. At 465 it is the dearest drink on the list and deserves its own words.",
     "white-wine-200ml-italy": "Which wine? Region and grape, so it can be described at all."
   },
-
   "notes": {
     "pisco-sour": {
       "en": "Peruvian pisco shaken with lime, sugar and egg white, with bitters across the foam. Sharp, soft and a little floral.",
@@ -149,5 +149,135 @@
       "cs": "Coca-Cola, vychlazená.",
       "uk": "Coca-Cola, холодна."
     }
+  },
+  "tags": {
+    "kyiv-mule-by-ukrainian-nemiroff-vodka": [
+      "vodka",
+      "long"
+    ],
+    "gin-basil-smash": [
+      "gin",
+      "sharp"
+    ],
+    "aviation-cocktail": [
+      "gin",
+      "sharp"
+    ],
+    "espresso-martini": [
+      "vodka",
+      "strong"
+    ],
+    "tajin-margarita-cocktail": [
+      "agave",
+      "sharp"
+    ],
+    "satyr-cola": [
+      "rum",
+      "long"
+    ],
+    "negroni": [
+      "gin",
+      "bitter"
+    ],
+    "new-york-sour": [
+      "whisky",
+      "sharp"
+    ],
+    "slava-ukraini-shot": [
+      "vodka",
+      "strong"
+    ],
+    "dark-and-stormy": [
+      "rum",
+      "long"
+    ],
+    "bee-s-knees": [
+      "gin",
+      "sweet"
+    ],
+    "adriatico-amaretto-sweet-and-sour": [
+      "other",
+      "sweet"
+    ],
+    "sidecar-by-martell-cognac": [
+      "other",
+      "sharp"
+    ],
+    "skinny-bitch-by-nemiroff-delikat": [
+      "vodka",
+      "long"
+    ],
+    "el-presidente": [
+      "rum",
+      "strong"
+    ],
+    "bloody-mary": [
+      "vodka",
+      "long"
+    ],
+    "salty-dog-by-nemiroff-delikat": [
+      "vodka",
+      "long"
+    ],
+    "bergamot-dry-martini-by-italicus": [
+      "gin",
+      "strong"
+    ],
+    "pisco-sour": [
+      "other",
+      "sharp"
+    ],
+    "yellow-negroni": [
+      "gin",
+      "bitter"
+    ],
+    "caipirinha": [
+      "rum",
+      "sharp"
+    ],
+    "bitter-giuseppe": [
+      "other",
+      "bitter"
+    ],
+    "paloma": [
+      "agave",
+      "long"
+    ],
+    "french75": [
+      "gin",
+      "sharp"
+    ],
+    "dolce-amaro-bittersweet": [
+      "other",
+      "bitter"
+    ],
+    "last-word": [
+      "gin",
+      "sharp"
+    ],
+    "green-deacon": [
+      "gin",
+      "long"
+    ],
+    "breakfast-martini": [
+      "gin",
+      "sharp"
+    ],
+    "pinnaple-daiquiri": [
+      "rum",
+      "sharp"
+    ],
+    "mezcalita-vida": [
+      "agave",
+      "sharp"
+    ],
+    "all-shot": [
+      "other",
+      "strong"
+    ],
+    "skiny-beatch": [
+      "vodka",
+      "long"
+    ]
   }
 }

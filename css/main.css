@@ -2897,3 +2897,233 @@ body:has(.menu) {
     font-size: 1.16rem;
   }
 }
+
+/* ==========================================================================
+   The front page, presenting the bar
+   ========================================================================== */
+
+.masthead__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 1.6rem;
+}
+
+/* A text link beside a button is still something a thumb has to hit. */
+.masthead__actions .link-arrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.eyebrow--rule {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.eyebrow--rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* A drink, wherever one is shown outside the menu ------------------------ */
+
+/* Counted, not fitted. auto-fill gave seven columns to six drinks at a
+   desktop width and left the seventh standing empty with the rule showing
+   through it — the same half-filled last row the catalogue has a check
+   against. Six divides by two, three and six. */
+.shelf__list,
+.choose__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+.pour-card {
+  background: var(--paper);
+}
+
+.pour-card__link {
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  height: 100%;
+  padding: 1.3rem 1rem 1.5rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.25s var(--ease);
+}
+
+.pour-card__link:hover,
+.pour-card__link:focus-visible {
+  background: color-mix(in srgb, var(--green) 5%, transparent);
+}
+
+/* The drawings are made on the menu's dark ground, where the glass is drawn
+   in a pale line. On paper that line disappears, so the picture sits in a
+   panel of the same dark rather than on the page. */
+.pour-card__pic,
+.pour-card .drink__pic {
+  width: 88px;
+  height: auto;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  background: #0d1a04;
+}
+
+.pour-card__name {
+  font-family: var(--display, inherit);
+  font-size: 1rem;
+  line-height: 1.25;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.pour-card__price {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.pour-card__price small {
+  color: var(--muted);
+  font-size: 0.7em;
+  letter-spacing: 0.1em;
+}
+
+.pour-card__note {
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.shelf__more {
+  margin-top: 1.4rem;
+}
+
+/* A quiet link that still says it leads somewhere. */
+.link-arrow {
+  color: var(--text);
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.3em;
+}
+
+.link-arrow::after {
+  content: " \2192";
+  color: var(--muted);
+}
+
+.link-arrow:hover,
+.link-arrow:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+/* The chooser ------------------------------------------------------------ */
+
+.choose__title {
+  margin: 0.4rem 0 1.8rem;
+}
+
+.choose__asks {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.ask {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ask__legend {
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ask__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+.ask__pick {
+  min-height: 44px;
+  padding: 0.55rem 1.05rem;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease),
+    border-color 0.2s var(--ease);
+}
+
+.ask__pick:hover {
+  border-color: var(--text);
+}
+
+.ask__pick[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--maroon);
+}
+
+.choose__out {
+  margin-top: 2rem;
+}
+
+.choose__count {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.choose__list:empty {
+  display: none;
+}
+
+.choose__none {
+  margin-top: 1rem;
+  color: var(--muted);
+  max-width: 46ch;
+}
+
+@media (min-width: 760px) {
+  .choose__asks {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.4rem;
+  }
+
+  .shelf__list,
+  .choose__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pour-card__pic,
+  .pour-card .drink__pic {
+    width: 104px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .shelf__list,
+  .choose__list {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}

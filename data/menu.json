@@ -139,7 +139,7 @@
       "text": {
         "en": "Vodka and strong iced espresso, as well as coffee liqueur Kahlua",
         "cs": "Vodka a silné ledové espresso, stejně jako kávový likér Kahlua",
-        "uk": "Горілка  і міцний льодяний еспресо , а також кавовий лікер Kahlua"
+        "uk": "Горілка і міцний льодяний еспресо , а також кавовий лікер Kahlua"
       },
       "poster_id": 84,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/2309ef03-8afb-4405-a0bd-3cd5c9355135-image.jpeg"
@@ -166,7 +166,7 @@
       "text": {
         "en": "Cola, 5 year old spiced rum from Panama - Abuelo, Velvet Falernum rum liqueur from Barbados, Coffee liquor Kahlua, Brut or Cava",
         "cs": "Cola, 5letý kořeněný rum z Panamy - Abuelo, rumový likér Velvet Falernum z Barbadosu, kávový likér Kahlua, Brut nebo Cava",
-        "uk": "Cola,пряний 5-ти річний панамський ром Abuelo   ,ромовий лікер Velvet Falernum з Барбадосу, кавовий лікер Kahlua , Brut або -ж  Cava"
+        "uk": "Cola,пряний 5-ти річний панамський ром Abuelo ,ромовий лікер Velvet Falernum з Барбадосу, кавовий лікер Kahlua , Brut або -ж Cava"
       },
       "poster_id": 93,
       "poster_photo": "https://img.postershop.me/14649/Products/3993715_1689078408.3018_original.png"
@@ -180,7 +180,7 @@
       "text": {
         "en": "A classic combination of dry gin with the bitterness of Campari and sweet French Dolin vermouth",
         "cs": "klasická kombinace suchého ginu s hořkostí Campari a sladkým francouzským Dolin vermutem",
-        "uk": "класичне поєднання сухого джину з гіркотою Campari  та солодкого французького вермуту Dolin"
+        "uk": "класичне поєднання сухого джину з гіркотою Campari та солодкого французького вермуту Dolin"
       },
       "poster_id": 96,
       "poster_photo": "https://img.postershop.me/14649/8692efcd-0c5f-4566-9f6b-a0fa3f273d24_image.jpeg"
@@ -220,9 +220,9 @@
       "price": 285,
       "popular": false,
       "text": {
-        "en": "🇬🇧 EN:\n⚓️ Dark & Stormy ⛈️\nA Bermudian classic with a fiery twist. Rich dark rum, fresh lime, and natural French Pimento ginger beer infused with chili pepper. The perfect balance of sweet and spicy. 🥃 Dark Rum 🌶 Natural French Pimento Ginger Beer (with pepper) 🍋 Lime 🍋 Limetka",
-        "cs": "CZ:\n⚓️ Dark & Stormy ⛈️\nBermudská klasika s novým temperamentem. Bohatý tmavý rum, svěží limetka a přírodní francouzské zázvorové pivo Pimento s přídavkem chilli pepře. Dokonalá rovnováha sladkosti a ohnivé ostrosti. 🥃 Tmavý rum 🌶 Přírodní francouzské zázvorové pivo Pimento (s pepřem)",
-        "uk": "UA:\n⚓️ Dark & Stormy ⛈️\nКласика з Бермудських островів із новим характером. Насичений темний ром, свіжість лайма та натуральне французьке імбирне пиво Pimento з додаванням перцю. Ідеальний баланс солодкості та вогняної гостроти. 🥃 Темний ром 🌶 Натуральне французьке імбирне пиво Pimento (з перцем) 🍋 Лайм"
+        "en": "️ Dark & Stormy ️\nA Bermudian classic with a fiery twist. Rich dark rum, fresh lime, and natural French Pimento ginger beer infused with chili pepper. The perfect balance of sweet and spicy. Dark Rum Natural French Pimento Ginger Beer (with pepper) Lime Limetka",
+        "cs": "️ Dark & Stormy ️\nBermudská klasika s novým temperamentem. Bohatý tmavý rum, svěží limetka a přírodní francouzské zázvorové pivo Pimento s přídavkem chilli pepře. Dokonalá rovnováha sladkosti a ohnivé ostrosti. Tmavý rum Přírodní francouzské zázvorové pivo Pimento (s pepřem)",
+        "uk": "️ Dark & Stormy ️\nКласика з Бермудських островів із новим характером. Насичений темний ром, свіжість лайма та натуральне французьке імбирне пиво Pimento з додаванням перцю. Ідеальний баланс солодкості та вогняної гостроти. Темний ром Натуральне французьке імбирне пиво Pimento (з перцем) Лайм"
       },
       "poster_id": 146,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/e5e7e09d-2e95-4a6f-9a68-5c93477a76f4-image.jpeg"
@@ -248,7 +248,7 @@
       "price": 325,
       "popular": false,
       "text": {
-        "en": "English 🇬🇧\nAmaretto Sweet & Sour This drink is made with Adriatico Amaretto, fresh lemon juice, and egg white.\nCzech Amaretto Sweet & Sour Ukrainian Amaretto Sweet & Sour",
+        "en": "English Amaretto Sweet & Sour This drink is made with Adriatico Amaretto, fresh lemon juice, and egg white.\nCzech Amaretto Sweet & Sour Ukrainian Amaretto Sweet & Sour",
         "cs": "Tento nápoj je vyroben z Adriatico Amaretto, čerstvé citronové šťávy a vaječného bílku.",
         "uk": "Цей напій зроблений з Adriatico Amaretto, свіжого лимонного соку та яєчного білка."
       },
@@ -314,8 +314,8 @@
       "price": 305,
       "popular": false,
       "text": {
-        "en": "Salty Dog English 🇬🇧\nExperience the Salty Dog: crisp vodka meets vibrant natural grapefruit soda and subtle maraschino liqueur . Finished with a salt rim for perfect balance. Pure, zesty refreshment.\nCzech Ukrainian",
-        "cs": "Poznejte Salty Dog: svěží vodka se snoubí s živou přírodní grepovou limonádou a jemným Maraschino likérem. Dokončeno solným okrajem  pro dokonalou rovnováhu. Čisté, pikantní osvěžení.",
+        "en": "Salty Dog English Experience the Salty Dog: crisp vodka meets vibrant natural grapefruit soda and subtle maraschino liqueur . Finished with a salt rim for perfect balance. Pure, zesty refreshment.\nCzech Ukrainian",
+        "cs": "Poznejte Salty Dog: svěží vodka se snoubí s živou přírodní grepovou limonádou a jemným Maraschino likérem. Dokončeno solným okrajem pro dokonalou rovnováhu. Čisté, pikantní osvěžení.",
         "uk": "Спробуйте Salty Dog: якісна горілка поєднується з яскравим натуральним грейпфрутовим лимонадом та витонченим лікером Мараскіно. Завершує смак сольовий обідок для ідеального балансу. Чисте, пікантне освіження."
       },
       "poster_id": 264,
@@ -352,9 +352,9 @@
       "price": 295,
       "popular": false,
       "text": {
-        "en": "summer gin, dry vermouth and liqueur Suze l`Originale  is one of the oldest aperitifs from France, which today is a national treasure of the country. The liqueur is made from gentian infusion, alpine herb extracts and concentrated apple juice.",
-        "cs": "letní gin, suchý vermut a likér Suze l`Originale  je jedním z nejstarších aperitivů z Francie, který je dnes národním pokladem země. Likér se vyrábí z nálevu z hořce, výtažků z alpských bylin a koncentrované jablečné šťávy.",
-        "uk": "літній джин, сухий вермут та лікер Suze l`Originale – це один із найстаріших аперитивів із Франції, який сьогодні є національним надбанням країни. Лікер виготовляють з настою тирличу, екстрактів альпійських трав та концентрованого яблучного соку."
+        "en": "summer gin, dry vermouth and liqueur Suze lOriginale is one of the oldest aperitifs from France, which today is a national treasure of the country. The liqueur is made from gentian infusion, alpine herb extracts and concentrated apple juice.",
+        "cs": "letní gin, suchý vermut a likér Suze lOriginale je jedním z nejstarších aperitivů z Francie, který je dnes národním pokladem země. Likér se vyrábí z nálevu z hořce, výtažků z alpských bylin a koncentrované jablečné šťávy.",
+        "uk": "літній джин, сухий вермут та лікер Suze lOriginale – це один із найстаріших аперитивів із Франції, який сьогодні є національним надбанням країни. Лікер виготовляють з настою тирличу, екстрактів альпійських трав та концентрованого яблучного соку."
       },
       "poster_id": 298,
       "poster_photo": "https://img.postershop.me/14649/eb7251ac-a566-485d-a241-49d5508d3f25_image.jpeg"
@@ -418,9 +418,9 @@
       "price": 295,
       "popular": false,
       "text": {
-        "en": "Sip on sophistication with the **Dolce Amaro** 🌅. This exquisite cocktail blends the dry notes of vermouth with the bittersweet embrace of Campari and the rich almond warmth of Adriatico Amaretto. It's like a Mediterranean sunset in a glass – perfect for unwinding and savoring the moment. Vychutnejte si sofistikovanost s koktejlem **Dolce Amaro** 🌅.",
+        "en": "Sip on sophistication with the Dolce Amaro . This exquisite cocktail blends the dry notes of vermouth with the bittersweet embrace of Campari and the rich almond warmth of Adriatico Amaretto. It's like a Mediterranean sunset in a glass – perfect for unwinding and savoring the moment. Vychutnejte si sofistikovanost s koktejlem Dolce Amaro .",
         "cs": "Tento vynikající nápoj spojuje suché tóny vermutu s hořkosladkým objetím Campari a bohatou mandlovou hřejivostí Adriatico Amaretto. Je to jako středomořský západ slunce ve sklenici – ideální pro relaxaci a vychutnání si okamžiku.",
-        "uk": "Насолоджуйтесь витонченістю з коктейлем **Dolce Amaro** 🌅. Цей вишуканий напій поєднує сухі нотки вермуту з гірко-солодкими обіймами Campari та насиченою мигдальною теплотою Adriatico Amaretto. Це ніби середземноморський захід сонця у склянці – ідеально для відпочинку та насолоди моментом."
+        "uk": "Насолоджуйтесь витонченістю з коктейлем Dolce Amaro . Цей вишуканий напій поєднує сухі нотки вермуту з гірко-солодкими обіймами Campari та насиченою мигдальною теплотою Adriatico Amaretto. Це ніби середземноморський захід сонця у склянці – ідеально для відпочинку та насолоди моментом."
       },
       "poster_id": 452,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/1337e1d6-2b0f-4d73-9324-e2ec3502ec8f-image.png"
@@ -446,9 +446,9 @@
       "price": 349,
       "popular": false,
       "text": {
-        "en": "### 🇬🇧 English **Green Deacon**\nA dry and refreshing contrast of London Dry and Sloe gin, balancing tart pink grapefruit with a subtle whisper of absinthe.\n*Flavor: Citrusy, herbal, bittersweet.*",
-        "uk": "Українська **Green Deacon**\nСухий та освіжаючий контраст лондонського та тернового джину, де кислинка рожевого грейпфрута ідеально збалансована ледь помітною краплею абсенту.\n*Смак: Цитрусовий, трав'яний, гіркувато-солодкий.*",
-        "cs": "Čeština **Green Deacon**\nSuchý a osvěžující kontrast londýnského a trnkového ginu, kde se snoubí kyselost růžového grapefruitu s jemnou, sotva znatelnou kapkou absintu.\n*Chuť: Citrusová, bylinná, hořkosladká.*"
+        "en": "### English Green Deacon\nA dry and refreshing contrast of London Dry and Sloe gin, balancing tart pink grapefruit with a subtle whisper of absinthe.\nFlavor: Citrusy, herbal, bittersweet.",
+        "uk": "Українська Green Deacon\nСухий та освіжаючий контраст лондонського та тернового джину, де кислинка рожевого грейпфрута ідеально збалансована ледь помітною краплею абсенту.\nСмак: Цитрусовий, трав'яний, гіркувато-солодкий.",
+        "cs": "Čeština Green Deacon\nSuchý a osvěžující kontrast londýnského a trnkového ginu, kde se snoubí kyselost růžového grapefruitu s jemnou, sotva znatelnou kapkou absintu.\nChuť: Citrusová, bylinná, hořkosladká."
       },
       "poster_id": 483,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/7f43386c-efe1-4143-9204-4d1dcd394c9e-image.jpeg"
@@ -460,9 +460,9 @@
       "price": 305,
       "popular": false,
       "text": {
-        "en": "Breakfast Martini 🍸🍊\nA sophisticated blend of gin, orange marmalade, and a bold cognac-based orange liqueur. The definitive liquid breakfast.",
-        "cs": "Breakfast Martini 🍸✨\nSofistikovaný mix ginu, marmelády a silného pomerančového likéru na koňaku. Dokonalá tekutá snídaně.",
-        "uk": "Breakfast Martini 🍸🍊\nВишуканий мікс джину, мармеладу та міцного апельсинового лікеру на коньяку. Твій ідеальний «рідкий сніданок»."
+        "en": "Breakfast Martini A sophisticated blend of gin, orange marmalade, and a bold cognac-based orange liqueur. The definitive liquid breakfast.",
+        "cs": "Breakfast Martini Sofistikovaný mix ginu, marmelády a silného pomerančového likéru na koňaku. Dokonalá tekutá snídaně.",
+        "uk": "Breakfast Martini Вишуканий мікс джину, мармеладу та міцного апельсинового лікеру на коньяку. Твій ідеальний «рідкий сніданок»."
       },
       "poster_id": 495,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/b4f751d4-d54d-47e8-b8f2-f23e2812646d-image.jpeg"
@@ -476,7 +476,7 @@
       "text": {
         "en": "Banana Daiquiri Base Spirit:Cargo Cult — a dry and spiced Australian rum.\nPreparation: The rum is macerated with mountain bananas from Queensland, Australia. These naturally less sweet bananas provide a rich aroma and flavor without excess sugar.\nIngredients: Cargo Cult Spiced Rum (macerated with Queensland bananas), fresh lime juice, smoked Demerara syrup (brown cane sugar).\nProfile: Dry, spiced, with a pronounced banana character and subtle smoky notes. Banana Daiquiri",
         "cs": "Banana Daiquiri\nZáklad: Cargo Cult — suchý a kořeněný australský rum.\nPříprava: Rum je macerován s horskými banány z Queenslandu (Austrálie). Tyto banány jsou přirozeně méně sladké, dodávají nápoji bohaté aroma a chuť bez nadměrné sladkosti.\nSložení: Kořeněný rum Cargo Cult (macerovaný s queenslandskými banány), čerstvá limetková šťáva, sirup z uzeného třtinového cukru Demerara.\nProfil: Suchý, kořeněný, s výrazným banánovým charakterem a lehkými kouřovými tóny.",
-        "uk": "*Основа: Cargo Cult — сухий та пряний австралійський ром.\nПриготування: Ром мацерується на гірських бананах з Квінсленда (Австралія). Ці банани від природи менш солодкі, тому надають напою багатий аромат і смак без зайвої солодкості.\nСклад: Пряний ром Cargo Cult (мацерований на квінслендських бананах), свіжий сік лайма, сироп із підкопченого тростинного цукру демерара.\nПрофіль: Сухий, пряний, з вираженим банановим характером та легкими димними нотами."
+        "uk": "Основа: Cargo Cult — сухий та пряний австралійський ром.\nПриготування: Ром мацерується на гірських бананах з Квінсленда (Австралія). Ці банани від природи менш солодкі, тому надають напою багатий аромат і смак без зайвої солодкості.\nСклад: Пряний ром Cargo Cult (мацерований на квінслендських бананах), свіжий сік лайма, сироп із підкопченого тростинного цукру демерара.\nПрофіль: Сухий, пряний, з вираженим банановим характером та легкими димними нотами."
       },
       "poster_id": 507,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/46ff899c-9b90-4954-8932-deae6ee6c17e-image.jpeg"
@@ -534,9 +534,9 @@
       "price": 295,
       "popular": false,
       "text": {
-        "en": "🇬🇧 English Citadelle Original: The Pioneer of French Craft Gin. 🍸🇫🇷 The first French craft gin, born in 1996 in the heart of Grande Champagne. A flawless balance of juniper, citrus, and exotic spices. The Core: Juniper berries grown and strictly controlled directly at Château de Bonbonnet.\nThe Formula: French wheat distillate + 19 distinct botanicals (including cardamon, cubeb pepper, grains of paradise, and violet petals).\nThe Process: Patented progressive maceration and a single distillation in small 25 hL copper pot stills.\n* **Profile:** Delicate fresh flowers and citrus on the nose, opening up to a bold, peppery, and spicy palate. Elegant, round, and refined finish. #citadellegin #originalgin #craftgin #praguebar #barlife #citadellegin #gintonic #remeslnygin #barpraha #praguebar",
-        "cs": "Čeština **Citadelle Original: Průkopník francouzského řemeslného ginu.** 🍸🇫🇷 První francouzský řemeslný gin, představený v roce 1996 v srdci regionu Grande Champagne. Dokonalá rovnováha jalovce, citrusů a exotického koření. * **Základ:** Jalovec pěstovaný pod přímou kontrolou přímo před zámkem Château de Bonbonnet.\n* **Složení:** Pšeničný destilát + 19 rostlinných ingrediencí (včetně kardamomu, pepře kubéba, rajských zrn a květů fialek).\n* **Výroba:** Patentovaná postupná macerace a následná single destilace v malých 25hL měděných kotlích.\n* **Profil:** Jemná vůně čerstvých květin a citrusů, která na patře přechází do výrazných tónů pepře a koření. Elegantní, kulatý a vytříbený závěr.",
-        "uk": "Українська **Citadelle Original: Піонер французького крафтового джину.** 🍸🇫🇷 Перший французький крафтовий джин, створений у 1996 році в самому серці Grande Champagne. Ідеальний баланс ялівцю, цитрусів та екзотичних прянощів. * **Основа:** Ягоди ялівцю вирощуються під максимальним контролем безпосередньо біля замку Château de Bonbonnet.\n* **Склад:** Пшеничний дистилят + 19 рослинних компонентів (серед яких кардамон, перець кубеба, райські зерна та пелюстки фіалки).\n* **Технологія:** Запатентована прогресивна мацерація та єдина дистиляція в малих 25-гектолітрових мідних кубах.\n* **Профіль:** Ніжний аромат свіжих квітів та цитрусів, який на піднебінні розкривається яскравими перцевими та пряними нотами. Елегантний, округлий та витончений посмак."
+        "en": "English Citadelle Original: The Pioneer of French Craft Gin. The first French craft gin, born in 1996 in the heart of Grande Champagne. A flawless balance of juniper, citrus, and exotic spices. The Core: Juniper berries grown and strictly controlled directly at Château de Bonbonnet.\nThe Formula: French wheat distillate + 19 distinct botanicals (including cardamon, cubeb pepper, grains of paradise, and violet petals).\nThe Process: Patented progressive maceration and a single distillation in small 25 hL copper pot stills. Profile: Delicate fresh flowers and citrus on the nose, opening up to a bold, peppery, and spicy palate. Elegant, round, and refined finish. #citadellegin #originalgin #craftgin #praguebar #barlife #citadellegin #gintonic #remeslnygin #barpraha #praguebar",
+        "cs": "Čeština Citadelle Original: Průkopník francouzského řemeslného ginu. První francouzský řemeslný gin, představený v roce 1996 v srdci regionu Grande Champagne. Dokonalá rovnováha jalovce, citrusů a exotického koření. Základ: Jalovec pěstovaný pod přímou kontrolou přímo před zámkem Château de Bonbonnet. Složení: Pšeničný destilát + 19 rostlinných ingrediencí (včetně kardamomu, pepře kubéba, rajských zrn a květů fialek). Výroba: Patentovaná postupná macerace a následná single destilace v malých 25hL měděných kotlích. Profil: Jemná vůně čerstvých květin a citrusů, která na patře přechází do výrazných tónů pepře a koření. Elegantní, kulatý a vytříbený závěr.",
+        "uk": "Українська Citadelle Original: Піонер французького крафтового джину. Перший французький крафтовий джин, створений у 1996 році в самому серці Grande Champagne. Ідеальний баланс ялівцю, цитрусів та екзотичних прянощів. Основа: Ягоди ялівцю вирощуються під максимальним контролем безпосередньо біля замку Château de Bonbonnet. Склад: Пшеничний дистилят + 19 рослинних компонентів (серед яких кардамон, перець кубеба, райські зерна та пелюстки фіалки). Технологія: Запатентована прогресивна мацерація та єдина дистиляція в малих 25-гектолітрових мідних кубах. Профіль: Ніжний аромат свіжих квітів та цитрусів, який на піднебінні розкривається яскравими перцевими та пряними нотами. Елегантний, округлий та витончений посмак."
       },
       "poster_id": 486,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/553ad955-f45e-4324-b6be-6d2a9322b6c2-image.jpeg"
@@ -568,9 +568,9 @@
       "price": 299,
       "popular": false,
       "text": {
-        "en": "🇬🇧 ENGLISH 🔥 Ole Smoky Mango Habanero\nSweet tropical mango meets a sharp habanero kick.\nSmooth Tennessee whiskey with a slow-burning finish.\nDangerously drinkable. Unforgettable.",
-        "cs": "ČEŠTINA 🔥 Ole Smoky Mango Habanero\nSladké mango, ostrý dotek habanera.\nJemná whiskey z Tennessee s hřejivým dozvukem.\nNečekaná. Návyková.",
-        "uk": "УКРАЇНСЬКОЮ 🔥 Ole Smoky Mango Habanero\nСолодке манго й пекучий хабанеро.\nМ’який теннесійський віскі з довгим гарячим фінішем.\nСміливий смак, який запам’ятовується."
+        "en": "ENGLISH Ole Smoky Mango Habanero\nSweet tropical mango meets a sharp habanero kick.\nSmooth Tennessee whiskey with a slow-burning finish.\nDangerously drinkable. Unforgettable.",
+        "cs": "ČEŠTINA Ole Smoky Mango Habanero\nSladké mango, ostrý dotek habanera.\nJemná whiskey z Tennessee s hřejivým dozvukem.\nNečekaná. Návyková.",
+        "uk": "УКРАЇНСЬКОЮ Ole Smoky Mango Habanero\nСолодке манго й пекучий хабанеро.\nМ’який теннесійський віскі з довгим гарячим фінішем.\nСміливий смак, який запам’ятовується."
       },
       "poster_id": 473,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/991e69aa-12f9-4e6b-9c83-601442ecdd28-image.jpeg"
@@ -582,9 +582,9 @@
       "price": 299,
       "popular": false,
       "text": {
-        "en": "## 🇬🇧 English Intense, smoky, and complex. A perfect balance of peat smoke, medicinal notes, and sweet oak. Rich flavors of seaweed, vanilla, and a hint of spice, leading into a long, dry, and distinctly smoky finish. A versatile, signature peated base for our premium whiskey cocktails.",
-        "cs": "**Laphroaig Oak Select (40%)**\nA classic Islay single malt Scotch whisky matured in a selection of five distinct casks: Oloroso Sherry, American White Oak, Pedro Ximénez, Quarter Cask, and Bourbon. Čeština **Laphroaig Oak Select (40%)**\nKlasická Islay single malt skotská whisky zrající v pěti různých typech sudů: po Oloroso Sherry, americkém bílém dubu, Pedro Ximénez, Quarter Cask a Bourbonu. Intenzivní, kouřová a komplexní. Dokonalý balanc rašelinového kouře, medicínských tónů a sladkého dřeva. Bohatá chuť mořských řas, vanilky a jemného koření s dlouhým, suchým a výrazně kouřovým závěrem. Charakteristická rašelinová báze pro naše prémiové whisky koktejly.",
-        "uk": "Українська **Laphroaig Oak Select (40%)**\nКласичний односолодовий шотландський віскі з острова Айла, витриманий у п'яти різних типах бочок: з-під хересу Олоросо, американського білого дуба, Педро Хіменеса, Quarter Cask та бурбону. Інтенсивний, торф'яний та комплексний. Ідеальний баланс насиченого диму, медичних нот та солодкого дуба. Багатий смак морських водоростей, ванілі й легких прянощів із довгим, сухим та виразно димним фінішем. Характерна торф'яна база для наших преміальних коктейлів на віскі."
+        "en": "## English Intense, smoky, and complex. A perfect balance of peat smoke, medicinal notes, and sweet oak. Rich flavors of seaweed, vanilla, and a hint of spice, leading into a long, dry, and distinctly smoky finish. A versatile, signature peated base for our premium whiskey cocktails.",
+        "cs": "Laphroaig Oak Select (40%)\nA classic Islay single malt Scotch whisky matured in a selection of five distinct casks: Oloroso Sherry, American White Oak, Pedro Ximénez, Quarter Cask, and Bourbon. Čeština Laphroaig Oak Select (40%)\nKlasická Islay single malt skotská whisky zrající v pěti různých typech sudů: po Oloroso Sherry, americkém bílém dubu, Pedro Ximénez, Quarter Cask a Bourbonu. Intenzivní, kouřová a komplexní. Dokonalý balanc rašelinového kouře, medicínských tónů a sladkého dřeva. Bohatá chuť mořských řas, vanilky a jemného koření s dlouhým, suchým a výrazně kouřovým závěrem. Charakteristická rašelinová báze pro naše prémiové whisky koktejly.",
+        "uk": "Українська Laphroaig Oak Select (40%)\nКласичний односолодовий шотландський віскі з острова Айла, витриманий у п'яти різних типах бочок: з-під хересу Олоросо, американського білого дуба, Педро Хіменеса, Quarter Cask та бурбону. Інтенсивний, торф'яний та комплексний. Ідеальний баланс насиченого диму, медичних нот та солодкого дуба. Багатий смак морських водоростей, ванілі й легких прянощів із довгим, сухим та виразно димним фінішем. Характерна торф'яна база для наших преміальних коктейлів на віскі."
       },
       "poster_id": 488,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/3eb63ead-646b-4de2-b46b-99899b36fd7b-image.jpeg"
@@ -606,9 +606,9 @@
       "price": 255,
       "popular": false,
       "text": {
-        "en": "## 🇬🇧 English Clean, vibrant, and aromatic with distinct notes of fresh tropical fruits, green grass, and a hint of spice. Taste the true vibrant energy of Brazil. Crafted using traditional copper pot stills, this premium Cachaça offers a remarkably smooth and crisp profile with rich sugarcane notes and a subtle herbaceous finish. The ultimate, authentic choice for a flawless, world-class Caipirinha.",
-        "cs": "**Cachaça Magnífica Tradicional (40%)**\nAn authentic, premium Brazilian spirit distilled from fresh sugarcane juice and aged in traditional Ipê wood casks. Čeština **Cachaça Magnífica Tradicional (40%)**\nAutentický, prémiový brazilský destilát z čerstvé šťávy cukrové třtiny, stařený v tradičních sudech ze dřeva Ipê. Čistá, živá a aromatická chuť s výraznými tóny tropického ovoce, zelené trávy a jemného koření. Zažijte skutečnou energii Brazílie. Tato prémiová Cachaça, vyráběná tradiční destilací v měděných kotlích, nabízí mimořádně jemný a svěží profil s bohatou chutí cukrové třtiny a lehkým bylinným závěrem. Naprosto autentická volba pro dokonalou a prvotřídní Caipirinhu.",
-        "uk": "Українська **Cachaça Magnífica Tradicional (40%)**\nАвтентичний преміальний бразильський міцний напій із чистого соку цукрової тростини, витриманий у традиційних бочках із дерева Іпе. Чистий, яскравий та ароматний смак із виразними нотами тропічних фруктів, свіжої трави та легких прянощів. Відчуйте справжню енергію Бразилії. Ця преміальна кашаса, створена шляхом традиційної дистиляції в мідних кубах, має надзвичайно м'який та освіжаючий профіль із насиченими тростинними тонами та легким трав'янистим посмаком. Ідеальний та автентичний вибір для бездоганної Кайпіріньї світового рівня."
+        "en": "## English Clean, vibrant, and aromatic with distinct notes of fresh tropical fruits, green grass, and a hint of spice. Taste the true vibrant energy of Brazil. Crafted using traditional copper pot stills, this premium Cachaça offers a remarkably smooth and crisp profile with rich sugarcane notes and a subtle herbaceous finish. The ultimate, authentic choice for a flawless, world-class Caipirinha.",
+        "cs": "Cachaça Magnífica Tradicional (40%)\nAn authentic, premium Brazilian spirit distilled from fresh sugarcane juice and aged in traditional Ipê wood casks. Čeština Cachaça Magnífica Tradicional (40%)\nAutentický, prémiový brazilský destilát z čerstvé šťávy cukrové třtiny, stařený v tradičních sudech ze dřeva Ipê. Čistá, živá a aromatická chuť s výraznými tóny tropického ovoce, zelené trávy a jemného koření. Zažijte skutečnou energii Brazílie. Tato prémiová Cachaça, vyráběná tradiční destilací v měděných kotlích, nabízí mimořádně jemný a svěží profil s bohatou chutí cukrové třtiny a lehkým bylinným závěrem. Naprosto autentická volba pro dokonalou a prvotřídní Caipirinhu.",
+        "uk": "Українська Cachaça Magnífica Tradicional (40%)\nАвтентичний преміальний бразильський міцний напій із чистого соку цукрової тростини, витриманий у традиційних бочках із дерева Іпе. Чистий, яскравий та ароматний смак із виразними нотами тропічних фруктів, свіжої трави та легких прянощів. Відчуйте справжню енергію Бразилії. Ця преміальна кашаса, створена шляхом традиційної дистиляції в мідних кубах, має надзвичайно м'який та освіжаючий профіль із насиченими тростинними тонами та легким трав'янистим посмаком. Ідеальний та автентичний вибір для бездоганної Кайпіріньї світового рівня."
       },
       "poster_id": 365,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/1c5b3cbb-16d7-4b75-99b6-cb900b098435-image.jpeg"
@@ -620,9 +620,9 @@
       "price": 255,
       "popular": false,
       "text": {
-        "en": "## 🇬🇧 English **Tiki Lovers Pineapple (45%)**\nA premium Caribbean rum blend created in Germany by the founders of *The Bitter Truth*. It combines heavy, funk-forward Jamaican pot still rums with select spirits from Barbados, Trinidad, and Guyana, naturally infused with real South American pineapple extract. An uncompromising spirit crafted for true complexity. This exceptional blend brings together the finest Caribbean rums, meticulously married and bottled in Germany. Infused purely with 100% natural South American pineapple extract—completely free from artificial syrups—it delivers an authentic, bold tropical punch balanced by a powerful sugarcane body and complex esters.",
-        "cs": "Čeština **Tiki Lovers Pineapple (45%)**\nPrémiový blend karibských rumů vytvořený v Německu zakladateli značky *The Bitter Truth*. Kombinuje těžké jamajské pot still rumy se spiritis z Barbadosu, Trinidadu a Guyany, přirozeně infuzované reálným extraktem z jihoamerických ananasů. Nekompromisní rum stvořený pro skutečnou komplexnost chuti. Tento jedinečný blend spojuje nejlepší karibské destiláty, které se míchají a lahvují v Německu. Díky infuzi 100% přírodního ananasového extraktu z Jižní Ameriky — bez jakýchkoli umělých sirupů — nabízí autentickou chuť zralého ovoce vyváženou silným tělem a divokým charakterem.",
-        "uk": "Українська **Tiki Lovers Pineapple (45%)**\nПреміальний купаж карибських ромів, створений у Німеччині засновниками бренду *The Bitter Truth*. Поєднує важкі ямайські роми кубової дистиляції зі спиртами з Барбадосу, Тринідаду та Гаяни, природно настояними на справжньому екстракті південноамериканського ананаса. Безкомпромісний алкоголь, створений задля справжньої глибини смаку. Цей унікальний бленд об'єднує найкращі карибські спирти, які змішуються та розливаються в Німеччині. Завдяки настоюванню на 100% натуральному екстракті південноамериканського ананаса — без жодних штучних сиропів чи хімії — напій вибухає автентичним тропічним смаком та потужним міцним характером."
+        "en": "## English Tiki Lovers Pineapple (45%)\nA premium Caribbean rum blend created in Germany by the founders of The Bitter Truth. It combines heavy, funk-forward Jamaican pot still rums with select spirits from Barbados, Trinidad, and Guyana, naturally infused with real South American pineapple extract. An uncompromising spirit crafted for true complexity. This exceptional blend brings together the finest Caribbean rums, meticulously married and bottled in Germany. Infused purely with 100% natural South American pineapple extract—completely free from artificial syrups—it delivers an authentic, bold tropical punch balanced by a powerful sugarcane body and complex esters.",
+        "cs": "Čeština Tiki Lovers Pineapple (45%)\nPrémiový blend karibských rumů vytvořený v Německu zakladateli značky The Bitter Truth. Kombinuje těžké jamajské pot still rumy se spiritis z Barbadosu, Trinidadu a Guyany, přirozeně infuzované reálným extraktem z jihoamerických ananasů. Nekompromisní rum stvořený pro skutečnou komplexnost chuti. Tento jedinečný blend spojuje nejlepší karibské destiláty, které se míchají a lahvují v Německu. Díky infuzi 100% přírodního ananasového extraktu z Jižní Ameriky — bez jakýchkoli umělých sirupů — nabízí autentickou chuť zralého ovoce vyváženou silným tělem a divokým charakterem.",
+        "uk": "Українська Tiki Lovers Pineapple (45%)\nПреміальний купаж карибських ромів, створений у Німеччині засновниками бренду The Bitter Truth. Поєднує важкі ямайські роми кубової дистиляції зі спиртами з Барбадосу, Тринідаду та Гаяни, природно настояними на справжньому екстракті південноамериканського ананаса. Безкомпромісний алкоголь, створений задля справжньої глибини смаку. Цей унікальний бленд об'єднує найкращі карибські спирти, які змішуються та розливаються в Німеччині. Завдяки настоюванню на 100% натуральному екстракті південноамериканського ананаса — без жодних штучних сиропів чи хімії — напій вибухає автентичним тропічним смаком та потужним міцним характером."
       },
       "poster_id": 435,
       "poster_photo": "https://img.postershop.me/14649/34311bac-2a18-4168-bdd0-58e88f903912_image.jpeg"
@@ -644,9 +644,9 @@
       "price": 285,
       "popular": false,
       "text": {
-        "en": "## 🇬🇧 English **Ron Centenario Añejo 9 YO (40%)**\nA premium Costa Rican rum aged for 9 years in select oak barrels. Smooth and sweet with a well-balanced profile of rich caramel, vanilla, and soft oak notes. Discover the pure taste of Costa Rica. Aged for 9 years in the tropical climate, this exceptional rum offers a rich, sweet character packed with notes of brown sugar, vanilla, and a touch of spice. Perfect for slow sipping or enhancing premium drinks.",
-        "cs": "Čeština **Ron Centenario Añejo 9 YO (40%)**\nPrémiový kostarický rum stařený 9 let v lanyžových dubových sudech. Jemný a sladký s dokonale vyváženým profilem bohatého karamelu, vanilky a jemných tónů dřeva. Objevte čistou chuť Kostariky. Tento výjimečný rum, stařený 9 let v tropickém klimatu, nabízí bohatý, sladký charakter s výraznými tóny třtinového cukru, vanilky a jemného koření. Ideální k pomalému popíjení nebo do prémiových drinků.",
-        "uk": "Українська **Ron Centenario Añejo 9 YO (40%)**\nПреміальний костариканський ром, витриманий протягом 9 років у відбірних дубових бочках. М'який та солодкий, із чудово збалансованим профілем насиченої карамелі, ванілі та легких нот дуба. Відкрийте для себе чистий смак Коста-Ріки. Цей винятковий ром, витриманий 9 років у тропічному кліматі, має багатий, солодкий характер із виразними нотами тростинного цукру, ванілі та легких прянощів. Ідеально підходить для смакування в чистому вигляді або як основа для преміальних міксів."
+        "en": "## English Ron Centenario Añejo 9 YO (40%)\nA premium Costa Rican rum aged for 9 years in select oak barrels. Smooth and sweet with a well-balanced profile of rich caramel, vanilla, and soft oak notes. Discover the pure taste of Costa Rica. Aged for 9 years in the tropical climate, this exceptional rum offers a rich, sweet character packed with notes of brown sugar, vanilla, and a touch of spice. Perfect for slow sipping or enhancing premium drinks.",
+        "cs": "Čeština Ron Centenario Añejo 9 YO (40%)\nPrémiový kostarický rum stařený 9 let v lanyžových dubových sudech. Jemný a sladký s dokonale vyváženým profilem bohatého karamelu, vanilky a jemných tónů dřeva. Objevte čistou chuť Kostariky. Tento výjimečný rum, stařený 9 let v tropickém klimatu, nabízí bohatý, sladký charakter s výraznými tóny třtinového cukru, vanilky a jemného koření. Ideální k pomalému popíjení nebo do prémiových drinků.",
+        "uk": "Українська Ron Centenario Añejo 9 YO (40%)\nПреміальний костариканський ром, витриманий протягом 9 років у відбірних дубових бочках. М'який та солодкий, із чудово збалансованим профілем насиченої карамелі, ванілі та легких нот дуба. Відкрийте для себе чистий смак Коста-Ріки. Цей винятковий ром, витриманий 9 років у тропічному кліматі, має багатий, солодкий характер із виразними нотами тростинного цукру, ванілі та легких прянощів. Ідеально підходить для смакування в чистому вигляді або як основа для преміальних міксів."
       },
       "poster_id": 491,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/a6743a56-51c7-48fb-9c7e-95c14d700f77-image.jpeg"
@@ -668,9 +668,9 @@
       "price": 225,
       "popular": false,
       "text": {
-        "en": "## 🇬🇧 English **Flor de Caña Extra Seco 4 YO (40%)**\nA premium, crystal-clear light Nicaraguan rum naturally aged for 4 years and charcoal-filtered for ultimate smoothness. Light-bodied, dry, and clean with subtle notes of vanilla, sweet almonds, and white chocolate. Sustainably crafted at the base of an active volcano, this 4-year-old white rum is completely sugar-free yet remarkably smooth. Its dry and crisp profile features delicate hints of vanilla and toasted coconut, making it the ultimate clean base for refreshing summer serves and premium mixers.",
-        "cs": "Čeština **Flor de Caña Extra Seco 4 YO (40%)**\nPrémiový, křišťálově čistý lehký nikaragujský rum, přirozeně stařený 4 roky a filtrovaný přes dřevěné uhlí pro maximální jemnost. Lehké tělo, suchý a čistý profil s jemnými tóny vanilky, sladkých mandlí a bílé čokolády. Tento čtyřletý bílý rum, vyrobený udržitelným způsobem na úpatí aktivní sopky, neobsahuje žádný přidaný cukr, a přesto je výjimečně jemný. Jeho suchý a svěží charakter s elegantními podtóny vanilky a kokosu z něj dělá dokonalý, čistý základ pro osvěžující letní drinky a prémiové mixy.",
-        "uk": "Українська **Flor de Caña Extra Seco 4 YO (40%)**\nПреміальний, кришталево прозорий легкий нікарагуанський ром, витриманий протягом 4 років та відфільтрований через деревне вугілля для максимальної м'якості. Легке тіло, сухий і чистий смак із тонкими нотами ванілі, солодкого мигдалю та білого шоколаду. Створений екологічним способом біля підніжжя діючого вулкана, цей 4-річний білий ром взагалі не містить цукру, але вражає своєю м'якістю. Його сухий, освіжаючий профіль із делікатними натяками на ваніль та кокос робить його ідеальною чистою основою для освіжаючих літніх міксів та преміальних лонг-дрінків."
+        "en": "## English Flor de Caña Extra Seco 4 YO (40%)\nA premium, crystal-clear light Nicaraguan rum naturally aged for 4 years and charcoal-filtered for ultimate smoothness. Light-bodied, dry, and clean with subtle notes of vanilla, sweet almonds, and white chocolate. Sustainably crafted at the base of an active volcano, this 4-year-old white rum is completely sugar-free yet remarkably smooth. Its dry and crisp profile features delicate hints of vanilla and toasted coconut, making it the ultimate clean base for refreshing summer serves and premium mixers.",
+        "cs": "Čeština Flor de Caña Extra Seco 4 YO (40%)\nPrémiový, křišťálově čistý lehký nikaragujský rum, přirozeně stařený 4 roky a filtrovaný přes dřevěné uhlí pro maximální jemnost. Lehké tělo, suchý a čistý profil s jemnými tóny vanilky, sladkých mandlí a bílé čokolády. Tento čtyřletý bílý rum, vyrobený udržitelným způsobem na úpatí aktivní sopky, neobsahuje žádný přidaný cukr, a přesto je výjimečně jemný. Jeho suchý a svěží charakter s elegantními podtóny vanilky a kokosu z něj dělá dokonalý, čistý základ pro osvěžující letní drinky a prémiové mixy.",
+        "uk": "Українська Flor de Caña Extra Seco 4 YO (40%)\nПреміальний, кришталево прозорий легкий нікарагуанський ром, витриманий протягом 4 років та відфільтрований через деревне вугілля для максимальної м'якості. Легке тіло, сухий і чистий смак із тонкими нотами ванілі, солодкого мигдалю та білого шоколаду. Створений екологічним способом біля підніжжя діючого вулкана, цей 4-річний білий ром взагалі не містить цукру, але вражає своєю м'якістю. Його сухий, освіжаючий профіль із делікатними натяками на ваніль та кокос робить його ідеальною чистою основою для освіжаючих літніх міксів та преміальних лонг-дрінків."
       },
       "poster_id": 499,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/f125a644-455f-45ec-ab01-42b75c6c2d16-image.jpeg"
@@ -814,9 +814,9 @@
       "price": 255,
       "popular": false,
       "text": {
-        "en": "🇬🇧 ENGLISH 🥃 Ole Smoky Butter Pecan Moonshine\nRich roasted pecans, silky sweetness, Southern soul.\nCreamy, smooth, dangerously easy to love.\nDessert — with an attitude.",
-        "cs": "ČEŠTINA 🥃 Ole Smoky Butter Pecan Moonshine\nPražené pekany, máslová sladkost, americký jih.\nKrémový, hladký, svůdně jednoduchý.\nTekutý dezert.",
-        "uk": "УКРАЇНСЬКОЮ 🥃 Ole Smoky Butter Pecan Moonshine\nСмажений пекан, вершкова солодкість, дух Півдня.\nНіжний, оксамитовий, небезпечно смачний.\nДесерт у склянці."
+        "en": "ENGLISH Ole Smoky Butter Pecan Moonshine\nRich roasted pecans, silky sweetness, Southern soul.\nCreamy, smooth, dangerously easy to love.\nDessert — with an attitude.",
+        "cs": "ČEŠTINA Ole Smoky Butter Pecan Moonshine\nPražené pekany, máslová sladkost, americký jih.\nKrémový, hladký, svůdně jednoduchý.\nTekutý dezert.",
+        "uk": "УКРАЇНСЬКОЮ Ole Smoky Butter Pecan Moonshine\nСмажений пекан, вершкова солодкість, дух Півдня.\nНіжний, оксамитовий, небезпечно смачний.\nДесерт у склянці."
       },
       "poster_id": 474,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/12b97e42-c429-4386-bbab-4c42825ecefd-image.jpeg"
@@ -838,9 +838,9 @@
       "price": 295,
       "popular": false,
       "text": {
-        "en": "🇬🇧 English Hayman’s Sloe Gin (26%)\nA traditional English liqueur. Wild sloe berries steeped in classic London Dry Gin for 4 months. Rich, fruity, and perfectly balanced with a touch of natural sugar. Wild English sloe berries + 4 months of steeping in London Dry Gin = the perfect balance of rich fruit and classic botanicals. Discover the taste of tradition in every sip. 🍒✨ Ochutnejte tradici. 🍒vl",
+        "en": "English Hayman’s Sloe Gin (26%)\nA traditional English liqueur. Wild sloe berries steeped in classic London Dry Gin for 4 months. Rich, fruity, and perfectly balanced with a touch of natural sugar. Wild English sloe berries + 4 months of steeping in London Dry Gin = the perfect balance of rich fruit and classic botanicals. Discover the taste of tradition in every sip. Ochutnejte tradici. vl",
         "cs": "Čeština Hayman’s Sloe Gin (26%)\nTradiční anglický likér. Divoké trnky infuzované v London Dry Ginu po dobu 4 měsíců. Bohatá ovocná chuť s jemným dotekem přírodního cukru. Instagram Cap\nDivoké anglické trnky a 4 měsíce trpělivého macerování v prvotřídním London Dry Ginu. Výsledkem je dokonale vyvážený, bohatý ovocný likér s britským rodokmenem.",
-        "uk": "Українська\nOnline Menu\nHayman’s Sloe Gin (26%)\nТрадиційний англійський лікер. Дикі ягоди терену, що настоюються на класичному London Dry Gin протягом 4 місяців. Багатий фруктовий смак із легким натяком на природний цукор. Дикий англійський терен та 4 місяці витримки у класичному London Dry Gin. Результат? Ідеальний баланс насиченого фруктового смаку та британських традицій у вашому келиху. Спробуйте класику в новій формі. 🍒🍸"
+        "uk": "Українська\nOnline Menu\nHayman’s Sloe Gin (26%)\nТрадиційний англійський лікер. Дикі ягоди терену, що настоюються на класичному London Dry Gin протягом 4 місяців. Багатий фруктовий смак із легким натяком на природний цукор. Дикий англійський терен та 4 місяці витримки у класичному London Dry Gin. Результат? Ідеальний баланс насиченого фруктового смаку та британських традицій у вашому келиху. Спробуйте класику в новій формі."
       },
       "poster_id": 503,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/b99d5cc7-8394-43cf-93e6-1be2e5722de0-image.jpeg"
@@ -852,9 +852,9 @@
       "price": 245,
       "popular": false,
       "text": {
-        "en": "## 🇬🇧 English **Southern Comfort (35%)**\nA unique, sweet American liqueur blending whiskey with fruit and spice accents. Distinct notes of sweet stone fruits, peach, orange, and warm vanilla. The spirit of New Orleans. Southern Comfort is a smooth, sweet, and unique blend of whiskey, fruit, and spice flavors. A timeless classic with bold notes of sweet peach, apricot, and vanilla that goes perfectly on the ice or in your favorite cocktails.",
-        "cs": "Čeština **Southern Comfort (35%)**\nUnikátní, sladký americký likér kombinující chuť whiskey, ovoce a koření. Výrazné tóny sladkých peckovin, broskví, pomeranče a hřejivé vanilky. Atmosféra New Orleans v každém doušku. Southern Comfort přináší dokonale jemnou, sladkou a jedinečnou kombinaci whiskey, ovocných tónů a koření. Nadčasová klasika s bohatou chutí sladkých broskví, meruněk a vanilky, která skvěle chutná na ledu i v koktejlech.",
-        "uk": "Українська **Southern Comfort (35%)**\nУнікальний, солодкий американський лікер, що поєднує в собі ноти віскі, фруктів та спецій. Виразні тони солодких кісточкових фруктів, персика, апельсина та теплої ванілі. Дух Нового Орлеана у вашому келиху. Southern Comfort — це м'який, солодкий та неповторний мікс нот віскі, фруктів і прянощів. Вічна класика з яскравим акцентом солодкого персика, абрикоса та ванілі, яка ідеально смакує чистою з льодом або в основі коктейлів."
+        "en": "## English Southern Comfort (35%)\nA unique, sweet American liqueur blending whiskey with fruit and spice accents. Distinct notes of sweet stone fruits, peach, orange, and warm vanilla. The spirit of New Orleans. Southern Comfort is a smooth, sweet, and unique blend of whiskey, fruit, and spice flavors. A timeless classic with bold notes of sweet peach, apricot, and vanilla that goes perfectly on the ice or in your favorite cocktails.",
+        "cs": "Čeština Southern Comfort (35%)\nUnikátní, sladký americký likér kombinující chuť whiskey, ovoce a koření. Výrazné tóny sladkých peckovin, broskví, pomeranče a hřejivé vanilky. Atmosféra New Orleans v každém doušku. Southern Comfort přináší dokonale jemnou, sladkou a jedinečnou kombinaci whiskey, ovocných tónů a koření. Nadčasová klasika s bohatou chutí sladkých broskví, meruněk a vanilky, která skvěle chutná na ledu i v koktejlech.",
+        "uk": "Українська Southern Comfort (35%)\nУнікальний, солодкий американський лікер, що поєднує в собі ноти віскі, фруктів та спецій. Виразні тони солодких кісточкових фруктів, персика, апельсина та теплої ванілі. Дух Нового Орлеана у вашому келиху. Southern Comfort — це м'який, солодкий та неповторний мікс нот віскі, фруктів і прянощів. Вічна класика з яскравим акцентом солодкого персика, абрикоса та ванілі, яка ідеально смакує чистою з льодом або в основі коктейлів."
       },
       "poster_id": 506,
       "poster_photo": "https://img.postershop.me/67c1ba7c572ecf6a4627f535/b2456217-e772-475a-8d5c-562bf520e383-image.jpeg"

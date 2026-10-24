@@ -162,6 +162,9 @@ def split_description(raw: str) -> tuple[dict, list]:
             joined = LANGUAGE_LABELS.sub("", joined).strip()
             if not joined or SEPARATOR.match(joined):
                 return
+            joined = tidy(joined)
+            if not joined:
+                return
             if run_code:
                 out[run_code] = (f"{out[run_code]} {joined}".strip()
                                  if run_code in out else joined)
@@ -182,6 +185,25 @@ def split_description(raw: str) -> tuple[dict, list]:
         run, run_code, run_seps = [], None, []
 
     return out, unplaced
+
+
+# The bar writes its descriptions in a notes app: bold markers that no menu
+# renders, flags and little pictures beside the language names, and the odd
+# "EN:" left in the body. Sixteen drinks carried one or another onto the
+# page, where "**Dolce Amaro**" appeared with its asterisks showing.
+MARKDOWN = re.compile(r"\*{1,3}|_{2,}|`")
+PICTURES = re.compile(
+    "[\U0001F300-\U0001FAFF\U00002600-\U000027BF\U0001F1E6-\U0001F1FF]"
+)
+LEFTOVER_MARKER = re.compile(r"^\s*(?:EN|CZ|UA|UKR|ENG|CZE)\s*[:：]\s*", re.I)
+
+
+def tidy(text: str) -> str:
+    """Strip what the bar typed for itself rather than for a guest."""
+    text = MARKDOWN.sub("", text)
+    text = PICTURES.sub("", text)
+    text = LEFTOVER_MARKER.sub("", text)
+    return re.sub(r"\s{2,}", " ", text).strip(" -–—:\t")
 
 
 def slug(text: str) -> str:

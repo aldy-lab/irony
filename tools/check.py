@@ -759,7 +759,82 @@ def check_grids(br):
     ctx.close()
 
 
+def check_front(br):
+    """The front page, which now presents the bar, on a phone."""
+    print("\nFront page")
+    ctx = br.new_context(viewport={"width": 390, "height": 844},
+                         is_mobile=True, has_touch=True, device_scale_factor=2)
+    pg = open_page(ctx, "/")
+    pg.wait_for_timeout(400)
+
+    check("no sideways overflow",
+          pg.evaluate("()=>document.documentElement.scrollWidth-innerWidth") == 0,
+          "one pixel sideways is a bug")
+
+    # The catalogue is withheld, and withheld means gone from the page, not
+    # merely unlinked from the navigation.
+    check("the bottle catalogue is not on the front page",
+          pg.evaluate("()=>!document.querySelector('[data-catalogue],.product-grid')"),
+          "hidden while the room is a bar")
+
+    signatures = pg.evaluate(
+        """()=>Array.from(document.querySelectorAll('.shelf__list .pour-card'))
+             .filter(c=>c.getBoundingClientRect().height>0).length"""
+    )
+    check("the drinks it leads with are shown", signatures >= 4,
+          f"{signatures} painted")
+
+    pictures = pg.evaluate(
+        """()=>{const imgs=Array.from(document.querySelectorAll('.shelf__list img'));
+      return {n: imgs.length, broken: imgs.filter(i=>!i.naturalWidth).length};}"""
+    )
+    check("each of them is drawn", pictures["n"] >= 4 and not pictures["broken"],
+          str(pictures))
+
+    small = pg.evaluate(
+        """()=>Array.from(document.querySelectorAll(
+             '.ask__pick, .masthead__actions a'))
+             .filter(e=>{const r=e.getBoundingClientRect();
+                         return r.height > 0 && r.height < 44;}).length"""
+    )
+    check("every answer is a 44px target", small == 0, f"{small} under 44px")
+
+    # The chooser, measured by what it puts on screen.
+    before = pg.evaluate("()=>document.querySelectorAll('[data-choose-list] li').length")
+    pg.click('[data-base="gin"]')
+    pg.wait_for_timeout(250)
+    after = pg.evaluate("()=>document.querySelectorAll('[data-choose-list] li').length")
+    check("choosing a spirit offers drinks", before == 0 and after > 0,
+          f"{before} -> {after}")
+
+    pg.click('[data-mood="bitter"]')
+    pg.wait_for_timeout(250)
+    narrowed = pg.evaluate(
+        """()=>Array.from(document.querySelectorAll('[data-choose-list] li'))
+             .map(li=>li.querySelector('.pour-card__name').textContent.trim())"""
+    )
+    check("adding a mood narrows them", 0 < len(narrowed) <= after,
+          ", ".join(narrowed))
+
+    # It must only ever name a drink the bar pours.
+    menu_names = pg.evaluate("()=>null")
+    import json as _json
+    menu = _json.loads((ROOT / "data" / "menu.json").read_text())
+    real = {p["name"] for p in menu["products"]}
+    check("every drink it names is on the menu",
+          all(n in real for n in narrowed),
+          str([n for n in narrowed if n not in real]))
+
+    pg.click('[data-base="gin"]')          # pressing again takes it back off
+    pg.wait_for_timeout(250)
+    widened = pg.evaluate("()=>document.querySelectorAll('[data-choose-list] li').length")
+    check("an answer can be taken back", widened >= len(narrowed),
+          f"{len(narrowed)} -> {widened}")
+    ctx.close()
+
+
 GROUPS = {
+    "front": check_front,
     "filters": check_filters,
     "fonts": check_fonts,
     "a11y": check_a11y,
@@ -769,6 +844,14 @@ GROUPS = {
     "widths": check_widths,
     "grids": check_grids,
 }
+
+# These drive the bottle catalogue, which the front page no longer carries.
+# The flag is read from build.py rather than written twice, so switching the
+# catalogue back on switches its checks back on with it.
+sys.path.insert(0, str(ROOT))
+from build import HIDE_CATALOGUE  # noqa: E402
+
+NEEDS_CATALOGUE = {"filters", "grids", "mobile"}
 
 
 def main():
@@ -788,6 +871,12 @@ def main():
     with server(), sync_playwright() as pw:
         br = pw.chromium.launch()
         for name in wanted:
+            if name in NEEDS_CATALOGUE and HIDE_CATALOGUE:
+                # Said out loud. A check that quietly stops running is worse
+                # than one that fails.
+                print(f"\n{name.title()}\n  SKIPPED — the catalogue is "
+                      f"hidden (build.HIDE_CATALOGUE)")
+                continue
             GROUPS[name](br)
         br.close()
 
