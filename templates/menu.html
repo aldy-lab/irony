@@ -15,6 +15,14 @@
     </div>
   </header>
 
+  <div class="menu__find">
+    <label class="visually-hidden" for="menu-search">Search the menu</label>
+    <input class="menu__search" id="menu-search" type="search"
+           autocomplete="off" data-menu-search
+           placeholder="Gin, bitter, 300...">
+    <p class="menu__found" data-menu-count hidden></p>
+  </div>
+
   <nav class="menu__jump" aria-label="Sections">
     <ul class="menu__jump__list">{{jump_list}}</ul>
   </nav>

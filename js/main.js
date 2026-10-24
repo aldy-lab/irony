@@ -841,4 +841,65 @@
       choose(button.dataset.lang, true);
     });
   });
+
+  /* Searching. Seventy-seven drinks is too many to scroll for one gin. The
+     haystack is every language at once, so "bitter", "hořký" and "гіркий"
+     all find the Negroni whichever language is on screen. */
+  var search = menu.querySelector("[data-menu-search]");
+  var found = menu.querySelector("[data-menu-count]");
+  if (!search) return;
+
+  var drinks = Array.prototype.map.call(
+    menu.querySelectorAll(".drink"),
+    function (node) {
+      var price = node.querySelector(".drink__price");
+      return {
+        node: node,
+        hay: (node.textContent + " " + (price ? price.textContent : ""))
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, ""),
+      };
+    }
+  );
+  var courses = Array.prototype.slice.call(menu.querySelectorAll(".course"));
+  var jumps = Array.prototype.slice.call(menu.querySelectorAll(".menu__jump__link"));
+
+  var filter = function () {
+    var term = search.value.trim().toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    var shown = 0;
+    drinks.forEach(function (drink) {
+      var hit = !term || drink.hay.indexOf(term) !== -1;
+      drink.node.hidden = !hit;
+      if (hit) shown += 1;
+    });
+
+    /* A heading with nothing under it, and a jump to an empty section, are
+       both worse than no heading at all. */
+    courses.forEach(function (course) {
+      var any = course.querySelector(".drink:not([hidden])");
+      course.hidden = !any;
+      var id = course.getAttribute("id");
+      jumps.forEach(function (link) {
+        if (link.getAttribute("href") === "#" + id) link.hidden = !any;
+      });
+    });
+
+    if (!term) {
+      found.hidden = true;
+      return;
+    }
+    found.hidden = false;
+    found.textContent = shown
+      ? shown + (shown === 1 ? " drink" : " drinks")
+      : "Nothing by that name — ask the bar.";
+  };
+
+  var typing = null;
+  search.addEventListener("input", function () {
+    window.clearTimeout(typing);
+    typing = window.setTimeout(filter, 120);
+  });
+  search.addEventListener("search", filter);
 })();

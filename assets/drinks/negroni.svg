@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" width="200" height="260">
+  <defs>
+    <clipPath id="clip-negroni"><path d="M66 120 L70 236.0 L130 236.0 L134 120 Z"/></clipPath>
+    <linearGradient id="g-negroni" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9e3524" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#9e3524" stop-opacity="0.75"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clip-negroni)">
+    <rect x="40" y="150.2" width="120" height="89.8"
+          fill="url(#g-negroni)"/>
+    <rect x="100.0" y="140.9" width="26" height="26" rx="5" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.8" transform="rotate(-3 113.0 153.9)"/>
+  </g>
+  <!-- The surface, so the liquid reads as a volume and not a block. -->
+  <path d="M70 150.2 L130 150.2"
+        stroke="#ffffff" stroke-opacity="0.45" stroke-width="2"
+        clip-path="url(#clip-negroni)"/>
+  <path d="M66 120 L70 236.0 L130 236.0 L134 120 Z" fill="none" stroke="#e6e2d4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M82 132.0 L78 222.0"
+        stroke="#ffffff" stroke-opacity="0.3" stroke-width="3"
+        stroke-linecap="round" fill="none"/>
+  <g stroke="#c8854a" stroke-width="2.4" fill="none"><circle cx="140" cy="92" r="17" fill="#c8854a" fill-opacity="0.22"/><path d="M140 92 L153.3 92.0"/><path d="M140 92 L146.6 103.5"/><path d="M140 92 L133.4 103.5"/><path d="M140 92 L126.7 92.0"/><path d="M140 92 L133.4 80.5"/><path d="M140 92 L146.6 80.5"/></g>
+</svg>

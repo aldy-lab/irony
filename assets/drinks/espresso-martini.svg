@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" width="200" height="260">
+  <defs>
+    <clipPath id="clip-espresso-martini"><path d="M54 92 L146 92 L100 158 Z"/></clipPath>
+    <linearGradient id="g-espresso-martini" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a3120" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#4a3120" stop-opacity="0.75"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clip-espresso-martini)">
+    <rect x="40" y="101.2" width="120" height="60.8"
+          fill="url(#g-espresso-martini)"/>
+    
+  </g>
+  <!-- The surface, so the liquid reads as a volume and not a block. -->
+  <path d="M54 101.2 L146 101.2"
+        stroke="#ffffff" stroke-opacity="0.45" stroke-width="2"
+        clip-path="url(#clip-espresso-martini)"/>
+  <path d="M54 92 L146 92 L100 158 Z" fill="none" stroke="#e6e2d4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M100 158 L100 212" fill="none" stroke="#e6e2d4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M72 214 C72 206 128 206 128 214 C128 220 72 220 72 214 Z" fill="none" stroke="#e6e2d4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M78 104.0 L72 144.0"
+        stroke="#ffffff" stroke-opacity="0.3" stroke-width="3"
+        stroke-linecap="round" fill="none"/>
+  <ellipse cx="88" cy="104" rx="6" ry="4.4" fill="#3a2a1b" transform="rotate(-18 88 104)"/><ellipse cx="101" cy="104" rx="6" ry="4.4" fill="#3a2a1b" transform="rotate(-4 101 104)"/><ellipse cx="114" cy="104" rx="6" ry="4.4" fill="#3a2a1b" transform="rotate(10 114 104)"/>
+</svg>

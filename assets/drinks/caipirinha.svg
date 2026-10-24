@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" width="200" height="260">
+  <defs>
+    <clipPath id="clip-caipirinha"><path d="M66 120 L70 236.0 L130 236.0 L134 120 Z"/></clipPath>
+    <linearGradient id="g-caipirinha" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9cb060" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#9cb060" stop-opacity="0.75"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clip-caipirinha)">
+    <rect x="40" y="150.2" width="120" height="89.8"
+          fill="url(#g-caipirinha)"/>
+    <rect x="100.0" y="140.9" width="26" height="26" rx="5" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.8" transform="rotate(-3 113.0 153.9)"/><rect x="125.8" y="164.1" width="26" height="26" rx="5" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.8" transform="rotate(14 138.8 177.1)"/><rect x="74.2" y="187.3" width="26" height="26" rx="5" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.8" transform="rotate(-20 87.2 200.3)"/><rect x="100.0" y="140.9" width="26" height="26" rx="5" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.8" transform="rotate(-3 113.0 153.9)"/>
+  </g>
+  <!-- The surface, so the liquid reads as a volume and not a block. -->
+  <path d="M70 150.2 L130 150.2"
+        stroke="#ffffff" stroke-opacity="0.45" stroke-width="2"
+        clip-path="url(#clip-caipirinha)"/>
+  <path d="M66 120 L70 236.0 L130 236.0 L134 120 Z" fill="none" stroke="#e6e2d4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M82 132.0 L78 222.0"
+        stroke="#ffffff" stroke-opacity="0.3" stroke-width="3"
+        stroke-linecap="round" fill="none"/>
+  <path d="M126 70 a19 19 0 0 1 19 19 Z" fill="#8fae4e" fill-opacity="0.5" stroke="#8fae4e" stroke-width="2.2"/>
+</svg>

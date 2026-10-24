@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" width="200" height="260">
+  <defs>
+    <clipPath id="clip-pisco-sour"><path d="M58 96 C58 136 78 156 100 156 C122 156 142 136 142 96 Z"/></clipPath>
+    <linearGradient id="g-pisco-sour" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e3dcc4" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#e3dcc4" stop-opacity="0.75"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clip-pisco-sour)">
+    <rect x="40" y="104.4" width="120" height="55.6"
+          fill="url(#g-pisco-sour)"/>
+    
+  </g>
+  <!-- The surface, so the liquid reads as a volume and not a block. -->
+  <path d="M54 104.4 L146 104.4"
+        stroke="#ffffff" stroke-opacity="0.45" stroke-width="2"
+        clip-path="url(#clip-pisco-sour)"/>
+  <path d="M58 96 C58 136 78 156 100 156 C122 156 142 136 142 96 Z" fill="none" stroke="#e6e2d4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M100 156 L100 212" fill="none" stroke="#e6e2d4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M72 214 C72 206 128 206 128 214 C128 220 72 220 72 214 Z" fill="none" stroke="#e6e2d4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M78 108.0 L72 142.0"
+        stroke="#ffffff" stroke-opacity="0.3" stroke-width="3"
+        stroke-linecap="round" fill="none"/>
+  
+</svg>

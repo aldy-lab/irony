@@ -43,8 +43,8 @@
       href="../assets/fonts/eb-garamond-normal-400800-latin.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="../assets/fonts/eb-garamond-italic-400800-latin.woff2">
-<link rel="stylesheet" href="../css/main.css?v=71ab82c28f39">
-<link rel="stylesheet" href="../css/marks.css?v=71ab82c28f39">
+<link rel="stylesheet" href="../css/main.css?v=de5b3e8bb4cd">
+<link rel="stylesheet" href="../css/marks.css?v=de5b3e8bb4cd">
 <script>
   /* Before first paint: decides whether the gate or the shop is shown, so
      neither flashes into the other. Wrapped because storage throws in a
@@ -100,6 +100,14 @@
     </div>
   </header>
 
+  <div class="menu__find">
+    <label class="visually-hidden" for="menu-search">Search the menu</label>
+    <input class="menu__search" id="menu-search" type="search"
+           autocomplete="off" data-menu-search
+           placeholder="Gin, bitter, 300...">
+    <p class="menu__found" data-menu-count hidden></p>
+  </div>
+
   <nav class="menu__jump" aria-label="Sections">
     <ul class="menu__jump__list"><li><a class="menu__jump__link" href="#c-cocktail">COCKTAIL</a></li><li><a class="menu__jump__link" href="#c-gin">GIN</a></li><li><a class="menu__jump__link" href="#c-tequila-and-mezcal">TEQUILA &amp; MEZCAL</a></li><li><a class="menu__jump__link" href="#c-whiskey">WHISKEY</a></li><li><a class="menu__jump__link" href="#c-rum">RUM</a></li><li><a class="menu__jump__link" href="#c-aperitivo">APERITIVO</a></li><li><a class="menu__jump__link" href="#c-porto">PORTO</a></li><li><a class="menu__jump__link" href="#c-wine">WINE</a></li><li><a class="menu__jump__link" href="#c-liquor">LIQUOR</a></li><li><a class="menu__jump__link" href="#c-vodka">VODKA</a></li><li><a class="menu__jump__link" href="#c-brandy">BRANDY</a></li><li><a class="menu__jump__link" href="#c-beer-and-cider">BEER &amp; CIDER</a></li><li><a class="menu__jump__link" href="#c-cold-and-hot-beverage">COLD &amp; HOT BEVERAGE</a></li><li><a class="menu__jump__link" href="#c-non-alcohol-cocktail">Non Alcohol Cocktail</a></li></ul>
   </nav>
@@ -109,265 +117,354 @@
     <span class="course__count" aria-hidden="true">32</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-kyiv-mule-by-ukrainian-nemiroff-vodka">
-  <p class="drink__line">
-    <span class="drink__name">Kyiv Mule by Ukrainian Nemiroff Vodka<span class="drink__flag" aria-hidden="true"></span></span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">275</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">We use a special ginger lemonade with pepper - spicy but not spicy. Combined with quality vodka and lime juice, the best drink</span><span lang="cs">Používáme speciální zázvorovou limonádu s pepřem - pikantní, ale ne pikantní. V kombinaci s kvalitní vodkou a limetkovou šťávou nejlepší nápoj</span><span lang="uk">Ми використовуємо особливий імбирний лимонад з перцем-пряно, але не гостро. У поєднанні з якісною горілкою та лаймовим соком найкращий напій</span></p>
+  <img class="drink__pic" src="../assets/drinks/kyiv-mule-by-ukrainian-nemiroff-vodka.webp" srcset="../assets/drinks/kyiv-mule-by-ukrainian-nemiroff-vodka.webp 320w, ../assets/drinks/kyiv-mule-by-ukrainian-nemiroff-vodka-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Kyiv Mule by Ukrainian Nemiroff Vodka<span class="drink__flag" aria-hidden="true"></span></span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">275</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">We use a special ginger lemonade with pepper - spicy but not spicy. Combined with quality vodka and lime juice, the best drink</span><span lang="cs">Používáme speciální zázvorovou limonádu s pepřem - pikantní, ale ne pikantní. V kombinaci s kvalitní vodkou a limetkovou šťávou nejlepší nápoj</span><span lang="uk">Ми використовуємо особливий імбирний лимонад з перцем-пряно, але не гостро. У поєднанні з якісною горілкою та лаймовим соком найкращий напій</span></p>
+  </div>
 </li>
 <li class="drink" id="d-gin-basil-smash">
-  <p class="drink__line">
-    <span class="drink__name">Gin Basil Smash<span class="drink__flag" aria-hidden="true"></span></span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">314</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">The Basil Smash is a refreshing and aromatic cocktail built on a base of gin and fresh basil. Its vibrant herbaceous flavor beautifully complements citrus notes, making it an ideal drink</span><span lang="cs">Basil Smash je osvěžující a aromatický koktejl, jehož základem je gin a čerstvá bazalka. Jeho výrazná bylinná chuť se skvěle snoubí s citrusovými tóny, což z něj činí ideální nápoj</span><span lang="uk">Basil Smash – це освіжаючий та ароматний коктейль, що базується на джині та свіжому базиліку. Його яскравий трав&#x27;яний смак чудово поєднується з цитрусовими нотками, створюючи ідеальний напій</span></p>
+  <img class="drink__pic" src="../assets/drinks/gin-basil-smash.webp" srcset="../assets/drinks/gin-basil-smash.webp 320w, ../assets/drinks/gin-basil-smash-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Gin Basil Smash<span class="drink__flag" aria-hidden="true"></span></span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">314</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">The Basil Smash is a refreshing and aromatic cocktail built on a base of gin and fresh basil. Its vibrant herbaceous flavor beautifully complements citrus notes, making it an ideal drink</span><span lang="cs">Basil Smash je osvěžující a aromatický koktejl, jehož základem je gin a čerstvá bazalka. Jeho výrazná bylinná chuť se skvěle snoubí s citrusovými tóny, což z něj činí ideální nápoj</span><span lang="uk">Basil Smash – це освіжаючий та ароматний коктейль, що базується на джині та свіжому базиліку. Його яскравий трав&#x27;яний смак чудово поєднується з цитрусовими нотками, створюючи ідеальний напій</span></p>
+  </div>
 </li>
 <li class="drink" id="d-aviation-cocktail">
-  <p class="drink__line">
-    <span class="drink__name">Aviation Cocktail</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">340</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Classic cocktail of gin, violet liqueur The Bitter Truth and Luxardo Maraschino</span><span lang="cs">Klasický koktejl ginu, fialkového likéru The Bitter Truth a Luxardo Maraschino</span><span lang="uk">Kласичний коктейль з джину, фіалкового лікеру The Bitter Truth і Luxardo Maraschino</span></p>
+  <img class="drink__pic" src="../assets/drinks/aviation-cocktail.webp" srcset="../assets/drinks/aviation-cocktail.webp 320w, ../assets/drinks/aviation-cocktail-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Aviation Cocktail</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">340</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Classic cocktail of gin, violet liqueur The Bitter Truth and Luxardo Maraschino</span><span lang="cs">Klasický koktejl ginu, fialkového likéru The Bitter Truth a Luxardo Maraschino</span><span lang="uk">Kласичний коктейль з джину, фіалкового лікеру The Bitter Truth і Luxardo Maraschino</span></p>
+  </div>
 </li>
 <li class="drink" id="d-all-shot">
-  <p class="drink__line">
-    <span class="drink__name">ALL Shot</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">185</span>
-  </p>
-  
+  <img class="drink__pic" src="../assets/drinks/all-shot.webp" srcset="../assets/drinks/all-shot.webp 320w, ../assets/drinks/all-shot-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">ALL Shot</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">185</span>
+    </p>
+    
+  </div>
 </li>
 <li class="drink" id="d-espresso-martini">
-  <p class="drink__line">
-    <span class="drink__name">Espresso Martini</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Vodka and strong iced espresso, as well as coffee liqueur Kahlua</span><span lang="cs">Vodka a silné ledové espresso, stejně jako kávový likér Kahlua</span><span lang="uk">Горілка  і міцний льодяний еспресо , а також кавовий лікер Kahlua</span></p>
+  <img class="drink__pic" src="../assets/drinks/espresso-martini.webp" srcset="../assets/drinks/espresso-martini.webp 320w, ../assets/drinks/espresso-martini-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Espresso Martini</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Vodka and strong iced espresso, as well as coffee liqueur Kahlua</span><span lang="cs">Vodka a silné ledové espresso, stejně jako kávový likér Kahlua</span><span lang="uk">Горілка  і міцний льодяний еспресо , а також кавовий лікер Kahlua</span></p>
+  </div>
 </li>
 <li class="drink" id="d-tajin-margarita-cocktail">
-  <p class="drink__line">
-    <span class="drink__name">Tajin Margarita Cocktail</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="cs">.Our take on the classic Margarita
+  <img class="drink__pic" src="../assets/drinks/tajin-margarita-cocktail.webp" srcset="../assets/drinks/tajin-margarita-cocktail.webp 320w, ../assets/drinks/tajin-margarita-cocktail-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Tajin Margarita Cocktail</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="cs">.Our take on the classic Margarita
 náš pohled na klasickou margaritu,</span><span lang="uk">наша версія класичної Маргарити</span></p>
+  </div>
 </li>
 <li class="drink" id="d-satyr-cola">
-  <p class="drink__line">
-    <span class="drink__name">SATYR Cola</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">285</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Cola, 5 year old spiced rum from Panama - Abuelo, Velvet Falernum rum liqueur from Barbados, Coffee liquor Kahlua, Brut or Cava</span><span lang="cs">Cola, 5letý kořeněný rum z Panamy - Abuelo, rumový likér Velvet Falernum z Barbadosu, kávový likér Kahlua, Brut nebo Cava</span><span lang="uk">Cola,пряний 5-ти річний панамський ром Abuelo   ,ромовий лікер Velvet Falernum з Барбадосу, кавовий лікер Kahlua , Brut або -ж  Cava</span></p>
+  <img class="drink__pic" src="../assets/drinks/satyr-cola.webp" srcset="../assets/drinks/satyr-cola.webp 320w, ../assets/drinks/satyr-cola-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">SATYR Cola</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">285</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Cola, 5 year old spiced rum from Panama - Abuelo, Velvet Falernum rum liqueur from Barbados, Coffee liquor Kahlua, Brut or Cava</span><span lang="cs">Cola, 5letý kořeněný rum z Panamy - Abuelo, rumový likér Velvet Falernum z Barbadosu, kávový likér Kahlua, Brut nebo Cava</span><span lang="uk">Cola,пряний 5-ти річний панамський ром Abuelo   ,ромовий лікер Velvet Falernum з Барбадосу, кавовий лікер Kahlua , Brut або -ж  Cava</span></p>
+  </div>
 </li>
 <li class="drink" id="d-negroni">
-  <p class="drink__line">
-    <span class="drink__name">Negroni</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">A classic combination of dry gin with the bitterness of Campari and sweet French Dolin vermouth</span><span lang="cs">klasická kombinace suchého ginu s hořkostí Campari a sladkým francouzským Dolin vermutem</span><span lang="uk">класичне поєднання сухого джину з гіркотою Campari  та солодкого французького вермуту Dolin</span></p>
+  <img class="drink__pic" src="../assets/drinks/negroni.webp" srcset="../assets/drinks/negroni.webp 320w, ../assets/drinks/negroni-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Negroni</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">A classic combination of dry gin with the bitterness of Campari and sweet French Dolin vermouth</span><span lang="cs">klasická kombinace suchého ginu s hořkostí Campari a sladkým francouzským Dolin vermutem</span><span lang="uk">класичне поєднання сухого джину з гіркотою Campari  та солодкого французького вермуту Dolin</span></p>
+  </div>
 </li>
 <li class="drink" id="d-new-york-sour">
-  <p class="drink__line">
-    <span class="drink__name">New York Sour</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">295</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Bourbon and lemon juice, a bit of foam hiding some red wine underneath</span><span lang="cs">Bourbon a citronová šťáva, trocha pěny skrývající pod sebou trochu červeného vína</span><span lang="uk">Бурбон і лимонний сік, трохи піни, під якою ховається деяка кількість червоного вина</span></p>
+  <img class="drink__pic" src="../assets/drinks/new-york-sour.webp" srcset="../assets/drinks/new-york-sour.webp 320w, ../assets/drinks/new-york-sour-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">New York Sour</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">295</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Bourbon and lemon juice, a bit of foam hiding some red wine underneath</span><span lang="cs">Bourbon a citronová šťáva, trocha pěny skrývající pod sebou trochu červeného vína</span><span lang="uk">Бурбон і лимонний сік, трохи піни, під якою ховається деяка кількість червоного вина</span></p>
+  </div>
 </li>
 <li class="drink" id="d-slava-ukraini-shot">
-  <p class="drink__line">
-    <span class="drink__name">Slava Ukraini!!! Shot</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">179</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">We are Ukrainians and we are proud of it, this shot in the color of the Ukrainian flag is orange juice, violet liqueur and vodka.</span><span lang="cs">Jsme Ukrajinci a jsme na to hrdí, tenhle panák v barvě ukrajinské vlajky je pomerančový džus, fialkový likér a vodka.</span><span lang="uk">Ми українці і пишаємося цим, цей шот у колір Українського прапора – апельсиновий сік, фіалковий лікер та горілка.</span></p>
+  <img class="drink__pic" src="../assets/drinks/slava-ukraini-shot.webp" srcset="../assets/drinks/slava-ukraini-shot.webp 320w, ../assets/drinks/slava-ukraini-shot-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Slava Ukraini!!! Shot</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">179</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">We are Ukrainians and we are proud of it, this shot in the color of the Ukrainian flag is orange juice, violet liqueur and vodka.</span><span lang="cs">Jsme Ukrajinci a jsme na to hrdí, tenhle panák v barvě ukrajinské vlajky je pomerančový džus, fialkový likér a vodka.</span><span lang="uk">Ми українці і пишаємося цим, цей шот у колір Українського прапора – апельсиновий сік, фіалковий лікер та горілка.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-dark-and-stormy">
-  <p class="drink__line">
-    <span class="drink__name">Dark&amp;Stormy</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">285</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">🇬🇧 EN:
+  <img class="drink__pic" src="../assets/drinks/dark-and-stormy.webp" srcset="../assets/drinks/dark-and-stormy.webp 320w, ../assets/drinks/dark-and-stormy-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Dark&amp;Stormy</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">285</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">🇬🇧 EN:
 ⚓️ Dark &amp; Stormy ⛈️
 A Bermudian classic with a fiery twist. Rich dark rum, fresh lime, and natural French Pimento ginger beer infused with chili pepper. The perfect balance of sweet and spicy. 🥃 Dark Rum 🌶 Natural French Pimento Ginger Beer (with pepper) 🍋 Lime 🍋 Limetka</span><span lang="cs">CZ:
 ⚓️ Dark &amp; Stormy ⛈️
 Bermudská klasika s novým temperamentem. Bohatý tmavý rum, svěží limetka a přírodní francouzské zázvorové pivo Pimento s přídavkem chilli pepře. Dokonalá rovnováha sladkosti a ohnivé ostrosti. 🥃 Tmavý rum 🌶 Přírodní francouzské zázvorové pivo Pimento (s pepřem)</span><span lang="uk">UA:
 ⚓️ Dark &amp; Stormy ⛈️
 Класика з Бермудських островів із новим характером. Насичений темний ром, свіжість лайма та натуральне французьке імбирне пиво Pimento з додаванням перцю. Ідеальний баланс солодкості та вогняної гостроти. 🥃 Темний ром 🌶 Натуральне французьке імбирне пиво Pimento (з перцем) 🍋 Лайм</span></p>
+  </div>
 </li>
 <li class="drink" id="d-bee-s-knees">
-  <p class="drink__line">
-    <span class="drink__name">Bee&#x27;s Knees</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">295</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Bees Knees cocktail with Gin, honey, and lemon. The name comes from prohibition-era slang meaning &quot;the best&quot;.</span><span lang="cs">Koktejl včelích kolen s ginem, medem a citronem. Název pochází z prohibičního slangu znamenajícího „nejlepší“.</span><span lang="uk">Коктейль Bees Knees з джином, медом і лимоном. Назва походить від сленгу часів заборони, що означає «найкращий».</span></p>
+  <img class="drink__pic" src="../assets/drinks/bee-s-knees.webp" srcset="../assets/drinks/bee-s-knees.webp 320w, ../assets/drinks/bee-s-knees-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Bee&#x27;s Knees</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">295</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Bees Knees cocktail with Gin, honey, and lemon. The name comes from prohibition-era slang meaning &quot;the best&quot;.</span><span lang="cs">Koktejl včelích kolen s ginem, medem a citronem. Název pochází z prohibičního slangu znamenajícího „nejlepší“.</span><span lang="uk">Коктейль Bees Knees з джином, медом і лимоном. Назва походить від сленгу часів заборони, що означає «найкращий».</span></p>
+  </div>
 </li>
 <li class="drink" id="d-adriatico-amaretto-sweet-and-sour">
-  <p class="drink__line">
-    <span class="drink__name">Adriatico Amaretto  Sweet and Sour</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">325</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">English 🇬🇧
+  <img class="drink__pic" src="../assets/drinks/adriatico-amaretto-sweet-and-sour.webp" srcset="../assets/drinks/adriatico-amaretto-sweet-and-sour.webp 320w, ../assets/drinks/adriatico-amaretto-sweet-and-sour-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Adriatico Amaretto  Sweet and Sour</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">325</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">English 🇬🇧
 Amaretto Sweet &amp; Sour This drink is made with Adriatico Amaretto, fresh lemon juice, and egg white.
 Czech Amaretto Sweet &amp; Sour Ukrainian Amaretto Sweet &amp; Sour</span><span lang="cs">Tento nápoj je vyroben z Adriatico Amaretto, čerstvé citronové šťávy a vaječného bílku.</span><span lang="uk">Цей напій зроблений з Adriatico Amaretto, свіжого лимонного соку та яєчного білка.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-sidecar-by-martell-cognac">
-  <p class="drink__line">
-    <span class="drink__name">Sidecar by Martell Cognac</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">325</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Prague The sidecar is any cocktail traditionally made with cognac, orange liqueur, plus lemon juice.</span><span lang="cs">Sidecar je jakýkoli koktejl tradičně vyrobený z koňaku, pomerančového likéru a citronové šťávy</span><span lang="uk">Sidecar- це будь-який коктейль, який традиційно готується з коньяком, апельсиновим лікером і лимонним соком.</span></p>
+  <img class="drink__pic" src="../assets/drinks/sidecar-by-martell-cognac.webp" srcset="../assets/drinks/sidecar-by-martell-cognac.webp 320w, ../assets/drinks/sidecar-by-martell-cognac-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Sidecar by Martell Cognac</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">325</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Prague The sidecar is any cocktail traditionally made with cognac, orange liqueur, plus lemon juice.</span><span lang="cs">Sidecar je jakýkoli koktejl tradičně vyrobený z koňaku, pomerančového likéru a citronové šťávy</span><span lang="uk">Sidecar- це будь-який коктейль, який традиційно готується з коньяком, апельсиновим лікером і лимонним соком.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-skinny-bitch-by-nemiroff-delikat">
-  <p class="drink__line">
-    <span class="drink__name">Skinny Bitch by Nemiroff Delikat</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">295</span>
-  </p>
-  
+  <img class="drink__pic" src="../assets/drinks/skinny-bitch-by-nemiroff-delikat.webp" srcset="../assets/drinks/skinny-bitch-by-nemiroff-delikat.webp 320w, ../assets/drinks/skinny-bitch-by-nemiroff-delikat-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Skinny Bitch by Nemiroff Delikat</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">295</span>
+    </p>
+    
+  </div>
 </li>
 <li class="drink" id="d-el-presidente">
-  <p class="drink__line">
-    <span class="drink__name">El Presidente</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">295</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">The El Presidente cocktail is a Cuban alcoholic drink made of australian dry spiced rum Cargo Cult, orange curaçao, vermouth, and grenadine.</span><span lang="cs">Koktejl El Presidente je kubánský alkoholický nápoj vyrobený z rumu, pomerančového curaçaa, vermutu a grenadiny. Původní recept vyžaduje blanc vermutcuracao vermouth, and grenadine.</span><span lang="uk">Коктейль «El Presidente» — кубинський алкогольний напій з рому, апельсинового кюрасао, вермуту та гренадину.</span></p>
+  <img class="drink__pic" src="../assets/drinks/el-presidente.webp" srcset="../assets/drinks/el-presidente.webp 320w, ../assets/drinks/el-presidente-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">El Presidente</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">295</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">The El Presidente cocktail is a Cuban alcoholic drink made of australian dry spiced rum Cargo Cult, orange curaçao, vermouth, and grenadine.</span><span lang="cs">Koktejl El Presidente je kubánský alkoholický nápoj vyrobený z rumu, pomerančového curaçaa, vermutu a grenadiny. Původní recept vyžaduje blanc vermutcuracao vermouth, and grenadine.</span><span lang="uk">Коктейль «El Presidente» — кубинський алкогольний напій з рому, апельсинового кюрасао, вермуту та гренадину.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-bloody-mary">
-  <p class="drink__line">
-    <span class="drink__name">Bloody Mary</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">359</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">a little tomato juice, freshly squeezed orange, lime, add hot Valentina sauce, ginger beer and finish with a spicy, not spicy, strong Mexican liqueur based on green chili peppers</span><span lang="cs">trochu rajčatové šťávy, čerstvě vymačkaný pomeranč, limetka, přidejte pálivou omáčku Valentina, zázvorové pivo a zakončete pikantním, nepálivým, silným mexickým likérem na bázi zelených chilli papriček</span><span lang="uk">трохи томатного соку, свіжовидавленого апельсина, лайма, додаємо гострий соус Валентина, імбирне пиво і фіналізуємо пряним, не гострим міцним мексиканським лікером на основі зеленого перцю чилі</span></p>
+  <img class="drink__pic" src="../assets/drinks/bloody-mary.webp" srcset="../assets/drinks/bloody-mary.webp 320w, ../assets/drinks/bloody-mary-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Bloody Mary</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">359</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">a little tomato juice, freshly squeezed orange, lime, add hot Valentina sauce, ginger beer and finish with a spicy, not spicy, strong Mexican liqueur based on green chili peppers</span><span lang="cs">trochu rajčatové šťávy, čerstvě vymačkaný pomeranč, limetka, přidejte pálivou omáčku Valentina, zázvorové pivo a zakončete pikantním, nepálivým, silným mexickým likérem na bázi zelených chilli papriček</span><span lang="uk">трохи томатного соку, свіжовидавленого апельсина, лайма, додаємо гострий соус Валентина, імбирне пиво і фіналізуємо пряним, не гострим міцним мексиканським лікером на основі зеленого перцю чилі</span></p>
+  </div>
 </li>
 <li class="drink" id="d-salty-dog-by-nemiroff-delikat">
-  <p class="drink__line">
-    <span class="drink__name">Salty Dog by Nemiroff Delikat</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">305</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Salty Dog English 🇬🇧
+  <img class="drink__pic" src="../assets/drinks/salty-dog-by-nemiroff-delikat.webp" srcset="../assets/drinks/salty-dog-by-nemiroff-delikat.webp 320w, ../assets/drinks/salty-dog-by-nemiroff-delikat-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Salty Dog by Nemiroff Delikat</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">305</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Salty Dog English 🇬🇧
 Experience the Salty Dog: crisp vodka meets vibrant natural grapefruit soda and subtle maraschino liqueur . Finished with a salt rim for perfect balance. Pure, zesty refreshment.
 Czech Ukrainian</span><span lang="cs">Poznejte Salty Dog: svěží vodka se snoubí s živou přírodní grepovou limonádou a jemným Maraschino likérem. Dokončeno solným okrajem  pro dokonalou rovnováhu. Čisté, pikantní osvěžení.</span><span lang="uk">Спробуйте Salty Dog: якісна горілка поєднується з яскравим натуральним грейпфрутовим лимонадом та витонченим лікером Мараскіно. Завершує смак сольовий обідок для ідеального балансу. Чисте, пікантне освіження.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-bergamot-dry-martini-by-italicus">
-  <p class="drink__line">
-    <span class="drink__name">Bergamot Dry Martini by Italicus</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">classic dry martini, but with the addition of Italian bergamot liqueur Italicus</span><span lang="cs">klasické suché martini, ale s přídavkem italského bergamotového likéru Italicus</span><span lang="uk">класичний сухий мартіні, але з додаванням італійського бергамотового лікеру Італікус</span></p>
+  <img class="drink__pic" src="../assets/drinks/bergamot-dry-martini-by-italicus.webp" srcset="../assets/drinks/bergamot-dry-martini-by-italicus.webp 320w, ../assets/drinks/bergamot-dry-martini-by-italicus-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Bergamot Dry Martini by Italicus</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">classic dry martini, but with the addition of Italian bergamot liqueur Italicus</span><span lang="cs">klasické suché martini, ale s přídavkem italského bergamotového likéru Italicus</span><span lang="uk">класичний сухий мартіні, але з додаванням італійського бергамотового лікеру Італікус</span></p>
+  </div>
 </li>
 <li class="drink" id="d-pisco-sour">
-  <p class="drink__line">
-    <span class="drink__name">Pisco Sour</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">285</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Peruvian pisco shaken with lime, sugar and egg white, with bitters across the foam. Sharp, soft and a little floral.</span><span lang="cs">Peruánské pisco protřepané s limetkou, cukrem a bílkem, na pěně kapky bitteru. Ostré, hebké a lehce květinové.</span><span lang="uk">Перуанське піско, збите з лаймом, цукром і білком, на піні — краплі бітеру. Гостро, м&#x27;яко і трохи квітково.</span></p>
+  <img class="drink__pic" src="../assets/drinks/pisco-sour.webp" srcset="../assets/drinks/pisco-sour.webp 320w, ../assets/drinks/pisco-sour-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Pisco Sour</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">285</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Peruvian pisco shaken with lime, sugar and egg white, with bitters across the foam. Sharp, soft and a little floral.</span><span lang="cs">Peruánské pisco protřepané s limetkou, cukrem a bílkem, na pěně kapky bitteru. Ostré, hebké a lehce květinové.</span><span lang="uk">Перуанське піско, збите з лаймом, цукром і білком, на піні — краплі бітеру. Гостро, м&#x27;яко і трохи квітково.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-yellow-negroni">
-  <p class="drink__line">
-    <span class="drink__name">Yellow Negroni</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">295</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">summer gin, dry vermouth and liqueur Suze l`Originale  is one of the oldest aperitifs from France, which today is a national treasure of the country. The liqueur is made from gentian infusion, alpine herb extracts and concentrated apple juice.</span><span lang="cs">letní gin, suchý vermut a likér Suze l`Originale  je jedním z nejstarších aperitivů z Francie, který je dnes národním pokladem země. Likér se vyrábí z nálevu z hořce, výtažků z alpských bylin a koncentrované jablečné šťávy.</span><span lang="uk">літній джин, сухий вермут та лікер Suze l`Originale – це один із найстаріших аперитивів із Франції, який сьогодні є національним надбанням країни. Лікер виготовляють з настою тирличу, екстрактів альпійських трав та концентрованого яблучного соку.</span></p>
+  <img class="drink__pic" src="../assets/drinks/yellow-negroni.webp" srcset="../assets/drinks/yellow-negroni.webp 320w, ../assets/drinks/yellow-negroni-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Yellow Negroni</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">295</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">summer gin, dry vermouth and liqueur Suze l`Originale  is one of the oldest aperitifs from France, which today is a national treasure of the country. The liqueur is made from gentian infusion, alpine herb extracts and concentrated apple juice.</span><span lang="cs">letní gin, suchý vermut a likér Suze l`Originale  je jedním z nejstarších aperitivů z Francie, který je dnes národním pokladem země. Likér se vyrábí z nálevu z hořce, výtažků z alpských bylin a koncentrované jablečné šťávy.</span><span lang="uk">літній джин, сухий вермут та лікер Suze l`Originale – це один із найстаріших аперитивів із Франції, який сьогодні є національним надбанням країни. Лікер виготовляють з настою тирличу, екстрактів альпійських трав та концентрованого яблучного соку.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-caipirinha">
-  <p class="drink__line">
-    <span class="drink__name">Caipirinha</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Brazil&#x27;s own: cachaça over lime crushed with sugar, poured onto its own ice. Blunt and refreshing.</span><span lang="cs">Brazilská klasika: cachaça na limetku rozdrcenou s cukrem, nalitá na vlastní led. Přímočará a osvěžující.</span><span lang="uk">Бразильська класика: кашаса на лайм, розтертий із цукром, і лід просто зверху. Прямолінійно й освіжає.</span></p>
+  <img class="drink__pic" src="../assets/drinks/caipirinha.webp" srcset="../assets/drinks/caipirinha.webp 320w, ../assets/drinks/caipirinha-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Caipirinha</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Brazil&#x27;s own: cachaça over lime crushed with sugar, poured onto its own ice. Blunt and refreshing.</span><span lang="cs">Brazilská klasika: cachaça na limetku rozdrcenou s cukrem, nalitá na vlastní led. Přímočará a osvěžující.</span><span lang="uk">Бразильська класика: кашаса на лайм, розтертий із цукром, і лід просто зверху. Прямолінійно й освіжає.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-bitter-giuseppe">
-  <p class="drink__line">
-    <span class="drink__name">Bitter Giuseppe</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">265</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">the Bitter Giuseppe Built along Manhattan lines, this digestif cocktail features the bitter artichoke-based amaro Cynar. The richness of the sweet vermouth balances the lush, vegetal bitterness of the Cynar.</span><span lang="cs">The orange bitters and the brightness of the few drops of lemon juice and the spray of lemon oil cut through the almost oily, unctuous texture on your tongue, allowing the more subtle, underlying spices to come out
+  <img class="drink__pic" src="../assets/drinks/bitter-giuseppe.webp" srcset="../assets/drinks/bitter-giuseppe.webp 320w, ../assets/drinks/bitter-giuseppe-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Bitter Giuseppe</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">265</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">the Bitter Giuseppe Built along Manhattan lines, this digestif cocktail features the bitter artichoke-based amaro Cynar. The richness of the sweet vermouth balances the lush, vegetal bitterness of the Cynar.</span><span lang="cs">The orange bitters and the brightness of the few drops of lemon juice and the spray of lemon oil cut through the almost oily, unctuous texture on your tongue, allowing the more subtle, underlying spices to come out
 Hořký Giuseppe Tento digestivní koktejl, postavený podle manhattanských linií, obsahuje amaro Cynar na bázi hořkého artyčoku. Bohatost sladkého vermutu vyvažuje svěží, rostlinnou hořkost Cynar. Pomerančová hořkost a jas několika kapek citronové šťávy a spreje citronového oleje proříznou téměř mastnou mastnou texturu na vašem jazyku a umožní vyniknout jemnějším kořením.</span><span lang="uk">Гіркий Джузеппе Цей дижестивний коктейль, створений за принципом Манхеттена, містить гіркий амаро Cynar на основі артишоку. Насиченість солодкого вермуту врівноважує пишну рослинну гірчинку Cynar. Апельсинова гіркота та яскравість кількох крапель лимонного соку та бризок лимонної олії розрізають майже маслянисту, маслянисту текстуру вашого язика, дозволяючи вийти більш тонким основним прянощам</span></p>
+  </div>
 </li>
 <li class="drink" id="d-paloma">
-  <p class="drink__line">
-    <span class="drink__name">Paloma</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Refreshing and vibrant, the Paloma is your perfect escape. Made with tequila, grapefruit soda, and a squeeze of lime. Simple, classic, and always a good idea.</span><span lang="cs">Osvěžující a živá, Paloma je váš dokonalý únik. Vyrobena z tequily, grapefruitové sody a kapky limetky. Jednoduchá, klasická a vždy dobrý nápad.</span><span lang="uk">Освіжаюча та яскрава, Палома – ваш ідеальний відпочинок. Зроблена з текіли, грейпфрутової содової та краплі лайма. Проста, класична і завжди гарна ідея.</span></p>
+  <img class="drink__pic" src="../assets/drinks/paloma.webp" srcset="../assets/drinks/paloma.webp 320w, ../assets/drinks/paloma-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Paloma</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Refreshing and vibrant, the Paloma is your perfect escape. Made with tequila, grapefruit soda, and a squeeze of lime. Simple, classic, and always a good idea.</span><span lang="cs">Osvěžující a živá, Paloma je váš dokonalý únik. Vyrobena z tequily, grapefruitové sody a kapky limetky. Jednoduchá, klasická a vždy dobrý nápad.</span><span lang="uk">Освіжаюча та яскрава, Палома – ваш ідеальний відпочинок. Зроблена з текіли, грейпфрутової содової та краплі лайма. Проста, класична і завжди гарна ідея.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-french75">
-  <p class="drink__line">
-    <span class="drink__name">French75</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">295</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">French 75 is a cocktail made from gin, champagne, lemon juice, and sugar. It is also called a 75 cocktail, or in French simply a soixante quinze (&#x27;seventy five&#x27;).</span><span lang="cs">French 75 je koktejl vyrobený z ginu, šampaňského, citronové šťávy a cukru. Také se mu říká koktejl 75, nebo ve francouzštině jednoduše soixante quinze („sedmdesát pět“).</span><span lang="uk">Френч 75 – це коктейль, приготований з джину, шампанського, лимонного соку та цукру. Його також називають коктейлем 75, або французькою просто soixante quinze («сімдесят п&#x27;ять»).</span></p>
+  <img class="drink__pic" src="../assets/drinks/french75.webp" srcset="../assets/drinks/french75.webp 320w, ../assets/drinks/french75-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">French75</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">295</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">French 75 is a cocktail made from gin, champagne, lemon juice, and sugar. It is also called a 75 cocktail, or in French simply a soixante quinze (&#x27;seventy five&#x27;).</span><span lang="cs">French 75 je koktejl vyrobený z ginu, šampaňského, citronové šťávy a cukru. Také se mu říká koktejl 75, nebo ve francouzštině jednoduše soixante quinze („sedmdesát pět“).</span><span lang="uk">Френч 75 – це коктейль, приготований з джину, шампанського, лимонного соку та цукру. Його також називають коктейлем 75, або французькою просто soixante quinze («сімдесят п&#x27;ять»).</span></p>
+  </div>
 </li>
 <li class="drink" id="d-dolce-amaro-bittersweet">
-  <p class="drink__line">
-    <span class="drink__name">Dolce Amaro Bittersweet</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">295</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Sip on sophistication with the **Dolce Amaro** 🌅. This exquisite cocktail blends the dry notes of vermouth with the bittersweet embrace of Campari and the rich almond warmth of Adriatico Amaretto. It&#x27;s like a Mediterranean sunset in a glass – perfect for unwinding and savoring the moment. Vychutnejte si sofistikovanost s koktejlem **Dolce Amaro** 🌅.</span><span lang="cs">Tento vynikající nápoj spojuje suché tóny vermutu s hořkosladkým objetím Campari a bohatou mandlovou hřejivostí Adriatico Amaretto. Je to jako středomořský západ slunce ve sklenici – ideální pro relaxaci a vychutnání si okamžiku.</span><span lang="uk">Насолоджуйтесь витонченістю з коктейлем **Dolce Amaro** 🌅. Цей вишуканий напій поєднує сухі нотки вермуту з гірко-солодкими обіймами Campari та насиченою мигдальною теплотою Adriatico Amaretto. Це ніби середземноморський захід сонця у склянці – ідеально для відпочинку та насолоди моментом.</span></p>
+  <img class="drink__pic" src="../assets/drinks/dolce-amaro-bittersweet.webp" srcset="../assets/drinks/dolce-amaro-bittersweet.webp 320w, ../assets/drinks/dolce-amaro-bittersweet-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Dolce Amaro Bittersweet</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">295</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Sip on sophistication with the **Dolce Amaro** 🌅. This exquisite cocktail blends the dry notes of vermouth with the bittersweet embrace of Campari and the rich almond warmth of Adriatico Amaretto. It&#x27;s like a Mediterranean sunset in a glass – perfect for unwinding and savoring the moment. Vychutnejte si sofistikovanost s koktejlem **Dolce Amaro** 🌅.</span><span lang="cs">Tento vynikající nápoj spojuje suché tóny vermutu s hořkosladkým objetím Campari a bohatou mandlovou hřejivostí Adriatico Amaretto. Je to jako středomořský západ slunce ve sklenici – ideální pro relaxaci a vychutnání si okamžiku.</span><span lang="uk">Насолоджуйтесь витонченістю з коктейлем **Dolce Amaro** 🌅. Цей вишуканий напій поєднує сухі нотки вермуту з гірко-солодкими обіймами Campari та насиченою мигдальною теплотою Adriatico Amaretto. Це ніби середземноморський захід сонця у склянці – ідеально для відпочинку та насолоди моментом.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-last-word">
-  <p class="drink__line">
-    <span class="drink__name">Last Word</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">355</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">A classic cocktail of Nordes dry gin, green Chartreuse liqueur, Maraschino liqueur, and lime juice, which originated in Detroit in the early 20th century.</span><span lang="cs">Klasický koktejl ze suchého ginu Nordes, zeleného likéru Chartreuse, likéru Maraschino a limetkové šťávy, který vznikl v Detroitu na počátku 20. století.</span><span lang="uk">Класичний коктейль із сухого джину Nordes, зеленого лікеру Chartreuse, лікеру Maraschino та соку лайма, який зявився у Детройті на початку 20 століття.</span></p>
+  <img class="drink__pic" src="../assets/drinks/last-word.webp" srcset="../assets/drinks/last-word.webp 320w, ../assets/drinks/last-word-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Last Word</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">355</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">A classic cocktail of Nordes dry gin, green Chartreuse liqueur, Maraschino liqueur, and lime juice, which originated in Detroit in the early 20th century.</span><span lang="cs">Klasický koktejl ze suchého ginu Nordes, zeleného likéru Chartreuse, likéru Maraschino a limetkové šťávy, který vznikl v Detroitu na počátku 20. století.</span><span lang="uk">Класичний коктейль із сухого джину Nordes, зеленого лікеру Chartreuse, лікеру Maraschino та соку лайма, який зявився у Детройті на початку 20 століття.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-green-deacon">
-  <p class="drink__line">
-    <span class="drink__name">Green Deacon</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">349</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">### 🇬🇧 English **Green Deacon**
+  <img class="drink__pic" src="../assets/drinks/green-deacon.webp" srcset="../assets/drinks/green-deacon.webp 320w, ../assets/drinks/green-deacon-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Green Deacon</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">349</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">### 🇬🇧 English **Green Deacon**
 A dry and refreshing contrast of London Dry and Sloe gin, balancing tart pink grapefruit with a subtle whisper of absinthe.
 *Flavor: Citrusy, herbal, bittersweet.*</span><span lang="cs">Čeština **Green Deacon**
 Suchý a osvěžující kontrast londýnského a trnkového ginu, kde se snoubí kyselost růžového grapefruitu s jemnou, sotva znatelnou kapkou absintu.
 *Chuť: Citrusová, bylinná, hořkosladká.*</span><span lang="uk">Українська **Green Deacon**
 Сухий та освіжаючий контраст лондонського та тернового джину, де кислинка рожевого грейпфрута ідеально збалансована ледь помітною краплею абсенту.
 *Смак: Цитрусовий, трав&#x27;яний, гіркувато-солодкий.*</span></p>
+  </div>
 </li>
 <li class="drink" id="d-breakfast-martini">
-  <p class="drink__line">
-    <span class="drink__name">Breakfast Martini</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">305</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Breakfast Martini 🍸🍊
+  <img class="drink__pic" src="../assets/drinks/breakfast-martini.webp" srcset="../assets/drinks/breakfast-martini.webp 320w, ../assets/drinks/breakfast-martini-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Breakfast Martini</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">305</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Breakfast Martini 🍸🍊
 A sophisticated blend of gin, orange marmalade, and a bold cognac-based orange liqueur. The definitive liquid breakfast.</span><span lang="cs">Breakfast Martini 🍸✨
 Sofistikovaný mix ginu, marmelády a silného pomerančového likéru na koňaku. Dokonalá tekutá snídaně.</span><span lang="uk">Breakfast Martini 🍸🍊
 Вишуканий мікс джину, мармеладу та міцного апельсинового лікеру на коньяку. Твій ідеальний «рідкий сніданок».</span></p>
+  </div>
 </li>
 <li class="drink" id="d-pinnaple-daiquiri">
-  <p class="drink__line">
-    <span class="drink__name">Pinnaple  Daiquiri</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Banana Daiquiri Base Spirit:Cargo Cult — a dry and spiced Australian rum.
+  <img class="drink__pic" src="../assets/drinks/pinnaple-daiquiri.webp" srcset="../assets/drinks/pinnaple-daiquiri.webp 320w, ../assets/drinks/pinnaple-daiquiri-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Pinnaple  Daiquiri</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Banana Daiquiri Base Spirit:Cargo Cult — a dry and spiced Australian rum.
 Preparation: The rum is macerated with mountain bananas from Queensland, Australia. These naturally less sweet bananas provide a rich aroma and flavor without excess sugar.
 Ingredients: Cargo Cult Spiced Rum (macerated with Queensland bananas), fresh lime juice, smoked Demerara syrup (brown cane sugar).
 Profile: Dry, spiced, with a pronounced banana character and subtle smoky notes. Banana Daiquiri</span><span lang="cs">Banana Daiquiri
@@ -378,22 +475,29 @@ Profil: Suchý, kořeněný, s výrazným banánovým charakterem a lehkými kou
 Приготування: Ром мацерується на гірських бананах з Квінсленда (Австралія). Ці банани від природи менш солодкі, тому надають напою багатий аромат і смак без зайвої солодкості.
 Склад: Пряний ром Cargo Cult (мацерований на квінслендських бананах), свіжий сік лайма, сироп із підкопченого тростинного цукру демерара.
 Профіль: Сухий, пряний, з вираженим банановим характером та легкими димними нотами.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-mezcalita-vida">
-  <p class="drink__line">
-    <span class="drink__name">Mezcalita vida</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">465</span>
-  </p>
-  
+  <img class="drink__pic" src="../assets/drinks/mezcalita-vida.webp" srcset="../assets/drinks/mezcalita-vida.webp 320w, ../assets/drinks/mezcalita-vida-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Mezcalita vida</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">465</span>
+    </p>
+    
+  </div>
 </li>
 <li class="drink" id="d-skiny-beatch">
-  <p class="drink__line">
-    <span class="drink__name">Skiny beatch</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">265</span>
-  </p>
-  
+  <img class="drink__pic" src="../assets/drinks/skiny-beatch.webp" srcset="../assets/drinks/skiny-beatch.webp 320w, ../assets/drinks/skiny-beatch-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Skiny beatch</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">265</span>
+    </p>
+    
+  </div>
 </li>
   </ul>
 </section>
@@ -402,28 +506,36 @@ Profil: Suchý, kořeněný, s výrazným banánovým charakterem a lehkými kou
     <span class="course__count" aria-hidden="true">3</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-saigon-baigur-premium-dry-gin-th-tonic-43-vietnam">
-  <p class="drink__line">
-    <span class="drink__name">Saigon Baigur Premium Dry Gin + TH Tonic /43% Vietnam</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">365</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Impressive and Spice ,Inspired by Vietnamese spice flavour. Outspoken at the start, complex spices in the middle, ending in the smooth finish.</span><span lang="cs">Působivé a pikantní Inspirováno vietnamskou chutí koření. Na začátku otevřené, komplexní koření uprostřed, končící v hladkém závěru.</span><span lang="uk">Вражаючий і пікантний Натхненний смаком в’єтнамських спецій. Відвертий на початку, складні прянощі в середині, що закінчується м’яким відтінком.</span></p>
+  <img class="drink__pic" src="../assets/drinks/saigon-baigur-premium-dry-gin-th-tonic-43-vietnam.webp" srcset="../assets/drinks/saigon-baigur-premium-dry-gin-th-tonic-43-vietnam.webp 320w, ../assets/drinks/saigon-baigur-premium-dry-gin-th-tonic-43-vietnam-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Saigon Baigur Premium Dry Gin + TH Tonic /43% Vietnam</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">365</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Impressive and Spice ,Inspired by Vietnamese spice flavour. Outspoken at the start, complex spices in the middle, ending in the smooth finish.</span><span lang="cs">Působivé a pikantní Inspirováno vietnamskou chutí koření. Na začátku otevřené, komplexní koření uprostřed, končící v hladkém závěru.</span><span lang="uk">Вражаючий і пікантний Натхненний смаком в’єтнамських спецій. Відвертий на початку, складні прянощі в середині, що закінчується м’яким відтінком.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-scapegrace-black-gin-41-6-new-zealand-th-tonic">
-  <p class="drink__line">
-    <span class="drink__name">Scapegrace Black Gin 41.6% New Zealand +TH Tonic</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">395</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">SCAPEGRACE Black Gin Hello darkness my old friend. In nature, Black has a flavour. A fluent autograph stroked with the ink of specifio organic plants, flowers and berries. This is that flavour. This is the taste of Black.</span></p>
+  <img class="drink__pic" src="../assets/drinks/scapegrace-black-gin-41-6-new-zealand-th-tonic.webp" srcset="../assets/drinks/scapegrace-black-gin-41-6-new-zealand-th-tonic.webp 320w, ../assets/drinks/scapegrace-black-gin-41-6-new-zealand-th-tonic-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Scapegrace Black Gin 41.6% New Zealand +TH Tonic</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">395</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">SCAPEGRACE Black Gin Hello darkness my old friend. In nature, Black has a flavour. A fluent autograph stroked with the ink of specifio organic plants, flowers and berries. This is that flavour. This is the taste of Black.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-citadelle-gin-original-44-0-th-tonic">
-  <p class="drink__line">
-    <span class="drink__name">Citadelle Gin Original 44,0 %+ TH Tonic</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">295</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">🇬🇧 English Citadelle Original: The Pioneer of French Craft Gin. 🍸🇫🇷 The first French craft gin, born in 1996 in the heart of Grande Champagne. A flawless balance of juniper, citrus, and exotic spices. The Core: Juniper berries grown and strictly controlled directly at Château de Bonbonnet.
+  <img class="drink__pic" src="../assets/drinks/citadelle-gin-original-44-0-th-tonic.webp" srcset="../assets/drinks/citadelle-gin-original-44-0-th-tonic.webp 320w, ../assets/drinks/citadelle-gin-original-44-0-th-tonic-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Citadelle Gin Original 44,0 %+ TH Tonic</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">295</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">🇬🇧 English Citadelle Original: The Pioneer of French Craft Gin. 🍸🇫🇷 The first French craft gin, born in 1996 in the heart of Grande Champagne. A flawless balance of juniper, citrus, and exotic spices. The Core: Juniper berries grown and strictly controlled directly at Château de Bonbonnet.
 The Formula: French wheat distillate + 19 distinct botanicals (including cardamon, cubeb pepper, grains of paradise, and violet petals).
 The Process: Patented progressive maceration and a single distillation in small 25 hL copper pot stills.
 * **Profile:** Delicate fresh flowers and citrus on the nose, opening up to a bold, peppery, and spicy palate. Elegant, round, and refined finish. #citadellegin #originalgin #craftgin #praguebar #barlife #citadellegin #gintonic #remeslnygin #barpraha #praguebar</span><span lang="cs">Čeština **Citadelle Original: Průkopník francouzského řemeslného ginu.** 🍸🇫🇷 První francouzský řemeslný gin, představený v roce 1996 v srdci regionu Grande Champagne. Dokonalá rovnováha jalovce, citrusů a exotického koření. * **Základ:** Jalovec pěstovaný pod přímou kontrolou přímo před zámkem Château de Bonbonnet.
@@ -433,6 +545,7 @@ The Process: Patented progressive maceration and a single distillation in small 
 * **Склад:** Пшеничний дистилят + 19 рослинних компонентів (серед яких кардамон, перець кубеба, райські зерна та пелюстки фіалки).
 * **Технологія:** Запатентована прогресивна мацерація та єдина дистиляція в малих 25-гектолітрових мідних кубах.
 * **Профіль:** Ніжний аромат свіжих квітів та цитрусів, який на піднебінні розкривається яскравими перцевими та пряними нотами. Елегантний, округлий та витончений посмак.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -441,20 +554,26 @@ The Process: Patented progressive maceration and a single distillation in small 
     <span class="course__count" aria-hidden="true">2</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-del-maguey-mezcal-vida-40-ml-mexico">
-  <p class="drink__line">
-    <span class="drink__name">Del Maguey Mezcal Vida 40 ml Mexico»</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">400</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Espadín agave from San Luis del Río in Oaxaca, roasted over wood. Smoke first, then green fruit underneath.</span><span lang="cs">Agáve espadín ze San Luis del Río v Oaxace, pečené nad dřevem. Nejprve kouř, pod ním zelené ovoce.</span><span lang="uk">Агава еспадін із Сан-Луїс-дель-Ріо в Оахаці, печена на дровах. Спершу дим, під ним — зелений фрукт.</span></p>
+  <img class="drink__pic" src="../assets/drinks/del-maguey-mezcal-vida-40-ml-mexico.webp" srcset="../assets/drinks/del-maguey-mezcal-vida-40-ml-mexico.webp 320w, ../assets/drinks/del-maguey-mezcal-vida-40-ml-mexico-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Del Maguey Mezcal Vida 40 ml Mexico»</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">400</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Espadín agave from San Luis del Río in Oaxaca, roasted over wood. Smoke first, then green fruit underneath.</span><span lang="cs">Agáve espadín ze San Luis del Río v Oaxace, pečené nad dřevem. Nejprve kouř, pod ním zelené ovoce.</span><span lang="uk">Агава еспадін із Сан-Луїс-дель-Ріо в Оахаці, печена на дровах. Спершу дим, під ним — зелений фрукт.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-montelobos-mezcal-artesanal-mexico">
-  <p class="drink__line">
-    <span class="drink__name">Montelobos Mezcal artesanal Mexico</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">385</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Organic espadín from Oaxaca, made the artisanal way. Drier and more herbal than it is smoky.</span><span lang="cs">Organické espadín z Oaxaky, vyrobené řemeslně. Sušší a bylinnější, než je kouřové.</span><span lang="uk">Органічний еспадін з Оахаки, зроблений ремісничо. Сухіший і трав&#x27;яніший, ніж димний.</span></p>
+  <img class="drink__pic" src="../assets/drinks/montelobos-mezcal-artesanal-mexico.webp" srcset="../assets/drinks/montelobos-mezcal-artesanal-mexico.webp 320w, ../assets/drinks/montelobos-mezcal-artesanal-mexico-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Montelobos Mezcal artesanal Mexico</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">385</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Organic espadín from Oaxaca, made the artisanal way. Drier and more herbal than it is smoky.</span><span lang="cs">Organické espadín z Oaxaky, vyrobené řemeslně. Sušší a bylinnější, než je kouřové.</span><span lang="uk">Органічний еспадін з Оахаки, зроблений ремісничо. Сухіший і трав&#x27;яніший, ніж димний.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -463,12 +582,14 @@ The Process: Patented progressive maceration and a single distillation in small 
     <span class="course__count" aria-hidden="true">3</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-ole-smoky-mango-habanero-whiskey-35-usa">
-  <p class="drink__line">
-    <span class="drink__name">Ole Smoky Mango Habanero Whiskey 35% USA</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">🇬🇧 ENGLISH 🔥 Ole Smoky Mango Habanero
+  <img class="drink__pic" src="../assets/drinks/ole-smoky-mango-habanero-whiskey-35-usa.webp" srcset="../assets/drinks/ole-smoky-mango-habanero-whiskey-35-usa.webp 320w, ../assets/drinks/ole-smoky-mango-habanero-whiskey-35-usa-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Ole Smoky Mango Habanero Whiskey 35% USA</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">🇬🇧 ENGLISH 🔥 Ole Smoky Mango Habanero
 Sweet tropical mango meets a sharp habanero kick.
 Smooth Tennessee whiskey with a slow-burning finish.
 Dangerously drinkable. Unforgettable.</span><span lang="cs">ČEŠTINA 🔥 Ole Smoky Mango Habanero
@@ -478,25 +599,32 @@ Nečekaná. Návyková.</span><span lang="uk">УКРАЇНСЬКОЮ 🔥 Ole Sm
 Солодке манго й пекучий хабанеро.
 М’який теннесійський віскі з довгим гарячим фінішем.
 Сміливий смак, який запам’ятовується.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-laphroaig-oak-select-40-40-ml">
-  <p class="drink__line">
-    <span class="drink__name">Laphroaig Oak Select 40% 40 ml</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English Intense, smoky, and complex. A perfect balance of peat smoke, medicinal notes, and sweet oak. Rich flavors of seaweed, vanilla, and a hint of spice, leading into a long, dry, and distinctly smoky finish. A versatile, signature peated base for our premium whiskey cocktails.</span><span lang="cs">**Laphroaig Oak Select (40%)**
+  <img class="drink__pic" src="../assets/drinks/laphroaig-oak-select-40-40-ml.webp" srcset="../assets/drinks/laphroaig-oak-select-40-40-ml.webp 320w, ../assets/drinks/laphroaig-oak-select-40-40-ml-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Laphroaig Oak Select 40% 40 ml</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English Intense, smoky, and complex. A perfect balance of peat smoke, medicinal notes, and sweet oak. Rich flavors of seaweed, vanilla, and a hint of spice, leading into a long, dry, and distinctly smoky finish. A versatile, signature peated base for our premium whiskey cocktails.</span><span lang="cs">**Laphroaig Oak Select (40%)**
 A classic Islay single malt Scotch whisky matured in a selection of five distinct casks: Oloroso Sherry, American White Oak, Pedro Ximénez, Quarter Cask, and Bourbon. Čeština **Laphroaig Oak Select (40%)**
 Klasická Islay single malt skotská whisky zrající v pěti různých typech sudů: po Oloroso Sherry, americkém bílém dubu, Pedro Ximénez, Quarter Cask a Bourbonu. Intenzivní, kouřová a komplexní. Dokonalý balanc rašelinového kouře, medicínských tónů a sladkého dřeva. Bohatá chuť mořských řas, vanilky a jemného koření s dlouhým, suchým a výrazně kouřovým závěrem. Charakteristická rašelinová báze pro naše prémiové whisky koktejly.</span><span lang="uk">Українська **Laphroaig Oak Select (40%)**
 Класичний односолодовий шотландський віскі з острова Айла, витриманий у п&#x27;яти різних типах бочок: з-під хересу Олоросо, американського білого дуба, Педро Хіменеса, Quarter Cask та бурбону. Інтенсивний, торф&#x27;яний та комплексний. Ідеальний баланс насиченого диму, медичних нот та солодкого дуба. Багатий смак морських водоростей, ванілі й легких прянощів із довгим, сухим та виразно димним фінішем. Характерна торф&#x27;яна база для наших преміальних коктейлів на віскі.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-bushmills-irish-single-malt-whisky-10yo-ireland">
-  <p class="drink__line">
-    <span class="drink__name">Bushmills Irish single malt whisky 10YO Ireland</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">255</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Irish single malt, distilled three times and ten years in bourbon and sherry casks. Honey, orchard fruit, no smoke.</span><span lang="cs">Irský single malt, třikrát destilovaný a deset let v bourbonových a sherry sudech. Med, sadové ovoce, žádný kouř.</span><span lang="uk">Ірландський сингл молт, тричі дистильований, десять років у бочках з-під бурбону та хересу. Мед, садовий фрукт, без диму.</span></p>
+  <img class="drink__pic" src="../assets/drinks/bushmills-irish-single-malt-whisky-10yo-ireland.webp" srcset="../assets/drinks/bushmills-irish-single-malt-whisky-10yo-ireland.webp 320w, ../assets/drinks/bushmills-irish-single-malt-whisky-10yo-ireland-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Bushmills Irish single malt whisky 10YO Ireland</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">255</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Irish single malt, distilled three times and ten years in bourbon and sherry casks. Honey, orchard fruit, no smoke.</span><span lang="cs">Irský single malt, třikrát destilovaný a deset let v bourbonových a sherry sudech. Med, sadové ovoce, žádný kouř.</span><span lang="uk">Ірландський сингл молт, тричі дистильований, десять років у бочках з-під бурбону та хересу. Мед, садовий фрукт, без диму.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -505,64 +633,82 @@ Klasická Islay single malt skotská whisky zrající v pěti různých typech s
     <span class="course__count" aria-hidden="true">6</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-cachaca-magnifica-40-brasil">
-  <p class="drink__line">
-    <span class="drink__name">Cachaca Magnifica 40% Brasil</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">255</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English Clean, vibrant, and aromatic with distinct notes of fresh tropical fruits, green grass, and a hint of spice. Taste the true vibrant energy of Brazil. Crafted using traditional copper pot stills, this premium Cachaça offers a remarkably smooth and crisp profile with rich sugarcane notes and a subtle herbaceous finish. The ultimate, authentic choice for a flawless, world-class Caipirinha.</span><span lang="cs">**Cachaça Magnífica Tradicional (40%)**
+  <img class="drink__pic" src="../assets/drinks/cachaca-magnifica-40-brasil.webp" srcset="../assets/drinks/cachaca-magnifica-40-brasil.webp 320w, ../assets/drinks/cachaca-magnifica-40-brasil-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Cachaca Magnifica 40% Brasil</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">255</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English Clean, vibrant, and aromatic with distinct notes of fresh tropical fruits, green grass, and a hint of spice. Taste the true vibrant energy of Brazil. Crafted using traditional copper pot stills, this premium Cachaça offers a remarkably smooth and crisp profile with rich sugarcane notes and a subtle herbaceous finish. The ultimate, authentic choice for a flawless, world-class Caipirinha.</span><span lang="cs">**Cachaça Magnífica Tradicional (40%)**
 An authentic, premium Brazilian spirit distilled from fresh sugarcane juice and aged in traditional Ipê wood casks. Čeština **Cachaça Magnífica Tradicional (40%)**
 Autentický, prémiový brazilský destilát z čerstvé šťávy cukrové třtiny, stařený v tradičních sudech ze dřeva Ipê. Čistá, živá a aromatická chuť s výraznými tóny tropického ovoce, zelené trávy a jemného koření. Zažijte skutečnou energii Brazílie. Tato prémiová Cachaça, vyráběná tradiční destilací v měděných kotlích, nabízí mimořádně jemný a svěží profil s bohatou chutí cukrové třtiny a lehkým bylinným závěrem. Naprosto autentická volba pro dokonalou a prvotřídní Caipirinhu.</span><span lang="uk">Українська **Cachaça Magnífica Tradicional (40%)**
 Автентичний преміальний бразильський міцний напій із чистого соку цукрової тростини, витриманий у традиційних бочках із дерева Іпе. Чистий, яскравий та ароматний смак із виразними нотами тропічних фруктів, свіжої трави та легких прянощів. Відчуйте справжню енергію Бразилії. Ця преміальна кашаса, створена шляхом традиційної дистиляції в мідних кубах, має надзвичайно м&#x27;який та освіжаючий профіль із насиченими тростинними тонами та легким трав&#x27;янистим посмаком. Ідеальний та автентичний вибір для бездоганної Кайпіріньї світового рівня.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-tiki-lovers-pineapple">
-  <p class="drink__line">
-    <span class="drink__name">Tiki Lovers Pineapple</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">255</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English **Tiki Lovers Pineapple (45%)**
+  <img class="drink__pic" src="../assets/drinks/tiki-lovers-pineapple.webp" srcset="../assets/drinks/tiki-lovers-pineapple.webp 320w, ../assets/drinks/tiki-lovers-pineapple-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Tiki Lovers Pineapple</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">255</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English **Tiki Lovers Pineapple (45%)**
 A premium Caribbean rum blend created in Germany by the founders of *The Bitter Truth*. It combines heavy, funk-forward Jamaican pot still rums with select spirits from Barbados, Trinidad, and Guyana, naturally infused with real South American pineapple extract. An uncompromising spirit crafted for true complexity. This exceptional blend brings together the finest Caribbean rums, meticulously married and bottled in Germany. Infused purely with 100% natural South American pineapple extract—completely free from artificial syrups—it delivers an authentic, bold tropical punch balanced by a powerful sugarcane body and complex esters.</span><span lang="cs">Čeština **Tiki Lovers Pineapple (45%)**
 Prémiový blend karibských rumů vytvořený v Německu zakladateli značky *The Bitter Truth*. Kombinuje těžké jamajské pot still rumy se spiritis z Barbadosu, Trinidadu a Guyany, přirozeně infuzované reálným extraktem z jihoamerických ananasů. Nekompromisní rum stvořený pro skutečnou komplexnost chuti. Tento jedinečný blend spojuje nejlepší karibské destiláty, které se míchají a lahvují v Německu. Díky infuzi 100% přírodního ananasového extraktu z Jižní Ameriky — bez jakýchkoli umělých sirupů — nabízí autentickou chuť zralého ovoce vyváženou silným tělem a divokým charakterem.</span><span lang="uk">Українська **Tiki Lovers Pineapple (45%)**
 Преміальний купаж карибських ромів, створений у Німеччині засновниками бренду *The Bitter Truth*. Поєднує важкі ямайські роми кубової дистиляції зі спиртами з Барбадосу, Тринідаду та Гаяни, природно настояними на справжньому екстракті південноамериканського ананаса. Безкомпромісний алкоголь, створений задля справжньої глибини смаку. Цей унікальний бленд об&#x27;єднує найкращі карибські спирти, які змішуються та розливаються в Німеччині. Завдяки настоюванню на 100% натуральному екстракті південноамериканського ананаса — без жодних штучних сиропів чи хімії — напій вибухає автентичним тропічним смаком та потужним міцним характером.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-cargo-cult-banana-spiced-rum-38">
-  <p class="drink__line">
-    <span class="drink__name">Cargo Cult Banana Spiced Rum 38 %</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">305</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Australian rum macerated with mountain bananas and spice. Dry for a spiced rum — the banana is aroma, not sugar.</span><span lang="cs">Australský rum macerovaný s horskými banány a kořením. Na kořeněný rum suchý — banán je ve vůni, ne v cukru.</span><span lang="uk">Австралійський ром, мацерований на гірських бананах і спеціях. Як на пряний ром — сухий: банан у ароматі, а не в цукрі.</span></p>
+  <img class="drink__pic" src="../assets/drinks/cargo-cult-banana-spiced-rum-38.webp" srcset="../assets/drinks/cargo-cult-banana-spiced-rum-38.webp 320w, ../assets/drinks/cargo-cult-banana-spiced-rum-38-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Cargo Cult Banana Spiced Rum 38 %</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">305</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Australian rum macerated with mountain bananas and spice. Dry for a spiced rum — the banana is aroma, not sugar.</span><span lang="cs">Australský rum macerovaný s horskými banány a kořením. Na kořeněný rum suchý — banán je ve vůni, ne v cukru.</span><span lang="uk">Австралійський ром, мацерований на гірських бананах і спеціях. Як на пряний ром — сухий: банан у ароматі, а не в цукрі.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-centenario-anejo-aged-9yo-costa-rican-rum-40-40-ml">
-  <p class="drink__line">
-    <span class="drink__name">Centenario „ Aňejo ” aged 9Yo Costa Rican rum 40%  40 ml</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">285</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English **Ron Centenario Añejo 9 YO (40%)**
+  <img class="drink__pic" src="../assets/drinks/centenario-anejo-aged-9yo-costa-rican-rum-40-40-ml.webp" srcset="../assets/drinks/centenario-anejo-aged-9yo-costa-rican-rum-40-40-ml.webp 320w, ../assets/drinks/centenario-anejo-aged-9yo-costa-rican-rum-40-40-ml-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Centenario „ Aňejo ” aged 9Yo Costa Rican rum 40%  40 ml</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">285</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English **Ron Centenario Añejo 9 YO (40%)**
 A premium Costa Rican rum aged for 9 years in select oak barrels. Smooth and sweet with a well-balanced profile of rich caramel, vanilla, and soft oak notes. Discover the pure taste of Costa Rica. Aged for 9 years in the tropical climate, this exceptional rum offers a rich, sweet character packed with notes of brown sugar, vanilla, and a touch of spice. Perfect for slow sipping or enhancing premium drinks.</span><span lang="cs">Čeština **Ron Centenario Añejo 9 YO (40%)**
 Prémiový kostarický rum stařený 9 let v lanyžových dubových sudech. Jemný a sladký s dokonale vyváženým profilem bohatého karamelu, vanilky a jemných tónů dřeva. Objevte čistou chuť Kostariky. Tento výjimečný rum, stařený 9 let v tropickém klimatu, nabízí bohatý, sladký charakter s výraznými tóny třtinového cukru, vanilky a jemného koření. Ideální k pomalému popíjení nebo do prémiových drinků.</span><span lang="uk">Українська **Ron Centenario Añejo 9 YO (40%)**
 Преміальний костариканський ром, витриманий протягом 9 років у відбірних дубових бочках. М&#x27;який та солодкий, із чудово збалансованим профілем насиченої карамелі, ванілі та легких нот дуба. Відкрийте для себе чистий смак Коста-Ріки. Цей винятковий ром, витриманий 9 років у тропічному кліматі, має багатий, солодкий характер із виразними нотами тростинного цукру, ванілі та легких прянощів. Ідеально підходить для смакування в чистому вигляді або як основа для преміальних міксів.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-platation-aged-dark-barbados-40-40-ml">
-  <p class="drink__line">
-    <span class="drink__name">Platation Aged  Dark Barbados 40% 40 ml</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">255</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Aged Barbados rum, dark and round, with cane sugar and oak carried through it.</span><span lang="cs">Zrálý barbadoský rum, tmavý a kulatý, s třtinovým cukrem a dubem.</span><span lang="uk">Витриманий барбадоський ром, темний і округлий, з тростиновим цукром і дубом.</span></p>
+  <img class="drink__pic" src="../assets/drinks/platation-aged-dark-barbados-40-40-ml.webp" srcset="../assets/drinks/platation-aged-dark-barbados-40-40-ml.webp 320w, ../assets/drinks/platation-aged-dark-barbados-40-40-ml-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Platation Aged  Dark Barbados 40% 40 ml</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">255</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Aged Barbados rum, dark and round, with cane sugar and oak carried through it.</span><span lang="cs">Zrálý barbadoský rum, tmavý a kulatý, s třtinovým cukrem a dubem.</span><span lang="uk">Витриманий барбадоський ром, темний і округлий, з тростиновим цукром і дубом.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-flor-de-cana-extra-dry-rum-4y">
-  <p class="drink__line">
-    <span class="drink__name">FLOR DE CANA EXTRA DRY RUM 4y</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">225</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English **Flor de Caña Extra Seco 4 YO (40%)**
+  <img class="drink__pic" src="../assets/drinks/flor-de-cana-extra-dry-rum-4y.webp" srcset="../assets/drinks/flor-de-cana-extra-dry-rum-4y.webp 320w, ../assets/drinks/flor-de-cana-extra-dry-rum-4y-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">FLOR DE CANA EXTRA DRY RUM 4y</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">225</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English **Flor de Caña Extra Seco 4 YO (40%)**
 A premium, crystal-clear light Nicaraguan rum naturally aged for 4 years and charcoal-filtered for ultimate smoothness. Light-bodied, dry, and clean with subtle notes of vanilla, sweet almonds, and white chocolate. Sustainably crafted at the base of an active volcano, this 4-year-old white rum is completely sugar-free yet remarkably smooth. Its dry and crisp profile features delicate hints of vanilla and toasted coconut, making it the ultimate clean base for refreshing summer serves and premium mixers.</span><span lang="cs">Čeština **Flor de Caña Extra Seco 4 YO (40%)**
 Prémiový, křišťálově čistý lehký nikaragujský rum, přirozeně stařený 4 roky a filtrovaný přes dřevěné uhlí pro maximální jemnost. Lehké tělo, suchý a čistý profil s jemnými tóny vanilky, sladkých mandlí a bílé čokolády. Tento čtyřletý bílý rum, vyrobený udržitelným způsobem na úpatí aktivní sopky, neobsahuje žádný přidaný cukr, a přesto je výjimečně jemný. Jeho suchý a svěží charakter s elegantními podtóny vanilky a kokosu z něj dělá dokonalý, čistý základ pro osvěžující letní drinky a prémiové mixy.</span><span lang="uk">Українська **Flor de Caña Extra Seco 4 YO (40%)**
 Преміальний, кришталево прозорий легкий нікарагуанський ром, витриманий протягом 4 років та відфільтрований через деревне вугілля для максимальної м&#x27;якості. Легке тіло, сухий і чистий смак із тонкими нотами ванілі, солодкого мигдалю та білого шоколаду. Створений екологічним способом біля підніжжя діючого вулкана, цей 4-річний білий ром взагалі не містить цукру, але вражає своєю м&#x27;якістю. Його сухий, освіжаючий профіль із делікатними натяками на ваніль та кокос робить його ідеальною чистою основою для освіжаючих літніх міксів та преміальних лонг-дрінків.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -571,22 +717,28 @@ Prémiový, křišťálově čistý lehký nikaragujský rum, přirozeně staře
     <span class="course__count" aria-hidden="true">2</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-lustau-amontilado-jerez-40-ml-spain">
-  <p class="drink__line">
-    <span class="drink__name">Lustau Amontilado Jerez ,40 ml Spain</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">165</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Amontillado from Jerez: sherry aged first under flor and then in air. Bone dry, nutty, salty at the finish.</span><span lang="cs">Amontillado z Jerezu: sherry zrající nejprve pod flor a pak na vzduchu. Dokonale suché, oříškové, v závěru slané.</span><span lang="uk">Амонтільядо з Хереса: витримка спершу під флором, потім на повітрі. Абсолютно сухе, горіхове, із солоним фінішем.</span></p>
+  <img class="drink__pic" src="../assets/drinks/lustau-amontilado-jerez-40-ml-spain.webp" srcset="../assets/drinks/lustau-amontilado-jerez-40-ml-spain.webp 320w, ../assets/drinks/lustau-amontilado-jerez-40-ml-spain-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Lustau Amontilado Jerez ,40 ml Spain</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">165</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Amontillado from Jerez: sherry aged first under flor and then in air. Bone dry, nutty, salty at the finish.</span><span lang="cs">Amontillado z Jerezu: sherry zrající nejprve pod flor a pak na vzduchu. Dokonale suché, oříškové, v závěru slané.</span><span lang="uk">Амонтільядо з Хереса: витримка спершу під флором, потім на повітрі. Абсолютно сухе, горіхове, із солоним фінішем.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-picon-aperitif-40-ml-18-abv-france">
-  <p class="drink__line">
-    <span class="drink__name">Picon (apéritif) 40 ml 18 % ABV France</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">225</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">It is made from a base of fresh oranges which are dried and mixed with a solution of alcohol which is distilled. Picon also contains gentian and Cinchona in equal measures.</span><span lang="cs">Picon is a caramel-coloured, flavoured bitters[1] drunk as an apéritif, which traditionally accompanies beer in the east and north of France. Picon je karamelová hořká limonáda, která se pije jako aperitiv a tradičně se podává k pivu na východě a severu Francie.
+  <img class="drink__pic" src="../assets/drinks/picon-aperitif-40-ml-18-abv-france.webp" srcset="../assets/drinks/picon-aperitif-40-ml-18-abv-france.webp 320w, ../assets/drinks/picon-aperitif-40-ml-18-abv-france-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Picon (apéritif) 40 ml 18 % ABV France</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">225</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">It is made from a base of fresh oranges which are dried and mixed with a solution of alcohol which is distilled. Picon also contains gentian and Cinchona in equal measures.</span><span lang="cs">Picon is a caramel-coloured, flavoured bitters[1] drunk as an apéritif, which traditionally accompanies beer in the east and north of France. Picon je karamelová hořká limonáda, která se pije jako aperitiv a tradičně se podává k pivu na východě a severu Francie.
 Vyrábí se ze základu čerstvých pomerančů, které se usuší a smíchají s roztokem destilovaného alkoholu. Picon také obsahuje hořec a chininovku ve stejném množství.</span><span lang="uk">Пікон — це карамельний гіркий напій, який п&#x27;ють як аперитив і традиційно подають до пива на сході та півночі Франції.
 Його виготовляють з основи зі свіжих апельсинів, які висушують та змішують з розчином дистильованого спирту. Пікон також містить тирлич та хінну траву в рівних кількостях.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -595,12 +747,15 @@ Vyrábí se ze základu čerstvých pomerančů, které se usuší a smíchají 
     <span class="course__count" aria-hidden="true">1</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-portwein-grahams-tawny-40ml">
-  <p class="drink__line">
-    <span class="drink__name">PORTWEIN GRAHAMS TAWNY 40ml</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">175</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Tawny port from the Douro, aged in wood until the fruit turns to nuts and dried figs.</span><span lang="cs">Tawny portské z Doura, zrálé ve dřevě, až se ovoce promění v ořechy a sušené fíky.</span><span lang="uk">Тоні-порт із Дору, витриманий у деревині, доки фрукт не стане горіхом і сушеним інжиром.</span></p>
+  <img class="drink__pic" src="../assets/drinks/portwein-grahams-tawny-40ml.webp" srcset="../assets/drinks/portwein-grahams-tawny-40ml.webp 320w, ../assets/drinks/portwein-grahams-tawny-40ml-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">PORTWEIN GRAHAMS TAWNY 40ml</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">175</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Tawny port from the Douro, aged in wood until the fruit turns to nuts and dried figs.</span><span lang="cs">Tawny portské z Doura, zrálé ve dřevě, až se ovoce promění v ořechy a sušené fíky.</span><span lang="uk">Тоні-порт із Дору, витриманий у деревині, доки фрукт не стане горіхом і сушеним інжиром.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -609,28 +764,37 @@ Vyrábí se ze základu čerstvých pomerančů, které se usuší a smíchají 
     <span class="course__count" aria-hidden="true">3</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-white-wine-200ml-italy">
-  <p class="drink__line">
-    <span class="drink__name">White wine 200ml Italy</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">200</span>
-  </p>
-  
+  <img class="drink__pic" src="../assets/drinks/white-wine-200ml-italy.webp" srcset="../assets/drinks/white-wine-200ml-italy.webp 320w, ../assets/drinks/white-wine-200ml-italy-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">White wine 200ml Italy</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">200</span>
+    </p>
+    
+  </div>
 </li>
 <li class="drink" id="d-jaume-serra-cava-brut-200-ml-spain">
-  <p class="drink__line">
-    <span class="drink__name">Jaume Serra Cava Brut 200 ml Spain</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">200</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Spanish cava, brut, bottle-fermented. Green apple and bread, a fine bead.</span><span lang="cs">Španělská cava, brut, kvašená v lahvi. Zelené jablko a chléb, jemné perlení.</span><span lang="uk">Іспанська кава, брют, бродіння в пляшці. Зелене яблуко і хліб, дрібна перлина.</span></p>
+  <img class="drink__pic" src="../assets/drinks/jaume-serra-cava-brut-200-ml-spain.webp" srcset="../assets/drinks/jaume-serra-cava-brut-200-ml-spain.webp 320w, ../assets/drinks/jaume-serra-cava-brut-200-ml-spain-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Jaume Serra Cava Brut 200 ml Spain</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">200</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Spanish cava, brut, bottle-fermented. Green apple and bread, a fine bead.</span><span lang="cs">Španělská cava, brut, kvašená v lahvi. Zelené jablko a chléb, jemné perlení.</span><span lang="uk">Іспанська кава, брют, бродіння в пляшці. Зелене яблуко і хліб, дрібна перлина.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-graham-s-tawny-porto-10yo">
-  <p class="drink__line">
-    <span class="drink__name">Graham&#x27;s Tawny Porto 10YO</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">275</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Ten years in wood. Walnut, dried apricot and caramel, and a finish that holds.</span><span lang="cs">Deset let ve dřevě. Vlašský ořech, sušená meruňka a karamel, se závěrem, který drží.</span><span lang="uk">Десять років у деревині. Волоський горіх, сушений абрикос і карамель, із довгим фінішем.</span></p>
+  <img class="drink__pic" src="../assets/drinks/graham-s-tawny-porto-10yo.webp" srcset="../assets/drinks/graham-s-tawny-porto-10yo.webp 320w, ../assets/drinks/graham-s-tawny-porto-10yo-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Graham&#x27;s Tawny Porto 10YO</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">275</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Ten years in wood. Walnut, dried apricot and caramel, and a finish that holds.</span><span lang="cs">Deset let ve dřevě. Vlašský ořech, sušená meruňka a karamel, se závěrem, který drží.</span><span lang="uk">Десять років у деревині. Волоський горіх, сушений абрикос і карамель, із довгим фінішем.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -639,61 +803,81 @@ Vyrábí se ze základu čerstvých pomerančů, které se usuší a smíchají 
     <span class="course__count" aria-hidden="true">11</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-cynar-40ml-italy">
-  <p class="drink__line">
-    <span class="drink__name">Cynar 40ml Italy</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">195</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">The spirit&#x27;s name comes from cynarin, an acid found in artichokes believed to aid digestion. Any actual artichoke flavor is subtle, though. Cynar&#x27;s flavor vegetal, earthy, bitter, herbaceous yet sweet.</span><span lang="cs">Jméno ducha pochází z cynarinu, kyseliny obsažené v artyčokech, o kterých se předpokládá, že napomáhá trávení. Jakákoli skutečná chuť artyčoku je však jemná. Chuť Cynar je rostlinná, zemitá, hořká, bylinná a přesto sladká.</span><span lang="uk">Назва алкоголю походить від цинарину, кислоти, яка міститься в артишоках, і вважається, що вона сприяє травленню. Однак будь-який справжній смак артишоку є тонким. Смак Cynar рослинний, земляний, гіркий, трав&#x27;янистий, але солодкий.</span></p>
+  <img class="drink__pic" src="../assets/drinks/cynar-40ml-italy.webp" srcset="../assets/drinks/cynar-40ml-italy.webp 320w, ../assets/drinks/cynar-40ml-italy-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Cynar 40ml Italy</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">195</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">The spirit&#x27;s name comes from cynarin, an acid found in artichokes believed to aid digestion. Any actual artichoke flavor is subtle, though. Cynar&#x27;s flavor vegetal, earthy, bitter, herbaceous yet sweet.</span><span lang="cs">Jméno ducha pochází z cynarinu, kyseliny obsažené v artyčokech, o kterých se předpokládá, že napomáhá trávení. Jakákoli skutečná chuť artyčoku je však jemná. Chuť Cynar je rostlinná, zemitá, hořká, bylinná a přesto sladká.</span><span lang="uk">Назва алкоголю походить від цинарину, кислоти, яка міститься в артишоках, і вважається, що вона сприяє травленню. Однак будь-який справжній смак артишоку є тонким. Смак Cynar рослинний, земляний, гіркий, трав&#x27;янистий, але солодкий.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-amaretto-adriatico-roasted-28-alc-40ml-italy">
-  <p class="drink__line">
-    <span class="drink__name">AMARETTO ADRIATICO ROASTED/ 28% Alc/ 40ml Italy</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">295</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">ADRIATICO is a new generation of amaretto liqueurs made with real almonds from Puglia - Italy. Certifikace VEGAN OK</span><span lang="cs">Roasted &amp;amp; distilled « Filippo Cea » almonds from PugliaUnique liqueur made with natural ingredientsLess sweet compared to traditional amaretto liqueursCoffee and cinnamon infusionsA pinch of sea salt from the Adriatic seaVEGAN OK CertificationMultiple award winner liqueur
+  <img class="drink__pic" src="../assets/drinks/amaretto-adriatico-roasted-28-alc-40ml-italy.webp" srcset="../assets/drinks/amaretto-adriatico-roasted-28-alc-40ml-italy.webp 320w, ../assets/drinks/amaretto-adriatico-roasted-28-alc-40ml-italy-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">AMARETTO ADRIATICO ROASTED/ 28% Alc/ 40ml Italy</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">295</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">ADRIATICO is a new generation of amaretto liqueurs made with real almonds from Puglia - Italy. Certifikace VEGAN OK</span><span lang="cs">Roasted &amp;amp; distilled « Filippo Cea » almonds from PugliaUnique liqueur made with natural ingredientsLess sweet compared to traditional amaretto liqueursCoffee and cinnamon infusionsA pinch of sea salt from the Adriatic seaVEGAN OK CertificationMultiple award winner liqueur
 ADRIATICO je nová generace likérů amaretto vyrobených z pravých mandlí z Apulie - Itálie. Pražené a destilované mandle « Filippo Cea » z Puglie Jedinečný likér vyrobený z přírodních ingrediencí Méně sladké ve srovnání s tradičními likéry amaretto Kávové a skořicové nálevy Špetka mořské soli z Jaderského moře Mnohonásobně oceněný likér</span><span lang="uk">ADRIATICO - нове покоління лікерів амаретто, виготовлених зі справжнього мигдалю з Апулії - Італія. Смажений і дистильований мигдаль «Filippo Cea» з Апулії Унікальний лікер, виготовлений з натуральних інгредієнтів Менш солодкий у порівнянні з традиційними лікерами амаретто Настої кави та кориці Щіпка морської солі з Адріатичного моря Сертифікація VEGAN OK</span></p>
+  </div>
 </li>
 <li class="drink" id="d-grande-absente">
-  <p class="drink__line">
-    <span class="drink__name">Grande Absente</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">255</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Absinthe with wormwood, anise and herbs. Strong, and best with cold water poured slowly over it.</span><span lang="cs">Absint s pelyňkem, anýzem a bylinami. Silný, nejlepší s pomalu přilévanou studenou vodou.</span><span lang="uk">Абсент із полином, анісом і травами. Міцний, найкраще — з повільно долитою холодною водою.</span></p>
+  <img class="drink__pic" src="../assets/drinks/grande-absente.webp" srcset="../assets/drinks/grande-absente.webp 320w, ../assets/drinks/grande-absente-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Grande Absente</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">255</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Absinthe with wormwood, anise and herbs. Strong, and best with cold water poured slowly over it.</span><span lang="cs">Absint s pelyňkem, anýzem a bylinami. Silný, nejlepší s pomalu přilévanou studenou vodou.</span><span lang="uk">Абсент із полином, анісом і травами. Міцний, найкраще — з повільно долитою холодною водою.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-mozart-white-chocolate-40ml-austria">
-  <p class="drink__line">
-    <span class="drink__name">Mozart White Chocolate 40ml Austria</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">255</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Austrian cream liqueur of white chocolate and vanilla. Thick, sweet, for the end of the evening.</span><span lang="cs">Rakouský krémový likér z bílé čokolády a vanilky. Hustý, sladký, na konec večera.</span><span lang="uk">Австрійський вершковий лікер із білого шоколаду і ванілі. Густий, солодкий — на кінець вечора.</span></p>
+  <img class="drink__pic" src="../assets/drinks/mozart-white-chocolate-40ml-austria.webp" srcset="../assets/drinks/mozart-white-chocolate-40ml-austria.webp 320w, ../assets/drinks/mozart-white-chocolate-40ml-austria-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Mozart White Chocolate 40ml Austria</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">255</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Austrian cream liqueur of white chocolate and vanilla. Thick, sweet, for the end of the evening.</span><span lang="cs">Rakouský krémový likér z bílé čokolády a vanilky. Hustý, sladký, na konec večera.</span><span lang="uk">Австрійський вершковий лікер із білого шоколаду і ванілі. Густий, солодкий — на кінець вечора.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-drambuie-the-isle-of-skye-liqueur-40ml-scotland">
-  <p class="drink__line">
-    <span class="drink__name">Drambuie The Isle of Skye Liqueur   40ml Scotland</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">245</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Scotch whisky with heather honey, herbs and spice. Warm and sweet, drunk neat or over ice.</span><span lang="cs">Skotská whisky s vřesovým medem, bylinami a kořením. Teplý a sladký, čistý nebo s ledem.</span><span lang="uk">Шотландський віскі з вересовим медом, травами і спеціями. Теплий і солодкий — чистим або з льодом.</span></p>
+  <img class="drink__pic" src="../assets/drinks/drambuie-the-isle-of-skye-liqueur-40ml-scotland.webp" srcset="../assets/drinks/drambuie-the-isle-of-skye-liqueur-40ml-scotland.webp 320w, ../assets/drinks/drambuie-the-isle-of-skye-liqueur-40ml-scotland-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Drambuie The Isle of Skye Liqueur   40ml Scotland</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">245</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Scotch whisky with heather honey, herbs and spice. Warm and sweet, drunk neat or over ice.</span><span lang="cs">Skotská whisky s vřesovým medem, bylinami a kořením. Teplý a sladký, čistý nebo s ledem.</span><span lang="uk">Шотландський віскі з вересовим медом, травами і спеціями. Теплий і солодкий — чистим або з льодом.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-ancho-reyes-verde-40-40-ml-mexico">
-  <p class="drink__line">
-    <span class="drink__name">Ancho Reyes Verde 40% 40 ml Mexico</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">310</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Liqueur of early-picked poblano chillies from Puebla. Green and grassy first, heat afterwards.</span><span lang="cs">Likér z brzy sklízených chilli poblano z Puebly. Nejprve zeleno a tráva, teprve pak pálivost.</span><span lang="uk">Лікер із рано зібраного чилі поблано з Пуебли. Спершу зелень і трава, потім — гострота.</span></p>
+  <img class="drink__pic" src="../assets/drinks/ancho-reyes-verde-40-40-ml-mexico.webp" srcset="../assets/drinks/ancho-reyes-verde-40-40-ml-mexico.webp 320w, ../assets/drinks/ancho-reyes-verde-40-40-ml-mexico-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Ancho Reyes Verde 40% 40 ml Mexico</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">310</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Liqueur of early-picked poblano chillies from Puebla. Green and grassy first, heat afterwards.</span><span lang="cs">Likér z brzy sklízených chilli poblano z Puebly. Nejprve zeleno a tráva, teprve pak pálivost.</span><span lang="uk">Лікер із рано зібраного чилі поблано з Пуебли. Спершу зелень і трава, потім — гострота.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-ole-smoky-butter-pecan-17-5-moonshine-usa">
-  <p class="drink__line">
-    <span class="drink__name">Ole Smoky Butter Pecan 17.5% Moonshine USA</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">255</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">🇬🇧 ENGLISH 🥃 Ole Smoky Butter Pecan Moonshine
+  <img class="drink__pic" src="../assets/drinks/ole-smoky-butter-pecan-17-5-moonshine-usa.webp" srcset="../assets/drinks/ole-smoky-butter-pecan-17-5-moonshine-usa.webp 320w, ../assets/drinks/ole-smoky-butter-pecan-17-5-moonshine-usa-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Ole Smoky Butter Pecan 17.5% Moonshine USA</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">255</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">🇬🇧 ENGLISH 🥃 Ole Smoky Butter Pecan Moonshine
 Rich roasted pecans, silky sweetness, Southern soul.
 Creamy, smooth, dangerously easy to love.
 Dessert — with an attitude.</span><span lang="cs">ČEŠTINA 🥃 Ole Smoky Butter Pecan Moonshine
@@ -703,49 +887,62 @@ Tekutý dezert.</span><span lang="uk">УКРАЇНСЬКОЮ 🥃 Ole Smoky Butt
 Смажений пекан, вершкова солодкість, дух Півдня.
 Ніжний, оксамитовий, небезпечно смачний.
 Десерт у склянці.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-ole-smoky-butterscotch-20-usa">
-  <p class="drink__line">
-    <span class="drink__name">Ole Smoky Butterscotch 20% USA</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">255</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Tennessee moonshine liqueur, butterscotch. Sweet, low in strength, served cold.</span><span lang="cs">Moonshine likér z Tennessee, karamelový. Sladký, nízká síla, podává se studený.</span><span lang="uk">Муншайн-лікер із Теннессі, вершкова карамель. Солодкий, невисокої міцності, подається холодним.</span></p>
+  <img class="drink__pic" src="../assets/drinks/ole-smoky-butterscotch-20-usa.webp" srcset="../assets/drinks/ole-smoky-butterscotch-20-usa.webp 320w, ../assets/drinks/ole-smoky-butterscotch-20-usa-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Ole Smoky Butterscotch 20% USA</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">255</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Tennessee moonshine liqueur, butterscotch. Sweet, low in strength, served cold.</span><span lang="cs">Moonshine likér z Tennessee, karamelový. Sladký, nízká síla, podává se studený.</span><span lang="uk">Муншайн-лікер із Теннессі, вершкова карамель. Солодкий, невисокої міцності, подається холодним.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-hayman-s-sloe-gin-26-40-ml-united-kingdom">
-  <p class="drink__line">
-    <span class="drink__name">Hayman&#x27;s Sloe Gin 26% 40 ml United Kingdom</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">295</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">🇬🇧 English Hayman’s Sloe Gin (26%)
+  <img class="drink__pic" src="../assets/drinks/hayman-s-sloe-gin-26-40-ml-united-kingdom.webp" srcset="../assets/drinks/hayman-s-sloe-gin-26-40-ml-united-kingdom.webp 320w, ../assets/drinks/hayman-s-sloe-gin-26-40-ml-united-kingdom-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Hayman&#x27;s Sloe Gin 26% 40 ml United Kingdom</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">295</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">🇬🇧 English Hayman’s Sloe Gin (26%)
 A traditional English liqueur. Wild sloe berries steeped in classic London Dry Gin for 4 months. Rich, fruity, and perfectly balanced with a touch of natural sugar. Wild English sloe berries + 4 months of steeping in London Dry Gin = the perfect balance of rich fruit and classic botanicals. Discover the taste of tradition in every sip. 🍒✨ Ochutnejte tradici. 🍒vl</span><span lang="cs">Čeština Hayman’s Sloe Gin (26%)
 Tradiční anglický likér. Divoké trnky infuzované v London Dry Ginu po dobu 4 měsíců. Bohatá ovocná chuť s jemným dotekem přírodního cukru. Instagram Cap
 Divoké anglické trnky a 4 měsíce trpělivého macerování v prvotřídním London Dry Ginu. Výsledkem je dokonale vyvážený, bohatý ovocný likér s britským rodokmenem.</span><span lang="uk">Українська
 Online Menu
 Hayman’s Sloe Gin (26%)
 Традиційний англійський лікер. Дикі ягоди терену, що настоюються на класичному London Dry Gin протягом 4 місяців. Багатий фруктовий смак із легким натяком на природний цукор. Дикий англійський терен та 4 місяці витримки у класичному London Dry Gin. Результат? Ідеальний баланс насиченого фруктового смаку та британських традицій у вашому келиху. Спробуйте класику в новій формі. 🍒🍸</span></p>
+  </div>
 </li>
 <li class="drink" id="d-southern-comfort-whisky-liqueur-40-ml-usa">
-  <p class="drink__line">
-    <span class="drink__name">SOUTHERN COMFORT WHISKY LIQUEUR 40 ml USA</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">245</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English **Southern Comfort (35%)**
+  <img class="drink__pic" src="../assets/drinks/southern-comfort-whisky-liqueur-40-ml-usa.webp" srcset="../assets/drinks/southern-comfort-whisky-liqueur-40-ml-usa.webp 320w, ../assets/drinks/southern-comfort-whisky-liqueur-40-ml-usa-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">SOUTHERN COMFORT WHISKY LIQUEUR 40 ml USA</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">245</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">## 🇬🇧 English **Southern Comfort (35%)**
 A unique, sweet American liqueur blending whiskey with fruit and spice accents. Distinct notes of sweet stone fruits, peach, orange, and warm vanilla. The spirit of New Orleans. Southern Comfort is a smooth, sweet, and unique blend of whiskey, fruit, and spice flavors. A timeless classic with bold notes of sweet peach, apricot, and vanilla that goes perfectly on the ice or in your favorite cocktails.</span><span lang="cs">Čeština **Southern Comfort (35%)**
 Unikátní, sladký americký likér kombinující chuť whiskey, ovoce a koření. Výrazné tóny sladkých peckovin, broskví, pomeranče a hřejivé vanilky. Atmosféra New Orleans v každém doušku. Southern Comfort přináší dokonale jemnou, sladkou a jedinečnou kombinaci whiskey, ovocných tónů a koření. Nadčasová klasika s bohatou chutí sladkých broskví, meruněk a vanilky, která skvěle chutná na ledu i v koktejlech.</span><span lang="uk">Українська **Southern Comfort (35%)**
 Унікальний, солодкий американський лікер, що поєднує в собі ноти віскі, фруктів та спецій. Виразні тони солодких кісточкових фруктів, персика, апельсина та теплої ванілі. Дух Нового Орлеана у вашому келиху. Southern Comfort — це м&#x27;який, солодкий та неповторний мікс нот віскі, фруктів і прянощів. Вічна класика з яскравим акцентом солодкого персика, абрикоса та ванілі, яка ідеально смакує чистою з льодом або в основі коктейлів.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-pelinkovac-th-tonic">
-  <p class="drink__line">
-    <span class="drink__name">Pelinkovac+TH Tonic</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Pelinkovac is a traditional Balkan herbal liqueur (digestif/bitter) made from wormwood and a blend of aromatic herbs. It is famous for its distinct herbal aroma, rich bitterness, and subtle sweet finish. Type: Herbal Liqueur / Bitter (Digestif) Key Ingredient: Wormwood (Artemisia absinthium) + selected herbs Flavor Profile: Bold herbal bitterness balanced with light sweetness, citrus zest, and spice notes Serving Suggestion: Serve well-chilled as a shot, on the rocks with a slice of lemon or lime, or mixed with tonic/cola</span><span lang="cs">Čeština
+  <img class="drink__pic" src="../assets/drinks/pelinkovac-th-tonic.webp" srcset="../assets/drinks/pelinkovac-th-tonic.webp 320w, ../assets/drinks/pelinkovac-th-tonic-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Pelinkovac+TH Tonic</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Pelinkovac is a traditional Balkan herbal liqueur (digestif/bitter) made from wormwood and a blend of aromatic herbs. It is famous for its distinct herbal aroma, rich bitterness, and subtle sweet finish. Type: Herbal Liqueur / Bitter (Digestif) Key Ingredient: Wormwood (Artemisia absinthium) + selected herbs Flavor Profile: Bold herbal bitterness balanced with light sweetness, citrus zest, and spice notes Serving Suggestion: Serve well-chilled as a shot, on the rocks with a slice of lemon or lime, or mixed with tonic/cola</span><span lang="cs">Čeština
 Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráběný z pelyňku a směsi aromatických bylin. Выznačuje se výraznou bylinnou vůní, charakteristickou hořkostí a jemně sladkým dozvukem. Typ nápoje: Bylinný likér / Hořká (Digestiv) Hlavní složka: Pelyněk (Artemisia absinthium) + směs horských bylin Chuťový profil: Výrazně bylinně hořký, vyvážený jemnou sladkostí с tóny citrusové kůry a koření Doporučení к podávání: Podávejte dobře vychlazené samostatně, s ledem a plátkem citronu nebo limetky, případně v kombinaci s tonikem či colou</span><span lang="uk">Українська
 Пелинковаць (Pelinkovac) — популярний балканський гіркий лікер (аперитив) на основі полину та суміші духмяних трав. Поєднує глибокий трав&#x27;яний аромат, насичену гіркоту та легку солодкість у посмаку. Тип напою: Трав&#x27;яний лікер / Бітер (Аперитив) Основний інгредієнт: Полин (Artemisia absinthium) + комплекс гірських трав Смак: Виражений гіркувато-трав&#x27;яний, із нотами полину, цитрусової цедри та прянощів Як споживати: Охолодженим у чистому вигляді, з льодом та скибочкою лимона/лайма, або в міксах із тоніком</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -754,20 +951,26 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
     <span class="course__count" aria-hidden="true">2</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-nemiroff-original-40-40-ukraine">
-  <p class="drink__line">
-    <span class="drink__name">Nemiroff  Original  40% 40 Ukraine</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">225</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Ukrainian grain vodka, filtered clean. Neutral and cold, as it is meant to be.</span><span lang="cs">Ukrajinská obilná vodka, dočista filtrovaná. Neutrální a studená, jak má být.</span><span lang="uk">Українська зернова горілка, чисто фільтрована. Нейтральна і холодна, як і має бути.</span></p>
+  <img class="drink__pic" src="../assets/drinks/nemiroff-original-40-40-ukraine.webp" srcset="../assets/drinks/nemiroff-original-40-40-ukraine.webp 320w, ../assets/drinks/nemiroff-original-40-40-ukraine-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Nemiroff  Original  40% 40 Ukraine</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">225</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Ukrainian grain vodka, filtered clean. Neutral and cold, as it is meant to be.</span><span lang="cs">Ukrajinská obilná vodka, dočista filtrovaná. Neutrální a studená, jak má být.</span><span lang="uk">Українська зернова горілка, чисто фільтрована. Нейтральна і холодна, як і має бути.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-nemiroff-delikat-40-40-ml-ukraine">
-  <p class="drink__line">
-    <span class="drink__name">Nemiroff Delikat 40% 40 ml Ukraine</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">225</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">The softer of the two: the same Ukrainian grain spirit, rounded off.</span><span lang="cs">Měkčí z dvojice: tentýž ukrajinský obilný destilát, zaoblený.</span><span lang="uk">М&#x27;якша з двох: той самий український зерновий спирт, тільки округлений.</span></p>
+  <img class="drink__pic" src="../assets/drinks/nemiroff-delikat-40-40-ml-ukraine.webp" srcset="../assets/drinks/nemiroff-delikat-40-40-ml-ukraine.webp 320w, ../assets/drinks/nemiroff-delikat-40-40-ml-ukraine-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Nemiroff Delikat 40% 40 ml Ukraine</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">225</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">The softer of the two: the same Ukrainian grain spirit, rounded off.</span><span lang="cs">Měkčí z dvojice: tentýž ukrajinský obilný destilát, zaoblený.</span><span lang="uk">М&#x27;якша з двох: той самий український зерновий спирт, тільки округлений.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -776,20 +979,26 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
     <span class="course__count" aria-hidden="true">2</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-ararat-5-yo-40-40-ml-armenia">
-  <p class="drink__line">
-    <span class="drink__name">Ararat 5 YO, 40% 40 ml Armenia</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">255</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Armenian brandy, five years in oak. Dried fruit and vanilla, a little sweetness.</span><span lang="cs">Arménské brandy, pět let v dubu. Sušené ovoce a vanilka, špetka sladkosti.</span><span lang="uk">Вірменський бренді, п&#x27;ять років у дубі. Сухофрукти і ваніль, трохи солодощі.</span></p>
+  <img class="drink__pic" src="../assets/drinks/ararat-5-yo-40-40-ml-armenia.webp" srcset="../assets/drinks/ararat-5-yo-40-40-ml-armenia.webp 320w, ../assets/drinks/ararat-5-yo-40-40-ml-armenia-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Ararat 5 YO, 40% 40 ml Armenia</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">255</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Armenian brandy, five years in oak. Dried fruit and vanilla, a little sweetness.</span><span lang="cs">Arménské brandy, pět let v dubu. Sušené ovoce a vanilka, špetka sladkosti.</span><span lang="uk">Вірменський бренді, п&#x27;ять років у дубі. Сухофрукти і ваніль, трохи солодощі.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-martell-vs-0-7l-40-40-ml-france">
-  <p class="drink__line">
-    <span class="drink__name">Martell VS 0,7l 40% 40 ml France</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Cognac from the Charente, VS. Grape, oak and a short warm finish.</span><span lang="cs">Koňak z Charente, VS. Hrozen, dub a krátký teplý závěr.</span><span lang="uk">Коньяк із Шаранти, VS. Виноград, дуб і короткий теплий фініш.</span></p>
+  <img class="drink__pic" src="../assets/drinks/martell-vs-0-7l-40-40-ml-france.webp" srcset="../assets/drinks/martell-vs-0-7l-40-40-ml-france.webp 320w, ../assets/drinks/martell-vs-0-7l-40-40-ml-france-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Martell VS 0,7l 40% 40 ml France</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Cognac from the Charente, VS. Grape, oak and a short warm finish.</span><span lang="cs">Koňak z Charente, VS. Hrozen, dub a krátký teplý závěr.</span><span lang="uk">Коньяк із Шаранти, VS. Виноград, дуб і короткий теплий фініш.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -798,12 +1007,15 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
     <span class="course__count" aria-hidden="true">1</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-pilsner-urquell-0-33l">
-  <p class="drink__line">
-    <span class="drink__name">Pilsner Urquell 0,33l</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">155</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">The original pilsner, brewed in Plzeň since 1842. Bitter, bready, cold.</span><span lang="cs">Původní plzeň, vařená od roku 1842. Hořká, chlebová, studená.</span><span lang="uk">Той самий пілснер, звариться у Пльзені з 1842 року. Гіркий, хлібний, холодний.</span></p>
+  <img class="drink__pic" src="../assets/drinks/pilsner-urquell-0-33l.webp" srcset="../assets/drinks/pilsner-urquell-0-33l.webp 320w, ../assets/drinks/pilsner-urquell-0-33l-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Pilsner Urquell 0,33l</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">155</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">The original pilsner, brewed in Plzeň since 1842. Bitter, bready, cold.</span><span lang="cs">Původní plzeň, vařená od roku 1842. Hořká, chlebová, studená.</span><span lang="uk">Той самий пілснер, звариться у Пльзені з 1842 року. Гіркий, хлібний, холодний.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -812,36 +1024,48 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
     <span class="course__count" aria-hidden="true">4</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-coffe-tea">
-  <p class="drink__line">
-    <span class="drink__name">COFFE /TEA</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">60</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Coffee, or a pot of tea. Ask what there is.</span><span lang="cs">Káva, nebo konvice čaje. Zeptejte se, co máme.</span><span lang="uk">Кава або чайник чаю. Запитайте, що є.</span></p>
+  <img class="drink__pic" src="../assets/drinks/coffe-tea.webp" srcset="../assets/drinks/coffe-tea.webp 320w, ../assets/drinks/coffe-tea-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">COFFE /TEA</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">60</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Coffee, or a pot of tea. Ask what there is.</span><span lang="cs">Káva, nebo konvice čaje. Zeptejte se, co máme.</span><span lang="uk">Кава або чайник чаю. Запитайте, що є.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-tomas-henry-tonic-100ml">
-  <p class="drink__line">
-    <span class="drink__name">TOMAS HENRY TONIC 100ML</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">75</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Dry tonic water, 100 ml, for topping a spirit.</span><span lang="cs">Suchý tonik, 100 ml, k dolití destilátu.</span><span lang="uk">Сухий тонік, 100 мл, щоб долити до напою.</span></p>
+  <img class="drink__pic" src="../assets/drinks/tomas-henry-tonic-100ml.webp" srcset="../assets/drinks/tomas-henry-tonic-100ml.webp 320w, ../assets/drinks/tomas-henry-tonic-100ml-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">TOMAS HENRY TONIC 100ML</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">75</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Dry tonic water, 100 ml, for topping a spirit.</span><span lang="cs">Suchý tonik, 100 ml, k dolití destilátu.</span><span lang="uk">Сухий тонік, 100 мл, щоб долити до напою.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-tomas-henry-tonic-botle">
-  <p class="drink__line">
-    <span class="drink__name">TOMAS HENRY TONIC BOTLE</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">99</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Dry tonic water, full bottle.</span><span lang="cs">Suchý tonik, celá lahev.</span><span lang="uk">Сухий тонік, ціла пляшка.</span></p>
+  <img class="drink__pic" src="../assets/drinks/tomas-henry-tonic-botle.webp" srcset="../assets/drinks/tomas-henry-tonic-botle.webp 320w, ../assets/drinks/tomas-henry-tonic-botle-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">TOMAS HENRY TONIC BOTLE</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">99</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Dry tonic water, full bottle.</span><span lang="cs">Suchý tonik, celá lahev.</span><span lang="uk">Сухий тонік, ціла пляшка.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-coca-cola">
-  <p class="drink__line">
-    <span class="drink__name">Coca Cola</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">99</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">Coca-Cola, cold.</span><span lang="cs">Coca-Cola, vychlazená.</span><span lang="uk">Coca-Cola, холодна.</span></p>
+  <img class="drink__pic" src="../assets/drinks/coca-cola.webp" srcset="../assets/drinks/coca-cola.webp 320w, ../assets/drinks/coca-cola-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">Coca Cola</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">99</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">Coca-Cola, cold.</span><span lang="cs">Coca-Cola, vychlazená.</span><span lang="uk">Coca-Cola, холодна.</span></p>
+  </div>
 </li>
   </ul>
 </section>
@@ -850,44 +1074,59 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
     <span class="course__count" aria-hidden="true">5</span></h2>
   <ul class="course__list">
 <li class="drink" id="d-non-alcoholic-nogroni">
-  <p class="drink__line">
-    <span class="drink__name">NON-ALCOHOLIC NOGRONI</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">319</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">NON-ALCOHOLIC NEGRONI A sophisticated alcohol-free take on the classic Negroni. Bitter orange, herbal notes and a dry, bittersweet finish.</span><span lang="cs">Elegantní nealkoholická variace na klasické Negroni. Hořký pomeranč, bylinné tóny a suchý, hořkosladký závěr.</span><span lang="uk">Вишукана безалкогольна версія класичного Negroni. Гіркий апельсин, трав’янисті ноти та сухий, гіркувато-солодкий післясмак.</span></p>
+  <img class="drink__pic" src="../assets/drinks/non-alcoholic-nogroni.webp" srcset="../assets/drinks/non-alcoholic-nogroni.webp 320w, ../assets/drinks/non-alcoholic-nogroni-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">NON-ALCOHOLIC NOGRONI</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">319</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">NON-ALCOHOLIC NEGRONI A sophisticated alcohol-free take on the classic Negroni. Bitter orange, herbal notes and a dry, bittersweet finish.</span><span lang="cs">Elegantní nealkoholická variace na klasické Negroni. Hořký pomeranč, bylinné tóny a suchý, hořkosladký závěr.</span><span lang="uk">Вишукана безалкогольна версія класичного Negroni. Гіркий апельсин, трав’янисті ноти та сухий, гіркувато-солодкий післясмак.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-whisky-sour-0-0">
-  <p class="drink__line">
-    <span class="drink__name">WHISKY SOUR 0.0</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">WHISKY SOUR 0.0 A silky alcohol-free Whisky Sour with notes of oak, vanilla and caramel, balanced by fresh lemon and aromatic bitters.</span><span lang="cs">Sametová nealkoholická variace na Whisky Sour s tóny dubu, vanilky a karamelu, vyvážená čerstvým citronem a aromatickými bitters.</span><span lang="uk">Оксамитова безалкогольна версія Whisky Sour з нотами дуба, ванілі та карамелі, збалансована свіжим лимоном та ароматичними bitters.</span></p>
+  <img class="drink__pic" src="../assets/drinks/whisky-sour-0-0.webp" srcset="../assets/drinks/whisky-sour-0-0.webp 320w, ../assets/drinks/whisky-sour-0-0-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">WHISKY SOUR 0.0</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">WHISKY SOUR 0.0 A silky alcohol-free Whisky Sour with notes of oak, vanilla and caramel, balanced by fresh lemon and aromatic bitters.</span><span lang="cs">Sametová nealkoholická variace na Whisky Sour s tóny dubu, vanilky a karamelu, vyvážená čerstvým citronem a aromatickými bitters.</span><span lang="uk">Оксамитова безалкогольна версія Whisky Sour з нотами дуба, ванілі та карамелі, збалансована свіжим лимоном та ароматичними bitters.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-daiquiri-0-0">
-  <p class="drink__line">
-    <span class="drink__name">DAIQUIRI 0.0</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">A clean and refreshing alcohol-free Daiquiri. Tropical rum notes meet fresh lime for a bright, crisp finish.</span><span lang="cs">Čistá a osvěžující nealkoholická variace na Daiquiri. Tropické tóny rumu se spojují s čerstvou limetou a vytvářejí svěží, čistý závěr.</span><span lang="uk">Чиста та освіжаюча безалкогольна версія Daiquiri. Тропічні ноти рому поєднуються зі свіжим лаймом, створюючи яскравий та свіжий післясмак.</span></p>
+  <img class="drink__pic" src="../assets/drinks/daiquiri-0-0.webp" srcset="../assets/drinks/daiquiri-0-0.webp 320w, ../assets/drinks/daiquiri-0-0-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">DAIQUIRI 0.0</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">A clean and refreshing alcohol-free Daiquiri. Tropical rum notes meet fresh lime for a bright, crisp finish.</span><span lang="cs">Čistá a osvěžující nealkoholická variace na Daiquiri. Tropické tóny rumu se spojují s čerstvou limetou a vytvářejí svěží, čistý závěr.</span><span lang="uk">Чиста та освіжаюча безалкогольна версія Daiquiri. Тропічні ноти рому поєднуються зі свіжим лаймом, створюючи яскравий та свіжий післясмак.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-gin-basil-smash-0-0">
-  <p class="drink__line">
-    <span class="drink__name">GIN BASIL SMASH 0.0</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">299</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">A vibrant alcohol-free Gin &amp; Tonic with fresh lemon and basil. Crisp, botanical and intensely refreshing.</span><span lang="cs">Výrazná nealkoholická variace na Gin &amp; Tonic s čerstvým citronem a bazalkou. Svěží, bylinná a intenzivně osvěžující.</span><span lang="uk">Яскрава безалкогольна версія Gin &amp; Tonic зі свіжим лимоном і базиліком. Свіжа, ботанічна та надзвичайно освіжаюча.</span></p>
+  <img class="drink__pic" src="../assets/drinks/gin-basil-smash-0-0.webp" srcset="../assets/drinks/gin-basil-smash-0-0.webp 320w, ../assets/drinks/gin-basil-smash-0-0-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">GIN BASIL SMASH 0.0</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">299</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">A vibrant alcohol-free Gin &amp; Tonic with fresh lemon and basil. Crisp, botanical and intensely refreshing.</span><span lang="cs">Výrazná nealkoholická variace na Gin &amp; Tonic s čerstvým citronem a bazalkou. Svěží, bylinná a intenzivně osvěžující.</span><span lang="uk">Яскрава безалкогольна версія Gin &amp; Tonic зі свіжим лимоном і базиліком. Свіжа, ботанічна та надзвичайно освіжаюча.</span></p>
+  </div>
 </li>
 <li class="drink" id="d-bitter-orange-highball">
-  <p class="drink__line">
-    <span class="drink__name">BITTER ORANGE HIGHBALL</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">319</span>
-  </p>
-  <p class="drink__note" data-i18n><span lang="en">BITTER ORANGE HIGHBALL A bright and refreshing highball with bitter orange, herbal vermouth and premium tonic. Dry, complex and pleasantly bitter.</span><span lang="cs">Svěží highball s hořkým pomerančem, bylinným nealkoholickým vermutem a prémiovým tonikem. Suchý, komplexní a příjemně hořký.</span><span lang="uk">Освіжаючий хайбол з гірким апельсином, трав’янистим безалкогольним вермутом і преміальним тоніком. Сухий, комплексний і приємно гіркий.</span></p>
+  <img class="drink__pic" src="../assets/drinks/bitter-orange-highball.webp" srcset="../assets/drinks/bitter-orange-highball.webp 320w, ../assets/drinks/bitter-orange-highball-640.webp 640w" sizes="96px" width="320" height="330" alt="" loading="lazy" decoding="async">
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">BITTER ORANGE HIGHBALL</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">319</span>
+    </p>
+    <p class="drink__note" data-i18n><span lang="en">BITTER ORANGE HIGHBALL A bright and refreshing highball with bitter orange, herbal vermouth and premium tonic. Dry, complex and pleasantly bitter.</span><span lang="cs">Svěží highball s hořkým pomerančem, bylinným nealkoholickým vermutem a prémiovým tonikem. Suchý, komplexní a příjemně hořký.</span><span lang="uk">Освіжаючий хайбол з гірким апельсином, трав’янистим безалкогольним вермутом і преміальним тоніком. Сухий, комплексний і приємно гіркий.</span></p>
+  </div>
 </li>
   </ul>
 </section></div>
@@ -912,7 +1151,7 @@ Pelinkovac je tradiční balkánský bylinný likér (hořká / digestiv) vyráb
 
 
 <script>window.IVS = {"base":"../","currency":"CZK","hours":[{"days":[0,1,2,3],"from":"12:00","to":"22:00"},{"days":[4,5],"from":"12:00","to":"24:00"},{"days":[6],"from":"14:00","to":"20:00"}],"timezone":"Europe/Prague"};</script>
-<script src="../js/main.js?v=71ab82c28f39" defer></script>
+<script src="../js/main.js?v=de5b3e8bb4cd" defer></script>
 <script>
   /* Offline, because the whole site is static and a phone in a metro station
      has no reason to see nothing. Failure here is silent: the site works

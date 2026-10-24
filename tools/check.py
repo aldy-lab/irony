@@ -455,6 +455,53 @@ def check_marks(br):
           all(row.startswith("uk:") for row in ukrainian) and ukrainian != czech,
           str(ukrainian[:1]))
 
+    # Pictures, because a list of names and prices is a spreadsheet and a
+    # guest is choosing a drink on a phone.
+    mpg.evaluate("()=>document.querySelectorAll('img[loading=lazy]')"
+                 ".forEach(i=>{i.loading='eager'})")
+    mpg.wait_for_function(
+        "()=>Array.from(document.images).every(i=>i.complete)", timeout=20000)
+    pictures = mpg.evaluate(
+        """()=>{const out={drawn:0, broken:[], narrow:0};
+      document.querySelectorAll('.drink').forEach(d=>{
+        const img = d.querySelector('.drink__pic');
+        if(!img) return;
+        out.drawn += 1;
+        if(!img.naturalWidth) out.broken.push(img.currentSrc||img.src);
+        if(img.getBoundingClientRect().width < 40) out.narrow += 1;
+      });
+      return out;}"""
+    )
+    check("every drink has a picture", pictures["drawn"] == 77,
+          f'{pictures["drawn"]} of 77')
+    check("none of the pictures is broken", not pictures["broken"],
+          str(pictures["broken"][:2]))
+    check("the pictures are big enough to read on a phone",
+          pictures["narrow"] == 0, f'{pictures["narrow"]} under 40px')
+
+    # Searching, measured by rows on screen rather than by the attribute.
+    mpg.fill("[data-menu-search]", "gin")
+    mpg.wait_for_timeout(350)
+    narrowed = mpg.evaluate(
+        """()=>Array.from(document.querySelectorAll('.drink'))
+             .filter(d=>d.getBoundingClientRect().height>0).length"""
+    )
+    empty_courses = mpg.evaluate(
+        """()=>Array.from(document.querySelectorAll('.course'))
+             .filter(c=>c.getBoundingClientRect().height>0
+                     && !c.querySelector('.drink:not([hidden])')).length"""
+    )
+    check("searching narrows the menu", 0 < narrowed < 77, f"{narrowed} shown")
+    check("a section with nothing left in it goes too", empty_courses == 0,
+          f"{empty_courses} empty headings")
+    mpg.fill("[data-menu-search]", "")
+    mpg.wait_for_timeout(350)
+    back = mpg.evaluate(
+        """()=>Array.from(document.querySelectorAll('.drink'))
+             .filter(d=>d.getBoundingClientRect().height>0).length"""
+    )
+    check("clearing the search brings them all back", back == 77, f"{back}")
+
     check("the menu carries no site navigation",
           mpg.evaluate("()=>!document.querySelector('.header, .footer')"),
           "a guest at a table is already in the room")

@@ -2644,6 +2644,42 @@ body:has(.menu) {
 
 /* Sections -------------------------------------------------------------- */
 
+/* Searching, because a guest looking for a gin should not scroll past
+   seventy-seven drinks to find one. 16px or iOS zooms the page on focus and
+   the menu is suddenly bigger than the screen. */
+.menu__find {
+  position: relative;
+  padding-block: 0.1rem 0.9rem;
+}
+
+.menu__search {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.menu__search::placeholder {
+  color: color-mix(in srgb, var(--ink) 40%, transparent);
+}
+
+.menu__search:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.menu__found {
+  margin: 0.55rem 0 0;
+  color: var(--ink-quiet);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
 .menu__jump {
   position: sticky;
   top: 0;
@@ -2728,9 +2764,35 @@ body:has(.menu) {
 
 /* A drink --------------------------------------------------------------- */
 
+/* Picture, then the line, then the words. A guest choosing on a phone scans
+   the glasses first — a list of names and prices is a spreadsheet. */
 .drink {
-  padding-block: 0.95rem;
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.9rem;
+  padding-block: 0.8rem;
   border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
+/* A drink with no drawing keeps its words in the same column as the rest,
+   rather than sliding left and breaking the line of the list. */
+.drink:not(:has(.drink__pic)) .drink__body {
+  grid-column: 2;
+}
+
+.drink__pic {
+  width: 76px;
+  height: auto;
+  /* Beside its words rather than at the foot of the row: a drink with four
+     lines of description left its glass stranded at the bottom, a long way
+     from the name it belongs to. */
+  align-self: center;
+  display: block;
+}
+
+.drink__body {
+  min-width: 0;
 }
 
 .drink:last-child {
@@ -2820,6 +2882,15 @@ body:has(.menu) {
   .menu {
     max-width: 760px;
     margin-inline: auto;
+  }
+
+  .drink {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 1.2rem;
+  }
+
+  .drink__pic {
+    width: 96px;
   }
 
   .drink__name {

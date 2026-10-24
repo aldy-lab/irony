@@ -526,21 +526,43 @@ def drink_note(product: dict) -> str:
     return f'<p class="drink__note" data-i18n>{"".join(parts)}</p>'
 
 
-def drink(product: dict) -> str:
+def drink_picture(product: dict, base: str) -> str:
+    """The drawing of this drink, if one has been made.
+
+    Decorative: the name is right beside it, so a screen reader reading the
+    picture out as well would say everything twice. A drink with no drawing
+    gets no empty frame.
+    """
+    slug = product["slug"]
+    if not (ROOT / "assets" / "drinks" / f"{slug}.webp").exists():
+        return ""
+    small = f"{base}assets/drinks/{slug}.webp"
+    large = f"{base}assets/drinks/{slug}-640.webp"
+    return (
+        f'<img class="drink__pic" src="{small}" '
+        f'srcset="{small} 320w, {large} 640w" sizes="96px" '
+        f'width="320" height="330" alt="" loading="lazy" decoding="async">'
+    )
+
+
+def drink(product: dict, base: str) -> str:
     price = money(product["price"]) if product.get("price") else ""
     flag = ('<span class="drink__flag" aria-hidden="true"></span>'
             if product.get("popular") else "")
     return f"""<li class="drink" id="d-{esc(product['slug'])}">
-  <p class="drink__line">
-    <span class="drink__name">{esc(product['name'])}{flag}</span>
-    <span class="drink__rule" aria-hidden="true"></span>
-    <span class="drink__price">{price}</span>
-  </p>
-  {drink_note(product)}
+  {drink_picture(product, base)}
+  <div class="drink__body">
+    <p class="drink__line">
+      <span class="drink__name">{esc(product['name'])}{flag}</span>
+      <span class="drink__rule" aria-hidden="true"></span>
+      <span class="drink__price">{price}</span>
+    </p>
+    {drink_note(product)}
+  </div>
 </li>"""
 
 
-def menu_sections(menu: dict) -> tuple:
+def menu_sections(menu: dict, base: str) -> tuple:
     """One section per category, and the list that jumps between them."""
     jump, sections = [], []
     for category in menu["categories"]:
@@ -555,7 +577,7 @@ def menu_sections(menu: dict) -> tuple:
   <h2 class="course__name">{esc(category['name'])}
     <span class="course__count" aria-hidden="true">{len(drinks)}</span></h2>
   <ul class="course__list">
-{chr(10).join(drink(d) for d in drinks)}
+{chr(10).join(drink(d, base) for d in drinks)}
   </ul>
 </section>""")
     return "".join(jump), "\n".join(sections)
@@ -1256,7 +1278,7 @@ def build():
     # points at and a printed code cannot be changed once it is on a table.
     menu = load("menu.json")
     merge_notes(menu, load("menu-notes.json"))
-    jump_list, sections = menu_sections(menu)
+    jump_list, sections = menu_sections(menu, "../")
     menu_body = fill(template("menu.html"), {
         "site_name": esc(site["name"]),
         "wordmark_line": wordmark_inline(),

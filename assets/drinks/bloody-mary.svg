@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" width="200" height="260">
+  <defs>
+    <clipPath id="clip-bloody-mary"><path d="M74 56 L78 236.0 L122 236.0 L126 56 Z"/></clipPath>
+    <linearGradient id="g-bloody-mary" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9c3a2c" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#9c3a2c" stop-opacity="0.75"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clip-bloody-mary)">
+    <rect x="40" y="102.8" width="120" height="137.2"
+          fill="url(#g-bloody-mary)"/>
+    <rect x="100.0" y="88.4" width="26" height="26" rx="5" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.8" transform="rotate(-3 113.0 101.4)"/><rect x="125.8" y="124.4" width="26" height="26" rx="5" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.8" transform="rotate(14 138.8 137.4)"/>
+  </g>
+  <!-- The surface, so the liquid reads as a volume and not a block. -->
+  <path d="M70 102.8 L130 102.8"
+        stroke="#ffffff" stroke-opacity="0.45" stroke-width="2"
+        clip-path="url(#clip-bloody-mary)"/>
+  <path d="M74 56 L78 236.0 L122 236.0 L126 56 Z" fill="none" stroke="#e6e2d4" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M82 68.0 L78 222.0"
+        stroke="#ffffff" stroke-opacity="0.3" stroke-width="3"
+        stroke-linecap="round" fill="none"/>
+  <path d="M112 66 L118 4" stroke="#7f9a4e" stroke-width="7" stroke-linecap="round"/>
+</svg>
