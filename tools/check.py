@@ -409,6 +409,57 @@ def check_marks(br):
               poured:f.getAttribute('data-poured'),
               gauge:g ? getComputedStyle(g).opacity : 'no gauge'};}"""
     )
+    # The menu ---------------------------------------------------------------
+    print("\nMenu")
+    mctx = br.new_context(viewport={"width": 390, "height": 844},
+                          is_mobile=True, has_touch=True, device_scale_factor=2)
+    mpg = open_page(mctx, "/menu/")
+    mpg.wait_for_timeout(400)
+
+    def painted_note_text():
+        """The description text actually on screen, not what the DOM holds."""
+        return mpg.evaluate(
+            """()=>Array.from(document.querySelectorAll('.drink__note [lang]'))
+                 .filter(s=>s.getBoundingClientRect().height>0)
+                 .map(s=>s.getAttribute('lang')+':'+s.textContent.trim().slice(0,30))"""
+        )
+
+    drinks = mpg.evaluate(
+        """()=>Array.from(document.querySelectorAll('.drink'))
+             .filter(d=>d.getBoundingClientRect().height>0).length"""
+    )
+    check("every drink is on the menu", drinks == 77, f"{drinks} painted")
+
+    english = painted_note_text()
+    check("one language is shown, not three",
+          all(row.startswith("en:") for row in english),
+          str([r for r in english if not r.startswith("en:")][:2]))
+    check("the descriptions are there", len(english) > 60, f"{len(english)} shown")
+
+    mpg.click('[data-lang="cs"]')
+    mpg.wait_for_timeout(300)
+    czech = painted_note_text()
+    # Measured by what is painted: the switch has "worked" before while the
+    # same words stayed on the screen.
+    check("switching the language changes the words on screen",
+          all(row.startswith("cs:") for row in czech) and czech != english,
+          str(czech[:1]))
+    check("the same drinks are described in Czech",
+          abs(len(czech) - len(english)) <= 2,
+          f"en {len(english)} vs cs {len(czech)}")
+
+    mpg.click('[data-lang="uk"]')
+    mpg.wait_for_timeout(300)
+    ukrainian = painted_note_text()
+    check("and in Ukrainian",
+          all(row.startswith("uk:") for row in ukrainian) and ukrainian != czech,
+          str(ukrainian[:1]))
+
+    check("the menu carries no site navigation",
+          mpg.evaluate("()=>!document.querySelector('.header, .footer')"),
+          "a guest at a table is already in the room")
+    mctx.close()
+
     # A page served from the network with a script served from an old cache
     # is how a returning visitor kept a build for ever. The URL has to move
     # when the build does.

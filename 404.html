@@ -83,8 +83,8 @@
 
 <header class="header">
   <div class="header__inner">
-    <a class="brand" href="{{base}}index.html" aria-label="{{site_name}} — home">
-      {{wordmark_inline}}
+    <a class="brand" href="index.html" aria-label="Irony vs. Satyr — home">
+      <span class="brand__line"><span class="mark mark--wordmark-line1" aria-hidden="true"></span></span><span class="brand__line"><span class="mark mark--wordmark-line2" aria-hidden="true"></span></span>
     </a>
 
     <button class="nav-toggle" type="button" data-nav-toggle
@@ -92,7 +92,9 @@
             aria-label="Menu"><span></span></button>
 
     <nav class="nav" id="site-nav" data-nav aria-label="Main">
-      {{nav_links}}
+      <a class="nav__link" href="index.html">Catalogue</a>
+      <a class="nav__link" href="about.html">About</a>
+      <a class="nav__link" href="visit.html">Visit</a>
       <span class="open-now" data-open-now hidden></span>
     </nav>
   </div>
@@ -195,28 +197,28 @@
   <div class="shell">
     <div class="footer__top">
       <div>
-        <div class="footer__mark">{{wordmark_stacked}}</div>
+        <div class="footer__mark"><span class="mark mark--wordmark-stacked" aria-hidden="true"></span></div>
       </div>
       <div>
         <h3>Catalogue</h3>
-        <ul>{{footer_categories}}</ul>
+        <ul><li><a href="index.html?c=gin">Gin</a></li><li><a href="index.html?c=whisky">Whisky</a></li><li><a href="index.html?c=agave">Agave</a></li><li><a href="index.html?c=rum">Rum</a></li><li><a href="index.html?c=aperitivo">Vermouth &amp; Aperitivo</a></li><li><a href="index.html?c=liqueur">Liqueur</a></li></ul>
       </div>
       <div>
         <h3>Visit</h3>
-        <ul>{{footer_address}}</ul>
+        <ul><li lang="cs">Soukenicka 1756</li><li lang="cs">110 00 Nove Mesto</li><li><span lang="cs">Prague</span>, Czechia</li></ul>
       </div>
       <div>
         <h3>Elsewhere</h3>
-        <ul>{{footer_contact}}
-          <li><a href="{{base}}arrivals.xml">New arrivals feed</a></li>
+        <ul><li>Contact details to follow.</li>
+          <li><a href="arrivals.xml">New arrivals feed</a></li>
         </ul>
       </div>
     </div>
     <div class="footer__bottom">
-      <p class="footer__legal">{{legal}}
+      <p class="footer__legal">A catalogue of what is on the shelf. Nothing is sold through this site; we sell alcohol only to adults, and photo ID is checked in the shop every time. <a href="privacy.html">Privacy &amp; imprint</a>.
         <button class="footer__reset" type="button" data-age-reset hidden>Reset age check</button>
       </p>
-      <p>&copy; {{year}} {{site_name}}</p>
+      <p>&copy; 2026 Irony vs. Satyr</p>
     </div>
   </div>
 </footer>

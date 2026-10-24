@@ -456,6 +456,44 @@ def grid(products: list, cats: dict, base: str) -> str:
 LANGS = ("en", "cs", "uk")
 
 
+def merge_notes(menu: dict, notes: dict) -> None:
+    """Add the descriptions written for drinks the bar left blank.
+
+    Kept in their own file so a re-import from Poster cannot wipe them. A key
+    that matches no drink is an error rather than a line that quietly does
+    nothing: a mistyped slug would leave the menu exactly as it was and say
+    so nowhere.
+    """
+    by_slug = {p["slug"]: p for p in menu["products"]}
+    unknown = [s for s in notes.get("notes", {}) if s not in by_slug]
+    unknown += [s for s in notes.get("ask_the_bar", {}) if s not in by_slug]
+    if unknown:
+        print("menu-notes.json names drinks that are not on the menu:\n  "
+              + "\n  ".join(sorted(unknown)), file=sys.stderr)
+        raise SystemExit(1)
+
+    written = 0
+    for slug, text in notes.get("notes", {}).items():
+        product = by_slug[slug]
+        for code, value in text.items():
+            # Never over-write the bar's own words with ours.
+            if not product["text"].get(code):
+                product["text"][code] = value
+                written += 1
+        product["ours"] = True
+    if written:
+        warnings.append(
+            f"{written} descriptions on the menu are written by us, not the bar"
+            f" — data/menu-notes.json"
+        )
+    asked = notes.get("ask_the_bar", {})
+    if asked:
+        warnings.append(
+            f"{len(asked)} drinks still need the bar to say what is in them: "
+            + ", ".join(sorted(asked))
+        )
+
+
 def drink_note(product: dict) -> str:
     """A drink's description, every language present, one shown at a time."""
     parts = []
@@ -570,8 +608,6 @@ def render_page(
         "wordmark_inline": wordmark_inline(),
         "wordmark_stacked": use("m-wordmark"),
         "nav_links": nav_links(base, current),
-        "header": template("_header.html") if chrome else "",
-        "footer": template("_footer.html") if chrome else "",
         "main": body,
         "legal": (
             esc(
@@ -588,7 +624,15 @@ def render_page(
     values.update(footer_blocks(site, catalogue, base))
 
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(fill(template("base.html"), values))
+    # The chrome is pasted into the template before anything is filled, not
+    # handed in as a value: a partial carries its own {{base}} and
+    # {{wordmark_inline}}, and inserting it afterwards left those standing in
+    # the output. Every header and footer link went to a literal
+    # "{{base}}index.html", and the marks never rendered at all.
+    page = template("base.html")
+    page = page.replace("{{header}}", template("_header.html") if chrome else "")
+    page = page.replace("{{footer}}", template("_footer.html") if chrome else "")
+    out.write_text(fill(page, values))
 
 
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -1190,6 +1234,7 @@ def build():
     # Its own page, at its own address, because this is the one a coaster
     # points at and a printed code cannot be changed once it is on a table.
     menu = load("menu.json")
+    merge_notes(menu, load("menu-notes.json"))
     jump_list, sections = menu_sections(menu)
     menu_body = fill(template("menu.html"), {
         "site_name": esc(site["name"]),

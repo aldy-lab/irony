@@ -33,7 +33,7 @@ BUDGET_KB = {
     # 77 drinks with a description in three languages. Heavier than any other
     # page here and deliberately so: it is one request, read at a table on bar
     # wifi, and splitting it would cost a round trip per category.
-    "menu/index.html": 26,
+    "menu/index.html": 28,
     "shop/single-malt-10.html": 8,
     # Raised from 14 when the menu arrived: a dark ground, a language switch,
     # a sticky section strip and the drink setting are a page's worth of rules

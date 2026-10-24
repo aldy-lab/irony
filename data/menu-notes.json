@@ -1,0 +1,153 @@
+{
+  "_readme": [
+    "Descriptions written for drinks the bar left blank. Kept apart from",
+    "data/menu.json so that re-importing from Poster cannot wipe them, and so",
+    "it stays clear which words are the bar's and which are ours.",
+    "",
+    "Only what is knowable is written. A classic has a settled recipe and a",
+    "bottle has a published character; the bar's own inventions do not, and a",
+    "menu that lists an ingredient a drink does not contain is a problem with",
+    "allergens and with the guest who ordered it. Those are in `ask_the_bar`",
+    "instead, with what we would need to write them.",
+    "",
+    "Czech and Ukrainian are written to be correct, not translated word for",
+    "word from the English. Have someone who speaks them read these before",
+    "they are printed."
+  ],
+
+  "ask_the_bar": {
+    "all-shot": "What is in it? Priced at 185, listed under cocktails, no description anywhere.",
+    "skinny-bitch-by-nemiroff-delikat": "Assumed vodka, soda and lime, the usual build. Confirm before it goes out.",
+    "skiny-beatch": "Looks like the same drink as Skinny Bitch at a different price (265 against 295). One of the two, or what is the difference?",
+    "mezcalita-vida": "Assumed a mezcal margarita on Del Maguey Vida. At 465 it is the dearest drink on the list and deserves its own words.",
+    "white-wine-200ml-italy": "Which wine? Region and grape, so it can be described at all."
+  },
+
+  "notes": {
+    "pisco-sour": {
+      "en": "Peruvian pisco shaken with lime, sugar and egg white, with bitters across the foam. Sharp, soft and a little floral.",
+      "cs": "Peruánské pisco protřepané s limetkou, cukrem a bílkem, na pěně kapky bitteru. Ostré, hebké a lehce květinové.",
+      "uk": "Перуанське піско, збите з лаймом, цукром і білком, на піні — краплі бітеру. Гостро, м'яко і трохи квітково."
+    },
+    "caipirinha": {
+      "en": "Brazil's own: cachaça over lime crushed with sugar, poured onto its own ice. Blunt and refreshing.",
+      "cs": "Brazilská klasika: cachaça na limetku rozdrcenou s cukrem, nalitá na vlastní led. Přímočará a osvěžující.",
+      "uk": "Бразильська класика: кашаса на лайм, розтертий із цукром, і лід просто зверху. Прямолінійно й освіжає."
+    },
+    "del-maguey-mezcal-vida-40-ml-mexico": {
+      "en": "Espadín agave from San Luis del Río in Oaxaca, roasted over wood. Smoke first, then green fruit underneath.",
+      "cs": "Agáve espadín ze San Luis del Río v Oaxace, pečené nad dřevem. Nejprve kouř, pod ním zelené ovoce.",
+      "uk": "Агава еспадін із Сан-Луїс-дель-Ріо в Оахаці, печена на дровах. Спершу дим, під ним — зелений фрукт."
+    },
+    "montelobos-mezcal-artesanal-mexico": {
+      "en": "Organic espadín from Oaxaca, made the artisanal way. Drier and more herbal than it is smoky.",
+      "cs": "Organické espadín z Oaxaky, vyrobené řemeslně. Sušší a bylinnější, než je kouřové.",
+      "uk": "Органічний еспадін з Оахаки, зроблений ремісничо. Сухіший і трав'яніший, ніж димний."
+    },
+    "bushmills-irish-single-malt-whisky-10yo-ireland": {
+      "en": "Irish single malt, distilled three times and ten years in bourbon and sherry casks. Honey, orchard fruit, no smoke.",
+      "cs": "Irský single malt, třikrát destilovaný a deset let v bourbonových a sherry sudech. Med, sadové ovoce, žádný kouř.",
+      "uk": "Ірландський сингл молт, тричі дистильований, десять років у бочках з-під бурбону та хересу. Мед, садовий фрукт, без диму."
+    },
+    "cargo-cult-banana-spiced-rum-38": {
+      "en": "Australian rum macerated with mountain bananas and spice. Dry for a spiced rum — the banana is aroma, not sugar.",
+      "cs": "Australský rum macerovaný s horskými banány a kořením. Na kořeněný rum suchý — banán je ve vůni, ne v cukru.",
+      "uk": "Австралійський ром, мацерований на гірських бананах і спеціях. Як на пряний ром — сухий: банан у ароматі, а не в цукрі."
+    },
+    "platation-aged-dark-barbados-40-40-ml": {
+      "en": "Aged Barbados rum, dark and round, with cane sugar and oak carried through it.",
+      "cs": "Zrálý barbadoský rum, tmavý a kulatý, s třtinovým cukrem a dubem.",
+      "uk": "Витриманий барбадоський ром, темний і округлий, з тростиновим цукром і дубом."
+    },
+    "lustau-amontilado-jerez-40-ml-spain": {
+      "en": "Amontillado from Jerez: sherry aged first under flor and then in air. Bone dry, nutty, salty at the finish.",
+      "cs": "Amontillado z Jerezu: sherry zrající nejprve pod flor a pak na vzduchu. Dokonale suché, oříškové, v závěru slané.",
+      "uk": "Амонтільядо з Хереса: витримка спершу під флором, потім на повітрі. Абсолютно сухе, горіхове, із солоним фінішем."
+    },
+    "portwein-grahams-tawny-40ml": {
+      "en": "Tawny port from the Douro, aged in wood until the fruit turns to nuts and dried figs.",
+      "cs": "Tawny portské z Doura, zrálé ve dřevě, až se ovoce promění v ořechy a sušené fíky.",
+      "uk": "Тоні-порт із Дору, витриманий у деревині, доки фрукт не стане горіхом і сушеним інжиром."
+    },
+    "graham-s-tawny-porto-10yo": {
+      "en": "Ten years in wood. Walnut, dried apricot and caramel, and a finish that holds.",
+      "cs": "Deset let ve dřevě. Vlašský ořech, sušená meruňka a karamel, se závěrem, který drží.",
+      "uk": "Десять років у деревині. Волоський горіх, сушений абрикос і карамель, із довгим фінішем."
+    },
+    "jaume-serra-cava-brut-200-ml-spain": {
+      "en": "Spanish cava, brut, bottle-fermented. Green apple and bread, a fine bead.",
+      "cs": "Španělská cava, brut, kvašená v lahvi. Zelené jablko a chléb, jemné perlení.",
+      "uk": "Іспанська кава, брют, бродіння в пляшці. Зелене яблуко і хліб, дрібна перлина."
+    },
+    "grande-absente": {
+      "en": "Absinthe with wormwood, anise and herbs. Strong, and best with cold water poured slowly over it.",
+      "cs": "Absint s pelyňkem, anýzem a bylinami. Silný, nejlepší s pomalu přilévanou studenou vodou.",
+      "uk": "Абсент із полином, анісом і травами. Міцний, найкраще — з повільно долитою холодною водою."
+    },
+    "mozart-white-chocolate-40ml-austria": {
+      "en": "Austrian cream liqueur of white chocolate and vanilla. Thick, sweet, for the end of the evening.",
+      "cs": "Rakouský krémový likér z bílé čokolády a vanilky. Hustý, sladký, na konec večera.",
+      "uk": "Австрійський вершковий лікер із білого шоколаду і ванілі. Густий, солодкий — на кінець вечора."
+    },
+    "drambuie-the-isle-of-skye-liqueur-40ml-scotland": {
+      "en": "Scotch whisky with heather honey, herbs and spice. Warm and sweet, drunk neat or over ice.",
+      "cs": "Skotská whisky s vřesovým medem, bylinami a kořením. Teplý a sladký, čistý nebo s ledem.",
+      "uk": "Шотландський віскі з вересовим медом, травами і спеціями. Теплий і солодкий — чистим або з льодом."
+    },
+    "ancho-reyes-verde-40-40-ml-mexico": {
+      "en": "Liqueur of early-picked poblano chillies from Puebla. Green and grassy first, heat afterwards.",
+      "cs": "Likér z brzy sklízených chilli poblano z Puebly. Nejprve zeleno a tráva, teprve pak pálivost.",
+      "uk": "Лікер із рано зібраного чилі поблано з Пуебли. Спершу зелень і трава, потім — гострота."
+    },
+    "ole-smoky-butterscotch-20-usa": {
+      "en": "Tennessee moonshine liqueur, butterscotch. Sweet, low in strength, served cold.",
+      "cs": "Moonshine likér z Tennessee, karamelový. Sladký, nízká síla, podává se studený.",
+      "uk": "Муншайн-лікер із Теннессі, вершкова карамель. Солодкий, невисокої міцності, подається холодним."
+    },
+    "nemiroff-original-40-40-ukraine": {
+      "en": "Ukrainian grain vodka, filtered clean. Neutral and cold, as it is meant to be.",
+      "cs": "Ukrajinská obilná vodka, dočista filtrovaná. Neutrální a studená, jak má být.",
+      "uk": "Українська зернова горілка, чисто фільтрована. Нейтральна і холодна, як і має бути."
+    },
+    "nemiroff-delikat-40-40-ml-ukraine": {
+      "en": "The softer of the two: the same Ukrainian grain spirit, rounded off.",
+      "cs": "Měkčí z dvojice: tentýž ukrajinský obilný destilát, zaoblený.",
+      "uk": "М'якша з двох: той самий український зерновий спирт, тільки округлений."
+    },
+    "ararat-5-yo-40-40-ml-armenia": {
+      "en": "Armenian brandy, five years in oak. Dried fruit and vanilla, a little sweetness.",
+      "cs": "Arménské brandy, pět let v dubu. Sušené ovoce a vanilka, špetka sladkosti.",
+      "uk": "Вірменський бренді, п'ять років у дубі. Сухофрукти і ваніль, трохи солодощі."
+    },
+    "martell-vs-0-7l-40-40-ml-france": {
+      "en": "Cognac from the Charente, VS. Grape, oak and a short warm finish.",
+      "cs": "Koňak z Charente, VS. Hrozen, dub a krátký teplý závěr.",
+      "uk": "Коньяк із Шаранти, VS. Виноград, дуб і короткий теплий фініш."
+    },
+    "pilsner-urquell-0-33l": {
+      "en": "The original pilsner, brewed in Plzeň since 1842. Bitter, bready, cold.",
+      "cs": "Původní plzeň, vařená od roku 1842. Hořká, chlebová, studená.",
+      "uk": "Той самий пілснер, звариться у Пльзені з 1842 року. Гіркий, хлібний, холодний."
+    },
+    "coffe-tea": {
+      "en": "Coffee, or a pot of tea. Ask what there is.",
+      "cs": "Káva, nebo konvice čaje. Zeptejte se, co máme.",
+      "uk": "Кава або чайник чаю. Запитайте, що є."
+    },
+    "tomas-henry-tonic-100ml": {
+      "en": "Dry tonic water, 100 ml, for topping a spirit.",
+      "cs": "Suchý tonik, 100 ml, k dolití destilátu.",
+      "uk": "Сухий тонік, 100 мл, щоб долити до напою."
+    },
+    "tomas-henry-tonic-botle": {
+      "en": "Dry tonic water, full bottle.",
+      "cs": "Suchý tonik, celá lahev.",
+      "uk": "Сухий тонік, ціла пляшка."
+    },
+    "coca-cola": {
+      "en": "Coca-Cola, cold.",
+      "cs": "Coca-Cola, vychlazená.",
+      "uk": "Coca-Cola, холодна."
+    }
+  }
+}
