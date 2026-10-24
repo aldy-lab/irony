@@ -71,6 +71,46 @@
   </div>
 </section>
 
+<!-- Build one. The glass is drawn from the same shapes the menu's pictures
+     were drawn from, so what you build looks like what arrives. -->
+<section class="section" id="build" data-build>
+  <div class="shell">
+    <p class="eyebrow eyebrow--rule">Build one</p>
+
+    <div class="build__layout">
+      <div class="build__stage">
+        <div class="build__satyr" aria-hidden="true" data-build-satyr>{{satyr}}</div>
+        <svg class="build__glass" viewBox="0 38 200 206" role="img"
+             data-build-glass aria-label="The drink you are building"></svg>
+      </div>
+
+      <div class="build__asks">
+        <fieldset class="ask">
+          <legend class="ask__legend">Glass</legend>
+          <div class="ask__row">{{glass_options}}</div>
+        </fieldset>
+        <fieldset class="ask">
+          <legend class="ask__legend">Base</legend>
+          <div class="ask__row">{{spirit_options}}</div>
+        </fieldset>
+        <fieldset class="ask">
+          <legend class="ask__legend">With</legend>
+          <div class="ask__row">{{mixer_options}}</div>
+        </fieldset>
+        <fieldset class="ask">
+          <legend class="ask__legend">Garnish</legend>
+          <div class="ask__row">{{garnish_options}}</div>
+        </fieldset>
+      </div>
+    </div>
+
+    <script type="application/json" data-build-data>{{builder_data}}</script>
+    <script type="application/json" data-build-menu>{{builder_matches}}</script>
+
+    <p class="build__match" data-build-match role="status"></p>
+  </div>
+</section>
+
 <section class="section">
   <div class="shell">
     <div class="split">

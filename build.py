@@ -646,6 +646,92 @@ def signature_drinks(menu: dict, tags: dict, base: str) -> str:
                      for i, s in enumerate(chosen))
 
 
+# The glassware the builder draws with is the glassware the menu pictures
+# were drawn with — imported, not copied. Two tables of the same shapes drift
+# the first time one is edited, and the drink a guest builds stops looking
+# like the drink that arrives.
+BUILDER_GLASSES = ["rocks", "coupe", "highball", "martini", "flute"]
+BUILDER_SPIRITS = [
+    ("gin", "Gin", "#dfe3d4"),
+    ("whisky", "Whisky", "#b07a35"),
+    ("rum", "Rum", "#9a5f2e"),
+    ("agave", "Agave", "#cfd6c0"),
+    ("vodka", "Vodka", "#e8ebe0"),
+]
+BUILDER_MIXERS = [
+    ("none", "Neat", ""),
+    ("citrus", "Citrus", "#cfc06a"),
+    ("bitter", "Bitter", "#9e3524"),
+    ("tonic", "Tonic", "#dfe4d8"),
+    ("cola", "Cola", "#4a2d22"),
+    ("coffee", "Coffee", "#4a3120"),
+]
+BUILDER_GARNISH = [
+    ("", "Nothing"), ("lime", "Lime"), ("lemon-twist", "Lemon twist"),
+    ("orange", "Orange"), ("olive", "Olive"), ("cherry", "Cherry"),
+    ("mint", "Mint"),
+]
+
+
+def builder_data() -> str:
+    """Glass geometry and garnish, for drawing a drink in the browser."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import draw_drinks as art
+
+    glasses = {}
+    for name in BUILDER_GLASSES:
+        shape = art.GLASSES[name]()
+        glasses[name] = {
+            "outline": shape["outline"],
+            "fill": shape["fill"],
+            "top": shape["top"],
+            "bottom": shape["bottom"],
+            "rim": shape["rim"],
+            "wide": shape["wide"],
+        }
+
+    # Each garnish rendered against each glass, because where it hangs is a
+    # property of the rim it hangs on.
+    garnish = {}
+    for key, _ in BUILDER_GARNISH:
+        if not key:
+            continue
+        garnish[key] = {
+            name: art.GARNISH[key](art.GLASSES[name]())
+            for name in BUILDER_GLASSES
+        }
+
+    return json.dumps({
+        "glasses": glasses,
+        "garnish": garnish,
+        "ice": {name: art.ice_cubes(art.GLASSES[name](), 2, 7)
+                for name in BUILDER_GLASSES},
+    }, separators=(",", ":"))
+
+
+def builder_matches(menu: dict, tags: dict, base: str) -> str:
+    """Every cocktail, with the glass and garnish it is drawn with, so the
+    builder can name the nearest thing the bar actually pours."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import draw_drinks as art
+
+    by_slug = {p["slug"]: p for p in menu["products"]}
+    rows = []
+    for slug, (spirit, mood) in tags.items():
+        product = by_slug.get(slug)
+        if not product:
+            continue
+        glass, liquid, garnish, _ice = art.recipe(slug, product["category"])
+        rows.append({
+            "slug": slug, "name": product["name"],
+            "price": money(product["price"]) if product.get("price") else "",
+            "glass": glass, "garnish": garnish,
+            "base": spirit, "mood": mood,
+            "href": f"{base}menu/#d-{slug}",
+        })
+    return json.dumps(rows, separators=(",", ":"), ensure_ascii=False)
+
+
 def chooser_data(menu: dict, tags: dict, base: str) -> str:
     """What the chooser narrows: one entry per tagged cocktail."""
     by_slug = {p["slug"]: p for p in menu["products"]}
@@ -1070,6 +1156,15 @@ def build():
             "signatures": signature_drinks(bar_menu, tags, ""),
             "drink_count": len(bar_menu["products"]),
             "chooser_data": chooser_data(bar_menu, tags, ""),
+            "builder_data": builder_data(),
+            "builder_matches": builder_matches(bar_menu, tags, ""),
+            "glass_options": choice_buttons(
+                "glass", [(g, g.title()) for g in BUILDER_GLASSES]),
+            "spirit_options": choice_buttons(
+                "spirit", [(k, label) for k, label, _ in BUILDER_SPIRITS]),
+            "mixer_options": choice_buttons(
+                "mixer", [(k, label) for k, label, _ in BUILDER_MIXERS]),
+            "garnish_options": choice_buttons("garnish", BUILDER_GARNISH),
             "base_options": choice_buttons("base", BASES),
             "mood_options": choice_buttons("mood", MOODS),
             "hours_list": hours_list(site),

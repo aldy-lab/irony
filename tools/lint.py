@@ -45,7 +45,9 @@ BUDGET_KB = {
     # Raised when the front page became the bar's: the menu's language
     # switch and search, the chooser, and the pour. Still one file, still
     # deferred, still nothing fetched to run it.
-    "js/main.js": 11,
+    # Raised for the builder: glass geometry is imported from the drawing
+    # tool rather than copied, so the page carries the shapes themselves.
+    "js/main.js": 13,
 }
 
 PROSE_FILES = ["data/site.json", "data/catalogue.json"]

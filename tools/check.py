@@ -860,6 +860,62 @@ def check_front(br):
           all(n in real for n in narrowed),
           str([n for n in narrowed if n not in real]))
 
+    # Build one -------------------------------------------------------------
+    pg.evaluate("()=>document.querySelector('#build').scrollIntoView()")
+    pg.wait_for_timeout(300)
+
+    glass = pg.evaluate(
+        """()=>{const g=document.querySelector('[data-build-glass]');
+          const l=g.querySelector('[data-liquid]');
+          const r=g.getBoundingClientRect();
+          return {parts: g.children.length,
+                  width: Math.round(r.width),
+                  fill: l ? l.getAttribute('fill') : '',
+                  scale: l ? getComputedStyle(l).transform : ''};}"""
+    )
+    check("the glass is drawn", glass["parts"] >= 3 and glass["width"] > 60,
+          str(glass))
+    check("it has something in it",
+          glass["fill"].startswith("#") and "matrix" in glass["scale"],
+          str(glass))
+
+    satyr = pg.evaluate(
+        """()=>{const r=document.querySelector('[data-build-satyr] .mark')
+            .getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)];}"""
+    )
+    check("the satyr pouring it is visible", satyr[0] > 20 and satyr[1] > 20,
+          str(satyr))
+
+    # The glass must change when the drink does.
+    before = pg.evaluate("()=>document.querySelector('[data-build-glass]').innerHTML")
+    pg.click('[data-glass="highball"]')
+    pg.click('[data-spirit="rum"]')
+    pg.click('[data-mixer="cola"]')
+    pg.wait_for_timeout(500)
+    after = pg.evaluate("()=>document.querySelector('[data-build-glass]').innerHTML")
+    check("choosing redraws it", before != after, "same markup both times")
+
+    named = pg.evaluate(
+        """()=>{const a=document.querySelector('[data-build-match] a');
+          return a ? a.textContent.trim() : '';}"""
+    )
+    check("and it names a drink the bar pours", named in real, named or "nothing named")
+
+    # It has to stay on screen while the answers are being chosen, or a guest
+    # is building something they cannot see.
+    pg.evaluate("()=>document.querySelector('[data-garnish=mint]')"
+                ".scrollIntoView({block:'center'})")
+    pg.wait_for_timeout(400)
+    onscreen = pg.evaluate(
+        """()=>{const r=document.querySelector('[data-build-glass]')
+            .getBoundingClientRect();
+          return r.bottom > 0 && r.top < innerHeight;}"""
+    )
+    check("the glass stays on screen while choosing", onscreen,
+          "the stage is sticky")
+
+    pg.evaluate("()=>document.querySelector('#choose').scrollIntoView()")
+    pg.wait_for_timeout(300)
     pg.click('[data-base="gin"]')          # pressing again takes it back off
     pg.wait_for_timeout(250)
     widened = pg.evaluate("()=>document.querySelectorAll('[data-choose-list] li').length")

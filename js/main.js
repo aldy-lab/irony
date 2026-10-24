@@ -1037,3 +1037,148 @@
     });
   });
 })();
+
+/* -------------------------------------------------------------------------
+   Build one
+   The glass is drawn from the same shapes the menu's pictures were drawn
+   from, so what a guest builds looks like what arrives. It ends by naming
+   the nearest thing the bar actually pours — or admitting there isn't one.
+   ------------------------------------------------------------------------- */
+
+(function () {
+  var root = document.querySelector("[data-build]");
+  if (!root) return;
+
+  var art, menu;
+  try {
+    art = JSON.parse(root.querySelector("[data-build-data]").textContent);
+    menu = JSON.parse(root.querySelector("[data-build-menu]").textContent);
+  } catch (e) {
+    return;
+  }
+
+  var svg = root.querySelector("[data-build-glass]");
+  var satyr = root.querySelector("[data-build-satyr]");
+  var match = root.querySelector("[data-build-match]");
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  var SPIRITS = {
+    gin: "#dfe3d4", whisky: "#b07a35", rum: "#9a5f2e",
+    agave: "#cfd6c0", vodka: "#e8ebe0"
+  };
+  var MIXERS = {
+    none: "", citrus: "#cfc06a", bitter: "#9e3524",
+    tonic: "#dfe4d8", cola: "#4a2d22", coffee: "#4a3120"
+  };
+
+  var picked = { glass: "rocks", spirit: "gin", mixer: "none", garnish: "" };
+
+  /* Not half and half: a bitter or a cola takes the glass over, and tonic
+     barely tints it. Mixed evenly, gin with Campari came out a washed pink
+     where a Negroni is deep red. */
+  var WEIGHT = {
+    citrus: 0.4, bitter: 0.78, tonic: 0.22, cola: 0.82, coffee: 0.8
+  };
+
+  var blend = function (a, b, weight) {
+    if (!b) return a;
+    var hex = function (c, i) { return parseInt(c.substr(1 + i * 2, 2), 16); };
+    var mix = function (i) {
+      var v = Math.round(hex(a, i) * (1 - weight) + hex(b, i) * weight);
+      return Math.max(0, Math.min(255, v)).toString(16).padStart(2, "0");
+    };
+    return "#" + mix(0) + mix(1) + mix(2);
+  };
+
+  var draw = function () {
+    var glass = art.glasses[picked.glass];
+    if (!glass) return;
+
+    var outline = glass.outline.map(function (d) {
+      return '<path d="' + d + '" fill="none" stroke="#e6e2d4" ' +
+        'stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>';
+    }).join("");
+
+    var colour = blend(SPIRITS[picked.spirit] || "#dfe3d4",
+                       MIXERS[picked.mixer] || "",
+                       WEIGHT[picked.mixer] || 0.5);
+    /* Neat sits low in the glass; anything long fills it. */
+    var level = picked.mixer === "none" ? 0.34 : (glass.wide ? 0.82 : 0.72);
+    var ice = picked.mixer === "none" ? "" : (art.ice[picked.glass] || "");
+    var garnish = picked.garnish
+      ? (art.garnish[picked.garnish] || {})[picked.glass] || ""
+      : "";
+
+    svg.innerHTML =
+      '<defs><clipPath id="build-clip"><path d="' + glass.fill + '"/></clipPath></defs>' +
+      '<g clip-path="url(#build-clip)">' +
+        '<rect class="build__liquid" data-liquid x="40" y="' + glass.top +
+        '" width="120" height="' + (glass.bottom - glass.top + 4) + '"/>' +
+        ice +
+      "</g>" + outline + garnish;
+
+    var liquid = svg.querySelector("[data-liquid]");
+    liquid.setAttribute("fill", colour);
+    /* Set on the next frame so the transition has a value to run from. */
+    window.requestAnimationFrame(function () {
+      liquid.style.transform = "scaleY(" + level + ")";
+    });
+
+    say();
+  };
+
+  /* The nearest drink on the menu, scored on what was actually chosen. */
+  var say = function () {
+    var best = null, bestScore = 0;
+    menu.forEach(function (drink) {
+      var score = 0;
+      if (drink.glass === picked.glass) score += 2;
+      if (drink.base === picked.spirit) score += 3;
+      if (picked.garnish && drink.garnish === picked.garnish) score += 1;
+      if (score > bestScore) { bestScore = score; best = drink; }
+    });
+    if (!best || bestScore < 3) {
+      match.innerHTML = "Nothing quite like that on the list — " +
+        "<a href=\"menu/\">ask the bar</a>.";
+      return;
+    }
+    match.innerHTML = "Closest we pour: <a href=\"" + best.href + "\">" +
+      best.name + "</a> &mdash; " + best.price + " CZK";
+  };
+
+  /* The satyr tips when something is added. He is the one pouring. */
+  var pourTimer = null;
+  var tip = function () {
+    if (!satyr || still.matches) return;
+    satyr.setAttribute("data-pouring", "true");
+    window.clearTimeout(pourTimer);
+    pourTimer = window.setTimeout(function () {
+      satyr.removeAttribute("data-pouring");
+    }, 420);
+  };
+
+  ["glass", "spirit", "mixer", "garnish"].forEach(function (kind) {
+    root.querySelectorAll("[data-" + kind + "]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        picked[kind] = button.getAttribute("data-" + kind);
+        root.querySelectorAll("[data-" + kind + "]").forEach(function (other) {
+          other.setAttribute(
+            "aria-pressed",
+            other.getAttribute("data-" + kind) === picked[kind] ? "true" : "false"
+          );
+        });
+        tip();
+        draw();
+      });
+    });
+  });
+
+  /* Whatever it opens on has to be marked, or the first press of the glass
+     it is already showing appears to do nothing. */
+  ["glass", "spirit", "mixer", "garnish"].forEach(function (kind) {
+    var current = root.querySelector(
+      '[data-' + kind + '="' + picked[kind] + '"]');
+    if (current) current.setAttribute("aria-pressed", "true");
+  });
+  draw();
+})();
