@@ -39,6 +39,24 @@ It exits non-zero while anything is still wrong, and names the drink.
 
 ## Waiting on the bar
 
+**Five drinks still need the bar to say what is in them.** Everything else
+now has a description in all three languages — coverage went from 60% to 92%
+— but these are the bar's own inventions, and a menu that lists an ingredient
+a drink does not contain is a problem with allergens and with the guest who
+ordered it:
+
+- **ALL Shot** (185) — what is in it?
+- **Skinny Bitch by Nemiroff Delikat** (295) — assumed vodka, soda, lime
+- **Skiny beatch** (265) — the same drink at a different price, or not?
+- **Mezcalita vida** (465) — the dearest drink on the list, assumed a mezcal
+  margarita on Del Maguey Vida
+- **White wine 200 ml Italy** — which wine?
+
+The written descriptions are in `data/menu-notes.json`, apart from the
+imported data, and never overwrite the bar's own words. **Have a Czech and a
+Ukrainian speaker read them before anything is printed** — they are written
+to be correct rather than translated word for word, but they are ours.
+
 **Three descriptions have the alphabets mixed inside words** and need
 retyping by someone who reads them — a parser that "fixes" this is guessing
 at a menu:
@@ -60,6 +78,15 @@ Daiquiri` is misspelt, and its description is for a Banana Daiquiri;
 page. That needs the Place ID, which only the bar's own listing gives.
 
 **Address, hours, contact** for the presentation site.
+
+## Known and parked
+
+The bottle catalogue's five screenshot baselines would not render the same
+twice in CI. Two causes were found and fixed — a New badge measured against
+today's date, and `content-visibility: auto` letting Chromium skip what it
+judged off screen — and a third survived both. They are parked with the
+catalogue in `tools/visual.py`, and the menu's two views took their place.
+Every parked page is still covered by the browser checks.
 
 ## Not taken from Poster
 
