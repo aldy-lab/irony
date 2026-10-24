@@ -41,7 +41,9 @@ BUDGET_KB = {
     # Raised from 14 when the menu arrived: a dark ground, a language switch,
     # a sticky section strip and the drink setting are a page's worth of rules
     # on their own. 1.5 KB of dead .hero block went in the same pass.
-    "css/main.css": 18,
+    # Raised for the index over the categories and the filter inside the
+    # long panel — the two things that made a 77-drink menu navigable.
+    "css/main.css": 20,
     # Raised when the front page became the bar's: the menu's language
     # switch and search, the chooser, and the pour. Still one file, still
     # deferred, still nothing fetched to run it.
