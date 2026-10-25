@@ -55,15 +55,21 @@ after six seconds; if it is unreachable, or switched off by blanking
 `menu_store.url` in `data/site.json`, the menu is simply the one that was
 built. A bar's wifi is not something to bet a menu on.
 
-**Two steps before the owner can sign in**, and only the first needs a human:
+**Done.** `vadym.kondratenko@irony.com` is the account, created in the
+dashboard and added to `irony.editors`. Checked both ways under his own
+identity in a transaction that was rolled back: his update passes the policy,
+and a signed-in account that is not in `editors` changes zero rows.
 
-1. In the Supabase dashboard for that project, Authentication → Users → Add
-   user, with the bar's email and a password.
-2. Tell me the email and I add the row to `irony.editors`. Being signed in is
-   not enough on its own — that is the point.
+Another editor is two lines: create the user in the dashboard, then
+
+```sql
+insert into irony.editors (user_id, email)
+select id, email from auth.users where lower(email) = lower('...');
+```
 
 Three drinks are in the store so far. The editor's "Start again from the
-published list" writes all 77 over it in one go.
+published list" writes all 77 over it in one go — that is the first thing to
+press after signing in.
 
 ## Waiting on the bar
 
