@@ -2,8 +2,8 @@
 """Self-host the webfonts.
 
 Self-hosting keeps the Google Fonts IP disclosure out of the privacy story and
-removes a third-party request from every page load. Latin subsets only — the
-site is English.
+removes a third-party request from every page load. Latin, Latin Extended and
+Cyrillic: the menu is read in English, Czech and Ukrainian.
 """
 import re
 import subprocess
@@ -30,8 +30,14 @@ FAMILIES = {
     "Cormorant Garamond": "wght@500",
     "EB Garamond": "ital,wght@0,400..800;1,400..800",
 }
-# Latin only. latin-ext carries the Czech diacritics for names and addresses.
-KEEP = ("U+0000-00FF", "U+0100-02BA")
+# Latin, Latin Extended and Cyrillic. The menu is read in three languages,
+# and the Ukrainian third of it was being set in whatever the phone fell back
+# to: every one of the 32 Cyrillic letters was missing from all six files, and
+# nothing anywhere said so. It looks fine on a Mac, which is the trap.
+#
+# Czech needs both Latin subsets, not one: the acutes (á é í ó ú ý) are in
+# latin and the carons and the ring (ě š č ř ž ů) are in latin-ext.
+KEEP = ("U+0000-00FF", "U+0100-02BA", "U+0301", "U+0400-045F")
 
 
 def get(url):
@@ -94,7 +100,12 @@ def main():
             style = re.search(r"font-style:\s*(\w+)", face).group(1)
             weight = re.search(r"font-weight:\s*([^;]+);", face).group(1).strip()
             slug = family.lower().replace(" ", "-")
-            subset = "ext" if "U+0100" in rng.group(1) else "latin"
+            if "U+0400" in rng.group(1):
+                subset = "cyrillic"
+            elif "U+0100" in rng.group(1):
+                subset = "ext"
+            else:
+                subset = "latin"
             # The weight has to be in the filename. A non-variable family ships
             # one file per weight, and without it they all collapse onto the
             # same name — the last one downloaded silently wins, so text asking
