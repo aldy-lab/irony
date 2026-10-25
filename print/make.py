@@ -423,7 +423,7 @@ def make_card(doc):
 
     page, trim = new_page(doc, 85.6, 54)
     wordmark(page, trim.x0 + mm(23), trim.y0 + mm(8), mm(28))
-    card_side(page, trim, "WAS IT ANY GOOD?", "Tell Google. It takes a minute.",
+    card_side(page, trim, "LEAVE A REVIEW", "Tell Google. It takes a minute.",
               REVIEW_URL, foot="NOVÉ MĚSTO  ·  PRAHA")
 
 
@@ -501,7 +501,7 @@ def make_coaster(doc):
     close_coaster(page, cx, cy, r)
 
     page, cx, cy, r = coaster_face(doc, size)
-    centred(page, "WAS IT ANY GOOD?", cx, cy - mm(31), 8.4, "display", GOLD,
+    centred(page, "LEAVE A REVIEW", cx, cy - mm(31), 8.4, "display", GOLD,
             tracking=3.2)
     plate(page, REVIEW_URL, cx, cy - mm(24), mm(42))
     centred(page, "Tell Google. It takes a minute.", cx, cy + mm(27), 7.6,
