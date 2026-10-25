@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu editor — Irony vs. Satyr</title>
+<meta name="description" content="For the bar.">
+<link rel="canonical" href="https://aldy-lab.github.io/irony/admin/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Irony vs. Satyr">
+<meta property="og:title" content="Menu editor — Irony vs. Satyr">
+<meta property="og:description" content="For the bar.">
+<meta property="og:url" content="https://aldy-lab.github.io/irony/admin/">
+<meta property="og:image" content="https://aldy-lab.github.io/irony/assets/brand/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Irony vs. Satyr — Cocktail bar">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#112103">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Everything is served from this origin, so the policy can simply say so.
+     Loosen it only when something genuinely external is added.
+     frame-ancestors is deliberately absent: a browser ignores it in a <meta>
+     and warns on every load. Refusing to be framed needs a real header, which
+     GitHub Pages cannot set. -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';
+               script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self'; worker-src 'self';
+               connect-src 'self' https://uiuzbhekmroosmemwhdr.supabase.co; base-uri 'self'">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/brand/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="alternate icon" href="../assets/brand/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="New on the shelf" href="../arrivals.xml">
+
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../assets/fonts/cormorant-garamond-normal-500-latin.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../assets/fonts/eb-garamond-normal-400800-latin.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../assets/fonts/eb-garamond-italic-400800-latin.woff2">
+<link rel="stylesheet" href="../css/main.css?v=2b3fb0464316">
+<link rel="stylesheet" href="../css/marks.css?v=2b3fb0464316">
+<script>
+  /* Before first paint: decides whether the gate or the shop is shown, so
+     neither flashes into the other. Wrapped because storage throws in a
+     private window, where the gate simply appears. */
+  try {
+    if (localStorage.getItem("ivs.age.v1") !== "true") {
+      document.documentElement.className += " is-gated";
+    }
+  } catch (e) {
+    document.documentElement.className += " is-gated";
+  }
+</script>
+<meta name="robots" content="noindex,nofollow"><script src="../js/admin.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="age-gate" data-age-gate hidden role="dialog"
+     aria-modal="true" aria-labelledby="age-gate-title">
+  <div class="age-gate__inner">
+    <div class="age-gate__satyr"><span class="mark mark--satyr" aria-hidden="true"></span></div>
+    <h1 id="age-gate-title" tabindex="-1">Are you over 18?</h1>
+    <p>This is a catalogue of spirits, so we have to ask. Photo ID is checked
+    at the counter too &mdash; this is only the first gate.</p>
+    <div class="age-gate__actions">
+      <button class="button button--solid" type="button" data-age-yes>
+        <span>Yes, I am 18 or over</span>
+      </button>
+      <button class="button" type="button" data-age-no><span>No</span></button>
+    </div>
+    <p class="age-gate__deny">Then we cannot sell to you, and we would rather say so
+    plainly. Come back when you can.</p>
+  </div>
+</div>
+
+
+<main id="main">
+<div class="admin" data-admin>
+
+  <header class="admin__head">
+    <div>
+      <p class="eyebrow">Irony vs. Satyr</p>
+      <h1 class="admin__title">The menu</h1>
+    </div>
+    <button class="pill" type="button" data-sign-out hidden>Sign out</button>
+  </header>
+
+  <!-- Signed out ------------------------------------------------------- -->
+  <form class="admin__gate panel" data-sign-in>
+    <p class="admin__lede">Sign in to change prices and what is listed.</p>
+    <label class="admin__field">
+      <span>Email</span>
+      <input type="email" name="email" autocomplete="username" required>
+    </label>
+    <label class="admin__field">
+      <span>Password</span>
+      <input type="password" name="password" autocomplete="current-password" required>
+    </label>
+    <button class="pill pill--solid" type="submit">Sign in</button>
+    <p class="admin__said" data-said role="status"></p>
+  </form>
+
+  <!-- Signed in -------------------------------------------------------- -->
+  <div data-work hidden>
+    <div class="admin__bar">
+      <input class="admin__search" type="search" placeholder="Find a drink"
+             data-admin-search autocomplete="off">
+      <p class="admin__said" data-saved role="status"></p>
+    </div>
+
+    <div class="admin__list" data-rows></div>
+
+    <details class="admin__more panel">
+      <summary>Start again from the published list</summary>
+      <p>Reads the 77 drinks built into this site and writes them
+        over what is stored. Prices and words you have changed here are
+        replaced. Nothing is deleted.</p>
+      <button class="pill" type="button" data-reseed>Replace from the site</button>
+      <p class="admin__said" data-reseeded role="status"></p>
+    </details>
+  </div>
+
+</div>
+
+</main>
+
+
+<script>window.IVS = {"base":"../","store":{"url":"https://uiuzbhekmroosmemwhdr.supabase.co","key":"sb_publishable_TqgtbKuCnl6P-kFObE5hbg_tfn0YR95","schema":"irony"},"currency":"CZK","hours":[{"days":[0,1,2,3],"from":"12:00","to":"22:00"},{"days":[4,5],"from":"12:00","to":"24:00"},{"days":[6],"from":"14:00","to":"20:00"}],"timezone":"Europe/Prague"};</script>
+<script src="../js/main.js?v=2b3fb0464316" defer></script>
+<script>
+  /* Offline, because the whole site is static and a phone in a metro station
+     has no reason to see nothing. Failure here is silent: the site works
+     exactly as before without it. */
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("../sw.js").catch(function () {});
+    });
+  }
+</script>
+
+</body>
+</html>

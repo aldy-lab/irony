@@ -557,7 +557,7 @@ def drink(product: dict, base: str, spirit: str = "") -> str:
     spirit_attr = f' data-spirit-of="{esc(spirit)}"' if spirit else ""
     flag = ('<span class="drink__flag" aria-hidden="true"></span>'
             if product.get("popular") else "")
-    return f"""<li class="drink" id="d-{esc(product['slug'])}"{spirit_attr}>
+    return f"""<li class="drink" id="d-{esc(product['slug'])}" data-slug="{esc(product['slug'])}"{spirit_attr}>
   {drink_picture(product, base)}
   <div class="drink__body">
     <p class="drink__line">
@@ -656,7 +656,7 @@ def drink_card(product: dict, base: str, order: int = 0) -> str:
     note = (product.get("text") or {}).get("en", "")
     if len(note) > 110:
         note = note[:107].rsplit(" ", 1)[0] + "…"
-    return f"""<li class="pour-card" data-reveal style="--i:{order}">
+    return f"""<li class="pour-card" data-reveal data-slug="{esc(product['slug'])}" style="--i:{order}">
   <a class="pour-card__link" href="{base}menu/#d-{esc(product['slug'])}">
     {picture}
     <span class="pour-card__name">{esc(product['name'])}</span>
@@ -850,6 +850,12 @@ def render_page(
     # page needs no product list of its own.
     ivs = {
         "base": base,
+        # Where the live menu lives, if it does. A blank url turns the whole
+        # thing off and the site is simply the list it was built with.
+        "store": {
+            k: v for k, v in (site.get("menu_store") or {}).items()
+            if not k.startswith("_")
+        } if (site.get("menu_store") or {}).get("url") else None,
         "currency": site["currency"],
         "hours": json.loads(hours_json(site)),
         "timezone": site.get("timezone", "Europe/Prague"),
@@ -880,6 +886,15 @@ def render_page(
             ' data-follow-system'
             if site.get("appearance", {}).get("follow_system_dark")
             else ""
+        ),
+        # Exactly the one origin the menu store is configured at, and
+        # nothing else. Derived from the same setting the page is given, so
+        # a policy that forbids what the site is trying to do cannot drift
+        # into existence — which is how this was found: the browser refused
+        # the connection and the menu silently stayed on its built-in list.
+        "store_origin": (
+            " " + (site.get("menu_store") or {}).get("url", "")
+            if (site.get("menu_store") or {}).get("url") else ""
         ),
         "head_extra": head_extra,
         "age_gate": age_gate(site),
@@ -1534,6 +1549,24 @@ def build():
         share_alt=f"The menu at {site['name']}", chrome=False,
     )
     pages.append(("menu/", "0.9"))
+
+    # The owner's editor ------------------------------------------------------
+    # Unlinked and noindex: whoever needs it is told the address. It is not a
+    # secret — what refuses a stranger is the database, not the obscurity.
+    (ROOT / "admin").mkdir(exist_ok=True)
+    render_page(
+        site=site, catalogue=catalogue,
+        body=fill(template("admin.html"), {
+            "site_name": esc(site["name"]),
+            "drink_count": len(bar_menu["products"]),
+        }),
+        out=ROOT / "admin" / "index.html",
+        title=f"Menu editor — {site['name']}",
+        description="For the bar.",
+        slug="admin/", base="../", current="admin/", chrome=False,
+        head_extra='<meta name="robots" content="noindex,nofollow">'
+                   '<script src="../js/admin.js" defer></script>',
+    )
 
     # Privacy and imprint ----------------------------------------------------
     a = site["address"]

@@ -3374,12 +3374,12 @@ body:has(.menu) {
    zero pixels wide and simply was not there. */
 .build__satyr {
   align-self: center;
-  width: 78px;
+  width: 92px;
 }
 
 .build__satyr .mark {
   width: 100%;
-  max-width: 84px;
+  max-width: 96px;
   margin-inline: auto;
   color: var(--text);
   transform-origin: 70% 20%;
@@ -3392,7 +3392,7 @@ body:has(.menu) {
 
 .build__glass {
   width: 100%;
-  max-width: 172px;
+  max-width: 210px;
   height: auto;
   margin-inline: auto;
 }
@@ -3411,11 +3411,15 @@ body:has(.menu) {
   gap: 1.4rem;
 }
 
+/* The answer belongs with the drink, not under the whole section: it was a
+   line of text a long way from the glass it was describing. */
 .build__match {
-  margin-top: 1.6rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid var(--rule);
-  font-size: 1.02rem;
+  grid-column: 1 / -1;
+  margin: 0.9rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+  font-size: 0.98rem;
+  text-align: center;
 }
 
 .build__match a {
@@ -3434,10 +3438,10 @@ body:has(.menu) {
   .build__stage {
     position: sticky;
     top: calc(var(--header-h) + 1.5rem);
-    grid-template-columns: 1fr 1.25fr;
+    grid-template-columns: 1fr 1.3fr;
     align-items: end;
-    gap: 1rem;
-    padding: 2.6rem 2.2rem 2.2rem;
+    gap: 1.2rem;
+    padding: 3rem 2.6rem 2.2rem;
   }
 
   .build__satyr {
@@ -3445,11 +3449,11 @@ body:has(.menu) {
   }
 
   .build__satyr .mark {
-    max-width: 190px;
+    max-width: 230px;
   }
 
   .build__glass {
-    max-width: 300px;
+    max-width: 380px;
   }
 
   .build__layout {
@@ -3834,4 +3838,188 @@ body:has(.menu) {
   border-radius: var(--radius-lg);
   background: var(--paper-green);
   color: var(--text);
+}
+
+/* ==========================================================================
+   The owner's editor
+   Not a designed page: a working one. Wide rows, real inputs, 16px so a
+   phone does not zoom, and every change saved the moment it is made.
+   ========================================================================== */
+
+.admin {
+  max-width: 920px;
+  margin-inline: auto;
+  padding: 1.6rem var(--gutter) 4rem;
+}
+
+.admin__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.admin__title {
+  margin: 0.3rem 0 0;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+}
+
+.admin__gate {
+  display: grid;
+  gap: 1rem;
+  max-width: 24rem;
+  padding: 1.6rem;
+  background: var(--paper-green);
+}
+
+.admin__lede {
+  margin: 0;
+  color: var(--muted);
+}
+
+.admin__field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.admin__field span {
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.admin input,
+.admin select,
+.admin textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+  border-radius: 14px;
+  background: var(--paper);
+  color: var(--text);
+  font-family: inherit;
+  /* 16px, or iOS zooms the page on focus and the row is wider than the
+     screen for the rest of the session. */
+  font-size: 16px;
+}
+
+.admin textarea {
+  min-height: 58px;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.admin__said {
+  margin: 0;
+  min-height: 1.2em;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.admin__said[data-bad="true"] {
+  color: #8e2b3f;
+}
+
+.admin__bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 0.8rem;
+  background: var(--paper);
+}
+
+.admin__search {
+  max-width: 18rem;
+}
+
+.admin__list {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.edit {
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius);
+  background: var(--paper-sand);
+}
+
+.edit:nth-child(even) {
+  background: var(--paper-slate);
+}
+
+/* A row whose last save did not land stays marked until one does. */
+.edit[data-dirty="true"] {
+  outline: 2px solid #8e2b3f;
+  outline-offset: 2px;
+}
+
+.edit__top {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.edit__flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 0.7rem;
+  font-size: 0.88rem;
+}
+
+.edit__flags label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.edit__flags input {
+  width: auto;
+  min-height: 0;
+  accent-color: var(--green);
+}
+
+.edit__words {
+  margin-top: 0.7rem;
+}
+
+.edit__words summary {
+  cursor: pointer;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.edit__words textarea {
+  margin-top: 0.5rem;
+}
+
+.admin__more {
+  margin-top: 2.4rem;
+  padding: 1.2rem 1.4rem;
+  background: var(--paper-warm);
+}
+
+.admin__more summary {
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.admin__more p {
+  max-width: 54ch;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (min-width: 680px) {
+  .edit__top {
+    grid-template-columns: 1fr 7rem 12rem;
+    align-items: center;
+  }
 }

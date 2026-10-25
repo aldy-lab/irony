@@ -43,13 +43,16 @@ BUDGET_KB = {
     # on their own. 1.5 KB of dead .hero block went in the same pass.
     # Raised for the index over the categories and the filter inside the
     # long panel — the two things that made a 77-drink menu navigable.
-    "css/main.css": 20,
+    # Raised for the owner's editor, which is a page of its own with real
+    # inputs on it.
+    "css/main.css": 22,
     # Raised when the front page became the bar's: the menu's language
     # switch and search, the chooser, and the pour. Still one file, still
     # deferred, still nothing fetched to run it.
     # Raised for the builder: glass geometry is imported from the drawing
     # tool rather than copied, so the page carries the shapes themselves.
-    "js/main.js": 13,
+    # Raised for the live menu overlay.
+    "js/main.js": 15,
 }
 
 PROSE_FILES = ["data/site.json", "data/catalogue.json"]

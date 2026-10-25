@@ -85,5 +85,22 @@
   "analytics": {
     "_readme": "Plausible only, cookieless. Leave blank for no analytics and nothing to disclose. Switching it on means the privacy page needs a line about it.",
     "plausible_domain": ""
+  },
+  "menu_store": {
+    "_readme": [
+      "Where the live menu lives. The owner edits it at /admin/; the public",
+      "menu reads it and falls back to the list built into the page when it",
+      "cannot be reached, so a bar with bad wifi still has a menu.",
+      "",
+      "The key below is the publishable one. It is meant to be in the page:",
+      "every write is refused unless the caller is signed in AND listed in",
+      "irony.editors. An anonymous POST answers 401, which is checked.",
+      "",
+      "Leave url blank and the site stops asking: the menu is then simply",
+      "the one built from data/menu.json."
+    ],
+    "url": "https://uiuzbhekmroosmemwhdr.supabase.co",
+    "key": "sb_publishable_TqgtbKuCnl6P-kFObE5hbg_tfn0YR95",
+    "schema": "irony"
   }
 }

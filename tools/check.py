@@ -580,6 +580,19 @@ def check_marks(br):
           mpg.evaluate("()=>document.querySelectorAll('[data-sift]').length") == 1,
           str(mpg.evaluate("()=>document.querySelectorAll('[data-sift]').length")))
 
+    # The live menu. The page must be readable before it arrives and if it
+    # never does, and what arrives must be laid over the top.
+    live = mpg.evaluate(
+        """()=>document.documentElement.getAttribute('data-menu-live')"""
+    )
+    check("the live menu was read", live == "true",
+          "the built-in list is standing — store unreachable or off")
+
+    check("every drink is still there after it", mpg.evaluate(
+        """()=>[...document.querySelectorAll('.drink')]
+             .filter(d=>d.getBoundingClientRect().height>0).length"""
+    ) > 70, "an overlay that empties the menu is worse than no overlay")
+
     check("the menu carries no site navigation",
           mpg.evaluate("()=>!document.querySelector('.header, .footer')"),
           "a guest at a table is already in the room")
@@ -599,6 +612,40 @@ def check_marks(br):
     check("the script and stylesheet URLs carry the build version",
           "?v=" in stamped["script"] and "?v=" in stamped["style"],
           str(stamped))
+
+    # The editor is reachable, says nothing until signed in, and the store
+    # refuses a stranger. What protects it is the database, not obscurity,
+    # so that refusal is asserted rather than assumed.
+    admin = br.new_context(viewport={"width": 1024, "height": 900})
+    apg = open_page(admin, "/admin/")
+    apg.wait_for_timeout(400)
+    check("the editor asks for a sign-in", apg.evaluate(
+        """()=>{const f=document.querySelector('[data-sign-in]');
+          const w=document.querySelector('[data-work]');
+          return !!f && !f.hidden && !!w && w.hidden;}"""),
+          "it should show nothing until somebody signs in")
+    check("it is told not to be indexed", apg.evaluate(
+        """()=>{const m=document.querySelector('meta[name=robots]');
+          return !!m && m.content.indexOf('noindex') !== -1;}"""), "")
+
+    refused = apg.evaluate(
+        """async () => {
+          const s = window.IVS.store;
+          if (!s || !s.url) return 'off';
+          try {
+            const r = await fetch(s.url + '/rest/v1/drinks', {
+              method: 'POST',
+              headers: {apikey: s.key, 'Content-Type': 'application/json',
+                        'Content-Profile': s.schema},
+              body: JSON.stringify({slug: 'check-should-not-exist',
+                                    name: 'x', category: 'gin'})});
+            return r.status;
+          } catch (e) { return 'blocked: ' + String(e).slice(0, 60); }
+        }"""
+    )
+    check("a stranger cannot write to the menu", refused in (401, 403),
+          f"POST answered {refused}")
+    admin.close()
 
     check("the pour easter egg is dormant",
           not egg.get("missing")

@@ -1,0 +1,46 @@
+<div class="admin" data-admin>
+
+  <header class="admin__head">
+    <div>
+      <p class="eyebrow">{{site_name}}</p>
+      <h1 class="admin__title">The menu</h1>
+    </div>
+    <button class="pill" type="button" data-sign-out hidden>Sign out</button>
+  </header>
+
+  <!-- Signed out ------------------------------------------------------- -->
+  <form class="admin__gate panel" data-sign-in>
+    <p class="admin__lede">Sign in to change prices and what is listed.</p>
+    <label class="admin__field">
+      <span>Email</span>
+      <input type="email" name="email" autocomplete="username" required>
+    </label>
+    <label class="admin__field">
+      <span>Password</span>
+      <input type="password" name="password" autocomplete="current-password" required>
+    </label>
+    <button class="pill pill--solid" type="submit">Sign in</button>
+    <p class="admin__said" data-said role="status"></p>
+  </form>
+
+  <!-- Signed in -------------------------------------------------------- -->
+  <div data-work hidden>
+    <div class="admin__bar">
+      <input class="admin__search" type="search" placeholder="Find a drink"
+             data-admin-search autocomplete="off">
+      <p class="admin__said" data-saved role="status"></p>
+    </div>
+
+    <div class="admin__list" data-rows></div>
+
+    <details class="admin__more panel">
+      <summary>Start again from the published list</summary>
+      <p>Reads the {{drink_count}} drinks built into this site and writes them
+        over what is stored. Prices and words you have changed here are
+        replaced. Nothing is deleted.</p>
+      <button class="pill" type="button" data-reseed>Replace from the site</button>
+      <p class="admin__said" data-reseeded role="status"></p>
+    </details>
+  </div>
+
+</div>

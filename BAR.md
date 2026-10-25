@@ -37,6 +37,34 @@ python3 tools/import_menu.py --from tools/fixtures/poster-menu.json --report
 
 It exits non-zero while anything is still wrong, and names the drink.
 
+## The owner edits the menu
+
+`/admin/` — unlinked, noindex, and told to nobody who does not need it. What
+refuses a stranger is the database, not the address: every write is rejected
+unless the caller is signed in **and** listed in `irony.editors`. An
+anonymous write answers 401, and a browser check asserts that it still does.
+
+The data lives in an `irony` schema inside the **LitProfit calculator**
+Supabase project (`uiuzbhekmroosmemwhdr`), beside the `iberia` schema that
+already shares it. A sixth project on the Pro plan costs about ten dollars a
+month; this costs nothing. Nothing here touches `public`.
+
+The public menu still ships with the whole list built into the page, and what
+comes from the store is laid over the top. If the store is slow it gives up
+after six seconds; if it is unreachable, or switched off by blanking
+`menu_store.url` in `data/site.json`, the menu is simply the one that was
+built. A bar's wifi is not something to bet a menu on.
+
+**Two steps before the owner can sign in**, and only the first needs a human:
+
+1. In the Supabase dashboard for that project, Authentication → Users → Add
+   user, with the bar's email and a password.
+2. Tell me the email and I add the row to `irony.editors`. Being signed in is
+   not enough on its own — that is the point.
+
+Three drinks are in the store so far. The editor's "Start again from the
+published list" writes all 77 over it in one go.
+
 ## Waiting on the bar
 
 **Five drinks still need the bar to say what is in them.** Everything else

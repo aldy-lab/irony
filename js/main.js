@@ -1293,3 +1293,80 @@
     });
   }
 })();
+
+/* -------------------------------------------------------------------------
+   The live menu
+   The page ships with the whole list built into it, so it is readable before
+   this runs and readable if this never runs — a bar's wifi is not something
+   to bet a menu on. What arrives from the store is laid over the top: a
+   price the owner changed this afternoon, a drink taken off for the season.
+   ------------------------------------------------------------------------- */
+
+(function () {
+  var store = (window.IVS && window.IVS.store) || {};
+  if (!store.url) return;
+  if (!document.querySelector("[data-slug]")) return;
+
+  var money = function (n) {
+    return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  };
+
+  var lang = function (node, code, words) {
+    var span = node.querySelector('[lang="' + code + '"]');
+    if (span && words) span.textContent = words;
+  };
+
+  /* Six seconds, then the built-in list stands. Waiting longer for a price
+     that is probably the same price is not worth a blank menu. */
+  var giveUp = new AbortController();
+  var timer = window.setTimeout(function () { giveUp.abort(); }, 6000);
+
+  fetch(store.url + "/rest/v1/drinks?select=slug,name,price,listed," +
+        "text_en,text_cs,text_uk", {
+    headers: { apikey: store.key, "Accept-Profile": store.schema },
+    signal: giveUp.signal
+  })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (rows) {
+      window.clearTimeout(timer);
+      if (!rows || !rows.length) return;
+
+      rows.forEach(function (drink) {
+        var nodes = document.querySelectorAll(
+          '[data-slug="' + (window.CSS && CSS.escape
+            ? CSS.escape(drink.slug) : drink.slug) + '"]');
+        nodes.forEach(function (node) {
+          /* Off the menu means off the menu, wherever it is shown. */
+          if (drink.listed === false) {
+            node.hidden = true;
+            return;
+          }
+          var name = node.querySelector(".drink__name, .pour-card__name");
+          if (name && drink.name) {
+            /* textContent, not innerHTML: these words come from a database
+               somebody else types into. */
+            var flag = name.querySelector(".drink__flag");
+            name.textContent = drink.name;
+            if (flag) name.appendChild(flag);
+          }
+          var price = node.querySelector(".drink__price, .pour-card__price");
+          if (price && drink.price !== null && drink.price !== undefined) {
+            var small = price.querySelector("small");
+            price.textContent = money(drink.price);
+            if (small) price.appendChild(small);
+          }
+          var note = node.querySelector("[data-i18n]");
+          if (note) {
+            lang(note, "en", drink.text_en);
+            lang(note, "cs", drink.text_cs);
+            lang(note, "uk", drink.text_uk);
+          }
+        });
+      });
+      document.documentElement.setAttribute("data-menu-live", "true");
+    })
+    .catch(function () {
+      /* The built-in list is already on the screen. Nothing to do. */
+      window.clearTimeout(timer);
+    });
+})();
