@@ -558,25 +558,6 @@ main > .shell:first-child {
   min-width: 0;
 }
 
-/* The mascot, at a size that reads as a drawing rather than an icon. */
-.masthead__figure {
-  position: relative;
-  color: var(--text);
-  justify-self: start;
-}
-
-/* Hold the pour button and the satyr fills from the hooves up, the way the
-   bottle he is holding would. The gradient is transparent at rest, so this
-   costs the page nothing and shows nothing until somebody holds the button:
-   an easter egg that announces itself is just a feature nobody asked for. */
-.masthead__figure .mark {
-  height: clamp(190px, 24vw, 320px);
-  background-image: linear-gradient(
-    to top,
-    var(--accent) var(--pour, 0%),
-    transparent var(--pour, 0%)
-  );
-}
 
 /* The reward for filling him: a dimension line, the way the rest of the site
    borrows from engineering drawings. Sits below the figure and is positioned
@@ -630,7 +611,7 @@ main > .shell:first-child {
   white-space: nowrap;
 }
 
-.masthead__figure[data-poured="true"] .pour {
+.hero__figure[data-poured="true"] .pour {
   opacity: 1;
   transform: none;
 }
@@ -656,7 +637,7 @@ main > .shell:first-child {
 /* Pressing him repeatedly must not start selecting the masthead, and on a
    phone must not raise the callout menu. The cursor stays default on purpose:
    a pointer here would advertise what is meant to be found. */
-.masthead__figure {
+.hero__figure {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
@@ -737,7 +718,7 @@ main > .shell:first-child {
     order: -1;
   }
 
-  .masthead__figure .mark {
+  .hero__figure .mark {
     height: 120px;
   }
 
@@ -757,7 +738,7 @@ main > .shell:first-child {
     grid-template-columns: 1fr;
   }
 
-  .masthead__figure {
+  .hero__figure {
     display: none;
   }
 }
@@ -771,7 +752,7 @@ main > .shell:first-child {
     padding-block: 0.75rem 0.6rem;
   }
 
-  .masthead__figure,
+  .hero__figure,
   .masthead__copy,
   .masthead__eyebrow {
     display: none;
@@ -2392,7 +2373,7 @@ main > .shell:first-child {
   }
 
   .card__media--mark,
-  .masthead__figure,
+  .hero__figure,
   .masthead__motif,
   .motif-rule {
     display: none;
@@ -2428,7 +2409,7 @@ main > .shell:first-child {
   .results__sort,
   .skip-link,
   .age-gate,
-  .masthead__figure,
+  .hero__figure,
   .masthead__motif {
     display: none !important;
   }
@@ -3294,7 +3275,7 @@ body:has(.menu) {
   animation-delay: 210ms;
 }
 
-.masthead__figure {
+.hero__figure {
   animation: rise 0.7s var(--ease-out) backwards;
 }
 
@@ -3343,7 +3324,7 @@ body:has(.menu) {
   .masthead__mark,
   .masthead__copy,
   .masthead__actions,
-  .masthead__figure,
+  .hero__figure,
   .choose__list .pour-card {
     animation: none;
   }
@@ -3359,10 +3340,15 @@ body:has(.menu) {
    Build one
    ========================================================================== */
 
+.build__title {
+  margin: 0.4rem 0 1.6rem;
+  max-width: 16ch;
+}
+
 .build__layout {
   display: grid;
-  gap: 2rem;
-  margin-top: 1.8rem;
+  gap: 1.4rem;
+  margin-top: 0;
 }
 
 /* The glass stays on screen while the choices scroll under it. On a phone
@@ -3376,8 +3362,8 @@ body:has(.menu) {
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 0.8rem;
-  padding: 0.9rem 1.1rem;
-  border-radius: var(--radius);
+  padding: 1.3rem 1.3rem 1.1rem;
+  border-radius: var(--radius-lg);
   background: var(--paper-green);
 }
 
@@ -3388,12 +3374,12 @@ body:has(.menu) {
    zero pixels wide and simply was not there. */
 .build__satyr {
   align-self: center;
-  width: 58px;
+  width: 78px;
 }
 
 .build__satyr .mark {
   width: 100%;
-  max-width: 64px;
+  max-width: 84px;
   margin-inline: auto;
   color: var(--text);
   transform-origin: 70% 20%;
@@ -3406,7 +3392,7 @@ body:has(.menu) {
 
 .build__glass {
   width: 100%;
-  max-width: 118px;
+  max-width: 172px;
   height: auto;
   margin-inline: auto;
 }
@@ -3443,14 +3429,15 @@ body:has(.menu) {
     align-items: start;
   }
 
-  /* With room beside the answers it can be a proper panel again. */
+  /* With room beside the answers it is the largest thing on the page after
+     the name of the bar, which is the point of putting it this high. */
   .build__stage {
     position: sticky;
     top: calc(var(--header-h) + 1.5rem);
-    grid-template-columns: 1fr 1.3fr;
+    grid-template-columns: 1fr 1.25fr;
     align-items: end;
-    gap: 0.6rem;
-    padding: 2rem 1.6rem 1.6rem;
+    gap: 1rem;
+    padding: 2.6rem 2.2rem 2.2rem;
   }
 
   .build__satyr {
@@ -3458,11 +3445,16 @@ body:has(.menu) {
   }
 
   .build__satyr .mark {
-    max-width: 140px;
+    max-width: 190px;
   }
 
   .build__glass {
-    max-width: 210px;
+    max-width: 300px;
+  }
+
+  .build__layout {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3.2rem;
   }
 }
 

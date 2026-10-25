@@ -304,76 +304,6 @@
       });
     }
 
-    /* Press the satyr and he fills, from the hooves up, in the accent — the
-       way the bottle he is carrying would. At the top a dimension line prints
-       under him, and then it drains and he is ink again.
-
-       Nothing says so. The figure keeps its default cursor and stays
-       aria-hidden: it is decoration that answers, not a control, and a screen
-       reader loses nothing by never being told. Naming the variables `pour`
-       and `pourFull` rather than anything shorter is deliberate — `settle`
-       collided with a `var settle` two hundred lines down and hoisting gave
-       them one binding, which threw only once somebody actually pressed. */
-    var figure = document.querySelector("[data-pour-figure]");
-    var satyr = figure && figure.querySelector(".mark");
-    if (satyr) {
-      var POUR_MS = 1500;
-      var HOLD_MS = 2600;
-      var still = window.matchMedia("(prefers-reduced-motion: reduce)");
-      var pouring = false;
-      var startedAt = 0;
-      var frame = null;
-
-      var fill = function (pct) {
-        satyr.style.setProperty("--pour", pct + "%");
-      };
-
-      var drain = function () {
-        var from = parseFloat(satyr.style.getPropertyValue("--pour")) || 0;
-        var began = 0;
-        var back = function (now) {
-          if (!began) began = now;
-          var pct = from * (1 - Math.min(1, (now - began) / 420));
-          fill(pct);
-          if (pct > 0) frame = window.requestAnimationFrame(back);
-          else pouring = false;
-        };
-        if (still.matches) {
-          fill(0);
-          pouring = false;
-        } else {
-          frame = window.requestAnimationFrame(back);
-        }
-      };
-
-      var pourFull = function () {
-        figure.setAttribute("data-poured", "true");
-        window.setTimeout(function () {
-          figure.removeAttribute("data-poured");
-          drain();
-        }, HOLD_MS);
-      };
-
-      var pour = function (now) {
-        var pct = Math.min(100, ((now - startedAt) / POUR_MS) * 100);
-        fill(pct);
-        if (pct < 100) frame = window.requestAnimationFrame(pour);
-        else pourFull();
-      };
-
-      figure.addEventListener("click", function () {
-        if (pouring) return;
-        pouring = true;
-        if (still.matches) {
-          fill(100);
-          pourFull();
-        } else {
-          startedAt = window.performance.now();
-          frame = window.requestAnimationFrame(pour);
-        }
-      });
-    }
-
     if (facetsToggle && facets) {
       facetsToggle.addEventListener("click", function () {
         var open = facets.getAttribute("data-open") === "true";
@@ -1282,4 +1212,84 @@
     if (current) current.setAttribute("aria-pressed", "true");
   });
   draw();
+})();
+
+
+/* -------------------------------------------------------------------------
+   The satyr pours
+   This lived inside the catalogue's module, and the catalogue is withheld —
+   so the module stopped running and the easter egg went with it, silently.
+   It belongs to the figure, so it is wired from the figure.
+   ------------------------------------------------------------------------- */
+
+(function () {
+  /* Press the satyr and he fills, from the hooves up, in the accent — the
+     way the bottle he is carrying would. At the top a dimension line prints
+     under him, and then it drains and he is ink again.
+
+     Nothing says so. The figure keeps its default cursor and stays
+     aria-hidden: it is decoration that answers, not a control, and a screen
+     reader loses nothing by never being told. Naming the variables `pour`
+     and `pourFull` rather than anything shorter is deliberate — `settle`
+     collided with a `var settle` two hundred lines down and hoisting gave
+     them one binding, which threw only once somebody actually pressed. */
+  var figure = document.querySelector("[data-pour-figure]");
+  var satyr = figure && figure.querySelector(".mark");
+  if (satyr) {
+    var POUR_MS = 1500;
+    var HOLD_MS = 2600;
+    var still = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var pouring = false;
+    var startedAt = 0;
+    var frame = null;
+
+    var fill = function (pct) {
+      satyr.style.setProperty("--pour", pct + "%");
+    };
+
+    var drain = function () {
+      var from = parseFloat(satyr.style.getPropertyValue("--pour")) || 0;
+      var began = 0;
+      var back = function (now) {
+        if (!began) began = now;
+        var pct = from * (1 - Math.min(1, (now - began) / 420));
+        fill(pct);
+        if (pct > 0) frame = window.requestAnimationFrame(back);
+        else pouring = false;
+      };
+      if (still.matches) {
+        fill(0);
+        pouring = false;
+      } else {
+        frame = window.requestAnimationFrame(back);
+      }
+    };
+
+    var pourFull = function () {
+      figure.setAttribute("data-poured", "true");
+      window.setTimeout(function () {
+        figure.removeAttribute("data-poured");
+        drain();
+      }, HOLD_MS);
+    };
+
+    var pour = function (now) {
+      var pct = Math.min(100, ((now - startedAt) / POUR_MS) * 100);
+      fill(pct);
+      if (pct < 100) frame = window.requestAnimationFrame(pour);
+      else pourFull();
+    };
+
+    figure.addEventListener("click", function () {
+      if (pouring) return;
+      pouring = true;
+      if (still.matches) {
+        fill(100);
+        pourFull();
+      } else {
+        startedAt = window.performance.now();
+        frame = window.requestAnimationFrame(pour);
+      }
+    });
+  }
 })();
