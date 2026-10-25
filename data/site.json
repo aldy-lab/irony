@@ -50,6 +50,8 @@
     "phone": "",
     "maps_url": ""
   },
+  "_google_note": "The printed codes point at /r/ on this site, not straight at Google. A printed code is permanent and this link is not: if the place id is ever wrong, change it here and rebuild — no reprint. Leave it \"\" and /r/ is not built and print/make.py refuses to draw a review code.",
+  "google_review": "https://search.google.com/local/writereview?placeid=ChIJv2EoqCmVC0cRKv96pp_mHTw",
   "legal": {
     "_readme": [
       "Required on a Czech business site and shown on privacy.html.",

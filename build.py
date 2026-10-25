@@ -1285,6 +1285,33 @@ def build():
                    '<meta name="robots" content="noindex,follow">',
     )
 
+    # /r/ is where the printed codes point. They go through this site rather
+    # than straight at Google because a printed code cannot be edited and this
+    # link can: if the place id turns out wrong, one line in site.json fixes a
+    # thousand coasters. Blank the link and the page is not built at all.
+    review_link = site.get("google_review", "").strip()
+    review_dir = ROOT / "r"
+    if review_dir.exists():
+        shutil.rmtree(review_dir)
+    if review_link:
+        review_dir.mkdir(parents=True)
+        body = fill(
+            template("review.html"),
+            {"base": "../", "motif": use("m-motif"), "review": review_link},
+        )
+        render_page(
+            site=site, catalogue=catalogue, body=body,
+            out=review_dir / "index.html",
+            title=f"Leave a review — {site['name']}",
+            description="Thank you. Taking you to Google.",
+            slug="r/index.html", base="../", current="",
+            head_extra=f'<meta http-equiv="refresh" content="0; url={review_link}">'
+                       '<meta name="robots" content="noindex,nofollow">',
+        )
+    else:
+        print("  ! site.json google_review is blank: /r/ not built, and the "
+              "printed pieces cannot carry a review code")
+
     # Product pages ----------------------------------------------------------
     if SHOP_DIR.exists():
         shutil.rmtree(SHOP_DIR)

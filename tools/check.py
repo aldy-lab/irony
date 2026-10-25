@@ -1076,6 +1076,49 @@ def check_front(br):
     ctx.close()
 
 
+def check_printed(br):
+    """The page the printed codes point at.
+
+    Every coaster, card and sticker sends people to /r/. If that page stops
+    redirecting, a tray of printed coasters quietly stops working and nothing
+    on the site looks wrong. This is the one page whose failure is expensive.
+
+    Read over HTTP rather than driven in the browser: the page redirects in
+    zero seconds, so opening it in Playwright leaves for Google and takes the
+    execution context with it. A check should not call somebody else's server.
+    """
+    print("\nWhere the printed codes land")
+    import json
+    import urllib.request
+    site = json.loads((ROOT / "data" / "site.json").read_text())
+    target = site.get("google_review", "").strip()
+
+    try:
+        with urllib.request.urlopen(BASE + "/r/", timeout=10) as response:
+            html = response.read().decode()
+            status = response.status
+    except Exception as exc:                       # noqa: BLE001
+        check("/r/ exists", False, str(exc)[:70])
+        return
+    check("/r/ exists", status == 200, f"status {status}")
+
+    refresh = re.search(
+        r'<meta[^>]+http-equiv=["\']refresh["\'][^>]*content=["\']([^"\']+)',
+        html, re.I)
+    check("/r/ redirects to the configured review link",
+          bool(target) and bool(refresh) and target in refresh.group(1),
+          (refresh.group(1) if refresh else "no refresh meta")[:80])
+
+    # A visitor whose browser blocks the refresh must still get there.
+    check("and offers the link if the refresh is blocked",
+          bool(target) and f'href="{target}"' in html)
+
+    robots = re.search(r'<meta[^>]+name=["\']robots["\'][^>]*content=["\']([^"\']+)',
+                       html, re.I)
+    check("it is kept out of the index",
+          bool(robots) and "noindex" in robots.group(1).lower())
+
+
 GROUPS = {
     "front": check_front,
     "filters": check_filters,
@@ -1083,6 +1126,7 @@ GROUPS = {
     "a11y": check_a11y,
     "marks": check_marks,
     "links": check_links,
+    "printed": check_printed,
     "mobile": check_mobile,
     "widths": check_widths,
     "grids": check_grids,

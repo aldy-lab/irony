@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import io
 import math
+import json
 import sys
 from functools import lru_cache
 from pathlib import Path
@@ -36,14 +37,22 @@ FONTS = Path(__file__).resolve().parent / ".fonts"
 # What the codes point at
 # ---------------------------------------------------------------------------
 
-MENU_URL = "https://aldy-lab.github.io/irony/menu/"
+_site = json.loads((ROOT / "data" / "site.json").read_text())
+_base = _site["url"].rstrip("/")
 
-# Derived from the bar's own Maps link: the two 64-bit numbers in it, encoded
-# the way Google encodes a place id. "ChIJ" is the base64 of the three-byte
-# protobuf header, which is how this was checked. Scan it once before any
-# print run — that is worth doing for any printed code, derived or not.
-PLACE_ID = "ChIJv2EoqCmVC0cRKv96pp_mHTw"
-REVIEW_URL = f"https://search.google.com/local/writereview?placeid={PLACE_ID}"
+MENU_URL = f"{_base}/menu/"
+
+# The review code points at /r/ on the site, which redirects to Google. Going
+# straight at Google needs 79 characters and a 49-module code; this needs 35
+# and 33. It is also the only version that can be corrected after printing:
+# the place id was derived from the bar's Maps link and never confirmed in a
+# browser, and a coaster cannot be edited. build.py builds /r/ from the same
+# line of config, or says loudly that it did not.
+REVIEW_URL = f"{_base}/r/"
+if not _site.get("google_review", "").strip():
+    raise SystemExit(
+        "site.json has no google_review, so /r/ is not built. A printed code "
+        "pointing at a page that does not exist is worse than no code.")
 
 # ---------------------------------------------------------------------------
 # Ink and paper
@@ -69,12 +78,15 @@ def mm(value: float) -> float:
 # A stylised code
 # ---------------------------------------------------------------------------
 
-def code_matrix(data: str):
-    """The code's modules, at the strongest error correction.
+def code_matrix(data: str, error: str = "q"):
+    """The code's modules.
 
-    H carries thirty percent, which is what pays for the mark in the middle.
+    Q carries twenty-five percent, which is the usual choice for something
+    printed that will be wiped, splashed and set a wet glass on. H was only
+    needed while a mark sat in the middle of the code; without it, H just
+    adds rows of dots for nothing.
     """
-    qr = segno.make(data, error="h", boost_error=False)
+    qr = segno.make(data, error=error, boost_error=False)
     return [list(row) for row in qr.matrix]
 
 
@@ -337,8 +349,7 @@ def side_menu(page, trim, tint=WARM):
 
     side = mm(30)
     shape = page.new_shape()
-    spec = draw_code(shape, MENU_URL, cx - side / 2, trim.y0 + mm(18), side,
-                     knockout=0.26)
+    spec = draw_code(shape, MENU_URL, cx - side / 2, trim.y0 + mm(18), side)
     shape.commit()
     if spec["hole"]:
         place_mark(page, "satyr", spec["hole"] + (mm(1.4), mm(0.2), -mm(1.4), -mm(0.2)))
@@ -357,11 +368,8 @@ def side_review(page, trim, tint=GREEN_TINT):
 
     side = mm(29)
     shape = page.new_shape()
-    spec = draw_code(shape, REVIEW_URL, cx - side / 2, trim.y0 + mm(12), side,
-                     knockout=0.24)
+    draw_code(shape, REVIEW_URL, cx - side / 2, trim.y0 + mm(12), side)
     shape.commit()
-    if spec["hole"]:
-        place_mark(page, "motif", spec["hole"] + (mm(0.6), mm(1.8), -mm(0.6), -mm(1.8)))
 
     centred(page, "Tell Google. It takes a minute.", cx, trim.y1 - mm(6.2),
             6.0, "italic", INK)
@@ -421,42 +429,57 @@ def make_business_card(doc):
 
 
 def make_coaster(doc):
-    """Round, under the glass, with both codes on the one face."""
+    """Round, under the glass. One code a side, on a dark ground.
+
+    Two codes side by side made each of them small and the face busy. A
+    coaster gets turned over while somebody waits for a drink, so a side each
+    buys both of them twice the room.
+    """
     size = 95
-    page = doc.new_page(width=mm(size) + 2 * BLEED, height=mm(size) + 2 * BLEED)
-    page.draw_rect(page.rect, color=None, fill=PAPER)
-    cx = cy = (mm(size) + 2 * BLEED) / 2
-    r = mm(size) / 2
 
-    # Bleed to the edge, because a round cut never lands exactly.
-    page.draw_circle(fitz.Point(cx, cy), r + BLEED, color=None, fill=WARM)
-    page.draw_circle(fitz.Point(cx, cy), r, color=None, fill=WARM)
+    def face(ground, text_colour):
+        page = doc.new_page(width=mm(size) + 2 * BLEED,
+                            height=mm(size) + 2 * BLEED)
+        page.draw_rect(page.rect, color=None, fill=ground)
+        cx = cy = (mm(size) + 2 * BLEED) / 2
+        r = mm(size) / 2
+        # Bleed past the cut, because a round die never lands exactly.
+        page.draw_circle(fitz.Point(cx, cy), r + BLEED, color=None, fill=ground)
+        return page, cx, cy, r
 
+    # Front: the menu.
+    page, cx, cy, r = face(INK, PAPER)
     place_mark(page, "wordmark-line1",
-               fitz.Rect(cx - mm(21), cy - mm(40), cx + mm(21), cy - mm(34.4)))
+               fitz.Rect(cx - mm(23), cy - mm(40), cx + mm(23), cy - mm(33.9)),
+               colour=PAPER)
     place_mark(page, "wordmark-line2",
-               fitz.Rect(cx - mm(13.5), cy - mm(34), cx + mm(13.5), cy - mm(28.9)))
+               fitz.Rect(cx - mm(14.8), cy - mm(33.4), cx + mm(14.8), cy - mm(27.8)),
+               colour=PAPER)
 
-    side = mm(30)
+    side = mm(42)
     shape = page.new_shape()
-    menu = draw_code(shape, MENU_URL, cx - side - mm(2.5), cy - mm(13), side,
-                     knockout=0.26)
-    review = draw_code(shape, REVIEW_URL, cx + mm(2.5), cy - mm(13), side,
-                       knockout=0.24)
+    draw_code(shape, MENU_URL, cx - side / 2, cy - mm(19), side)
     shape.commit()
-    if menu["hole"]:
-        place_mark(page, "satyr", menu["hole"] + (mm(1.4), mm(0.2), -mm(1.4), -mm(0.2)))
-    if review["hole"]:
-        place_mark(page, "motif", review["hole"] + (mm(0.6), mm(1.8), -mm(0.6), -mm(1.8)))
 
-    centred(page, "THE MENU", cx - side / 2 - mm(2.5), cy + mm(21), 6.4,
-            "display", INK, tracking=2.2)
-    centred(page, "WAS IT GOOD?", cx + side / 2 + mm(2.5), cy + mm(21), 6.4,
-            "display", INK, tracking=2.2)
-    centred(page, "Soukenická 1756  ·  Nové Město  ·  Praha", cx, cy + mm(33),
-            6.0, "italic", MUTED)
+    centred(page, "THE MENU", cx, cy + mm(28.5), 8.0, "display", PAPER,
+            tracking=3.0)
+    centred(page, "Jídelní lístek  ·  Меню", cx, cy + mm(34.5), 6.4, "italic",
+            PAPER)
+    page.draw_circle(fitz.Point(cx, cy), r, color=(1, 0, 1), fill=None, width=0.5)
 
-    # The cut line, on its own, for the die.
+    # Back: the review.
+    page, cx, cy, r = face(INK, PAPER)
+    centred(page, "WAS IT ANY GOOD?", cx, cy - mm(33), 8.0, "display", PAPER,
+            tracking=3.0)
+
+    shape = page.new_shape()
+    draw_code(shape, REVIEW_URL, cx - side / 2, cy - mm(26), side)
+    shape.commit()
+
+    centred(page, "Tell Google. It takes a minute.", cx, cy + mm(24), 7.4,
+            "italic", PAPER)
+    centred(page, "IRONY VS. SATYR  ·  NOVÉ MĚSTO", cx, cy + mm(33), 5.6,
+            "display", PAPER, tracking=2.0)
     page.draw_circle(fitz.Point(cx, cy), r, color=(1, 0, 1), fill=None, width=0.5)
 
 
