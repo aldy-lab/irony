@@ -410,8 +410,10 @@ main > .shell:first-child {
   white-space: nowrap;
 }
 
+/* Pink is a field on this site, never a word. Open reads as open by being
+   the ink rather than the quiet grey beside it. */
 .open-now[data-state="open"] {
-  color: var(--accent);
+  color: var(--text);
 }
 
 .open-now[hidden] {
@@ -3829,4 +3831,15 @@ body:has(.menu) {
   .hero__mark {
     width: min(70%, 340px);
   }
+}
+
+/* He was gold with a pink glow behind him, which on the old paper read as a
+   watermark and on a near-white ground reads as a stain. Ink, quietly, in a
+   tinted panel like everything else. */
+.about__satyr {
+  width: min(100%, 340px);
+  padding: 1.6rem;
+  border-radius: var(--radius-lg);
+  background: var(--paper-green);
+  color: var(--text);
 }
