@@ -2845,10 +2845,10 @@ body:has(.menu) {
    the glasses first — a list of names and prices is a spreadsheet. */
 .drink {
   display: grid;
-  grid-template-columns: 108px minmax(0, 1fr);
+  grid-template-columns: 112px minmax(0, 1fr);
   align-items: center;
-  gap: 1.1rem;
-  padding-block: 1rem;
+  gap: 1rem;
+  padding-block: 1.1rem;
   border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
 }
 
@@ -2859,7 +2859,7 @@ body:has(.menu) {
 }
 
 .drink__pic {
-  width: 108px;
+  width: 112px;
   height: auto;
   /* Beside its words rather than at the foot of the row: a drink with four
      lines of description left its glass stranded at the bottom, a long way
@@ -2885,8 +2885,12 @@ body:has(.menu) {
 
 .drink__name {
   font-family: var(--display, inherit);
-  font-size: 1.07rem;
-  line-height: 1.25;
+  font-size: 1.02rem;
+  line-height: 1.22;
+  /* Spirits carry their strength and their country in the name, so these
+     run long: "Scapegrace Black Gin 41.6% New Zealand". Balanced wrapping
+     keeps a three-line name from leaving one word on the last line. */
+  text-wrap: balance;
 }
 
 /* The rule carries the eye from a long name to its price, which is the one
@@ -2965,12 +2969,12 @@ body:has(.menu) {
   }
 
   .drink {
-    grid-template-columns: 136px minmax(0, 1fr);
-    gap: 1.6rem;
+    grid-template-columns: 168px minmax(0, 1fr);
+    gap: 1.8rem;
   }
 
   .drink__pic {
-    width: 136px;
+    width: 168px;
   }
 
   .drink__name {
@@ -3051,7 +3055,7 @@ body:has(.menu) {
 /* No panel: the drawings are ink on paper now, so they sit on the page. */
 .pour-card__pic,
 .pour-card .drink__pic {
-  width: 96px;
+  width: 116px;
   height: auto;
   margin-bottom: 0.5rem;
 }
@@ -3197,7 +3201,7 @@ body:has(.menu) {
 
   .pour-card__pic,
   .pour-card .drink__pic {
-    width: 104px;
+    width: 132px;
   }
 }
 
@@ -3550,4 +3554,81 @@ body:has(.menu) {
   border-color: var(--green);
   background: var(--green);
   color: var(--paper);
+}
+
+/* Behind the bar --------------------------------------------------------- */
+
+.shelf__title {
+  margin: 0.4rem 0 1.8rem;
+  max-width: 18ch;
+}
+
+.bar-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Equal rows: a two-line name made its row taller than its neighbour's and
+     the glasses stopped standing on one line across the grid. */
+  grid-auto-rows: 1fr;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+.bar-card {
+  background: var(--paper);
+}
+
+.bar-card__link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 0.3rem 0.6rem;
+  height: 100%;
+  padding: 1rem 1rem 0.9rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.25s var(--ease);
+}
+
+.bar-card__link:hover,
+.bar-card__link:focus-visible {
+  background: color-mix(in srgb, var(--green) 5%, transparent);
+}
+
+.bar-card .drink__pic {
+  grid-column: 1 / -1;
+  width: 84px;
+  height: auto;
+  margin-bottom: 0.4rem;
+}
+
+.bar-card__name {
+  font-family: var(--display, inherit);
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
+.bar-card__count {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+@media (min-width: 620px) {
+  .bar-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .bar-list {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .bar-card .drink__pic {
+    width: 96px;
+  }
 }

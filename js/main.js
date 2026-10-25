@@ -1198,7 +1198,7 @@
           '<stop offset="0.2" stop-color="#000" stop-opacity="0"/>' +
           '<stop offset="0.72" stop-color="#000" stop-opacity="1"/>' +
         "</linearGradient>" +
-        '<mask id="build-turn"><rect x="0" y="38" width="200" height="206" ' +
+        '<mask id="build-turn"><rect x="0" y="6" width="200" height="238" ' +
           'fill="url(#build-grad)"/></mask>' +
       "</defs>" +
       '<g clip-path="url(#build-clip)">' +

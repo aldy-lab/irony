@@ -39,6 +39,17 @@
   </div>
 </section>
 
+<!-- What is behind the bar, and how much of it. Each lands on its own
+     panel in the menu rather than at the top of a long scroll. -->
+<section class="section">
+  <div class="shell">
+    <p class="eyebrow eyebrow--rule">Behind the bar</p>
+    <h2 class="display-xl shelf__title">{{drink_count}} to drink,
+      across {{category_count}}&nbsp;shelves.</h2>
+    <ul class="bar-list">{{back_bar}}</ul>
+  </div>
+</section>
+
 <!-- The chooser narrows what the bar actually pours. It never composes a
      drink nobody can order. -->
 <section class="section" id="choose" data-choose>
@@ -80,7 +91,7 @@
     <div class="build__layout">
       <div class="build__stage">
         <div class="build__satyr" aria-hidden="true" data-build-satyr>{{satyr}}</div>
-        <svg class="build__glass" viewBox="0 38 200 206" role="img"
+        <svg class="build__glass" viewBox="0 6 200 238" role="img"
              data-build-glass aria-label="The drink you are building"></svg>
       </div>
 

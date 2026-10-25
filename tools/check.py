@@ -852,6 +852,39 @@ def check_front(br):
           pg.evaluate("()=>!document.querySelector('[data-catalogue],.product-grid')"),
           "hidden while the room is a bar")
 
+    # Every drawing has to stay inside its own frame. Thirteen of them ran
+    # off the top: a lime wheel or a sprig of mint sits above the rim, and a
+    # highball's rim is already near the edge of the board.
+    import json as _j
+    from PIL import Image as _Img
+    cropped = []
+    for art in sorted((ROOT / "assets" / "drinks").glob("*.webp")):
+        if "-640" in art.name:
+            continue
+        picture = _Img.open(art).convert("RGBA")
+        alpha = picture.getchannel("A")
+        wide, high = picture.size
+        if any(alpha.getpixel((x, 0)) > 8 for x in range(wide)) or \
+           any(alpha.getpixel((x, high - 1)) > 8 for x in range(wide)) or \
+           any(alpha.getpixel((0, y)) > 8 for y in range(high)) or \
+           any(alpha.getpixel((wide - 1, y)) > 8 for y in range(high)):
+            cropped.append(art.stem)
+    check("no drawing runs off its own frame", not cropped,
+          ", ".join(cropped[:4]) or "all inside")
+
+    listed = pg.evaluate(
+        """()=>[...document.querySelectorAll('.bar-card')]
+             .filter(c=>c.getBoundingClientRect().height>0).length"""
+    )
+    check("the back bar shows every category", listed == 14, f"{listed} shown")
+
+    rows = pg.evaluate(
+        """()=>{const h=[...document.querySelectorAll('.bar-card')]
+             .map(c=>Math.round(c.getBoundingClientRect().height));
+           return [Math.min(...h), Math.max(...h)];}"""
+    )
+    check("its cards are the same height", rows[1] - rows[0] <= 1, str(rows))
+
     signatures = pg.evaluate(
         """()=>Array.from(document.querySelectorAll('.shelf__list .pour-card'))
              .filter(c=>c.getBoundingClientRect().height>0).length"""

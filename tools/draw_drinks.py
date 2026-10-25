@@ -48,7 +48,7 @@ GLASS_SOFT = "#3d4634"
 STROKE = 2.3               # the line where the light falls on it
 STROKE_HEAVY = 3.9         # and where the form turns away from it
 HAIRLINE = 1.4
-TINT = 0.55                # the liquid lets the paper through
+TINT = 0.72                # the liquid lets a little paper through
 
 # Light from the upper left, as it is in the film: one flat shadow shape on
 # the side away from it, no gradient, and the line thickening as the form
@@ -198,7 +198,10 @@ def leaves(x, y, colour="#7f9a4e"):
 
 
 def celery(x, y):
-    return (f'<path d="M{x} {y} L{x + 6} {y - 62}" stroke="#7f9a4e" '
+    """Short enough to stay on the board. A Bloody Mary's celery is the one
+    garnish tall enough to leave the frame on a highball, which is the one
+    glass whose rim is already near the top of it."""
+    return (f'<path d="M{x} {y} L{x + 6} {y - 42}" stroke="#7f9a4e" '
             f'stroke-width="7" stroke-linecap="round"/>')
 
 
@@ -337,6 +340,19 @@ def ice_cubes(shape, count, seed):
     return "".join(cubes)
 
 
+def lift(colour: str) -> str:
+    """A little more of the colour it already is.
+
+    Flat tints of a muted palette over paper read as dusty. Pushing each
+    channel away from its own average deepens the hue without warming it —
+    a Negroni reads red, a mezcal green, and neither turns into a sweet.
+    """
+    r, g, b = (int(colour[1 + i * 2:3 + i * 2], 16) for i in range(3))
+    mid = (r + g + b) / 3
+    out = [max(0, min(255, round(mid + (c - mid) * 1.35))) for c in (r, g, b)]
+    return "#%02x%02x%02x" % tuple(out)
+
+
 def readable(colour: str) -> tuple:
     """A tint and a colour that still read on paper.
 
@@ -348,7 +364,7 @@ def readable(colour: str) -> tuple:
     r, g, b = (int(colour[1 + i * 2:3 + i * 2], 16) for i in range(3))
     light = (0.299 * r + 0.587 * g + 0.114 * b) / 255
     if light < 0.72:
-        return TINT, colour
+        return TINT, lift(colour)
     # Pulled towards the ink, by how pale it is.
     pull = min(0.42, (light - 0.72) * 1.6)
     mix = lambda c, ink: int(round(c * (1 - pull) + ink * pull))
@@ -384,7 +400,11 @@ def svg_for(slug: str, glass: str, liquid: str, garnish: str, ice: int) -> str:
     # a quarter of every thumbnail empty above a shot glass, which made the
     # rows of the menu tall and airy and the page half as long again. The
     # floor stays put, so every glass still stands on one line.
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 38 200 206" width="200" height="206">
+    # Thirteen of the seventy-seven ran off the top: a lime wheel, a sprig of
+    # mint or a stick of celery sits above the rim, and on a highball the rim
+    # is already near the edge of the board. Measured by counting opaque
+    # pixels on the frame's own edge, not by looking.
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 6 200 238" width="200" height="238">
   <defs>
     <clipPath id="{clip}"><path d="{shape['fill']}"/></clipPath>
     <!-- The line swells into the shadow instead of stepping into it: the
@@ -394,7 +414,7 @@ def svg_for(slug: str, glass: str, liquid: str, garnish: str, ice: int) -> str:
       <stop offset="0.72" stop-color="#000" stop-opacity="1"/>
     </linearGradient>
     <mask id="shade-{slug}">
-      <rect x="0" y="38" width="200" height="206" fill="url(#turn-{slug})"/>
+      <rect x="0" y="6" width="200" height="238" fill="url(#turn-{slug})"/>
     </mask>
     <linearGradient id="g-{slug}" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="{liquid}" stop-opacity="{tint:.2f}"/>
@@ -487,7 +507,7 @@ def render(svgs: dict, keep_svg: bool) -> None:
         with sync_playwright() as pw:
             browser = pw.chromium.launch()
             page = browser.new_context(
-                viewport={"width": 200, "height": 206}, device_scale_factor=4
+                viewport={"width": 200, "height": 238}, device_scale_factor=4
             ).new_page()
             for i, slug in enumerate(svgs, 1):
                 page.goto(f"http://127.0.0.1:{port}/{slug}.svg",
@@ -499,7 +519,7 @@ def render(svgs: dict, keep_svg: bool) -> None:
                 master.write_bytes(raw)
                 image = grained(Image.open(master).convert("RGBA"))
                 for size in SIZES:
-                    copy = image.resize((size, round(size * 206 / 200)),
+                    copy = image.resize((size, round(size * 238 / 200)),
                                         Image.LANCZOS)
                     name = f"{slug}.webp" if size == SIZES[0] else f"{slug}-{size}.webp"
                     copy.save(OUT / name, "WEBP", quality=88, method=6)

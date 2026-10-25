@@ -548,7 +548,7 @@ def drink_picture(product: dict, base: str) -> str:
     return (
         f'<img class="drink__pic" src="{small}" '
         f'srcset="{small} 320w, {large} 640w" sizes="96px" '
-        f'width="320" height="330" alt="" loading="lazy" decoding="async">'
+        f'width="320" height="381" alt="" loading="lazy" decoding="async">'
     )
 
 
@@ -764,6 +764,37 @@ def builder_matches(menu: dict, tags: dict, base: str) -> str:
             "href": f"{base}menu/#d-{slug}",
         })
     return json.dumps(rows, separators=(",", ":"), ensure_ascii=False)
+
+
+def back_bar(menu: dict, base: str) -> str:
+    """Every category, with what it holds and a drink drawn from it.
+
+    What a bar has is part of what it is, and fourteen headings with counts
+    says it faster than a paragraph. Each one lands on its own panel in the
+    menu rather than at the top of it.
+    """
+    rows = []
+    for category in menu["categories"]:
+        drinks = [p for p in menu["products"] if p["category"] == category["slug"]]
+        if not drinks:
+            continue
+        # The one with a picture and the most said about it.
+        face = max(
+            drinks,
+            key=lambda p: (
+                (ROOT / "assets" / "drinks" / f"{p['slug']}.webp").exists(),
+                len((p.get("text") or {}).get("en", "")),
+            ),
+        )
+        picture = drink_picture(face, base)
+        rows.append(f"""<li class="bar-card">
+  <a class="bar-card__link" href="{base}menu/#c-{esc(category['slug'])}">
+    {picture}
+    <span class="bar-card__name">{esc(category['name'])}</span>
+    <span class="bar-card__count">{len(drinks)}</span>
+  </a>
+</li>""")
+    return "\n".join(rows)
 
 
 def chooser_data(menu: dict, tags: dict, base: str) -> str:
@@ -1189,6 +1220,10 @@ def build():
             "base": "",
             "signatures": signature_drinks(bar_menu, tags, ""),
             "drink_count": len(bar_menu["products"]),
+            "back_bar": back_bar(bar_menu, ""),
+            "category_count": len([c for c in bar_menu["categories"]
+                                   if any(p["category"] == c["slug"]
+                                          for p in bar_menu["products"])]),
             "chooser_data": chooser_data(bar_menu, tags, ""),
             "builder_data": builder_data(),
             "builder_matches": builder_matches(bar_menu, tags, ""),
