@@ -526,13 +526,16 @@ def check_marks(br):
             return t.getAttribute('aria-pressed') === 'true';}"""),
           "the third tab")
 
-    marker = mpg.evaluate(
-        """()=>{const m=document.querySelector('[data-tab-marker]');
-          const r=m.getBoundingClientRect();
-          return [Math.round(r.x), Math.round(r.width)];}"""
+    # The sliding marker is gone: the chosen tab fills instead, which is the
+    # device this design uses everywhere. So the assertion is that exactly
+    # one tab is filled and the rest are not.
+    filled = mpg.evaluate(
+        """()=>{const tabs=[...document.querySelectorAll('[data-tab]')];
+          const bg=t=>getComputedStyle(t).backgroundColor;
+          const clear=bg(tabs.find(t=>t.getAttribute('aria-pressed')!=='true'));
+          return tabs.filter(t=>bg(t)!==clear).length;}"""
     )
-    check("the marker is under a tab, with width",
-          marker[1] > 20, str(marker))
+    check("exactly one tab is filled", filled == 1, f"{filled} filled")
 
     mpg.evaluate("()=>document.querySelectorAll('[data-tab]')[0].click()")
     mpg.wait_for_timeout(600)
@@ -648,7 +651,36 @@ def check_marks(br):
     # black that "did it fall back to black" is indistinguishable from "is it
     # correct", and a check that cannot fail is worse than none. The gold marks
     # carry the guard; the aspect-ratio assertion above covers the rest.
-    painted_in(".brand", (211, 189, 141), "the header logo")
+    # The header took the paper when the site went soft, so its mark is ink
+    # now — too near black to assert by colour, as the note above explains.
+    # What can be asserted is that the bar is paper and the mark is darker
+    # than it: that catches both a mark that did not render and a header that
+    # quietly went back to green.
+    # Measured off the page itself. Two earlier attempts read the computed
+    # value instead: color-mix returns "color(srgb 0.98 ...)", which neither
+    # a string match nor canvas fillStyle turns into a number, and both of
+    # them failed a header that was perfectly correct. The rest of this file
+    # asserts pixels; so does this.
+    strip = pg.evaluate(
+        """()=>{const r=document.querySelector('.header').getBoundingClientRect();
+          return {x: Math.round(r.right - 220), y: Math.round(r.y + 6),
+                  width: 120, height: Math.max(8, Math.round(r.height - 12))};}"""
+    )
+    bar_shot = Image.open(_io.BytesIO(pg.screenshot(clip=strip))).convert("RGB")
+    light = sum(n for n, c in bar_shot.getcolors(400000) if sum(c) > 690)
+    total = strip["width"] * strip["height"]
+    check("the header carries the paper", light > total * 0.6,
+          f"{light} of {total} pixels light")
+
+    mark_box = pg.eval_on_selector(
+        ".brand",
+        "e=>{const b=e.getBoundingClientRect();"
+        "return{x:b.x,y:b.y,width:b.width,height:b.height};}",
+    )
+    shot = Image.open(_io.BytesIO(pg.screenshot(clip=mark_box))).convert("RGB")
+    dark = sum(n for n, c in shot.getcolors(400000) if sum(c) < 330)
+    check("the header logo is painted on it", dark > 300, f"{dark} ink pixels")
+
     painted_in(".footer__mark", (211, 189, 141), "the footer logo")
     ctx.close()
 

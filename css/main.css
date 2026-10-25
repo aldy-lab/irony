@@ -21,7 +21,18 @@
 
   /* Paper. Very slightly green-grey rather than beige — saturation out, not
      in, so the gold stays the warmest thing on the page. */
-  --paper: #f3f3ee;
+  /* Lifted for the soft direction: panels sit on it as tinted shapes, so
+     the ground itself goes quieter and nearly white. */
+  --paper: #fbfaf7;
+  --paper-warm: #e9e4d6;
+  --paper-green: #e2e7dc;
+  --paper-rose: #eae0dd;
+  --paper-violet: #e5e3ea;
+  --paper-sand: #e8e5d8;
+  --paper-slate: #dfe5e4;
+  --radius: 26px;
+  --radius-lg: 34px;
+  --radius-pill: 999px;
   --paper-2: #eae9e2;
 
   /* Semantic roles. */
@@ -305,12 +316,14 @@ main > .shell:first-child {
   height: var(--header-h);
   display: flex;
   align-items: center;
-  /* The dark half of the brand, carried at the top of every page. Its own
-     tokens, so the bar stays gold-on-green whatever the page beneath it is. */
-  background: var(--green);
-  --text: var(--gold);
-  --muted: #9aa683;
-  --accent-ink: var(--pink);
+  /* It was the dark half of the brand carried at the top of every page. On
+     a near-white ground under rounded tinted panels, a hard green bar reads
+     as a different site's furniture. It takes the paper and keeps out of
+     the way; the brand is the wordmark and the satyr, not the bar. */
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  --accent-ink: var(--green);
   --rule: color-mix(in srgb, var(--gold) 34%, transparent);
   --rule-soft: color-mix(in srgb, var(--gold) 16%, transparent);
   color: var(--text);
@@ -2620,21 +2633,24 @@ body:has(.menu) {
 
 /* Language -------------------------------------------------------------- */
 
+/* The last square thing on the page. A pill group, like everything else. */
 .langs {
   display: flex;
   flex: none;
-  gap: 1px;
-  padding: 1px;
-  border: 1px solid var(--line);
-  background: var(--line);
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  border-radius: var(--radius-pill);
+  background: transparent;
 }
 
 .langs__pick {
   min-width: 44px;
-  min-height: 44px;
-  padding: 0 0.55rem;
+  min-height: 42px;
+  padding: 0 0.6rem;
   border: 0;
-  background: var(--ground);
+  border-radius: var(--radius-pill);
+  background: transparent;
   color: var(--ink-quiet);
   font-family: var(--sans, inherit);
   font-size: 0.72rem;
@@ -2643,8 +2659,8 @@ body:has(.menu) {
 }
 
 .langs__pick[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--ground);
+  background: var(--green);
+  color: var(--paper);
 }
 
 /* One language on screen. The bar's own menu prints all three at once under
@@ -2670,9 +2686,9 @@ body:has(.menu) {
   -webkit-appearance: none;
   width: 100%;
   min-height: 48px;
-  padding: 0.6rem 0.9rem;
-  border: 1px solid var(--line);
-  border-radius: 0;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  border-radius: var(--radius-pill);
   /* A tint of the ink over paper is a grey box. A rule is enough. */
   background: transparent;
   color: var(--ink);
@@ -2743,9 +2759,10 @@ body:has(.menu) {
   display: flex;
   align-items: center;
   gap: 0.45em;
-  min-height: 48px;
-  padding: 0 0.75rem;
-  border: 0;
+  min-height: 44px;
+  padding: 0 0.95rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--ink-quiet);
   font-family: inherit;
@@ -2758,7 +2775,13 @@ body:has(.menu) {
 }
 
 .tabs__tab[aria-pressed="true"] {
-  color: var(--ink);
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--paper);
+}
+
+.tabs__tab[aria-pressed="true"] .tabs__count {
+  color: color-mix(in srgb, var(--paper) 62%, transparent);
 }
 
 .tabs__count {
@@ -2770,6 +2793,7 @@ body:has(.menu) {
    never costs a layout; transition rather than keyframes, because a guest
    can tap three tabs in a second and it has to retarget, not restart. */
 .tabs__marker {
+  display: none;
   position: absolute;
   bottom: -1px;
   left: 0;
@@ -2845,11 +2869,10 @@ body:has(.menu) {
    the glasses first — a list of names and prices is a spreadsheet. */
 .drink {
   display: grid;
-  grid-template-columns: 112px minmax(0, 1fr);
+  grid-template-columns: 116px minmax(0, 1fr);
   align-items: center;
-  gap: 1rem;
-  padding-block: 1.1rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  gap: 1.1rem;
+  padding-block: 0.7rem;
 }
 
 /* A drink with no drawing keeps its words in the same column as the rest,
@@ -2859,8 +2882,9 @@ body:has(.menu) {
 }
 
 .drink__pic {
-  width: 112px;
+  width: 116px;
   height: auto;
+  padding: 0.4rem 0.3rem;
   /* Beside its words rather than at the foot of the row: a drink with four
      lines of description left its glass stranded at the bottom, a long way
      from the name it belongs to. */
@@ -2872,9 +2896,18 @@ body:has(.menu) {
   min-width: 0;
 }
 
-.drink:last-child {
-  border-bottom: 0;
+/* Each drink sits on its own tinted panel instead of under a rule: the
+   shape does the separating, which is the whole device of this design. */
+.drink__pic {
+  border-radius: var(--radius);
+  background: var(--paper-warm);
 }
+
+.drink:nth-child(6n + 2) .drink__pic { background: var(--paper-green); }
+.drink:nth-child(6n + 3) .drink__pic { background: var(--paper-rose); }
+.drink:nth-child(6n + 4) .drink__pic { background: var(--paper-violet); }
+.drink:nth-child(6n + 5) .drink__pic { background: var(--paper-sand); }
+.drink:nth-child(6n + 6) .drink__pic { background: var(--paper-slate); }
 
 .drink__line {
   display: flex;
@@ -2969,12 +3002,12 @@ body:has(.menu) {
   }
 
   .drink {
-    grid-template-columns: 168px minmax(0, 1fr);
+    grid-template-columns: 164px minmax(0, 1fr);
     gap: 1.8rem;
   }
 
   .drink__pic {
-    width: 168px;
+    width: 164px;
   }
 
   .drink__name {
@@ -3001,17 +3034,10 @@ body:has(.menu) {
   min-height: 44px;
 }
 
+/* No rule across the page: the tinted panels do the dividing now, and a
+   hairline through them was one device too many. */
 .eyebrow--rule {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-}
-
-.eyebrow--rule::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--rule);
+  display: block;
 }
 
 /* A drink, wherever one is shown outside the menu ------------------------ */
@@ -3024,17 +3050,25 @@ body:has(.menu) {
 .choose__list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
+  gap: 0.9rem;
   margin: 1.6rem 0 0;
   padding: 0;
   list-style: none;
-  background: var(--rule);
-  border: 1px solid var(--rule);
 }
 
+/* The tint groups the card; with one on each there is nothing for a rule or
+   a border to do. Six of them, cycling, so a row never repeats itself. */
 .pour-card {
-  background: var(--paper);
+  border-radius: var(--radius);
+  background: var(--paper-warm);
+  overflow: hidden;
 }
+
+.pour-card:nth-child(6n + 2) { background: var(--paper-green); }
+.pour-card:nth-child(6n + 3) { background: var(--paper-rose); }
+.pour-card:nth-child(6n + 4) { background: var(--paper-violet); }
+.pour-card:nth-child(6n + 5) { background: var(--paper-sand); }
+.pour-card:nth-child(6n + 6) { background: var(--paper-slate); }
 
 .pour-card__link {
   display: grid;
@@ -3049,7 +3083,7 @@ body:has(.menu) {
 
 .pour-card__link:hover,
 .pour-card__link:focus-visible {
-  background: color-mix(in srgb, var(--green) 5%, transparent);
+  background: color-mix(in srgb, var(--green) 6%, transparent);
 }
 
 /* No panel: the drawings are ink on paper now, so they sit on the page. */
@@ -3140,9 +3174,10 @@ body:has(.menu) {
 }
 
 .ask__pick {
-  min-height: 44px;
-  padding: 0.55rem 1.05rem;
-  border: 1px solid var(--rule);
+  min-height: 46px;
+  padding: 0.55rem 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--text) 24%, transparent);
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--text);
   font-family: inherit;
@@ -3340,8 +3375,8 @@ body:has(.menu) {
   align-items: center;
   gap: 0.8rem;
   padding: 0.9rem 1.1rem;
-  background: var(--paper-2);
-  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper-green);
 }
 
 /* He is the one pouring, so he stands over it and tips when something goes
@@ -3538,9 +3573,10 @@ body:has(.menu) {
 }
 
 .sift__pick {
-  min-height: 40px;
-  padding: 0 0.8rem;
-  border: 1px solid var(--line);
+  min-height: 42px;
+  padding: 0 0.95rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--ink-quiet);
   font-family: inherit;
@@ -3569,17 +3605,21 @@ body:has(.menu) {
   /* Equal rows: a two-line name made its row taller than its neighbour's and
      the glasses stopped standing on one line across the grid. */
   grid-auto-rows: 1fr;
-  gap: 1px;
+  gap: 0.7rem;
   margin: 0;
   padding: 0;
   list-style: none;
-  background: var(--rule);
-  border: 1px solid var(--rule);
 }
 
 .bar-card {
-  background: var(--paper);
+  border-radius: var(--radius);
+  background: var(--paper-sand);
+  overflow: hidden;
 }
+
+.bar-card:nth-child(4n + 2) { background: var(--paper-green); }
+.bar-card:nth-child(4n + 3) { background: var(--paper-slate); }
+.bar-card:nth-child(4n + 4) { background: var(--paper-warm); }
 
 .bar-card__link {
   display: grid;
@@ -3630,5 +3670,163 @@ body:has(.menu) {
 
   .bar-card .drink__pic {
     width: 96px;
+  }
+}
+
+
+/* ==========================================================================
+   Soft panels
+   Everything sits in rounded shapes on a near-white ground: the hero, each
+   drink, each shelf. The tint carries the grouping, so rules and boxes can
+   go. One radius scale, six tints, and nothing else decides a shape.
+   ========================================================================== */
+
+.panel {
+  border-radius: var(--radius);
+  background: var(--paper-warm);
+}
+
+.panel--lg {
+  border-radius: var(--radius-lg);
+}
+
+/* A pill, which is the only button shape here. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 48px;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid var(--text);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.22s var(--ease), color 0.22s var(--ease),
+    transform 0.12s var(--ease-out);
+}
+
+.pill:hover,
+.pill:focus-visible {
+  background: var(--text);
+  color: var(--paper);
+}
+
+.pill:active {
+  transform: scale(0.97);
+}
+
+.pill--solid {
+  background: var(--text);
+  color: var(--paper);
+}
+
+.pill--solid:hover,
+.pill--solid:focus-visible {
+  background: var(--green);
+  color: var(--paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill:active {
+    transform: none;
+  }
+}
+
+/* The hero panel --------------------------------------------------------- */
+
+.masthead {
+  padding-block: 1.4rem 0;
+}
+
+.hero {
+  display: grid;
+  gap: 1.8rem;
+  padding: clamp(1.8rem, 5vw, 3.6rem);
+  background: var(--paper-warm);
+}
+
+.hero__words {
+  min-width: 0;
+}
+
+.hero__eyebrow {
+  margin: 0 0 1rem;
+  color: color-mix(in srgb, var(--text) 62%, transparent);
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.hero__mark {
+  width: min(78%, 300px);
+  margin: 0 0 1.4rem;
+}
+
+.hero__copy {
+  margin: 0 0 1.8rem;
+  max-width: 34ch;
+  font-size: clamp(1.02rem, 2.4vw, 1.22rem);
+  line-height: 1.5;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+/* Narrower pills on a phone, or two of them will not share a line. */
+@media (max-width: 480px) {
+  .hero__actions .pill {
+    padding-inline: 1rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+  }
+
+  .hero__copy {
+    font-size: 1rem;
+    margin-bottom: 1.4rem;
+  }
+}
+
+.hero__figure {
+  position: relative;
+  justify-self: end;
+  /* He was half the width of a phone and pushed the whole page below the
+     fold. Pulling him up to save that height put him over the second
+     button instead, so he is simply smaller and stays in his own row. */
+  width: min(30%, 108px);
+}
+
+.hero__figure .mark {
+  width: 100%;
+  background-image: linear-gradient(
+    to top,
+    var(--accent) var(--pour, 0%),
+    transparent var(--pour, 0%)
+  );
+}
+
+@media (min-width: 760px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .hero__figure {
+    justify-self: center;
+    width: clamp(170px, 20vw, 250px);
+  }
+
+  .hero__mark {
+    width: min(70%, 340px);
   }
 }
