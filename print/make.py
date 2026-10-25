@@ -58,11 +58,27 @@ if not _site.get("google_review", "").strip():
 # Ink and paper
 # ---------------------------------------------------------------------------
 
-INK = (0x16 / 255, 0x21 / 255, 0x0b / 255)
-PAPER = (0xfb / 255, 0xfa / 255, 0xf7 / 255)
-WARM = (0xe9 / 255, 0xe4 / 255, 0xd6 / 255)
-GREEN_TINT = (0xe2 / 255, 0xe7 / 255, 0xdc / 255)
-MUTED = (0x65 / 255, 0x6e / 255, 0x5b / 255)
+def _hex(code: str):
+    return tuple(int(code[i:i + 2], 16) / 255 for i in (0, 2, 4))
+
+
+INK = _hex("16210b")          # the brand's dark green, and the ground here
+PAPER = _hex("fbfaf7")
+MUTED = _hex("656e5b")
+
+# Two golds, because they do different jobs. GOLD is for type and hairlines
+# on the green, where it only has to be legible. GILT is a shade lighter and
+# carries the codes: a code's modules are read by their contrast with the
+# field behind them, and that field has to be the light one.
+GOLD = _hex("b08d2e")
+GILT = _hex("c3a24a")
+
+# Why the plate is gold and the modules are green, and not the other way
+# round: a code is specified as dark modules on a light field. Reversed, it
+# is a different thing that some readers happen to tolerate. Tested here
+# across five shades of gold, every one of them read as green-on-gold and
+# every one failed as gold-on-green, at 300 through 900 dpi. Green on brass
+# measures 6.8:1, well clear of what print needs after dot gain.
 
 MM = 2.834645669
 
@@ -106,79 +122,63 @@ def finder_cells(size: int) -> set:
 # unverified while the run still reports success — the coaster carries two.
 DRAWN = []
 
+# Every line of type, and the region of its page that type may occupy. These
+# exist so that "does the address run under the code?" is a question the run
+# answers rather than one somebody has to notice in a preview. It was not
+# noticed in a preview: two lines were sitting under a gold plate.
+TEXTS = []
+SAFE = []
+
 
 def draw_code(shape, data: str, x: float, y: float, side: float,
-              ink=INK, knockout: float = 0.0):
+              ink=INK, field=GILT, corner: float = 0.0):
     """Draw a code of `side` points with its top-left at (x, y).
 
-    Round modules and squared-off corner marks: the corners are what a phone
+    Round modules and squared corner marks: the corners are what a phone
     locks onto, so they stay solid and square while the data goes to dots.
+    The code sits on its own plate of `field`, which is both the quiet zone
+    the specification demands and the thing that makes it an object on the
+    page rather than a sticker dropped onto one.
     """
     matrix = code_matrix(data)
     size = len(matrix)
     quiet = 4                      # modules, and not negotiable in print
     unit = side / (size + quiet * 2)
 
-    # The quiet zone is paper, whatever the piece is tinted. The first proof
-    # put a dark-green code straight onto a warm tint and nothing read it:
-    # a scanner wants the lightest light it can get next to the darkest dark.
-    shape.draw_rect(fitz.Rect(x, y, x + side, y + side))
-    shape.finish(color=None, fill=PAPER, width=0)
+    plate = fitz.Rect(x, y, x + side, y + side)
+    # radius is a fraction of the shorter side, not a length.
+    shape.draw_rect(plate, radius=(corner / side) if corner else None)
+    shape.finish(color=None, fill=field, width=0)
+
     origin_x = x + quiet * unit
     origin_y = y + quiet * unit
     finders = finder_cells(size)
 
-    # The middle is cleared for the mark. H can lose thirty percent; this
-    # takes about twelve.
-    hole = None
-    if knockout:
-        half = knockout * size / 2
-        hole = (size / 2 - half, size / 2 - half, size / 2 + half, size / 2 + half)
-
-    radius = unit * 0.5     # touching, not floating: see the note on the panel
+    radius = unit * 0.5     # touching, not floating: see the note on the plate
     for row in range(size):
         for col in range(size):
-            if not matrix[row][col]:
+            if not matrix[row][col] or (row, col) in finders:
                 continue
-            if (row, col) in finders:
-                continue
-            if hole and hole[0] <= col <= hole[2] and hole[1] <= row <= hole[3]:
-                continue
-            cx = origin_x + (col + 0.5) * unit
-            cy = origin_y + (row + 0.5) * unit
-            shape.draw_circle(fitz.Point(cx, cy), radius)
+            shape.draw_circle(
+                fitz.Point(origin_x + (col + 0.5) * unit,
+                           origin_y + (row + 0.5) * unit), radius)
     shape.finish(color=None, fill=ink, width=0)
 
     # Corner marks: a square ring with a square eye, in the brand's manner.
     for top, left in ((0, 0), (0, size - 7), (size - 7, 0)):
         ox = origin_x + left * unit
         oy = origin_y + top * unit
-        outer = fitz.Rect(ox, oy, ox + 7 * unit, oy + 7 * unit)
-        inner = fitz.Rect(ox + unit, oy + unit, ox + 6 * unit, oy + 6 * unit)
-        eye = fitz.Rect(ox + 2 * unit, oy + 2 * unit,
-                        ox + 5 * unit, oy + 5 * unit)
-        shape.draw_rect(outer)
-        shape.finish(color=None, fill=ink, width=0)
-        shape.draw_rect(inner)
-        shape.finish(color=None, fill=PAPER, width=0)
-        shape.draw_rect(eye)
-        shape.finish(color=None, fill=ink, width=0)
+        for inset, colour in ((0, ink), (1, field), (2, ink)):
+            box = fitz.Rect(ox + inset * unit, oy + inset * unit,
+                            ox + (7 - inset) * unit, oy + (7 - inset) * unit)
+            shape.draw_rect(box)
+            shape.finish(color=None, fill=colour, width=0)
 
-    DRAWN.append({"page": shape.page.number,
-                  "rect": fitz.Rect(x, y, x + side, y + side),
+    DRAWN.append({"page": shape.page.number, "rect": plate,
                   "data": data, "mm": side / 72 * 25.4})
-
-    return {
-        "unit": unit, "size": size,
-        "hole": fitz.Rect(
-            origin_x + hole[0] * unit, origin_y + hole[1] * unit,
-            origin_x + hole[2] * unit, origin_y + hole[3] * unit
-        ) if hole else None,
-    }
+    return {"unit": unit, "size": size, "plate": plate}
 
 
-# ---------------------------------------------------------------------------
-# Marks and type
 # ---------------------------------------------------------------------------
 
 def mark_svg(name: str) -> str:
@@ -195,6 +195,9 @@ def place_mark(page, name: str, rect: fitz.Rect, colour=INK):
     doc = fitz.open("svg", svg.encode())
     pdf = fitz.open("pdf", doc.convert_to_pdf())
     page.show_pdf_page(rect, pdf, 0)
+    # A drawing can run off the edge exactly as a line of type can, so it is
+    # registered the same way. The wordmark was crossing the coaster's ring.
+    TEXTS.append({"page": page.number, "text": f"<{name}>", "rect": rect})
 
 
 def ready_fonts():
@@ -288,6 +291,11 @@ def write(page, text: str, x: float, y: float, size: float, which="body",
         total -= tracking
     start = x - total / 2 if align == 1 else (x - total if align == 2 else x)
 
+    TEXTS.append({
+        "page": page.number, "text": text,
+        "rect": fitz.Rect(start, y - size * 0.82, start + total, y + size * 0.26),
+    })
+
     for chars, path in pieces:
         name = _name(which, path)
         if not tracking:
@@ -308,15 +316,19 @@ def centred(page, text: str, cx: float, y: float, size: float, which="body",
     write(page, text, cx, y, size, which, colour, align=1, tracking=tracking)
 
 
+# Room outside the bleed for the cut marks themselves. Without it the marks
+# are drawn on top of the artwork, where a guillotine operator cannot use
+# them, and the earlier version put them 0.5 mm past the edge of the page.
+MARGIN = mm(5)
+
+
 def crop_marks(page, trim: fitz.Rect):
-    """Where to cut. Outside the trim, in the bleed, as a printer expects."""
-    arm = mm(2.5)
-    gap = mm(1.0)
+    """Where to cut: outside the bleed, on bare paper, as a printer expects."""
+    arm = mm(3.5)
+    gap = BLEED + mm(1.0)
     shape = page.new_shape()
-    for x in (trim.x0, trim.x1):
-        for y in (trim.y0, trim.y1):
-            dx = -1 if x == trim.x0 else 1
-            dy = -1 if y == trim.y0 else 1
+    for x, dx in ((trim.x0, -1), (trim.x1, 1)):
+        for y, dy in ((trim.y0, -1), (trim.y1, 1)):
             shape.draw_line(fitz.Point(x + dx * gap, y),
                             fitz.Point(x + dx * (gap + arm), y))
             shape.draw_line(fitz.Point(x, y + dy * gap),
@@ -327,185 +339,202 @@ def crop_marks(page, trim: fitz.Rect):
 
 # ---------------------------------------------------------------------------
 # The pieces
+#
+# One language across all four: the brand's dark green as the ground, gold for
+# the type and the hairlines, and every code on a gold plate with the modules
+# in green. See the note on the palette for why the plate is the light one.
 # ---------------------------------------------------------------------------
 
-def new_page(doc, w_mm: float, h_mm: float):
-    """A page with bleed all round, and the trim box it will be cut to."""
-    page = doc.new_page(width=mm(w_mm) + 2 * BLEED, height=mm(h_mm) + 2 * BLEED)
-    trim = fitz.Rect(BLEED, BLEED, BLEED + mm(w_mm), BLEED + mm(h_mm))
+def new_page(doc, w_mm: float, h_mm: float, ground=INK):
+    """A page with bleed, cut marks outside it, and the trim box between.
+
+    The ground is painted over the whole bleed box, not just the trim. An
+    earlier version filled the trim only, so every rectangular piece went out
+    with a 3 mm white border where its bleed was supposed to be — and the
+    preview looked correct, because a preview shows the page, not the cut.
+    """
+    pad = BLEED + MARGIN
+    page = doc.new_page(width=mm(w_mm) + 2 * pad, height=mm(h_mm) + 2 * pad)
     page.draw_rect(page.rect, color=None, fill=PAPER)
+    trim = fitz.Rect(pad, pad, pad + mm(w_mm), pad + mm(h_mm))
+    page.draw_rect(trim + (-BLEED, -BLEED, BLEED, BLEED), color=None, fill=ground)
+    SAFE.append({"page": page.number, "kind": "rect",
+                 "rect": trim + (mm(4), mm(4), -mm(4), -mm(4))})
     return page, trim
 
 
-def side_menu(page, trim, tint=WARM):
-    """The side a guest scans to read the list."""
-    page.draw_rect(trim, color=None, fill=tint)
-    cx = (trim.x0 + trim.x1) / 2
+def hairline(page, rect: fitz.Rect, colour=GOLD, width=0.6):
+    """The thin rule that holds a small piece together."""
+    page.draw_rect(rect, color=colour, fill=None, width=width)
 
+
+def plate(page, data: str, cx: float, top: float, side: float):
+    """A code on its gold plate, centred on cx."""
+    shape = page.new_shape()
+    spec = draw_code(shape, data, cx - side / 2, top, side, corner=mm(2.2))
+    shape.commit()
+    return spec
+
+
+def wordmark(page, cx: float, top: float, w: float, colour=GOLD):
+    """Both lines of the wordmark, centred, scaled from the first line's width."""
     place_mark(page, "wordmark-line1",
-               fitz.Rect(cx - mm(21), trim.y0 + mm(5.5), cx + mm(21), trim.y0 + mm(11)))
+               fitz.Rect(cx - w / 2, top, cx + w / 2, top + w * 0.133),
+               colour=colour)
+    second = w * 0.645
     place_mark(page, "wordmark-line2",
-               fitz.Rect(cx - mm(13.5), trim.y0 + mm(11.4), cx + mm(13.5), trim.y0 + mm(16.5)))
-
-    side = mm(30)
-    shape = page.new_shape()
-    spec = draw_code(shape, MENU_URL, cx - side / 2, trim.y0 + mm(18), side)
-    shape.commit()
-    if spec["hole"]:
-        place_mark(page, "satyr", spec["hole"] + (mm(1.4), mm(0.2), -mm(1.4), -mm(0.2)))
-
-    centred(page, "THE MENU", cx, trim.y1 - mm(6.4), 6.2, "display", INK, tracking=2.4)
-    centred(page, "Jídelní lístek  ·  Меню", cx, trim.y1 - mm(3.1), 5.4, "italic", MUTED)
+               fitz.Rect(cx - second / 2, top + w * 0.145,
+                         cx + second / 2, top + w * 0.145 + second * 0.188),
+               colour=colour)
 
 
-def side_review(page, trim, tint=GREEN_TINT):
-    """The side somebody scans on the way out."""
-    page.draw_rect(trim, color=None, fill=tint)
-    cx = (trim.x0 + trim.x1) / 2
+# --- the plastic card ------------------------------------------------------
 
-    centred(page, "WAS IT ANY GOOD?", cx, trim.y0 + mm(8.5), 7.0, "display",
-            INK, tracking=2.0)
+def card_side(page, trim, title, sub, data, foot=""):
+    """One face of a landscape card: words on the left, the code on the right.
 
-    side = mm(29)
-    shape = page.new_shape()
-    draw_code(shape, REVIEW_URL, cx - side / 2, trim.y0 + mm(12), side)
-    shape.commit()
+    Landscape is the shape of the piece, so the code goes beside the words
+    rather than under them — stacked, a 54 mm card leaves the code 22 mm and
+    the type nowhere to breathe. The sizes below are measured against the
+    32.6 mm the left column actually has; the first set were not, and two
+    lines ran under the plate.
+    """
+    hairline(page, trim + (mm(3), mm(3), -mm(3), -mm(3)))
+    left = trim.x0 + mm(8)
 
-    centred(page, "Tell Google. It takes a minute.", cx, trim.y1 - mm(6.2),
-            6.0, "italic", INK)
-    centred(page, "IRONY VS. SATYR  ·  NOVÉ MĚSTO", cx, trim.y1 - mm(2.8), 4.8,
-            "display", MUTED, tracking=1.4)
+    side = mm(31)
+    plate(page, data, trim.x1 - mm(8) - side / 2,
+          trim.y0 + (trim.y1 - trim.y0 - side) / 2, side)
+
+    write(page, title, left, trim.y0 + mm(24), 6.2, "display", GOLD,
+          tracking=1.5)
+    write(page, sub, left, trim.y0 + mm(31), 6.4, "italic", PAPER)
+    if foot:
+        write(page, foot, left, trim.y0 + mm(39), 5.0, "display", GOLD,
+              tracking=1.4)
+    crop_marks(page, trim)
 
 
 def make_card(doc):
-    """A plastic card, CR80, the size of a bank card."""
-    for side in (side_menu, side_review):
-        page, trim = new_page(doc, 85.6, 54)
-        side(page, trim)
-        crop_marks(page, trim)
+    """CR80, the size of a bank card, for the table."""
+    page, trim = new_page(doc, 85.6, 54)
+    wordmark(page, trim.x0 + mm(23), trim.y0 + mm(8), mm(28))
+    card_side(page, trim, "THE MENU", "Jídelní lístek  ·  Меню", MENU_URL)
 
+    page, trim = new_page(doc, 85.6, 54)
+    wordmark(page, trim.x0 + mm(23), trim.y0 + mm(8), mm(28))
+    card_side(page, trim, "WAS IT ANY GOOD?", "Tell Google. It takes a minute.",
+              REVIEW_URL, foot="NOVÉ MĚSTO  ·  PRAHA")
+
+
+# --- the business card -----------------------------------------------------
 
 def make_business_card(doc):
-    """For the hand, not the table: who the bar is and where."""
+    """For the hand: who the bar is on the front, the menu on the back."""
     page, trim = new_page(doc, 85, 55)
-    page.draw_rect(trim, color=None, fill=PAPER)
-    cx = (trim.x0 + trim.x1) / 2
-
+    hairline(page, trim + (mm(3), mm(3), -mm(3), -mm(3)))
     place_mark(page, "satyr",
-               fitz.Rect(trim.x0 + mm(6), trim.y0 + mm(7),
-                         trim.x0 + mm(22), trim.y1 - mm(7)))
-    left = trim.x0 + mm(27)
+               fitz.Rect(trim.x0 + mm(8), trim.y0 + mm(10),
+                         trim.x0 + mm(24), trim.y1 - mm(10)), colour=GOLD)
+    left = trim.x0 + mm(30)
     place_mark(page, "wordmark-line1",
-               fitz.Rect(left, trim.y0 + mm(9), left + mm(40), trim.y0 + mm(14.3)))
+               fitz.Rect(left, trim.y0 + mm(12), left + mm(40), trim.y0 + mm(17.3)),
+               colour=GOLD)
     place_mark(page, "wordmark-line2",
-               fitz.Rect(left, trim.y0 + mm(14.8), left + mm(25.5), trim.y0 + mm(19.6)))
-    write(page, "COCKTAIL BAR", left, trim.y0 + mm(24), 5.4, "display", MUTED,
-          tracking=1.8)
-    write(page, "Soukenická 1756, Nové Město", left, trim.y0 + mm(29.5), 6.6, "body")
-    write(page, "110 00 Praha", left, trim.y0 + mm(33.5), 6.6, "body")
-    write(page, "Daily from 12:00", left, trim.y0 + mm(39.5), 6.6, "italic", MUTED)
-
-    side = mm(17)
-    shape = page.new_shape()
-    draw_code(shape, MENU_URL, trim.x1 - side - mm(5), trim.y1 - side - mm(4), side)
-    shape.commit()
+               fitz.Rect(left, trim.y0 + mm(17.8), left + mm(25.5), trim.y0 + mm(22.6)),
+               colour=GOLD)
+    write(page, "COCKTAIL BAR", left, trim.y0 + mm(28), 5.6, "display", GOLD,
+          tracking=2.0)
+    write(page, "Soukenická 1756, Nové Město", left, trim.y0 + mm(35), 6.8,
+          "body", PAPER)
+    write(page, "110 00 Praha", left, trim.y0 + mm(39.5), 6.8, "body", PAPER)
+    write(page, "Daily from 12:00", left, trim.y0 + mm(45.5), 6.6, "italic",
+          GOLD)
     crop_marks(page, trim)
 
-    # The back carries the review code, as the plastic card does: a card
-    # handed over at the door is the one still in a pocket the next morning.
+    # The back is the menu, and only the menu.
     page, trim = new_page(doc, 85, 55)
-    page.draw_rect(trim, color=None, fill=WARM)
+    hairline(page, trim + (mm(3), mm(3), -mm(3), -mm(3)))
     cx = (trim.x0 + trim.x1) / 2
-    centred(page, "The classics, poured properly.", cx, trim.y0 + mm(9),
-            8.6, "italic", INK)
-
-    side = mm(23)
-    shape = page.new_shape()
-    draw_code(shape, REVIEW_URL, cx - side / 2, trim.y0 + mm(13), side)
-    shape.commit()
-    centred(page, "WAS IT ANY GOOD? TELL GOOGLE.", cx, trim.y1 - mm(5.4), 5.2,
-            "display", MUTED, tracking=1.6)
+    side = mm(30)
+    plate(page, MENU_URL, cx, trim.y0 + mm(9), side)
+    centred(page, "THE MENU", cx, trim.y1 - mm(13), 7.4, "display", GOLD,
+            tracking=2.8)
+    centred(page, "Jídelní lístek  ·  Меню  ·  Menu", cx, trim.y1 - mm(7),
+            6.2, "italic", PAPER)
     crop_marks(page, trim)
+
+
+# --- the coaster -----------------------------------------------------------
+
+def coaster_face(doc, size_mm: float):
+    """A round face with bleed past the cut, and the cut drawn for the die."""
+    pad = BLEED + MARGIN
+    page = doc.new_page(width=mm(size_mm) + 2 * pad, height=mm(size_mm) + 2 * pad)
+    page.draw_rect(page.rect, color=None, fill=PAPER)
+    cx = cy = (mm(size_mm) + 2 * pad) / 2
+    r = mm(size_mm) / 2
+    # Bleed past the cut, because a round die never lands exactly.
+    page.draw_circle(fitz.Point(cx, cy), r + BLEED, color=None, fill=INK)
+    page.draw_circle(fitz.Point(cx, cy), r - mm(4.5), color=GOLD, fill=None,
+                     width=0.6)
+    SAFE.append({"page": page.number, "kind": "circle",
+                 "centre": (cx, cy), "r": r - mm(6.5)})
+    return page, cx, cy, r
+
+
+def close_coaster(page, cx, cy, r):
+    """Magenta is the die line: a cutter reads it as the cut, not as art."""
+    page.draw_circle(fitz.Point(cx, cy), r, color=(1, 0, 1), fill=None, width=0.5)
 
 
 def make_coaster(doc):
-    """Round, under the glass. One code a side, on a dark ground.
-
-    Two codes side by side made each of them small and the face busy. A
-    coaster gets turned over while somebody waits for a drink, so a side each
-    buys both of them twice the room.
-    """
+    """Round, under the glass. One code a side, so each gets the whole face."""
     size = 95
 
-    def face(ground, text_colour):
-        page = doc.new_page(width=mm(size) + 2 * BLEED,
-                            height=mm(size) + 2 * BLEED)
-        page.draw_rect(page.rect, color=None, fill=ground)
-        cx = cy = (mm(size) + 2 * BLEED) / 2
-        r = mm(size) / 2
-        # Bleed past the cut, because a round die never lands exactly.
-        page.draw_circle(fitz.Point(cx, cy), r + BLEED, color=None, fill=ground)
-        return page, cx, cy, r
-
-    # Front: the menu.
-    page, cx, cy, r = face(INK, PAPER)
-    place_mark(page, "wordmark-line1",
-               fitz.Rect(cx - mm(23), cy - mm(40), cx + mm(23), cy - mm(33.9)),
-               colour=PAPER)
-    place_mark(page, "wordmark-line2",
-               fitz.Rect(cx - mm(14.8), cy - mm(33.4), cx + mm(14.8), cy - mm(27.8)),
-               colour=PAPER)
-
-    side = mm(42)
-    shape = page.new_shape()
-    draw_code(shape, MENU_URL, cx - side / 2, cy - mm(19), side)
-    shape.commit()
-
-    centred(page, "THE MENU", cx, cy + mm(28.5), 8.0, "display", PAPER,
-            tracking=3.0)
-    centred(page, "Jídelní lístek  ·  Меню", cx, cy + mm(34.5), 6.4, "italic",
+    page, cx, cy, r = coaster_face(doc, size)
+    wordmark(page, cx, cy - mm(33), mm(38))
+    plate(page, MENU_URL, cx, cy - mm(20), mm(42))
+    centred(page, "THE MENU", cx, cy + mm(29), 8.4, "display", GOLD, tracking=3.2)
+    centred(page, "Jídelní lístek  ·  Меню", cx, cy + mm(35.5), 6.6, "italic",
             PAPER)
-    page.draw_circle(fitz.Point(cx, cy), r, color=(1, 0, 1), fill=None, width=0.5)
+    close_coaster(page, cx, cy, r)
 
-    # Back: the review.
-    page, cx, cy, r = face(INK, PAPER)
-    centred(page, "WAS IT ANY GOOD?", cx, cy - mm(33), 8.0, "display", PAPER,
-            tracking=3.0)
-
-    shape = page.new_shape()
-    draw_code(shape, REVIEW_URL, cx - side / 2, cy - mm(26), side)
-    shape.commit()
-
-    centred(page, "Tell Google. It takes a minute.", cx, cy + mm(24), 7.4,
+    page, cx, cy, r = coaster_face(doc, size)
+    centred(page, "WAS IT ANY GOOD?", cx, cy - mm(31), 8.4, "display", GOLD,
+            tracking=3.2)
+    plate(page, REVIEW_URL, cx, cy - mm(24), mm(42))
+    centred(page, "Tell Google. It takes a minute.", cx, cy + mm(27), 7.6,
             "italic", PAPER)
-    centred(page, "IRONY VS. SATYR  ·  NOVÉ MĚSTO", cx, cy + mm(33), 5.6,
-            "display", PAPER, tracking=2.0)
-    page.draw_circle(fitz.Point(cx, cy), r, color=(1, 0, 1), fill=None, width=0.5)
+    centred(page, "NOVÉ MĚSTO  ·  PRAHA", cx, cy + mm(35), 5.8,
+            "display", GOLD, tracking=2.2)
+    close_coaster(page, cx, cy, r)
 
+
+# --- the table sticker -----------------------------------------------------
 
 def make_sticker(doc):
     """For the table itself: one code, read from standing height."""
     page, trim = new_page(doc, 90, 60)
-    page.draw_rect(trim, color=None, fill=GREEN_TINT)
-    cx = (trim.x0 + trim.x1) / 2
+    hairline(page, trim + (mm(3.5), mm(3.5), -mm(3.5), -mm(3.5)))
+    middle = trim.y0 + (trim.y1 - trim.y0) / 2
 
-    side = mm(36)
-    shape = page.new_shape()
-    spec = draw_code(shape, MENU_URL, trim.x0 + mm(6), (trim.y0 + trim.y1) / 2 - side / 2,
-                     side, knockout=0.26)
-    shape.commit()
-    if spec["hole"]:
-        place_mark(page, "satyr", spec["hole"] + (mm(1.6), mm(0.2), -mm(1.6), -mm(0.2)))
+    side = mm(38)
+    plate(page, MENU_URL, trim.x0 + mm(10) + side / 2, middle - side / 2, side)
 
-    left = trim.x0 + mm(45)
+    left = trim.x0 + mm(52)
     place_mark(page, "wordmark-line1",
-               fitz.Rect(left, trim.y0 + mm(13), left + mm(37), trim.y0 + mm(18)))
+               fitz.Rect(left, trim.y0 + mm(15), left + mm(30), trim.y0 + mm(19)),
+               colour=GOLD)
     place_mark(page, "wordmark-line2",
-               fitz.Rect(left, trim.y0 + mm(18.5), left + mm(23.5), trim.y0 + mm(23)))
-    write(page, "SCAN FOR THE MENU", left, trim.y0 + mm(30), 6.2, "display",
-          INK, tracking=1.9)
-    write(page, "Jídelní lístek · Меню · Menu", left, trim.y0 + mm(35), 6.0,
-          "italic", MUTED)
+               fitz.Rect(left, trim.y0 + mm(19.5), left + mm(19.4), trim.y0 + mm(23.1)),
+               colour=GOLD)
+    write(page, "SCAN FOR", left, trim.y0 + mm(31), 6.6, "display", GOLD,
+          tracking=2.2)
+    write(page, "THE MENU", left, trim.y0 + mm(36), 6.6, "display", GOLD,
+          tracking=2.2)
+    write(page, "Jídelní lístek", left, trim.y0 + mm(43), 6.2, "italic", PAPER)
+    write(page, "Меню  ·  Menu", left, trim.y0 + mm(47.5), 6.2, "italic", PAPER)
     crop_marks(page, trim)
 
 
@@ -525,6 +554,36 @@ PIECES = {
 # camera held over a card resolves better than the lowest of these; the
 # lowest that still reads is reported, because a code that only decodes at
 # 600 is a code that is too small on paper.
+def check_layout() -> list:
+    """Nothing may sit under a code, or outside the area the piece allows."""
+    trouble = []
+    regions = {r["page"]: r for r in SAFE}
+
+    for item in TEXTS:
+        for code in DRAWN:
+            if code["page"] != item["page"]:
+                continue
+            if item["rect"].intersects(code["rect"]):
+                trouble.append(f"page {item['page'] + 1}: "
+                               f"{item['text'][:34]!r} runs under a code")
+        region = regions.get(item["page"])
+        if not region:
+            continue
+        box = item["rect"]
+        if region["kind"] == "rect":
+            if box not in region["rect"]:
+                trouble.append(f"page {item['page'] + 1}: "
+                               f"{item['text'][:34]!r} leaves the safe area")
+        else:
+            cx, cy, r = region["centre"][0], region["centre"][1], region["r"]
+            corners = ((box.x0, box.y0), (box.x1, box.y0),
+                       (box.x0, box.y1), (box.x1, box.y1))
+            if any(math.hypot(x - cx, y - cy) > r for x, y in corners):
+                trouble.append(f"page {item['page'] + 1}: "
+                               f"{item['text'][:34]!r} crosses the ring")
+    return trouble
+
+
 SAMPLES = (300, 450, 600, 900)
 
 
@@ -570,7 +629,11 @@ def main() -> int:
             continue
         doc = fitz.open()
         DRAWN.clear()
+        TEXTS.clear()
+        SAFE.clear()
         draw(doc)
+        for note in check_layout():
+            problems.append(f"{name}: {note}")
         drawn = list(DRAWN)
         doc_pages = range(len(doc))
         path = OUT / f"{name}.pdf"
